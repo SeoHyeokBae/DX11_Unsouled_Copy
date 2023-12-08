@@ -8,10 +8,18 @@
 #include "CKeyMgr.h"
 
 // 삼각형 그리기
-Vtx g_vtx[3] = {};
+//Vtx g_vtx[3] = {};
+
+// 사각형 그리기
+Vtx g_vtx[6] = {};
 
 // 정점을 저장하는 정점버퍼
 ComPtr<ID3D11Buffer>	g_VB = nullptr;
+
+// 인덱스를 저장하는 버퍼
+ComPtr<ID3D11Buffer>	g_IB = nullptr;
+
+
 
 // InputLayout 정점하나의 구조를 알리는 객체
 ComPtr<ID3D11InputLayout> g_Layout = nullptr;
@@ -23,8 +31,6 @@ ComPtr<ID3DBlob> g_ErrBlob = nullptr;
 
 ComPtr<ID3D11VertexShader> g_VS = nullptr;
 ComPtr<ID3D11PixelShader> g_PS = nullptr;
-// 사각형 그리기
-
 
 int TestInit()
 {
@@ -32,23 +38,43 @@ int TestInit()
 	//      0(Red)
 	//    /    \
 	//  2(G) -- 1(Blue)
-	g_vtx[0].vPos = Vec3(0.f, 1.f, 0.f);
+
+// 전역변수에 삼각형 위치 설정 (사각형 그리기)
+	//   0(Red)		     
+	//   |   \		     
+	//  2(G) -- 1(Blue)  
+	g_vtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
 	g_vtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 	g_vtx[0].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[1].vPos = Vec3(1.f, -1.f, 0.f);
+	g_vtx[1].vPos = Vec3(0.5f, -0.5f, 0.f);
 	g_vtx[1].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
 	g_vtx[1].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[2].vPos = Vec3(-1.f, -1.f, 0.f);
+	g_vtx[2].vPos = Vec3(-0.5f, -0.5f, 0.f);
 	g_vtx[2].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 	g_vtx[2].vUV = Vec2(0.f, 0.f);
+
+	// 3(Red)--4(Green)
+	//	 \     |
+	//	    5(Blue)
+	g_vtx[3].vPos = Vec3(-0.5f, 0.5f, 0.f);
+	g_vtx[3].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	g_vtx[3].vUV = Vec2(0.f, 0.f);
+
+	g_vtx[4].vPos = Vec3(0.5f, 0.5f, 0.f);
+	g_vtx[4].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	g_vtx[4].vUV = Vec2(0.f, 0.f);
+
+	g_vtx[5].vPos = Vec3(0.5f, -0.5f, 0.f);
+	g_vtx[5].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	g_vtx[5].vUV = Vec2(0.f, 0.f);
 
 
 	// 버텍스 버퍼 생성
 	D3D11_BUFFER_DESC BufferDesc = {};
 
-	BufferDesc.ByteWidth = sizeof(Vtx) * 3;
+	BufferDesc.ByteWidth = sizeof(Vtx) * 6;
 	BufferDesc.StructureByteStride = sizeof(Vtx);
 	BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
