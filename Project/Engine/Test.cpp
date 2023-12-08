@@ -11,7 +11,8 @@
 //Vtx g_vtx[3] = {};
 
 // 사각형 그리기
-Vtx g_vtx[6] = {};
+Vtx		g_vtx[4] = {};
+UINT	g_Idx[6] = {};
 
 // 정점을 저장하는 정점버퍼
 ComPtr<ID3D11Buffer>	g_VB = nullptr;
@@ -35,49 +36,34 @@ ComPtr<ID3D11PixelShader> g_PS = nullptr;
 int TestInit()
 {
 	// 전역변수에 삼각형 위치 설정
-	//      0(Red)
-	//    /    \
-	//  2(G) -- 1(Blue)
-
-// 전역변수에 삼각형 위치 설정 (사각형 그리기)
-	//   0(Red)		     
-	//   |   \		     
-	//  2(G) -- 1(Blue)  
+	//   0(Red)-- 1(Blue)	     
+	//    |   \   |	     
+	//   3(G)---- 2(Magenta)  
 	g_vtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
 	g_vtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 	g_vtx[0].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[1].vPos = Vec3(0.5f, -0.5f, 0.f);
+	g_vtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
 	g_vtx[1].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
 	g_vtx[1].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[2].vPos = Vec3(-0.5f, -0.5f, 0.f);
-	g_vtx[2].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	g_vtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
+	g_vtx[2].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
 	g_vtx[2].vUV = Vec2(0.f, 0.f);
 
-	// 3(Red)--4(Green)
-	//	 \     |
-	//	    5(Blue)
-	g_vtx[3].vPos = Vec3(-0.5f, 0.5f, 0.f);
-	g_vtx[3].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	g_vtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
+	g_vtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 	g_vtx[3].vUV = Vec2(0.f, 0.f);
-
-	g_vtx[4].vPos = Vec3(0.5f, 0.5f, 0.f);
-	g_vtx[4].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	g_vtx[4].vUV = Vec2(0.f, 0.f);
-
-	g_vtx[5].vPos = Vec3(0.5f, -0.5f, 0.f);
-	g_vtx[5].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	g_vtx[5].vUV = Vec2(0.f, 0.f);
 
 
 	// 버텍스 버퍼 생성
 	D3D11_BUFFER_DESC BufferDesc = {};
 
-	BufferDesc.ByteWidth = sizeof(Vtx) * 6;
+	BufferDesc.ByteWidth = sizeof(Vtx) * 4;
 	BufferDesc.StructureByteStride = sizeof(Vtx);
 	BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
+	// 버퍼에 데이터 쓰기 가능
 	BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 
@@ -89,6 +75,61 @@ int TestInit()
 	if (FAILED(DEVICE->CreateBuffer(&BufferDesc, &tSubData, g_VB.GetAddressOf())))
 	{
 		MessageBox(nullptr, L"버텍스 버퍼 생성 실패", L"TestInit 오류", MB_OK);
+		return E_FAIL;
+	}
+
+	// 버텍스 쉐이더
+	// HLSL 버텍스 쉐이더 함수 컴파일
+	wstring strFilePath = CPathMgr::GetContentPath();
+
+	if (FAILED(D3DCompileFromFile(wstring(strFilePath + L"shader\\std2d.fx").c_str()
+		, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+		, "VS_Std2D", "vs_5_0", D3DCOMPILE_DEBUG, 0
+		, g_VSBlob.GetAddressOf(), g_ErrBlob.GetAddressOf()))) // 바이너리코드를 g_VSBlob에 저장 // 에러시 에러 문자열 ErrBlob에 저장
+	{
+		if (nullptr != g_ErrBlob)
+		{
+			char* pErrMsg = (char*)g_ErrBlob->GetBufferPointer();
+			MessageBoxA(nullptr, pErrMsg, "Shader Compile Failed!!", MB_OK);
+		}
+
+		return E_FAIL;
+	}
+
+	// 버텍스 쉐이더 생성
+	DEVICE->CreateVertexShader(g_VSBlob->GetBufferPointer()
+		, g_VSBlob->GetBufferSize(), nullptr
+		, g_VS.GetAddressOf());
+
+
+	// 인덱스 순서
+	g_Idx[0] = 0;
+	g_Idx[1] = 1;
+	g_Idx[2] = 2;
+
+	g_Idx[3] = 0;
+	g_Idx[4] = 2;
+	g_Idx[5] = 3;
+
+	// 인덱스 버퍼 생성
+	BufferDesc = {};
+
+	BufferDesc.ByteWidth = sizeof(UINT) * 6;
+	BufferDesc.StructureByteStride = sizeof(UINT);
+	BufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+	// 버퍼에 데이터 쓰기 불가능
+	BufferDesc.CPUAccessFlags = 0;
+	BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	// g_Idx 배열의 데이터를 초기 데이터로 설정
+	tSubData = {};
+	tSubData.pSysMem = g_Idx;
+
+	// 인덱스 버퍼 생성
+	if (FAILED(DEVICE->CreateBuffer(&BufferDesc, &tSubData, g_IB.GetAddressOf())))
+	{
+		MessageBox(nullptr, L"인덱스 버퍼 생성 실패", L"TestInit 오류", MB_OK);
 		return E_FAIL;
 	}
 
@@ -120,38 +161,6 @@ int TestInit()
 	arrElement[2].AlignedByteOffset = 28;
 	arrElement[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 
-
-
-	// 버텍스 쉐이더
-	// HLSL 버텍스 쉐이더 함수 컴파일
-	wstring strFilePath = CPathMgr::GetContentPath();
-
-	if (FAILED(D3DCompileFromFile(wstring(strFilePath + L"shader\\std2d.fx").c_str()
-		, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, "VS_Std2D", "vs_5_0", D3DCOMPILE_DEBUG, 0
-		, g_VSBlob.GetAddressOf(), g_ErrBlob.GetAddressOf()))) // 바이너리코드를 g_VSBlob에 저장 // 에러시 에러 문자열 ErrBlob에 저장
-	{
-		if (nullptr != g_ErrBlob)
-		{
-			char* pErrMsg = (char*)g_ErrBlob->GetBufferPointer();
-			MessageBoxA(nullptr, pErrMsg, "Shader Compile Failed!!", MB_OK);
-		}
-
-		return E_FAIL;
-	}
-
-	// 버텍스 쉐이더 생성
-	DEVICE->CreateVertexShader(g_VSBlob->GetBufferPointer()
-		, g_VSBlob->GetBufferSize(), nullptr
-		, g_VS.GetAddressOf());
-
-	
-	// Layout 생성
-	DEVICE->CreateInputLayout(arrElement, 3
-		, g_VSBlob->GetBufferPointer()
-		, g_VSBlob->GetBufferSize()
-		, g_Layout.GetAddressOf());
-
 	// 픽셀 쉐이더 생성
 	// 픽셀 쉐이더 컴파일
 	if (FAILED(D3DCompileFromFile(wstring(strFilePath + L"shader\\std2d.fx").c_str()
@@ -173,18 +182,67 @@ int TestInit()
 		, g_PS.GetAddressOf());
 
 
+	// Layout 생성
+	DEVICE->CreateInputLayout(arrElement, 3
+		, g_VSBlob->GetBufferPointer()
+		, g_VSBlob->GetBufferSize()
+		, g_Layout.GetAddressOf());
+
 	return S_OK;
 }
 
-void TestProgress()
+void Tick()
 {
-	float ClearColor[4] = {0.3f, 0.3f, 0.3f, 1.f};
+	if (KEY_PRESSED(KEY::LEFT))
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			g_vtx[i].vPos.x -= DT;
+		}
+	}
+
+	if (KEY_PRESSED(KEY::RIGHT))
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			g_vtx[i].vPos.x += DT;
+		}
+	}
+
+	if (KEY_PRESSED(KEY::UP))
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			g_vtx[i].vPos.y += DT;
+		}
+	}
+
+	if (KEY_PRESSED(KEY::DOWN))
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			g_vtx[i].vPos.y -= DT;
+		}
+	}
+
+	//// SystemMem -> GPUMem
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+
+	CONTEXT->Map(g_VB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+	memcpy(tSub.pData, g_vtx, sizeof(Vtx) * 4);
+	CONTEXT->Unmap(g_VB.Get(), 0);
+}
+
+void Render()
+{
+	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
 	// 삼각형 그리기
 	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
+	CONTEXT->IASetIndexBuffer(g_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
 	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	CONTEXT->IASetInputLayout(g_Layout.Get());
 
@@ -193,9 +251,16 @@ void TestProgress()
 	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
 
 	// Draw 전 과정은 세팅 과정이기 때문에 순서가 바뀌어도 상관없다
-	CONTEXT->Draw(3, 0);
+	CONTEXT->DrawIndexed(6, 0, 0);
 
 	CDevice::GetInst()->Present();
+}
+
+void TestProgress()
+{
+	Tick();
+
+	Render();
 }
 
 void TestRelease()
