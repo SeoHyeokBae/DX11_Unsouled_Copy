@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "CEngine.h"
 
+#include "CDevice.h"
+
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
 
-#include "CDevice.h"
 #include "Test.h"
 
 CEngine::CEngine()
