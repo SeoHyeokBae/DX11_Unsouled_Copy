@@ -8,6 +8,7 @@
 #include "CKeyMgr.h"
 
 #include "CMesh.h"
+#include "CGraphicsShader.h"
 
 
 tTransform g_Transform = { Vec4(0.f, 0.f, 0.f, 0.f), Vec4(1.f, 1.f, 1.f, 1.f) };
@@ -15,20 +16,10 @@ tTransform g_Transform = { Vec4(0.f, 0.f, 0.f, 0.f), Vec4(1.f, 1.f, 1.f, 1.f) };
 CMesh* g_RectMesh = nullptr;
 CMesh* g_CircleMesh = nullptr;
 
+CGraphicsShader* g_Shader = nullptr;
+
 // 상수 데이터를 전달하는 버퍼
 ComPtr<ID3D11Buffer>	g_CB = nullptr;
-
-
-// InputLayout 정점하나의 구조를 알리는 객체
-ComPtr<ID3D11InputLayout> g_Layout = nullptr;
-
-// 버텍스/픽셀 쉐이더 GPU가 알 수 있게 HLSL 함수 컴파일 후 Blob에 바이너리(바이트) 코드로 저장
-ComPtr<ID3DBlob> g_VSBlob = nullptr;
-ComPtr<ID3DBlob> g_PSBlob = nullptr;
-ComPtr<ID3DBlob> g_ErrBlob = nullptr;
-
-ComPtr<ID3D11VertexShader> g_VS = nullptr;
-ComPtr<ID3D11PixelShader> g_PS = nullptr;
 
 int TestInit()
 {
@@ -104,6 +95,9 @@ int TestInit()
 	g_CircleMesh = new CMesh;
 	g_CircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 
+
+
+
 	// 상수 버퍼(Constant Buffer) 생성
 	D3D11_BUFFER_DESC BufferDesc = {};
 
@@ -122,85 +116,10 @@ int TestInit()
 		return E_FAIL;
 	}
 
-	//레이아웃
-	// 정점 구조정보(Layout) 생성
-	D3D11_INPUT_ELEMENT_DESC arrElement[3] = {};
-
-	arrElement[0].InputSlot = 0;
-	arrElement[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	arrElement[0].SemanticName = "POSITION";
-	arrElement[0].SemanticIndex = 0;
-	arrElement[0].InstanceDataStepRate = 0;
-	arrElement[0].AlignedByteOffset = 0;
-	arrElement[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-
-	arrElement[1].InputSlot = 0;
-	arrElement[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	arrElement[1].SemanticName = "COLOR";
-	arrElement[1].SemanticIndex = 0;
-	arrElement[1].InstanceDataStepRate = 0;
-	arrElement[1].AlignedByteOffset = 12;
-	arrElement[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	arrElement[2].InputSlot = 0;
-	arrElement[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	arrElement[2].SemanticName = "TEXCOORD";
-	arrElement[2].SemanticIndex = 0;
-	arrElement[2].InstanceDataStepRate = 0;
-	arrElement[2].AlignedByteOffset = 28;
-	arrElement[2].Format = DXGI_FORMAT_R32G32_FLOAT;
-
-
-
-	// 버텍스 쉐이더
-	// HLSL 버텍스 쉐이더 함수 컴파일
-	wstring strFilePath = CPathMgr::GetContentPath();
-
-	if (FAILED(D3DCompileFromFile(wstring(strFilePath + L"shader\\std2d.fx").c_str()
-		, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, "VS_Std2D", "vs_5_0", D3DCOMPILE_DEBUG, 0
-		, g_VSBlob.GetAddressOf(), g_ErrBlob.GetAddressOf()))) // 바이너리코드를 g_VSBlob에 저장 // 에러시 에러 문자열 ErrBlob에 저장
-	{
-		if (nullptr != g_ErrBlob)
-		{
-			char* pErrMsg = (char*)g_ErrBlob->GetBufferPointer();
-			MessageBoxA(nullptr, pErrMsg, "Shader Compile Failed!!", MB_OK);
-		}
-
-		return E_FAIL;
-	}
-
-	// 버텍스 쉐이더 생성
-	DEVICE->CreateVertexShader(g_VSBlob->GetBufferPointer()
-		, g_VSBlob->GetBufferSize(), nullptr
-		, g_VS.GetAddressOf());
-
-	// Layout 생성
-	DEVICE->CreateInputLayout(arrElement, 3
-		, g_VSBlob->GetBufferPointer()
-		, g_VSBlob->GetBufferSize()
-		, g_Layout.GetAddressOf());
-
-
-	// 픽셀 쉐이더 생성
-	// 픽셀 쉐이더 컴파일
-	if (FAILED(D3DCompileFromFile(wstring(strFilePath + L"shader\\std2d.fx").c_str()
-		, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, "PS_Std2D", "ps_5_0", D3DCOMPILE_DEBUG, 0
-		, g_PSBlob.GetAddressOf(), g_ErrBlob.GetAddressOf())))
-	{
-		if (nullptr != g_ErrBlob)
-		{
-			char* pErrMsg = (char*)g_ErrBlob->GetBufferPointer();
-			MessageBoxA(nullptr, pErrMsg, "Shader Compile Failed!!", MB_OK);
-		}
-
-		return E_FAIL;
-	}
-
-	DEVICE->CreatePixelShader(g_PSBlob->GetBufferPointer()
-		, g_PSBlob->GetBufferSize(), nullptr
-		, g_PS.GetAddressOf());
+	// Shader 생성
+	g_Shader = new CGraphicsShader;
+	g_Shader->CreateVerTexShader(L"shader\\std2d.fx", "VS_Std2D");
+	g_Shader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
 
 	return S_OK;
@@ -241,11 +160,6 @@ void Tick()
 	//// SystemMem -> GPUMem
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
 
-	// 상수버퍼 사용 안할시
-	//CONTEXT->Map(g_VB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
-	//memcpy(tSub.pData, g_vtx, sizeof(Vtx) * 4);
-	//CONTEXT->Unmap(g_VB.Get(), 0);
-
 	// 상수버퍼 사용 시
 	CONTEXT->Map(g_CB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub); // cpu 데이터 메모리와 gpu 데이터 메모리의 일치화
 	memcpy(tSub.pData, &g_Transform, sizeof(tTransform));			// cpu 데이터 메모리에 수정된 데이터 복사
@@ -254,22 +168,19 @@ void Tick()
 
 void Render()
 {
+	// 윈도우 화면 클리어
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
-	// 삼각형 그리기
-
-	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	CONTEXT->IASetInputLayout(g_Layout.Get());
-
-	// 상수버퍼 전달 (바인딩)
+	// 상수버퍼 전달 (위치) (바인딩)
 	CONTEXT->VSSetConstantBuffers(0, 1, g_CB.GetAddressOf());
 
-	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
-	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
+	// 쉐이더 세팅
+	g_Shader->UpdateData();
 
-	//g_RectMesh->render();
-	g_CircleMesh->render();
+	// 메쉬 선택 및 렌더
+	g_RectMesh->render();
+	//g_CircleMesh->render();
 
 	CDevice::GetInst()->Present();
 }
@@ -278,7 +189,7 @@ void TestProgress()
 {
 	Tick();
 
-	Render();
+	Render(); 
 }
 
 void TestRelease()
@@ -292,4 +203,6 @@ void TestRelease()
 	{
 		delete g_CircleMesh;
 	}
+
+	delete g_Shader;
 }
