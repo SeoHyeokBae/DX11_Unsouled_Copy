@@ -37,6 +37,12 @@
     <Filter Include="04. Manager\TimeMgr">
       <UniqueIdentifier>{451f00f4-fd16-459b-a11b-2d68a9e5bd03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset">
+      <UniqueIdentifier>{cd47eb41-a1ad-4880-8aeb-5a8801b93f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Mesh">
+      <UniqueIdentifier>{dbaca192-768b-4956-9aec-9a4fafaf876c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -82,6 +88,12 @@
     <ClInclude Include="CKeyMgr.h">
       <Filter>04. Manager\KeyMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CAsset.h">
+      <Filter>06. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>06. Asset\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -111,6 +123,12 @@
     </ClCompile>
     <ClCompile Include="CKeyMgr.cpp">
       <Filter>04. Manager\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CAsset.cpp">
+      <Filter>06. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>06. Asset\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

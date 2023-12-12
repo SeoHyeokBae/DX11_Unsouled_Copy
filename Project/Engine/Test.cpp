@@ -7,20 +7,13 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-// 삼각형 그리기
-//Vtx g_vtx[3] = {};
+#include "CMesh.h"
 
-// 사각형 그리기
-Vtx		g_vtx[4] = {};
-UINT	g_Idx[6] = {};
 
 tTransform g_Transform = { Vec4(0.f, 0.f, 0.f, 0.f), Vec4(1.f, 1.f, 1.f, 1.f) };
 
-// 정점을 저장하는 정점버퍼
-ComPtr<ID3D11Buffer>	g_VB = nullptr;
-
-// 인덱스를 저장하는 버퍼
-ComPtr<ID3D11Buffer>	g_IB = nullptr;
+CMesh* g_RectMesh = nullptr;
+CMesh* g_CircleMesh = nullptr;
 
 // 상수 데이터를 전달하는 버퍼
 ComPtr<ID3D11Buffer>	g_CB = nullptr;
@@ -43,81 +36,76 @@ int TestInit()
 	//   0(Red)-- 1(Blue)	     
 	//    |   \   |	     
 	//   3(G)---- 2(Magenta)  
-	g_vtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
-	g_vtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	g_vtx[0].vUV = Vec2(0.f, 0.f);
+	Vtx arrVtx[4] = {};
+	arrVtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
+	arrVtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	arrVtx[0].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
-	g_vtx[1].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	g_vtx[1].vUV = Vec2(0.f, 0.f);
+	arrVtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
+	arrVtx[1].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	arrVtx[1].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
-	g_vtx[2].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-	g_vtx[2].vUV = Vec2(0.f, 0.f);
+	arrVtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
+	arrVtx[2].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
+	arrVtx[2].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
-	g_vtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	g_vtx[3].vUV = Vec2(0.f, 0.f);
-
-
-	// 버텍스 버퍼 생성
-	D3D11_BUFFER_DESC BufferDesc = {};
-
-	BufferDesc.ByteWidth = sizeof(Vtx) * 4;
-	BufferDesc.StructureByteStride = sizeof(Vtx);
-	BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-	// 버퍼에 데이터 쓰기 가능
-	BufferDesc.CPUAccessFlags = 0;			// 상수버퍼 사용으로 정점 고정 D3D11_CPU_ACCESS_WRITE;
-	BufferDesc.Usage = D3D11_USAGE_DEFAULT;	// 상수버퍼 사용으로 정점 고정 D3D11_USAGE_DYNAMIC;
-
-	// g_Vtx 배열의 데이터를 초기 데이터로 설정
-	D3D11_SUBRESOURCE_DATA tSubData = {};
-	tSubData.pSysMem = g_vtx;	// 생성과 동시에 초기화
-
-	// 버텍스 버퍼 생성
-	if (FAILED(DEVICE->CreateBuffer(&BufferDesc, &tSubData, g_VB.GetAddressOf())))
-	{
-		MessageBox(nullptr, L"버텍스 버퍼 생성 실패", L"TestInit 오류", MB_OK);
-		return E_FAIL;
-	}
-
-
+	arrVtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
+	arrVtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	arrVtx[3].vUV = Vec2(0.f, 0.f);
 
 	// 인덱스 순서
-	g_Idx[0] = 0;
-	g_Idx[1] = 1;
-	g_Idx[2] = 2;
+	UINT arrIdx[6] = {};
+	arrIdx[0] = 0;
+	arrIdx[1] = 1;
+	arrIdx[2] = 2;
 
-	g_Idx[3] = 0;
-	g_Idx[4] = 2;
-	g_Idx[5] = 3;
+	arrIdx[3] = 0;
+	arrIdx[4] = 2;
+	arrIdx[5] = 3;
 
-	// 인덱스 버퍼 생성
-	BufferDesc = {};
+	g_RectMesh = new CMesh();
+	g_RectMesh->Create(arrVtx, 4, arrIdx, 6);
 
-	BufferDesc.ByteWidth = sizeof(UINT) * 6;
-	BufferDesc.StructureByteStride = sizeof(UINT);
-	BufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	// =================
+	// CircleMesh 만들기
+	// =================
+	vector<Vtx> vecVtx;
+	vector<UINT> vecIdx;
+	Vtx v;
 
-	// 버퍼에 데이터 쓰기 불가능
-	BufferDesc.CPUAccessFlags = 0;
-	BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	// 중심점
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vUV = Vec2(0.5f, 0.5f);
 
-	// g_Idx 배열의 데이터를 초기 데이터로 설정
-	tSubData = {};
-	tSubData.pSysMem = g_Idx;
+	vecVtx.push_back(v);
 
-	// 인덱스 버퍼 생성
-	if (FAILED(DEVICE->CreateBuffer(&BufferDesc, &tSubData, g_IB.GetAddressOf())))
+	UINT iSlice = 40;
+	float fTheta = 0.f;
+	float fRadius = 0.5f;
+
+	for (int i = 0; i <= iSlice; i++)
 	{
-		MessageBox(nullptr, L"인덱스 버퍼 생성 실패", L"TestInit 오류", MB_OK);
-		return E_FAIL;
-	}
+		fTheta = (XM_2PI / iSlice) * i;
+		
+		v.vPos = Vec3(fRadius * cosf(fTheta), fRadius * sinf(fTheta), 0.f);
+		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		v.vUV = Vec2(0.f, 0.f);
 
+		vecVtx.push_back(v);
+	}
+	
+	for (int i = 0; i < iSlice; i++)
+	{
+		vecIdx.push_back(0);
+		vecIdx.push_back(i+2);
+		vecIdx.push_back(i+1);
+	}
+	g_CircleMesh = new CMesh;
+	g_CircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 
 	// 상수 버퍼(Constant Buffer) 생성
-	BufferDesc = {};
+	D3D11_BUFFER_DESC BufferDesc = {};
 
 	BufferDesc.ByteWidth = sizeof(tTransform);
 	BufferDesc.StructureByteStride = sizeof(tTransform);
@@ -270,10 +258,7 @@ void Render()
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
 	// 삼각형 그리기
-	UINT iStride = sizeof(Vtx);
-	UINT iOffset = 0;
-	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
-	CONTEXT->IASetIndexBuffer(g_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
+
 	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	CONTEXT->IASetInputLayout(g_Layout.Get());
 
@@ -283,8 +268,8 @@ void Render()
 	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
 	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
 
-	// Draw 전 과정은 세팅 과정이기 때문에 순서가 바뀌어도 상관없다
-	CONTEXT->DrawIndexed(6, 0, 0);
+	//g_RectMesh->render();
+	g_CircleMesh->render();
 
 	CDevice::GetInst()->Present();
 }
@@ -298,4 +283,13 @@ void TestProgress()
 
 void TestRelease()
 {
+	if (nullptr != g_RectMesh)
+	{
+		delete g_RectMesh;
+	}
+
+	if (nullptr != g_CircleMesh)
+	{
+		delete g_CircleMesh;
+	}
 }
