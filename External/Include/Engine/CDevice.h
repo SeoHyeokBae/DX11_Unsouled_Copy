@@ -1,6 +1,6 @@
 #pragma once
 
-
+class CConstBuffer;
 
 // Directx11 기준 GPU 제어 
 class CDevice
@@ -25,6 +25,8 @@ private:
 	Vec2							m_vRenderResolution;
 
 
+	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
+
 public:
 	int init(HWND _hWnd, Vec2 _vResolution);
 	void ClearRenderTarget(float(&Color)[4]);
@@ -33,9 +35,12 @@ public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetContext() { return m_Context.Get(); }
 
+	CConstBuffer* GetConstBuffer(CB_TYPE _type) { return m_arrCB[(UINT)_type]; }
+
 
 private:
 	int CreateSwapChain();
 	int CreateTargetView();
+	int CreateConstBuffer();
 };
 

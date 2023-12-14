@@ -73,6 +73,21 @@
     <Filter Include="08. Component\08. Camera">
       <UniqueIdentifier>{e382d925-d4bf-4e55-8608-73a88b8e7a7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Device\ConstBuffer">
+      <UniqueIdentifier>{a621c5b7-baca-409e-9e16-5d890374b451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent">
+      <UniqueIdentifier>{0fd951cb-d17a-4f44-a140-706468d85db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\01. MeshRender">
+      <UniqueIdentifier>{dede6188-124e-49c6-a0ad-0e00a58fbf21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\02. TileMap">
+      <UniqueIdentifier>{b7c9016e-f535-4e29-90eb-59fb1f8a5056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\03. ParticleSystem">
+      <UniqueIdentifier>{9e5bc04c-a184-422c-8cc1-52c171275ef0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -139,6 +154,18 @@
     <ClInclude Include="CTransform.h">
       <Filter>08. Component\01. Transform</Filter>
     </ClInclude>
+    <ClInclude Include="CConstBuffer.h">
+      <Filter>03. Device\ConstBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderComponent.h">
+      <Filter>08. Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRender.h">
+      <Filter>08. Component\RenderComponent\01. MeshRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -189,6 +216,15 @@
     </ClCompile>
     <ClCompile Include="CTransform.cpp">
       <Filter>08. Component\01. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp">
+      <Filter>03. Device\ConstBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderComponent.cpp">
+      <Filter>08. Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshRender.cpp">
+      <Filter>08. Component\RenderComponent\01. MeshRender</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
