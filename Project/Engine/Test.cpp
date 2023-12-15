@@ -15,8 +15,8 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 
-
-CGameObject* g_Object = nullptr;
+vector<CGameObject*>	g_vecObj;
+//CGameObject* g_Object = nullptr;
 
 tTransform g_Transform = { Vec4(0.f, 0.f, 0.f, 0.f), Vec4(1.f, 1.f, 1.f, 1.f) };
 
@@ -111,25 +111,45 @@ int TestInit()
 	g_Shader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
 
-	// GameObject 1俺 积己
-	g_Object = new CGameObject;
+	// GameObject 2俺 积己
+	CGameObject* pObj = nullptr;
 
-	g_Object->AddComponent(new CTransform);
-	g_Object->AddComponent(new CMeshRender);
+	pObj = new CGameObject;
 
-	//g_Object->Transform()->SetRelativePos(Vec3(-0.5f, 0.f, 0.f));
-	g_Object->Transform()->SetRelativeScale(Vec3(1.5f, 1.5f, 1.5f));
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
 
-	g_Object->MeshRender()->SetMesh(g_RectMesh);
-	g_Object->MeshRender()->SetShader(g_Shader);
+	pObj->Transform()->SetRelativePos(Vec3(-0.5f, 0.f, 0.f));
+	pObj->Transform()->SetRelativeScale(Vec3(1.5f, 1.5f, 1.5f));
+
+	pObj->MeshRender()->SetMesh(g_RectMesh);
+	pObj->MeshRender()->SetShader(g_Shader);
+
+	g_vecObj.push_back(pObj);
+
+	pObj = new CGameObject;
+
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
+
+	pObj->Transform()->SetRelativePos(Vec3(0.5f, 0.25f, 0.f));
+	pObj->Transform()->SetRelativeScale(Vec3(0.5f, 0.5f, 0.5f));
+
+	pObj->MeshRender()->SetMesh(g_RectMesh);
+	pObj->MeshRender()->SetShader(g_Shader);
+
+	g_vecObj.push_back(pObj);
 	
 	return S_OK;
 }
 
 void Tick()
 {
-	g_Object->tick();
-	g_Object->finaltick();
+	for (size_t i = 0; i < g_vecObj.size(); i++)
+	{
+		g_vecObj[i]->tick();
+		g_vecObj[i]->finaltick();
+	}
 }
 
 void Render()
@@ -138,7 +158,10 @@ void Render()
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
-	g_Object->render();
+	for (size_t i = 0; i < g_vecObj.size(); i++)
+	{
+		g_vecObj[i]->render();
+	}
 
 	CDevice::GetInst()->Present();
 }
@@ -164,5 +187,7 @@ void TestRelease()
 
 	delete g_Shader;
 
-	delete g_Object;
+	Delete_Vec(g_vecObj);
+	//delete g_Object;
+	
 }
