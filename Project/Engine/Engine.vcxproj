@@ -170,6 +170,7 @@ call EngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAsset.h" />
+    <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CDevice.h" />
@@ -181,8 +182,11 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CMeshRender.h" />
+    <ClInclude Include="components.h" />
     <ClInclude Include="CPathMgr.h" />
+    <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CRenderComponent.h" />
+    <ClInclude Include="CScript.h" />
     <ClInclude Include="CShader.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTransform.h" />
@@ -201,6 +205,7 @@ call EngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAsset.cpp" />
+    <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CDevice.cpp" />
@@ -213,7 +218,9 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CMeshRender.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
+    <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CRenderComponent.cpp" />
+    <ClCompile Include="CScript.cpp" />
     <ClCompile Include="CShader.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTransform.cpp" />

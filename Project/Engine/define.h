@@ -33,6 +33,7 @@ enum class ASSET_TYPE
 	SOUND,
 	COMPUTE_SHADER,
 	GRAPHICS_SHADER,
+	END,
 
 };
 
@@ -61,6 +62,8 @@ enum class COMPONENT_TYPE
 	LANDSCAPE,
 
 	END,
+
+	SCRIPT,
 };
 
 // 상수버퍼 종류
