@@ -38,6 +38,11 @@ void CGameObject::tick()
 			m_arrCom[i]->tick();
 		}
 	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->tick();
+	}
 }
 
 void CGameObject::finaltick()

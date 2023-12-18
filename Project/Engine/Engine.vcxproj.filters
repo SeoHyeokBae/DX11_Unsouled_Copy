@@ -97,6 +97,9 @@
     <Filter Include="04. Manager\AssetMgr">
       <UniqueIdentifier>{61d9d9e3-7a77-440d-a3c5-5dc87d3653a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Manager\LevelMgr">
+      <UniqueIdentifier>{8ae47f60-6a65-44a0-a39c-954d821190db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -129,7 +132,6 @@
     <ClInclude Include="CLevel.h">
       <Filter>05. Level</Filter>
     </ClInclude>
-    <ClInclude Include="Test.h" />
     <ClInclude Include="SimpleMath.h">
       <Filter>Module</Filter>
     </ClInclude>
@@ -187,6 +189,13 @@
     <ClInclude Include="CAssetMgr.h">
       <Filter>04. Manager\AssetMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CLevelMgr.h">
+      <Filter>04. Manager\LevelMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CLayer.h">
+      <Filter>05. Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -207,7 +216,6 @@
     <ClCompile Include="CLevel.cpp">
       <Filter>05. Level</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp" />
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>04. Manager\TimeMgr</Filter>
     </ClCompile>
@@ -256,6 +264,13 @@
     <ClCompile Include="CAssetMgr.cpp">
       <Filter>04. Manager\AssetMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CLevelMgr.cpp">
+      <Filter>04. Manager\LevelMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CLayer.cpp">
+      <Filter>05. Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
