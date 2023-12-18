@@ -16,19 +16,20 @@ CTransform::~CTransform()
 
 void CTransform::finaltick()
 {
-	m_vRelativeScale;
-	m_vRealtiveRotation;
-	m_vRelativePos;
+	m_matWorld = XMMatrixIdentity();	// 단위 행렬로 초기화 
 
-	m_matWorld = XMMatrixIdentity();
+	// XMMatrix...(..) 행렬 원소를 넣어 주는 것을 함수로
+	Matrix matScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
 
-	m_matWorld._11 = m_vRelativeScale.x;
-	m_matWorld._22 = m_vRelativeScale.y;
-	m_matWorld._33 = m_vRelativeScale.z;
+	Matrix matRotX = XMMatrixRotationX(m_vRealtiveRotation.x);
+	Matrix matRotY = XMMatrixRotationY(m_vRealtiveRotation.y);
+	Matrix matRotZ = XMMatrixRotationZ(m_vRealtiveRotation.z);
 
-	m_matWorld._41 = m_vRelativePos.x;
-	m_matWorld._42 = m_vRelativePos.y;
-	m_matWorld._43 = m_vRelativePos.z;
+	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
+
+	m_matWorld = matScale * matRotX * matRotY * matRotZ * matTranslation;
+
+
 }	
 
 void CTransform::UpdateData()

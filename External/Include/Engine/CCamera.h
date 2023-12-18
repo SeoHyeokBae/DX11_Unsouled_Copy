@@ -15,8 +15,9 @@ private:
     float   m_AspectRatio;  // 종횡비, 투영 가로세로 비율
     float   m_Far;          // 투영 최대 거리
 
-    // 상태 행렬
-    Matrix  m_matWorld;
+    // 변환 행렬
+    Matrix  m_matView;
+    Matrix  m_matProj;
 
 
 public:

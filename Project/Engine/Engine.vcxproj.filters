@@ -195,7 +195,9 @@
     <ClInclude Include="CLayer.h">
       <Filter>05. Level</Filter>
     </ClInclude>
-    <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCamera.h">
+      <Filter>08. Component\08. Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -270,7 +272,12 @@
     <ClCompile Include="CLayer.cpp">
       <Filter>05. Level</Filter>
     </ClCompile>
-    <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCamera.cpp">
+      <Filter>08. Component\08. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>01. Header</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
