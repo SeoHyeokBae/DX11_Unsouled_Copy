@@ -1,3 +1,3 @@
 #include "global.h"
 
-//tTransform g_Transform = {};
+tTransform g_Transform = {};

@@ -16,9 +16,11 @@ private:
     float   m_Far;          // 투영 최대 거리
 
     // 변환 행렬
-    Matrix  m_matView;
+    Matrix  m_matView;      // 카메라 뷰 ?
     Matrix  m_matProj;
 
+public:
+    virtual void finaltick() override;
 
 public:
     CCamera();

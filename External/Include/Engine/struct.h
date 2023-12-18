@@ -15,7 +15,11 @@ struct Vtx
 struct tTransform
 {
 	Matrix	matWorld;
+	Matrix	matView;
+	Matrix	matProj;
 	//Vec4	vWorldPos;
 	//Vec4    vWorldScale;
 	//Vec4	vWorldRotation;
 };
+
+extern tTransform g_Transform;
