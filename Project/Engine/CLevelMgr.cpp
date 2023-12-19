@@ -52,8 +52,8 @@ void CLevelMgr::init()
 	pObj->AddComponent(new CPlayerScript);
 
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.5f));
-	pObj->Transform()->SetRelativeScale(Vec3(0.5f, 0.5f, 0.5f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 500.f));
+	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.5f));
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
