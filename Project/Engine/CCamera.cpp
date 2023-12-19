@@ -24,15 +24,26 @@ CCamera::~CCamera()
 void CCamera::finaltick()
 {
 	// 뷰 행렬을 계산한다
+	// 카메라를 원점으로 이동시키는 이동 행렬
 	Vec3 vCamPos = Transform()->GetRelativePos();
 
-	m_matView = XMMatrixIdentity();
+	Matrix matTrans = XMMatrixTranslation(-vCamPos.x, -vCamPos.y, -vCamPos.z);
 
+	// 카메라의 각 우, 상, 전 방 방향을 기저축이랑 일치시키도록 회전하는 회전행렬
+	Vec3 vRight  = Transform()->GetDir(DIR_TYPE::RIGHT);
+	Vec3 vUp	 = Transform()->GetDir(DIR_TYPE::UP);
+	Vec3 vFront  = Transform()->GetDir(DIR_TYPE::FRONT);
 	
-	m_matView._41 = -vCamPos.x;
-	m_matView._42 = -vCamPos.y;
-	m_matView._43 = -vCamPos.z;
-	
+	// matRotate = 카메라 방향을 기저축과 일치시킬때 필요한 각도 
+	Matrix matRotate = XMMatrixIdentity();
+	matRotate._11 = vRight.x; matRotate._12 = vUp.x; matRotate._13 = vFront.x;
+	matRotate._21 = vRight.y; matRotate._22 = vUp.y; matRotate._23 = vFront.y;
+	matRotate._31 = vRight.z; matRotate._32 = vUp.z; matRotate._33 = vFront.z;
+
+	// 이동 x 회전 = view 행렬
+	m_matView = matTrans * matRotate;
+
+	// 투영 방식에 따른 투영 행렬을 계산
 	m_matProj = XMMatrixIdentity();
 
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_ProjType)

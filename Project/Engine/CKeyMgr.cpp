@@ -155,9 +155,14 @@ void CKeyMgr::tick()
 		}
 
 		// 마우스 좌표 계산
+		m_vMousePrevPos = m_vMousePos;
+
 		POINT pt = {};
-		GetCursorPos(&pt);
-		ScreenToClient(CEngine::GetInst()->GetMainWind(), &pt);
+		GetCursorPos(&pt);	// 전체화면 기준 좌표
+		ScreenToClient(CEngine::GetInst()->GetMainWind(), &pt);	// 전체화면 커서 좌표를 윈도우 화면용으로
 		m_vMousePos = Vec2((float)pt.x, (float)pt.y);
+
+		// 마우스 이동 방향
+		m_vMouseDrag = m_vMousePos - m_vMousePrevPos;
 	}
 }

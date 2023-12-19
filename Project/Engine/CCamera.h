@@ -35,8 +35,8 @@ public:
 	float GetScale() { return m_Scale; }
 	void SetScale(float _Scale) { m_Scale = _Scale; }
 
-	float GetFov() { return m_FOV; }
-	void SetFov(float _FOV) { m_FOV = _FOV; }
+	float GetFOV() { return m_FOV; }
+	void SetFOV(float _FOV) { m_FOV = _FOV; }
 
 public:
     virtual void finaltick() override;

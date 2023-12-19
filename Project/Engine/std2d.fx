@@ -30,7 +30,7 @@ VS_OUT VS_Std2D(VS_IN _in)
     // 로컬(모델) 좌표를 -> 월드 -> 뷰 -> 투영 좌표계로 순차적으로 변환
     float4 vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld);  // 월드
     float4 vViewPos = mul(vWorldPos, g_matView);                // 카메라 뷰
-    float4 vProjPos = mul(vViewPos, g_matProj); // 투영 좌표계
+    float4 vProjPos = mul(vViewPos, g_matProj);                 // 투영 좌표계
     
     output.vPosition = vProjPos;
     output.vColor = _in.vColor;
