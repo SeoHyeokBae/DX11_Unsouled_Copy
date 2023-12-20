@@ -108,5 +108,11 @@ void CAssetMgr::init()
 	pShader->CreateVerTexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);		// 레스터라이저 스테이트 타입 선택
+	pShader->SetDSType(DS_TYPE::LESS);			// 뎁스스텐실 스테이트 타입 선택
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);	// 알파블렌드 스테이트 타입 선택
+
+
 	AddAsset(L"Std2DShader", pShader);
 }

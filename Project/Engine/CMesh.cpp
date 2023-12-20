@@ -91,7 +91,7 @@ void CMesh::UpdateData()
 
 void CMesh::render()
 {
-	UpdateData();
+	UpdateData();	// 버텍스버퍼 , 인덱스버퍼 세팅
 
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 

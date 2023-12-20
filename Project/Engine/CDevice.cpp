@@ -6,6 +6,9 @@
 CDevice::CDevice()
 	: m_hRenderWnd(nullptr)
 	, m_arrCB{}
+	, m_arrRS{}
+	, m_arrDS{}
+	, m_arrBS{}
 {
 }
 
@@ -49,6 +52,24 @@ int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 		return E_FAIL;
 	}
 
+	if (FAILED(CreateRasterizerState()))
+	{
+		MessageBox(nullptr, L"Rasterizer State 생성 실패", L"Device 초기화 실패", MB_OK);
+		return E_FAIL;
+	}
+
+	if (FAILED(CreateDepthStencilState()))
+	{
+		MessageBox(nullptr, L"DepthStencil State 생성 실패", L"Device 초기화 실패", MB_OK);
+		return E_FAIL;
+	}
+
+
+	if (FAILED(CreateBlendState()))
+	{
+		MessageBox(nullptr, L"Blend State 생성 실패", L"Device 초기화 실패", MB_OK);
+		return E_FAIL;
+	}
 
 	// ViewPort 설정
 	D3D11_VIEWPORT ViewportDesc = {};
@@ -186,6 +207,127 @@ int CDevice::CreateTargetView()
 
 	// OM(Output Merge State) 에 RenderTargetTexture 와 DepthStencilTexture 를 전달한다.
 	m_Context->OMSetRenderTargets(1, m_RTView.GetAddressOf(), m_DSView.Get());
+
+	return S_OK;
+}
+
+int CDevice::CreateRasterizerState()
+{
+	m_arrRS[(UINT)RS_TYPE::CULL_BACK] = nullptr;	// 기본 세팅 nullptr 초기화
+
+	HRESULT result = S_OK;
+
+	D3D11_RASTERIZER_DESC tDesc = {};
+
+	// CULL_FRONT 타입 = 앞면 렌더x 
+	tDesc.CullMode = D3D11_CULL_FRONT;
+	tDesc.FillMode = D3D11_FILL_SOLID;
+	result = DEVICE->CreateRasterizerState(&tDesc, m_arrRS[(UINT)RS_TYPE::CULL_FRONT].GetAddressOf());
+	if (FAILED(result))
+		return E_FAIL;
+
+	// CULL_NONE 타입 = 앞면 뒷면 모두 렌더
+	tDesc.CullMode = D3D11_CULL_NONE;
+	tDesc.FillMode = D3D11_FILL_SOLID;
+	result = DEVICE->CreateRasterizerState(&tDesc, m_arrRS[(UINT)RS_TYPE::CULL_NONE].GetAddressOf());
+	if (FAILED(result))
+		return E_FAIL;
+
+	// CULL_WIREFRAME 타입 = 모두 채운 도형이 아닌 프레임(뼈대)로 앞면 뒷면 모두 렌더
+	tDesc.CullMode = D3D11_CULL_NONE;
+	tDesc.FillMode = D3D11_FILL_WIREFRAME;
+	result = DEVICE->CreateRasterizerState(&tDesc, m_arrRS[(UINT)RS_TYPE::WIRE_FRAME].GetAddressOf());
+	if (FAILED(result))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+int CDevice::CreateDepthStencilState()
+{
+	HRESULT hr = S_OK;
+
+	m_arrDS[(UINT)DS_TYPE::LESS] = nullptr;
+
+	D3D11_DEPTH_STENCIL_DESC tDesc = {};
+
+	// Less = 기존의 z보다 현재 정점의 z가 더 작을 때, 즉 현재 정점이 더 앞에 있을때만 z값(깊이)를 갱신한다, 동일하면 갱신하지 않음
+
+	// Less Equal = 현재 깊이가 기존의 깊이보다 더 적거나(앞에 있거나) 같을 경우에 z값을 갱신한다
+	// ex) 같은 깊이라면 나중에 그리는 삼각형이 더 앞에 온다
+	tDesc.DepthEnable = true;  // 깊이 버퍼를 활성화 할지 여부 false로 지정한다면 깊이 판정 없이 그리는 순서대로 화면에 나타남
+	tDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	hr = DEVICE->CreateDepthStencilState(&tDesc, m_arrDS[(UINT)DS_TYPE::LESS_EQUAL].GetAddressOf());
+	if (FAILED(hr)) return E_FAIL;
+
+	// Greater
+	tDesc.DepthEnable = true;	
+	tDesc.DepthFunc = D3D11_COMPARISON_GREATER;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	hr = DEVICE->CreateDepthStencilState(&tDesc, m_arrDS[(UINT)DS_TYPE::GRATER].GetAddressOf());
+	if (FAILED(hr)) return E_FAIL;
+
+	// Greater Equal
+	tDesc.DepthEnable = true;
+	tDesc.DepthFunc = D3D11_COMPARISON_GREATER_EQUAL;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	hr = DEVICE->CreateDepthStencilState(&tDesc, m_arrDS[(UINT)DS_TYPE::GRATER_EQUAL].GetAddressOf());
+	if (FAILED(hr)) return E_FAIL;
+
+	// No Test
+	tDesc.DepthEnable = false;
+	tDesc.DepthFunc = D3D11_COMPARISON_NEVER;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	hr = DEVICE->CreateDepthStencilState(&tDesc, m_arrDS[(UINT)DS_TYPE::NO_TEST].GetAddressOf());
+
+	// No Write
+	tDesc.DepthEnable = true;
+	tDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.StencilEnable = false;
+	hr = DEVICE->CreateDepthStencilState(&tDesc, m_arrDS[(UINT)DS_TYPE::NO_WRITE].GetAddressOf());
+	if (FAILED(hr)) return E_FAIL;
+
+	// NoTest NoWrite
+	tDesc.DepthEnable = false;
+	tDesc.DepthFunc = D3D11_COMPARISON_NEVER;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.StencilEnable = false;
+	hr = DEVICE->CreateDepthStencilState(&tDesc, m_arrDS[(UINT)DS_TYPE::NO_TEST_NO_WRITE].GetAddressOf());
+	if (FAILED(hr)) return E_FAIL;
+
+	return S_OK;
+}
+
+int CDevice::CreateBlendState()
+{
+	m_arrBS[(UINT)BS_TYPE::DEFAULT] = nullptr;
+
+
+
+	D3D11_BLEND_DESC tDesc = {};
+
+	// AlphaBlend
+	tDesc.AlphaToCoverageEnable = false;
+	tDesc.IndependentBlendEnable = true;
+
+	tDesc.RenderTarget[0].BlendEnable = true;
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ALPHA_BLEND].GetAddressOf());
 
 	return S_OK;
 }

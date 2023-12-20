@@ -20,10 +20,10 @@ void CMeshRender::UpdateData()
 {
 	if (nullptr != GetShader())
 	{
-		GetShader()->UpdateData();
+		GetShader()->UpdateData();	//레이아웃, 토폴로지, 쉐이더 세팅
 	}
 
-	GetOwner()->Transform()->UpdateData();
+	GetOwner()->Transform()->UpdateData();	// 상수버퍼 세팅
 }
 
 void CMeshRender::render()

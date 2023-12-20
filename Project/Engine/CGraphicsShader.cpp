@@ -8,6 +8,9 @@
 CGraphicsShader::CGraphicsShader()
 	: CShader(ASSET_TYPE::GRAPHICS_SHADER)
 	, m_Topology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	, m_RSType(RS_TYPE::CULL_BACK)
+	, m_DSType(DS_TYPE::LESS)
+	, m_BSType(BS_TYPE::DEFAULT)
 {
 }
 
@@ -109,6 +112,11 @@ void CGraphicsShader::UpdateData()
 {
 	CONTEXT->IASetInputLayout(m_Layout.Get());
 	CONTEXT->IASetPrimitiveTopology(m_Topology);
+
+	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType).Get());
+	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType).Get(), 0);
+	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType).Get(), nullptr, 0xffffffff);
+
 
 	CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
 	CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);

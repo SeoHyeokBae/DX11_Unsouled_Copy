@@ -43,6 +43,9 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
 {
     // return float4(1.f, 0.f, 0.f, 1.f);
     
+    // 알파블렌딩 값
+    _in.vColor.a = 0.3f;
+    
     //픽셀 쉐이더에서 리턴값을 정점으로 할때 픽셀정점의 값은 넣어준 정점값으로 선형보간된다
     return _in.vColor;
 }
