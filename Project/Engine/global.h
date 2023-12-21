@@ -33,7 +33,15 @@ using namespace DirectX;
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "d3dcompiler")
 
+// DirectxTex
+#include <DirectXTex//DirectXTex.h>
+#include <DirectXTex//DirectXTex.inl>
 
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTex\\DirectXTex_debug")
+#else
+#pragma comment(lib, "DirectXTex\\DirectXTex")
+#endif
 
 // SimpleMath
 #include "SimpleMath.h"
@@ -42,7 +50,6 @@ using namespace DirectX::SimpleMath;
 typedef Vector2 Vec2;
 typedef Vector3 Vec3;
 typedef Vector4 Vec4;
-
 
 
 

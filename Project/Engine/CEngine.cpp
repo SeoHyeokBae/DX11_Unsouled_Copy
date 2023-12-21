@@ -27,7 +27,7 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
 
 	RECT rt = { 0,0,(int)m_vResolution.x,(int)m_vResolution.y };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-	SetWindowPos(m_hMainWnd, nullptr, 10.f, 10.f, rt.right - rt.left, rt.bottom - rt.top,0);
+	SetWindowPos(m_hMainWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top,0);
 
 	if (FAILED(CDevice::GetInst()->init(m_hMainWnd, m_vResolution)))
 	{

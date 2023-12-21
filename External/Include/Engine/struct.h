@@ -14,12 +14,18 @@ struct Vtx
 // ==================
 struct tTransform
 {
+	// 로컬(모델) 좌표를 -> 월드 -> 뷰 -> 투영 좌표계로 순차적으로 변환
 	Matrix	matWorld;
+	Matrix	matWorldInv;
+
 	Matrix	matView;
+	Matrix	matViewInv;
+
 	Matrix	matProj;
-	//Vec4	vWorldPos;
-	//Vec4    vWorldScale;
-	//Vec4	vWorldRotation;
+	Matrix	matProjInv;
+
+	Matrix	matWV;		// World + View 
+	Matrix	matWVP;		// World + View + Proj
 };
 
 extern tTransform g_Transform;

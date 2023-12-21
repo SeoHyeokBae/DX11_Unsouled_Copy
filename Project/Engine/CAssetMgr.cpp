@@ -39,15 +39,15 @@ void CAssetMgr::init()
 
 	arrVtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
 	arrVtx[1].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	arrVtx[1].vUV = Vec2(0.f, 0.f);
+	arrVtx[1].vUV = Vec2(1.f, 0.f);
 
 	arrVtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
 	arrVtx[2].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-	arrVtx[2].vUV = Vec2(0.f, 0.f);
+	arrVtx[2].vUV = Vec2(1.f, 1.f);
 
 	arrVtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
 	arrVtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	arrVtx[3].vUV = Vec2(0.f, 0.f);
+	arrVtx[3].vUV = Vec2(0.f, 1.f);
 
 	// 인덱스 순서
 	UINT arrIdx[6] = {};
@@ -104,15 +104,14 @@ void CAssetMgr::init()
 
 	// Shader 생성
 	CGraphicsShader* pShader = nullptr;
+
 	pShader = new CGraphicsShader;
 	pShader->CreateVerTexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
-
 	pShader->SetRSType(RS_TYPE::CULL_NONE);		// 레스터라이저 스테이트 타입 선택
 	pShader->SetDSType(DS_TYPE::LESS);			// 뎁스스텐실 스테이트 타입 선택
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);	// 알파블렌드 스테이트 타입 선택
-
 
 	AddAsset(L"Std2DShader", pShader);
 }
