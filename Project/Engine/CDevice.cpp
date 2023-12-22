@@ -312,14 +312,35 @@ int CDevice::CreateBlendState()
 
 	D3D11_BLEND_DESC tDesc = {};
 
-	// AlphaBlend
+	// AlphaBlend	
+	// src(RGB) * a + dest(RGB) * (1 - a) = 
+	tDesc.AlphaToCoverageEnable = false;	// 나무, 수풀에 사용 알파 투명 뒤에 가려지는 부분
+	tDesc.IndependentBlendEnable = false;	// 타켓이 여러개일때 독립적 사용 여부
+
+	tDesc.RenderTarget[0].BlendEnable = true;
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;				// 혼합 연산자
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;			// 텍스쳐가 갖고 있는 알파값 a
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;	// 1 - 텍스쳐 알파값 (1 - a)
+
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;		// 알파 성분 혼합 연산자
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;			// 알파 성분 혼합의 소스 혼합 계수
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;			// 알파 성분 혼합의 dest 혼합 계수
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ALPHA_BLEND].GetAddressOf());
+
+	// One_One
+	// 알파 배경이 검은색 인경우 
+	// src(0,0,0) * 1 + dest(배경색 0.25,0.25,0.25 ) * 1 = 0.25, 0.25, 0.25 투명해짐
+	// but 물체 색은 + 0.25 섞임 따라서 배경색도 0.f 라면 물체 색 유지 가능 할지도 ?
 	tDesc.AlphaToCoverageEnable = false;
-	tDesc.IndependentBlendEnable = true;
+	tDesc.IndependentBlendEnable = false;
 
 	tDesc.RenderTarget[0].BlendEnable = true;
 	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;		// 텍스쳐 알파 계수 = 1
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;		// dest 알파 계수 = 1
 
 	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
@@ -327,7 +348,7 @@ int CDevice::CreateBlendState()
 
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ALPHA_BLEND].GetAddressOf());
+	DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ONE_ONE].GetAddressOf());
 
 	return S_OK;
 }

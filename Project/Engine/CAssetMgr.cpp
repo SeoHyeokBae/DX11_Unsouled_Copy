@@ -80,14 +80,14 @@ void CAssetMgr::init()
 	UINT iSlice = 40;
 	float fTheta = 0.f;
 	float fRadius = 0.5f;
-
+	 
 	for (int i = 0; i <= iSlice; i++)
 	{
 		fTheta = (XM_2PI / iSlice) * i;
 
 		v.vPos = Vec3(fRadius * cosf(fTheta), fRadius * sinf(fTheta), 0.f);
 		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		v.vUV = Vec2(0.f, 0.f);
+		v.vUV = Vec2(0.0f, 0.0f);
 
 		vecVtx.push_back(v);
 	}
@@ -106,7 +106,7 @@ void CAssetMgr::init()
 	CGraphicsShader* pShader = nullptr;
 
 	pShader = new CGraphicsShader;
-	pShader->CreateVerTexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);		// 레스터라이저 스테이트 타입 선택
@@ -114,4 +114,18 @@ void CAssetMgr::init()
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);	// 알파블렌드 스테이트 타입 선택
 
 	AddAsset(L"Std2DShader", pShader);
+
+
+	// =================================
+	// EffectShader
+	// =================================
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ONE_ONE);
+
+	AddAsset(L"EffectShader", pShader);
 }

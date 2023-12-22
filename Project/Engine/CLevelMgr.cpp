@@ -31,7 +31,7 @@ void CLevelMgr::init()
 	// 초기 레벨 구성하기
 	m_CurLevel = new CLevel;
 
-	CTexture* pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Character.png");
+	CTexture* pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Effect.png");
 	if (nullptr != pTex)
 	{
 		pTex->UpdateData(0);

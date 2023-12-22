@@ -19,7 +19,7 @@ cbuffer TRANSFORM : register(b0)
 
 Texture2D g_tex_0 : register(t0);
 
-
+// 샘플러 : 텍스쳐 자원의 데이터를 뽑아냄
 SamplerState g_sam_0 : register(s0);
 
 struct VS_IN

@@ -31,7 +31,7 @@ private:
     BS_TYPE                       m_BSType;
 
 public:
-    int CreateVerTexShader(const wstring& _strRelativePath, const string& _strFuncName);
+    int CreateVertexShader(const wstring& _strRelativePath, const string& _strFuncName);
     int CreateHullShader();
     int CreateDomainShader();
     int CreateGeometryShader();

@@ -114,6 +114,8 @@ enum class BS_TYPE
 
 	ALPHA_BLEND,
 
+	ONE_ZERO,
+
 	ONE_ONE,
 
 	END,

@@ -18,7 +18,7 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-int CGraphicsShader::CreateVerTexShader(const wstring& _strRelativePath, const string& _strFuncName)
+int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const string& _strFuncName)
 {
 	wstring strContentPath = CPathMgr::GetContentPath();
 	wstring strFilePath = strContentPath + _strRelativePath;
