@@ -331,9 +331,10 @@ int CDevice::CreateBlendState()
 	DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ALPHA_BLEND].GetAddressOf());
 
 	// One_One
-	// 알파 배경이 검은색 인경우 
-	// src(0,0,0) * 1 + dest(배경색 0.25,0.25,0.25 ) * 1 = 0.25, 0.25, 0.25 투명해짐
-	// but 물체 색은 + 0.25 섞임 따라서 배경색도 0.f 라면 물체 색 유지 가능 할지도 ?
+	// AlphaBlend 차이
+	// 배경 투명도값( a )이 0이 아니고 검은색 RGB(0 0 0)일경우 
+	// src(배경색 0,0,0) * 1 + dest(바탕색 0.25,0.25,0.25 ) * 1 = 0.25, 0.25, 0.25 src의 검은색 배경이 바탕색과 일치해짐
+	// but 물체 색은 + 0.25 섞임 따라서 바탕색도 0.f 라면 물체 색 유지 가능 할지도 ?
 	tDesc.AlphaToCoverageEnable = false;
 	tDesc.IndependentBlendEnable = false;
 

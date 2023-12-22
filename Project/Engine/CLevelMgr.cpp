@@ -66,6 +66,21 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
 	m_CurLevel->AddObject(pObj, 0);
+
+	CGameObject* pChildObj = new CGameObject;
+	pChildObj->SetName(L"Child");
+
+	pChildObj->AddComponent(new CTransform);
+	pChildObj->AddComponent(new CMeshRender);
+
+	pChildObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 0.f));
+	pChildObj->Transform()->SetRelativeScale(Vec3(150.f, 150.f, 1.f));
+	pChildObj->Transform()->SetAbsolute(true);
+
+	pChildObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pChildObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
+
+	pObj->AddChild(pChildObj);
 }
 
 void CLevelMgr::tick()
