@@ -44,10 +44,12 @@ void CTransform::finaltick()
 	{
 		// m_matWorld 행렬에 크기정보가 있을 수 있기 때문에 다시 길이를 1로 정규화 시킨다.
 		m_arrLocalDir[i] = XMVector3TransformNormal(m_arrLocalDir[i], m_matWorld);
-		m_arrWorldDir[i] = m_arrLocalDir[i].Normalize();
+		m_arrWorldDir[i] = m_arrLocalDir[i].Normalize(); // 최상위(부모)라면 월드방향 = 로컬 방향
 	}
 
 	// 부모 오브젝트가 있다면
+	// 월드좌표 방향은 부모에 영향받음
+	// 로컬은 그대로
 	if (GetOwner()->GetParent())
 	{
 		const Matrix& matParentWorld = GetOwner()->GetParent()->Transform()->GetWorldMat();

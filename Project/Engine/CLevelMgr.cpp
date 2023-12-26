@@ -23,7 +23,8 @@ CLevelMgr::CLevelMgr()
 
 CLevelMgr::~CLevelMgr()
 {
-
+	if (nullptr != m_CurLevel)
+		delete m_CurLevel;
 }
 
 void CLevelMgr::init()
@@ -81,12 +82,17 @@ void CLevelMgr::init()
 	pChildObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
 	pObj->AddChild(pChildObj);
+
+	m_CurLevel->AddObject(pObj, 0, false);
 }
 
 void CLevelMgr::tick()
 {
 	if (nullptr == m_CurLevel)
 		return;
+
+	// 이전 프레임에 등록된 오브젝트들 clear
+	m_CurLevel->clear();
 
 	m_CurLevel->tick();
 	m_CurLevel->finaltick();

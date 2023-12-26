@@ -21,6 +21,8 @@ private:
 
     CGameObject*            m_Parent;
 
+    int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
+
 public:
     void begin();
     void tick();
@@ -37,11 +39,14 @@ public:
 
     CGameObject* GetParent() { return m_Parent; }
     void DisconnectWithParent();
+    void DisconnectWithLayer();
+
     void AddChild(CGameObject* _Child);
 
 public:
     CGameObject();
     ~CGameObject();
 
+    friend class CLayer;
 };
 

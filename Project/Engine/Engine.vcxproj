@@ -194,12 +194,14 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLevelMgr.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CMeshRender.h" />
+    <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CRenderComponent.h" />
     <ClInclude Include="CScript.h" />
     <ClInclude Include="CShader.h" />
+    <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTransform.h" />
@@ -233,11 +235,13 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CLevelMgr.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CMeshRender.cpp" />
+    <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CRenderComponent.cpp" />
     <ClCompile Include="CScript.cpp" />
     <ClCompile Include="CShader.cpp" />
+    <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTransform.cpp" />
@@ -248,6 +252,7 @@ call EngineCopy.bat</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="func.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

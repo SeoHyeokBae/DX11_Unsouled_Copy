@@ -112,6 +112,9 @@
     <Filter Include="06. Asset\Sound">
       <UniqueIdentifier>{ce207cc7-b6bb-4294-84ba-82b8e5ca82e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Manager\TaskMgr">
+      <UniqueIdentifier>{ae9acf56-f0dc-4f55-8234-c7ea14e325e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -216,6 +219,10 @@
     <ClInclude Include="CTexture.h">
       <Filter>06. Asset\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="CTaskMgr.h">
+      <Filter>04. Manager\TaskMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissileScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -302,6 +309,13 @@
     <ClCompile Include="CTexture.cpp">
       <Filter>06. Asset\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="CTaskMgr.cpp">
+      <Filter>04. Manager\TaskMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>01. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissileScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

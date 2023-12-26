@@ -18,10 +18,16 @@ public:
 	void finaltick();
 	void render();
 
-	void AddObject(CGameObject* _Object, int _LayerIdx);
+	void AddObject(CGameObject* _Object, int _LayerIdx , bool _bChildeMove = true);
+	CLayer* GetLayer(int _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
+
+private:
+	void clear();
 
 public:
 	CLevel();
 	~CLevel();
+
+	friend class CLevelMgr;
 };
 
