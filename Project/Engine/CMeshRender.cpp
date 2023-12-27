@@ -6,6 +6,7 @@
 
 #include "CGameObject.h"
 #include "CTransform.h"
+#include "CMaterial.h"
 
 CMeshRender::CMeshRender()
 	:CRenderComponent(COMPONENT_TYPE::MESHRENDER)
@@ -18,9 +19,9 @@ CMeshRender::~CMeshRender()
 
 void CMeshRender::UpdateData()
 {
-	if (nullptr != GetShader())
+	if (nullptr != GetMaterial())
 	{
-		GetShader()->UpdateData();	//레이아웃, 토폴로지, 쉐이더 세팅
+		GetMaterial()->UpdateData();	//레이아웃, 토폴로지, 쉐이더 세팅
 	}
 
 	GetOwner()->Transform()->UpdateData();	// 상수버퍼 세팅
@@ -28,7 +29,7 @@ void CMeshRender::UpdateData()
 
 void CMeshRender::render()
 {
-	if (nullptr == GetMesh() || nullptr == GetShader())
+	if (nullptr == GetMesh() || nullptr == GetMaterial())
 		return;
 
 	UpdateData();

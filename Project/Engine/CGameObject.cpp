@@ -117,6 +117,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 		m_arrCom[(UINT)type] = _Component;
 		_Component->m_Owner = this;
 
+		// add 컴포넌트가 렌더컴포넌트면
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Component);
 		if (nullptr != pRenderCom)
 		{

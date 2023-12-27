@@ -3,8 +3,9 @@
 
 #include "CDevice.h"
 
-CConstBuffer::CConstBuffer()
+CConstBuffer::CConstBuffer(CB_TYPE _Type)
 	: m_Desc{}
+	, m_Type(_Type)
 {
 }
 
@@ -52,13 +53,13 @@ void CConstBuffer::SetData(void* _Src, UINT _ElementCount)
 	CONTEXT->Unmap(m_CB.Get(), 0);										// cpu 데이터를 gpu 데이터 메모리로 보냄
 }
 
-void CConstBuffer::UpdateData(UINT _RegisterNum)
+void CConstBuffer::UpdateData()
 {
 	// 상수버퍼 전달 (위치) (바인딩)
-	CONTEXT->VSSetConstantBuffers(_RegisterNum, 1, m_CB.GetAddressOf());
-	CONTEXT->HSSetConstantBuffers(_RegisterNum, 1, m_CB.GetAddressOf());
-	CONTEXT->DSSetConstantBuffers(_RegisterNum, 1, m_CB.GetAddressOf());
-	CONTEXT->GSSetConstantBuffers(_RegisterNum, 1, m_CB.GetAddressOf());
-	CONTEXT->PSSetConstantBuffers(_RegisterNum, 1, m_CB.GetAddressOf());
+	CONTEXT->VSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->HSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->DSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->GSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->PSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 }
 

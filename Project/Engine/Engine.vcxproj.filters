@@ -231,6 +231,9 @@
     <ClInclude Include="CGC.h">
       <Filter>04. Manager\CGC</Filter>
     </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>06. Asset\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -328,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="CGC.cpp">
       <Filter>04. Manager\CGC</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterial.cpp">
+      <Filter>06. Asset\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
