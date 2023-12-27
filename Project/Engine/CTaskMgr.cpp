@@ -38,8 +38,22 @@ void CTaskMgr::tick()
 			break;
 		case TASK_TYPE::DELETE_OBJECT:
 		{
-			//CObj* pDeadObj = (CObj*)m_vecTask[i].Param_1;
-			//pDeadObj->SetDead();
+			CGameObject* pDeadObj = (CGameObject*)m_vecTask[i].Param_1;
+			list<CGameObject*> queue;
+			queue.push_back(pDeadObj);
+			while (!queue.empty())
+			{
+				CGameObject* pObject = queue.front();
+				queue.pop_front();
+
+				pObject->m_bDead = true;
+
+				for (size_t i = 0; i < pObject->m_vecChild.size(); ++i)
+				{
+					queue.push_back(pObject->m_vecChild[i]);
+				}
+			}
+
 		}
 			break;
 		case TASK_TYPE::LEVEL_CHANGE:

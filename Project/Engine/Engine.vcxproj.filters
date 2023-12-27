@@ -115,6 +115,9 @@
     <Filter Include="04. Manager\TaskMgr">
       <UniqueIdentifier>{ae9acf56-f0dc-4f55-8234-c7ea14e325e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Manager\CGC">
+      <UniqueIdentifier>{a4ae5bd3-27b4-44d5-aecc-cd15b81fc1ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -222,7 +225,12 @@
     <ClInclude Include="CTaskMgr.h">
       <Filter>04. Manager\TaskMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CMissileScript.h" />
+    <ClInclude Include="CMissileScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CGC.h">
+      <Filter>04. Manager\CGC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -315,7 +323,12 @@
     <ClCompile Include="func.cpp">
       <Filter>01. Header</Filter>
     </ClCompile>
-    <ClCompile Include="CMissileScript.cpp" />
+    <ClCompile Include="CMissileScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CGC.cpp">
+      <Filter>04. Manager\CGC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

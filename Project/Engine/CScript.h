@@ -16,6 +16,9 @@ private:
     UINT    m_iScriptType;
 
 public:
+    void Destroy();
+
+public:
     virtual void finaltick() final {} // script는 tick에서 동작 finaltick 은 상수버퍼
 
 public:

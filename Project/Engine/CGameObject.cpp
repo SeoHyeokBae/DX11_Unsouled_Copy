@@ -9,6 +9,7 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
+#include "CTaskMgr.h"
 
 
 
@@ -17,6 +18,7 @@ CGameObject::CGameObject()
 	, m_RenderCom(nullptr)
 	, m_Parent(nullptr)
 	, m_iLayerIdx(-1) // 어떠한 레벨(레이어) 소속되어 있지 않다
+	, m_bDead(false)
 {
 }
 

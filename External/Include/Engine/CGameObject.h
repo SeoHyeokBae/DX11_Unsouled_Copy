@@ -23,6 +23,8 @@ private:
 
     int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
 
+    bool                    m_bDead;
+
 public:
     void begin();
     void tick();
@@ -42,11 +44,13 @@ public:
     void DisconnectWithLayer();
 
     void AddChild(CGameObject* _Child);
+    bool IsDead() { return m_bDead; }
 
 public:
     CGameObject();
     ~CGameObject();
 
     friend class CLayer;
+    friend class CTaskMgr;
 };
 
