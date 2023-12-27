@@ -4,6 +4,8 @@
 // 4096 크기제한
 cbuffer TRANSFORM : register(b0)
 {
+    // GPU는 세로 방향으로 행렬을 읽어드림
+    // row_major는 가로 방향으로 우선
     row_major Matrix g_matWorld;
     row_major Matrix g_matWorldInv;
 
@@ -21,6 +23,7 @@ Texture2D g_tex_0 : register(t0);
 
 // 샘플러 : 텍스쳐 자원의 데이터를 뽑아냄
 SamplerState g_sam_0 : register(s0);
+SamplerState g_sam_1 : register(s1);
 
 struct VS_IN
 {
@@ -52,7 +55,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
 {
     //픽셀 쉐이더에서 리턴값을 정점으로 할때 픽셀정점의 값은 넣어준 정점값으로 선형보간된다
     
-    float4 vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    float4 vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
     
     //if (vColor.a <= 0.1f)
     //{
