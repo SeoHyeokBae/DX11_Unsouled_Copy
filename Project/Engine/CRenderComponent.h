@@ -1,22 +1,22 @@
 #pragma once
 #include "CComponent.h"
 
-class CMesh;
-class CMaterial;
+#include "CMesh.h"
+#include "CMaterial.h"
 
 class CRenderComponent :
     public CComponent
 {
 private:
-    CMesh*               m_Mesh;
-    CMaterial*           m_Mtrl;
+    Ptr<CMesh>               m_Mesh;
+    Ptr<CMaterial>           m_Mtrl;
 
 public:
-    void SetMesh(CMesh* _Mesh) { m_Mesh = _Mesh; }
-    void SetMaterial(CMaterial* _Mtrl) { m_Mtrl = _Mtrl; }
+    void SetMesh(Ptr<CMesh> _Mesh) { m_Mesh = _Mesh; }
+    void SetMaterial(Ptr<CMaterial> _Mtrl) { m_Mtrl = _Mtrl; }
 
-    CMesh* GetMesh() { return m_Mesh; }
-    CMaterial* GetMaterial() { return m_Mtrl; }
+    Ptr<CMesh> GetMesh() { return m_Mesh; }
+    Ptr<CMaterial> GetMaterial() { return m_Mtrl; }
 
 public:
     virtual void finaltick() {};

@@ -12,17 +12,7 @@ CAssetMgr::CAssetMgr()
 
 CAssetMgr::~CAssetMgr()
 {
-	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; i++)
-	{
-		for (auto const pair : m_mapAsset[i])
-		{
-			if (nullptr != pair.second)
-			{
-				delete pair.second;
-			}
-		}
-		m_mapAsset[i].clear();
-	}
+
 }
 
 void CAssetMgr::init()
@@ -112,7 +102,7 @@ void CAssetMgr::init()
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);		// 레스터라이저 스테이트 타입 선택
 	pShader->SetDSType(DS_TYPE::LESS);			// 뎁스스텐실 스테이트 타입 선택
-	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);	// 알파블렌드 스테이트 타입 선택
+	pShader->SetBSType(BS_TYPE::DEFAULT);	// 알파블렌드 스테이트 타입 선택
 
 	AddAsset(L"Std2DShader", pShader);
 
