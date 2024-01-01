@@ -124,6 +124,20 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         }
     }
     
+    if (g_btex_1)
+    {
+        vColor = g_tex_1.Sample(g_sam_1, _in.vUV);
+        
+        //saturate 0 ~ 1 을 넘지 않게 보정
+        float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
+        
+        if (fAlpha < 0.1f)
+        {
+            // 픽셀 쉐이더를 중간에 폐기처리
+            discard; //clip(-1);            
+        }
+    }
+    
     //픽셀 쉐이더에서 리턴값을 정점으로 할때 픽셀정점의 값은 넣어준 정점값으로 선형보간된다
     //if (vColor.a <= 0.1f)
     //{

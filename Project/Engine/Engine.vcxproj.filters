@@ -118,6 +118,9 @@
     <Filter Include="04. Manager\CGC">
       <UniqueIdentifier>{a4ae5bd3-27b4-44d5-aecc-cd15b81fc1ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Manager\RenderMgr">
+      <UniqueIdentifier>{0e48bbda-e5fe-4bb1-ade6-137522313098}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -237,6 +240,9 @@
     <ClInclude Include="Ptr.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
+    <ClInclude Include="CRenderMgr.h">
+      <Filter>04. Manager\RenderMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -337,6 +343,12 @@
     </ClCompile>
     <ClCompile Include="CMaterial.cpp">
       <Filter>06. Asset\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderMgr_Init.cpp">
+      <Filter>04. Manager\RenderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderMgr.cpp">
+      <Filter>04. Manager\RenderMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

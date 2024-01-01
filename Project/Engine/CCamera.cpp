@@ -4,6 +4,12 @@
 #include "CDevice.h"
 #include "CTransform.h"
 
+#include "CRenderMgr.h"
+#include "CLevelMgr.h"
+#include "CLevel.h"
+#include "CLayer.h"
+#include "CGameObject.h"
+
 CCamera::CCamera()
 	: CComponent(COMPONENT_TYPE::CAMERA)
 	, m_ProjType(PROJ_TYPE::ORTHOGRAPHIC)
@@ -20,6 +26,8 @@ CCamera::CCamera()
 CCamera::~CCamera()
 {
 }
+
+
 
 void CCamera::finaltick()
 {
@@ -61,4 +69,56 @@ void CCamera::finaltick()
 	// 계산한 view 행렬과 proj 행렬을 전역변수에 담아둔다
 	g_Transform.matView = m_matView;
 	g_Transform.matProj = m_matProj;
+}
+
+void CCamera::SetCameraPriority(int _Priority)
+{
+	CRenderMgr::GetInst()->RegisterCamera(this, _Priority);
+}
+
+void CCamera::LayerCheck(UINT _LayerIdx, bool _bCheck)
+{
+	if (_bCheck)
+	{
+		m_LayerCheck |= (1 << _LayerIdx);
+	}
+	else
+	{
+		m_LayerCheck &= ~(1 << _LayerIdx);
+	}
+}
+
+void CCamera::LayerCheck(const wstring& _strLayerName, bool _bCheck)
+{
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	CLayer* pLayer = pCurLevel->GetLayer(_strLayerName);
+
+	if (nullptr == pLayer)
+		return;
+
+	int idx = pLayer->GetLayerIdx();
+	LayerCheck(idx, _bCheck);
+}
+
+void CCamera::render()
+{
+	// 계산한 view 행렬과 proj 행렬을 전역변수에 담아둔다.
+	g_Transform.matView = m_matView;
+	g_Transform.matProj = m_matProj;
+
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+
+	for (int i = 0; i < LAYER_MAX; ++i)
+	{
+		// 카메라가 찍도록 설정된 Layer 가 아니면 무시
+		if (false == (m_LayerCheck & (1 << i)))
+			continue;
+
+		CLayer* pLayer = pCurLevel->GetLayer(i);
+		const vector<CGameObject*>& vecObjects = pLayer->GetLayerObjects();
+		for (size_t i = 0; i < vecObjects.size(); ++i)
+		{
+			vecObjects[i]->render();
+		}
+	}
 }

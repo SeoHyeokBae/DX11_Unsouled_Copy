@@ -125,4 +125,9 @@ void CAssetMgr::init()
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"Std2DMtrl", pMtrl);
+
+	// Std2DMtrl2 (potato)
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
+	AddAsset<CMaterial>(L"Std2DMtrl2", pMtrl);
 }
