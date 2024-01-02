@@ -3,8 +3,8 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CCamera.h"
+#include "CCollider2D.h"
 
-//#include "CCollider2D.h"
 //#include "CCollider3D.h"
 
 //#include "CAnimator2D.h"

@@ -5,9 +5,9 @@
 
 class CComponent;
 class CRenderComponent;
-
 class CScript;
 class CCamera;
+class CCollider2D;
 
 class CGameObject :
     public CEntity
@@ -35,9 +35,10 @@ public:
     void AddComponent(CComponent* _Component);
     CComponent* GetComponent(COMPONENT_TYPE _Type) { return m_arrCom[(UINT)_Type]; }
 
-    GET_COMPONENT(Transform, TRANSFORM); // Transform()
-    GET_COMPONENT(MeshRender, MESHRENDER); // MeshRnder()
-    GET_COMPONENT(Camera, CAMERA); // Camera()
+    GET_COMPONENT(Transform, TRANSFORM);     // Transform()
+    GET_COMPONENT(MeshRender, MESHRENDER);   // MeshRnder()
+    GET_COMPONENT(Camera, CAMERA);           // Camera()
+    GET_COMPONENT(Collider2D, COLLIDER2D);   // Collider2D()
 
     CGameObject* GetParent() { return m_Parent; }
     void DisconnectWithParent();

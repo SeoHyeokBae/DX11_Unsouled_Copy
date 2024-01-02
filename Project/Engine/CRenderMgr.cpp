@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CRenderMgr.h"
 
+#include "CTimeMgr.h"
+
 #include "CDevice.h"
 #include "CCamera.h"
 #include "CMeshRender.h"
@@ -47,15 +49,15 @@ void CRenderMgr::render_debug()
 	g_Transform.matProj = m_vecCam[0]->GetProjMat();
 
 	list<tDebugShapeInfo>::iterator iter = m_DbgShapeInfo.begin();
-	for (; iter != m_DbgShapeInfo.end(); ++iter)
+	for (; iter != m_DbgShapeInfo.end();)
 	{
 		switch ((*iter).eShape)
 		{
 		case DEBUG_SHAPE::RECT:
-			m_pDebugObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+			m_pDebugObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh_Debug"));
 			break;
 		case DEBUG_SHAPE::CIRCLE:
-			m_pDebugObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
+			m_pDebugObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh_Debug"));
 			break;
 		case DEBUG_SHAPE::CUBE:
 			m_pDebugObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));
@@ -68,10 +70,22 @@ void CRenderMgr::render_debug()
 		}
 
 		m_pDebugObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl"));
+		m_pDebugObj->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, (*iter).vColor);
+
 		m_pDebugObj->Transform()->SetWorldMat((*iter).matWorld);
 		m_pDebugObj->Transform()->UpdateData();
 
 		m_pDebugObj->render();
+
+		(*iter).fLifeTime += DT;
+		if ((*iter).fDuration <= (*iter).fLifeTime)
+		{
+			iter = m_DbgShapeInfo.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
 	}
 }
 

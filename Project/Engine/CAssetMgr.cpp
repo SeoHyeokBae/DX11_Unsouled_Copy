@@ -65,6 +65,16 @@ void CAssetMgr::CreateDefaultMesh()
 	pMesh->Create(arrVtx, 4, arrIdx, 6);
 	AddAsset(L"RectMesh", pMesh);
 
+	// Topology LineStrip 용도	
+	//   0(Red)-- 1(Blue)	     
+	//    |       |	     
+	//   3(G)---- 2(Magenta)   
+	arrIdx[0] = 0;	arrIdx[1] = 1;	arrIdx[2] = 2;	arrIdx[3] = 3; 	arrIdx[4] = 0;
+
+	pMesh = new CMesh;
+	pMesh->Create(arrVtx, 4, arrIdx, 5);
+	AddAsset(L"RectMesh_Debug", pMesh);
+
 	// =================
 	// CircleMesh 만들기
 	// =================
@@ -103,6 +113,19 @@ void CAssetMgr::CreateDefaultMesh()
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddAsset(L"CircleMesh", pMesh);
+
+	// CircleMesh_Debug
+	vecIdx.clear();
+	for (int i = 1; i < vecVtx.size(); ++i)
+	{
+		vecIdx.push_back(i);
+	}
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddAsset(L"CircleMesh_Debug", pMesh);
+	vecVtx.clear();
+	vecIdx.clear();
 }
 
 void CAssetMgr::CreateDefaultGraphicsShader()
@@ -118,7 +141,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);		// 레스터라이저 스테이트 타입 선택
 	pShader->SetDSType(DS_TYPE::LESS);			// 뎁스스텐실 스테이트 타입 선택
-	pShader->SetBSType(BS_TYPE::DEFAULT);	// 알파블렌드 스테이트 타입 선택
+	pShader->SetBSType(BS_TYPE::DEFAULT);	    // 알파블렌드 스테이트 타입 선택
 
 	AddAsset(L"Std2DShader", pShader);
 
@@ -143,8 +166,10 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->CreateVertexShader(L"shader\\debug.fx", "VS_DebugShape");
 	pShader->CreatePixelShader(L"shader\\debug.fx", "PS_DebugShape");
 
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 
 	AddAsset(L"DebugShapeShader", pShader);
 }

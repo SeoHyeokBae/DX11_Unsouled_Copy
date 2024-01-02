@@ -82,6 +82,17 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 	return S_OK;
 }
 
+int CGraphicsShader::CreateHullShader()
+{
+
+	return 0;
+}
+
+int CGraphicsShader::CreateGeometryShader()
+{
+	return 0;
+}
+
 int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const string& _strFuncName)
 {
 	wstring strContentPath = CPathMgr::GetContentPath();
