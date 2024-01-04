@@ -16,10 +16,11 @@ private:
     UINT    m_iScriptType;
 
 public:
-    void Destroy();
-
-public:
     virtual void finaltick() final {} // script는 tick에서 동작 finaltick 은 상수버퍼
+
+    virtual void BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider) {}
+    virtual void Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider) {}
+    virtual void EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider) {}
 
 public:
     CScript();
