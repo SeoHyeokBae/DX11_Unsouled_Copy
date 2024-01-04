@@ -24,7 +24,7 @@ void CMeshRender::UpdateData()
 		GetMaterial()->UpdateData();	//레이아웃, 토폴로지, 쉐이더 세팅
 	}
 
-	GetOwner()->Transform()->UpdateData();	// 상수버퍼 세팅
+	Transform()->UpdateData();	// 상수버퍼 세팅
 }
 
 void CMeshRender::render()

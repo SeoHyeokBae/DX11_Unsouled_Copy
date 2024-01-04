@@ -67,6 +67,11 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         }
     }
     
+    if (g_int_0)
+    {
+        vColor.r *= 2.f;
+    }
+    
     //픽셀 쉐이더에서 리턴값을 정점으로 할때 픽셀정점의 값은 넣어준 정점값으로 선형보간된다
     //if (vColor.a <= 0.1f)
     //{

@@ -81,4 +81,21 @@ void CPlayerScript::tick()
 		//GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), true, 3);
 		//GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
 	}
+
+	if (KEY_PRESSED(KEY::SPACE))
+	{
+		Ptr<CMaterial> pMtrl = MeshRender()->GetMaterial();
+		if (nullptr != pMtrl)
+		{
+			pMtrl->SetScalarParam(INT_0, 1);
+		}
+	}
+	else if (KEY_RELEASED(KEY::SPACE))
+	{
+		Ptr<CMaterial> pMtrl = MeshRender()->GetMaterial();
+		if (nullptr != pMtrl)
+		{
+			pMtrl->SetScalarParam(INT_0, 0);
+		}
+	}
 }
