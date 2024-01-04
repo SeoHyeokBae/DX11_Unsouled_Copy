@@ -83,7 +83,6 @@ void CLevelMgr::init()
 	pObj->AddComponent(new CTransform);
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CCollider2D);
-	pObj->AddComponent(new CAnimator2D);
 	pObj->AddComponent(new CPlayerScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 500.f));
@@ -99,6 +98,14 @@ void CLevelMgr::init()
 
 	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp");
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
+
+
+	pObj->AddComponent(new CAnimator2D);
+	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
+	pObj->Animator2D()->Create(L"Explosion", pAltasTex, Vec2(0.f, 520.f)
+		, Vec2(120.f, 130.f), Vec2(0.f, 0.f), 10, 24.f);
+
+	pObj->Animator2D()->Play(L"Explosion");
 
 	m_CurLevel->AddObject(pObj, L"Player", false);
 
@@ -121,8 +128,6 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	pObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.f);
 
-	//pObj->Animator2D()->Create(L"Explosion", , , );
-	//pObj->Animator2D()->Play(L"Explosion");
 
 	m_CurLevel->AddObject(pObj, L"Monster", false);
 

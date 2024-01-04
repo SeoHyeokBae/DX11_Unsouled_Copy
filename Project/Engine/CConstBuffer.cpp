@@ -55,7 +55,7 @@ void CConstBuffer::SetData(void* _Src, UINT _ElementCount)
 
 void CConstBuffer::UpdateData()
 {
-	// 상수버퍼 전달 (위치) (바인딩)
+	// 상수버퍼 전달 (위치:레지스터번호) (바인딩)
 	CONTEXT->VSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 	CONTEXT->HSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 	CONTEXT->DSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());

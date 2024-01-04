@@ -10,10 +10,22 @@ CAnimator2D::CAnimator2D()
 
 CAnimator2D::~CAnimator2D()
 {
+	Delete_Map(m_mapAnim);
 }
 
 void CAnimator2D::finaltick()
 {
+	m_CurAnim->finaltick();
+}
+
+void CAnimator2D::UpdateData()
+{
+	m_CurAnim->UpdateData();
+}
+
+void CAnimator2D::Clear()
+{
+	CAnim::Clear();
 }
 
 void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _LeftTop,
@@ -35,4 +47,13 @@ CAnim* CAnimator2D::FindAnim(const wstring& _strKey)
 		return nullptr;
 
 	return iter->second;
+}
+
+void CAnimator2D::Play(const wstring& _strAnimName)
+{
+	CAnim* pAnim = FindAnim(_strAnimName);
+	if (nullptr == pAnim)
+		return;
+
+	m_CurAnim = pAnim;
 }
