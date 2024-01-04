@@ -34,6 +34,13 @@ public:
     virtual void finaltick() override;
 
 public:
+    void BeginOverlap(CCollider2D* _OtherCollider);
+    void Overlap(CCollider2D* _OtherCollider);
+    void EndOverlap(CCollider2D* _OtherCollider);
+
+    const Matrix& GetColliderWorldMat() { return m_matColWorld; }
+
+public:
     CCollider2D();
     ~CCollider2D();
 };
