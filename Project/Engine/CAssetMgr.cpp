@@ -126,6 +126,32 @@ void CAssetMgr::CreateDefaultMesh()
 	AddAsset(L"CircleMesh_Debug", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
+
+	// =================
+	// CrossMesh ¸¸µé±â
+	// =================
+	v.vPos = Vec3(0.f, 0.5f, 0.f);
+	v.vUV = Vec2(0.f, 0.f);
+	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(0.f, -0.5f, 0.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(-0.5f, 0.f, 0.f);
+	vecVtx.push_back(v);
+
+	v.vPos = Vec3(0.5f, 0.f, 0.f);
+	vecVtx.push_back(v);
+
+	vecIdx.push_back(0); vecIdx.push_back(1);
+	vecIdx.push_back(2); vecIdx.push_back(3);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddAsset(L"CrossMesh", pMesh);
+	vecVtx.clear();
+	vecIdx.clear();
 }
 
 void CAssetMgr::CreateDefaultGraphicsShader()
@@ -172,6 +198,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 
 	AddAsset(L"DebugShapeShader", pShader);
+
 }
 
 void CAssetMgr::CreateDefaultMaterial()
