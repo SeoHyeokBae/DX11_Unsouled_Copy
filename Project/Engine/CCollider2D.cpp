@@ -41,15 +41,17 @@ void CCollider2D::finaltick()
 		m_matColWorld *= matObjWorld;
 	}
 
-
+	Vec3 Pos = m_matColWorld.Translation();
 	// 충돌중이면 Red, 충돌하고 있지 않으면 Green
 	if (0 == m_CollisionCount)
 	{
 		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
+		GamePlayStatic::DrawDebugCircle(Pos,100.f, Vec3(0.f, 1.f, 0.f), false);
 	}
 	else
 	{
 		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
+		GamePlayStatic::DrawDebugCircle(Pos, 100.f, Vec3(1.f, 0.f, 0.f), false);
 	}
 }
 

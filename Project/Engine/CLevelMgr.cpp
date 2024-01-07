@@ -102,8 +102,8 @@ void CLevelMgr::init()
 
 	pObj->AddComponent(new CAnimator2D);
 	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
-	pObj->Animator2D()->Create(L"Explosion", pAltasTex, Vec2(0.f, 520.f)
-		, Vec2(120.f, 130.f), Vec2(0.f, 0.f), 10, 24.f);
+	pObj->Animator2D()->Create(L"Explosion", pAltasTex, Vec2(0.f, 390.f)
+		, Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 1);
 
 	pObj->Animator2D()->Play(L"Explosion");
 

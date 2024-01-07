@@ -34,6 +34,7 @@ void CAnim::finaltick()
 	}
 }
 
+// finaltick 에서 Idx 증가
 void CAnim::UpdateData()
 {
 	// 현재 프레임 정보를 상수버퍼로 옮기고 b2 레지스터로 바인딩
@@ -43,6 +44,7 @@ void CAnim::UpdateData()
 	data.vLeftTop = m_vecFrm[m_CurFrmIdx].vLeftTop;
 	data.vOffset = m_vecFrm[m_CurFrmIdx].vOffset;
 	data.vSliceSize = m_vecFrm[m_CurFrmIdx].vSlice;
+	data.vBackGround = m_vecFrm[m_CurFrmIdx].vBackground;
 
 	pCB->SetData(&data);
 	pCB->UpdateData();
@@ -61,7 +63,7 @@ void CAnim::Clear()
 	pCB->UpdateData();
 }
 
-void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vOffset, int _FrmCount, float _FPS)
+void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _FrmCount, float _FPS)
 {
 	m_Animator = _Animator;
 	m_AtlasTex = _Atlas;
@@ -76,6 +78,12 @@ void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop,
 		frm.vOffset = Vec2(_vOffset.x / (float)_Atlas->GetWidth(), _vOffset.y / (float)_Atlas->GetHeight());
 		frm.Duration = 1.f / _FPS;
 
+		frm.vBackground = Vec2(_vBackground.x / (float)_Atlas->GetWidth(), _vBackground.y / (float)_Atlas->GetHeight());
+
 		m_vecFrm.push_back(frm);
 	}
+
+	// 1번프레임 offset 조정
+	//m_vecFrm[1].vOffset.x = 5.0f / (float)_Atlas->GetWidth();
+
 }
