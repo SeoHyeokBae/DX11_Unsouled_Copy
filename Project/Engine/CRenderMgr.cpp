@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "CRenderMgr.h"
 
-#include "CTimeMgr.h"
+#include "CStructuredBuffer.h"
 
+#include "CTimeMgr.h"
 #include "CDevice.h"
 #include "CCamera.h"
 #include "CMeshRender.h"
