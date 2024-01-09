@@ -9,8 +9,8 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
-#include "CTaskMgr.h"
 
+#include "CGC.h"
 
 
 CGameObject::CGameObject()
@@ -37,6 +37,11 @@ void CGameObject::begin()
 		{
 			m_arrCom[i]->begin();
 		}
+	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->begin();
 	}
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)

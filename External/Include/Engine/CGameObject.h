@@ -8,6 +8,7 @@ class CRenderComponent;
 class CScript;
 class CCamera;
 class CCollider2D;
+class CLight2D;
 
 class CGameObject :
     public CEntity
@@ -40,6 +41,7 @@ public:
     GET_COMPONENT(Camera, CAMERA);           // Camera()
     GET_COMPONENT(Collider2D, COLLIDER2D);   // Collider2D()
     GET_COMPONENT(Animator2D, ANIMATOR2D);   // Animator2D()
+    GET_COMPONENT(Light2D, LIGHT2D);       
 
     CGameObject* GetParent() { return m_Parent; }
 

@@ -24,7 +24,7 @@ public:
         Vec2 _SliceSize, Vec2 _OffsetSize, Vec2 _Background, int _FrmCount, float _FPS);
 
     CAnim* FindAnim(const wstring& _strAnimName);
-    void Play(const wstring& _strAnimName);
+    void Play(const wstring& _strAnimName, bool _bRepeat = true);
 
 public:
     CAnimator2D();

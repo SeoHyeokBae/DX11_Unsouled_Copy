@@ -5,13 +5,13 @@
 
 #include "CTimeMgr.h"
 #include "CDevice.h"
-#include "CCamera.h"
-#include "CMeshRender.h"
 #include "CAssetMgr.h"
-#include "CTransform.h"
+#include "components.h"
 
 CRenderMgr::CRenderMgr()
-	: m_pDebugObj(nullptr)
+	: m_Light2DBuffer(nullptr)
+	, m_pDebugObj(nullptr)
+	, m_DebugPosition(true)
 {
 
 }
@@ -29,9 +29,15 @@ void CRenderMgr::tick()
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
+	// Light2D update
+	UpdateData();
+
 	render();
 
 	render_debug();
+
+	// Light2D clear
+	Clear();
 
 	CDevice::GetInst()->Present();
 }
@@ -101,6 +107,29 @@ void CRenderMgr::render_debug()
 			++iter;
 		}
 	}
+}
+
+void CRenderMgr::UpdateData()
+{
+	// 광원의 Info만 따로 저장
+	static vector<tLightInfo> vecLight2DInfo;
+
+	for (size_t i = 0; i < m_vecLight2D.size(); i++)
+	{
+		const tLightInfo& info = m_vecLight2D[i]->GetLightInfo();
+		vecLight2DInfo.push_back(info);
+	}
+
+	// Light2D info 데이터를 구조화버퍼에 전달
+	m_Light2DBuffer->SetData(vecLight2DInfo.data(), vecLight2DInfo.size());
+	m_Light2DBuffer->UpdateData(11);
+
+	vecLight2DInfo.clear();
+}
+
+void CRenderMgr::Clear()
+{
+	m_vecLight2D.clear();
 }
 
 void CRenderMgr::RegisterCamera(CCamera* _Cam, int _Idx)

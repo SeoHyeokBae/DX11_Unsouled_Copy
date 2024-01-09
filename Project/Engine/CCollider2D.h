@@ -19,6 +19,7 @@ private:
     Matrix          m_matColWorld;
     COLLIDER2D_TYPE m_Type;
 
+
 public:
     void SetAbsolute(bool _bAbsol) { m_bAbsolute = _bAbsol; }
     void SetOffsetPos(Vec2 _vOffset) { m_vOffsetPos = Vec3(_vOffset.x, _vOffset.y, 0.f); }

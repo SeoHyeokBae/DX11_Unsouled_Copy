@@ -51,22 +51,31 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
             || vUV.y < g_vLeftTop.y || (g_vLeftTop.y + g_vSliceSize.y) < vUV.y)
         {
             //vColor = float4(1.f, 1.f, 0.f, 1.f);
-           // discard;
+            discard;
         }
         else
         {
             vColor = g_anim2d_tex.Sample(g_sam_1, vUV);
+        }
+        
+        
+        // background 제거
+        float fAlpha = vColor.a;
+        if (fAlpha < 0.1f)
+        {
+            // 픽셀 쉐이더를 중간에 폐기처리
+            discard; //clip(-1);            
         }
     }
     else
     {
         if (g_btex_0)
         {
-            //vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+            vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
             
             // StructedBuffer 예시
-            vColor = g_Data[2];
-            vColor.a = 1.f;
+           // vColor = g_Data[2];
+           // vColor.a = 1.f;
         
             //saturate 0 ~ 1 을 넘지 않게 보정
             float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
@@ -84,15 +93,10 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         vColor.r *= 2.f;
     }
     
-    //픽셀 쉐이더에서 리턴값을 정점으로 할때 픽셀정점의 값은 넣어준 정점값으로 선형보간된다
-    //if (vColor.a <= 0.1f)
-    //{
-    //    vColor.rgba = float4(1.f, 0.f, 0.f, 1.f);
-    //}
-    
-    //float Aver = (vColor.r + vColor.g + vColor.b) / 3.f;
-    //vColor.rgb = float3(Aver, Aver, Aver);    
-    //vColor.a = 1.f;
+    // 광원 처리
+    // 광원의 타입별 처리
+    // 광원이 여러개일 때 처리
+    vColor.rgb *= g_Light2D[0].vAmbient.rgb;
     
     return vColor;
 }

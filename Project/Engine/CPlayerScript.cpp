@@ -14,30 +14,52 @@ CPlayerScript::~CPlayerScript()
 {
 }
 
+void CPlayerScript::begin()
+{
+	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
+	Animator2D()->Create(L"IDLE_UP", pAltasTex, Vec2(0.f, 260.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 1, 10);
+	Animator2D()->Create(L"IDLE_DOWN", pAltasTex, Vec2(0.f, 0.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
+	Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
+	Animator2D()->Create(L"IDLE_RIGHT", pAltasTex, Vec2(0.f, 390.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
+
+	Animator2D()->Create(L"MOVE_UP", pAltasTex, Vec2(0.f, 780.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
+	Animator2D()->Create(L"MOVE_DOWN", pAltasTex, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
+	Animator2D()->Create(L"MOVE_LEFT", pAltasTex, Vec2(0.f, 650.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
+	Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
+}
+
 void CPlayerScript::tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
 
 	if (KEY_PRESSED(KEY::UP))
-	{
 		vPos.y += DT * m_Speed;
-	}
+	if (KEY_TAP(KEY::UP))
+		Animator2D()->Play(L"MOVE_UP");
+	if (KEY_RELEASED(UP))
+		Animator2D()->Play(L"IDLE_UP");
 
 	if (KEY_PRESSED(KEY::DOWN))
-	{
 		vPos.y -= DT * m_Speed;
-	}
+	if (KEY_TAP(KEY::DOWN))
+		Animator2D()->Play(L"MOVE_DOWN");
+	if (KEY_RELEASED(DOWN))
+		Animator2D()->Play(L"IDLE_DOWN");
 
 	if (KEY_PRESSED(KEY::LEFT))
-	{
 		vPos.x -= DT * m_Speed;
-	}
+	if (KEY_TAP(KEY::LEFT))
+		Animator2D()->Play(L"MOVE_LEFT");
+	if (KEY_RELEASED(LEFT))
+		Animator2D()->Play(L"IDLE_LEFT");
 
 	if (KEY_PRESSED(KEY::RIGHT))
-	{
 		vPos.x += DT * m_Speed;
-	}
+	if (KEY_TAP(KEY::RIGHT))
+		Animator2D()->Play(L"MOVE_RIGHT");
+	if (KEY_RELEASED(RIGHT))
+		Animator2D()->Play(L"IDLE_RIGHT");
 
 	// Rotation
 	if (KEY_PRESSED(KEY::X))
