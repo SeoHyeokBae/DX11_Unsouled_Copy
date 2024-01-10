@@ -32,6 +32,7 @@ void CPlayerScript::tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
+	float fFlashAngle = Light2D()->GetAngle();
 
 	if (KEY_PRESSED(KEY::UP))
 		vPos.y += DT * m_Speed;
@@ -80,6 +81,19 @@ void CPlayerScript::tick()
 	Transform()->SetRelativePos(vPos);
 	Transform()->SetRelativeRotation(vRot);
 
+
+	if (KEY_PRESSED(KEY::F))
+	{
+		fFlashAngle += DT * 50.f;
+	}
+	
+	if (KEY_PRESSED(KEY::G))
+	{
+		fFlashAngle -= DT * 50.f;
+	}
+
+	Light2D()->SetAngle(fFlashAngle);
+
 	if (KEY_TAP(KEY::SPACE))
 	{
 		GetOwner()->Destroy();
@@ -104,22 +118,6 @@ void CPlayerScript::tick()
 		//GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
 	}
 
-	if (KEY_PRESSED(KEY::SPACE))
-	{
-		Ptr<CMaterial> pMtrl = MeshRender()->GetMaterial();
-		if (nullptr != pMtrl)
-		{
-			pMtrl->SetScalarParam(INT_0, 1);
-		}
-	}
-	else if (KEY_RELEASED(KEY::SPACE))
-	{
-		Ptr<CMaterial> pMtrl = MeshRender()->GetMaterial();
-		if (nullptr != pMtrl)
-		{
-			pMtrl->SetScalarParam(INT_0, 0);
-		}
-	}
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

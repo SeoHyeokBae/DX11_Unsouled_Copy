@@ -79,29 +79,30 @@ void CLevelMgr::init()
 
 	// 광원 추가
 	CGameObject* pLight = new CGameObject;
-	pLight->AddComponent(new CTransform);
-	pLight->AddComponent(new CMeshRender);
-	pLight->AddComponent(new CLight2D);
+	//pLight->AddComponent(new CTransform);
+	//pLight->AddComponent(new CMeshRender);
+	//pLight->AddComponent(new CLight2D);
 
-	pLight->Light2D()->SetLightType(LIGHT_TYPE::POINT);
-	pLight->Light2D()->SetLightColor(Vec3(1.f, 0.3f, 0.3f));
-	pLight->Light2D()->SetRadius(300.f);
+	//pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	//pLight->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
+	////pLight->Light2D()->SetRadius(300.f);
 	//pLight->Light2D()->SetAmbient(Vec3(0.3f, 0.3f, 0.3f));
-	pLight->Transform()->SetRelativePos(Vec3(-200.f, 0.f, 200.f));
-	m_CurLevel->AddObject(pLight, L"Light");
+	//pLight->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+	//m_CurLevel->AddObject(pLight, L"Light");
 
 	// 두번째 광원 추가
-	pLight = new CGameObject;
-	pLight->AddComponent(new CTransform);
-	pLight->AddComponent(new CMeshRender);
-	pLight->AddComponent(new CLight2D);
+	//pLight = new CGameObject;
+	//pLight->AddComponent(new CTransform);
+	//pLight->AddComponent(new CMeshRender);
+	//pLight->AddComponent(new CLight2D);
 
-	pLight->Light2D()->SetLightType(LIGHT_TYPE::POINT);
-	pLight->Light2D()->SetLightColor(Vec3(0.3f, 0.3f, 1.f));
-	pLight->Light2D()->SetRadius(300.f);
+	//pLight->Light2D()->SetLightType(LIGHT_TYPE::SPOT);
+	//pLight->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
+	//pLight->Light2D()->SetRadius(300.f);
+	//pLight->Light2D()->SetAngle(60.f);
 
-	pLight->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
-	m_CurLevel->AddObject(pLight, L"Light");
+	//pLight->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
+	//m_CurLevel->AddObject(pLight, L"Light");
 
 
 	// Player Object 생성
@@ -149,6 +150,12 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
+
+	pObj->AddComponent(new CLight2D);
+	pObj->Light2D()->SetLightType(LIGHT_TYPE::SPOT);
+	pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
+	pObj->Light2D()->SetRadius(300.f);
+	pObj->Light2D()->SetAngle(60.f);
 
 	//pObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.f);
 	//Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp");

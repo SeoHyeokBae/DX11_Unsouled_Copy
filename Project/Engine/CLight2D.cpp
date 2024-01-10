@@ -19,6 +19,10 @@ void CLight2D::finaltick()
 	Vec3 vWorldPos = Transform()->GetWorldPos();
 	m_Info.vWorldPos = vWorldPos;
 
+	m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
+
+	//float aa = acos(cos((160.f) * (3.141592 / 180.f)));
+
 	// ±¤¿ø µî·Ï
 	CRenderMgr::GetInst()->RegisterLight2D(this);
 }

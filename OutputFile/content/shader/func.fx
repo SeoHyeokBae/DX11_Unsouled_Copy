@@ -46,6 +46,35 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
         // 내적을 활용, 각도 체크
         // 간단한 영상 찍어서 올리기
         // 광원을 회전시키기
+        
+        // info. 방향 / info. 각도
+        // 물체와 광원 = cos(angle)보다 크거나 같으면 그려줌
+        
+        float fAttenu = 1.f;
+        
+        
+        float halfangle = info.fAngle / 2.f;
+            
+        float2 disdir = normalize(_WorldPos.xy - info.vWorldPos.xy);
+        float3 disvec = _WorldPos - info.vWorldPos;
+            
+        float centerdis = dot(disvec.xy, info.vWorldDir.xy);
+            
+        float lightAngle = degrees(acos(dot(disdir, info.vWorldDir.xy)));
+            
+        if (centerdis < 0.f || centerdis > info.fRadius ) // 거리를 벗어남
+            fAttenu = 0.f;
+        else if (lightAngle > halfangle)
+            fAttenu = 0.f;
+        else
+        {
+            float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
+
+            float fTheta = (fDist / info.fRadius) * (PI / 2.f);
+            fAttenu = saturate(cos(fTheta));
+        }
+            
+            _output.vColor += info.Color.vColor * fAttenu;
     }
 }
 
