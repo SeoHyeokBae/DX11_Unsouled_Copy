@@ -183,16 +183,7 @@ bool CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 			return false;
 		}
 	}
-
-
-	//// 원충돌 추후 100.f 하드코딩 반지름 불러오는 방식으로
-	//float fCenterDist = abs(vCenter.Length());
-
-	//if (100.f < fCenterDist)
-	//{
-	//	return false;
-	//}
-
+	
 	// 4번의 테스트동안 분리할 수 없었다.
 	return true;
 }

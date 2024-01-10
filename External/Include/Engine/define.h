@@ -10,6 +10,7 @@
 
 #define KEY_CHECK(Key, State) CKeyMgr::GetInst()->GetKeyState(Key) == State
 #define DT	CTimeMgr::GetInst()->GetDeltaTime()
+#define DTd	CTimeMgr::GetInst()->GetDeltaTime_d()
 
 #define KEY_TAP(Key) KEY_CHECK(Key, TAP)
 #define KEY_PRESSED(Key) KEY_CHECK(Key, PRESSED)
@@ -185,3 +186,4 @@ enum class LIGHT_TYPE
 	POINT,
 	SPOT,
 };
+

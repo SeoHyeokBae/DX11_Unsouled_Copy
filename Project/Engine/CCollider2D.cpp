@@ -45,13 +45,17 @@ void CCollider2D::finaltick()
 	// 충돌중이면 Red, 충돌하고 있지 않으면 Green
 	if (0 == m_CollisionCount)
 	{
-		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
-		GamePlayStatic::DrawDebugCircle(Pos,100.f, Vec3(0.f, 1.f, 0.f), false);
+		if (m_Type == COLLIDER2D_TYPE::RECT)
+			GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
+		if (m_Type == COLLIDER2D_TYPE::CIRCLE)
+			GamePlayStatic::DrawDebugCircle(Pos,100.f, Vec3(0.f, 1.f, 0.f), false);
 	}
 	else
 	{
-		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
-		GamePlayStatic::DrawDebugCircle(Pos, 100.f, Vec3(1.f, 0.f, 0.f), false);
+		if (m_Type == COLLIDER2D_TYPE::RECT)
+			GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
+		if (m_Type == COLLIDER2D_TYPE::CIRCLE)
+			GamePlayStatic::DrawDebugCircle(Pos, 100.f, Vec3(1.f, 0.f, 0.f), false);
 	}
 }
 

@@ -12,7 +12,7 @@ struct tLightInfo
     float fRadius; // 광원의 영향 반경, 거리 정보
     float fAngle; // 광원의 범위 각도
 
-    int LightType; // 광원 타입
+    int LightType; // 광원 타입 (0 : Directional, 1 : Point, 2 : Spot)
     float3 vPadding;
 };
 

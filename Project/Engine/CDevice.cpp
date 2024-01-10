@@ -150,6 +150,8 @@ int CDevice::CreateSwapChain()
 		return E_FAIL;
 	}
 
+	// 전역 데이터에 렌더링 해상도 기록
+	g_global.g_RenderResolution = m_vRenderResolution;
 
 	return S_OK;
 }
@@ -412,6 +414,9 @@ int CDevice::CreateConstBuffer()
 
 	m_arrCB[(UINT)CB_TYPE::ANIM2D_DATA] = new CConstBuffer(CB_TYPE::ANIM2D_DATA);
 	m_arrCB[(UINT)CB_TYPE::ANIM2D_DATA]->Create(sizeof(tAnimData2D), 1);
+
+	m_arrCB[(UINT)CB_TYPE::GLOBAL_DATA] = new CConstBuffer(CB_TYPE::GLOBAL_DATA);
+	m_arrCB[(UINT)CB_TYPE::GLOBAL_DATA]->Create(sizeof(tGlobalData), 1);
 
 	return S_OK;
 }

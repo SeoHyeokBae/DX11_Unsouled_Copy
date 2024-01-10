@@ -82,9 +82,10 @@ void CLevelMgr::init()
 	pLight->AddComponent(new CMeshRender);
 	pLight->AddComponent(new CLight2D);
 
-	pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLight->Light2D()->SetLightType(LIGHT_TYPE::POINT);
 	pLight->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
-	pLight->Light2D()->SetAmbient(Vec3(0.3f, 0.3f, 0.3f));
+	pLight->Light2D()->SetRadius(300.f);
+	//pLight->Light2D()->SetAmbient(Vec3(0.3f, 0.3f, 0.3f));
 
 	pLight->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
 	m_CurLevel->AddObject(pLight, L"Light");
@@ -134,6 +135,7 @@ void CLevelMgr::init()
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
