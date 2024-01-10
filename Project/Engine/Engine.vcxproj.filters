@@ -270,6 +270,9 @@
     <ClInclude Include="CLight2D.h">
       <Filter>08. Component\06. Light2D</Filter>
     </ClInclude>
+    <ClInclude Include="CBackgroundScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -395,6 +398,9 @@
     <ClCompile Include="CLight2D.cpp">
       <Filter>08. Component\06. Light2D</Filter>
     </ClCompile>
+    <ClCompile Include="CBackgroundScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -412,6 +418,9 @@
       <Filter>ShaderCode</Filter>
     </FxCompile>
     <FxCompile Include="struct.fx">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="func.fx">
       <Filter>ShaderCode</Filter>
     </FxCompile>
   </ItemGroup>

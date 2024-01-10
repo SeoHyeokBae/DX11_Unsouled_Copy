@@ -3,6 +3,8 @@
 
 #include "struct.fx"
 
+#define PI 3.1415926535f
+
 // 4096 크기제한
 cbuffer TRANSFORM : register(b0)
 {
