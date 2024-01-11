@@ -44,37 +44,52 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
     {
         // Point Light 거의 유사
         // 내적을 활용, 각도 체크
-        // 간단한 영상 찍어서 올리기
-        // 광원을 회전시키기
+        // 점과 광원과의 내적으로 사이각을구함
+        // cos(theta) -> acos(cos(theta)) = theta
+        // degrees(theta) : 사이각라디안을 도로 변환
         
-        // info. 방향 / info. 각도
-        // 물체와 광원 = cos(angle)보다 크거나 같으면 그려줌
         
         float fAttenu = 1.f;
         
+        float HalfAngle = info.fAngle / 2.f;
         
-        float halfangle = info.fAngle / 2.f;
-            
-        float2 disdir = normalize(_WorldPos.xy - info.vWorldPos.xy);
-        float3 disvec = _WorldPos - info.vWorldPos;
-            
-        float centerdis = dot(disvec.xy, info.vWorldDir.xy);
-            
-        float lightAngle = degrees(acos(dot(disdir, info.vWorldDir.xy)));
-            
-        if (centerdis < 0.f || centerdis > info.fRadius ) // 거리를 벗어남
-            fAttenu = 0.f;
-        else if (lightAngle > halfangle)
-            fAttenu = 0.f;
-        else
-        {
-            float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
+        // 점과의 거리벡터, 방향벡터
+        float2 TargetDir = normalize(_WorldPos.xy - info.vWorldPos.xy);
+        float3 TargetVector = _WorldPos - info.vWorldPos;
+        
+        // 광원과 점과의 거리
+        float CenterDis = dot(TargetVector.xy, info.vWorldDir.xy);
+        
+        // 광원과 점과의 각도
+        float LightAngle = degrees(acos(dot(TargetDir, info.vWorldDir.xy)));
+        
+        // case 2 180도각도까지만 가능
+        //if (CenterDis < 0.f || CenterDis > info.fRadius ) // 거리를 벗어남
+        //    fAttenu = 0.f;
+        //else if (LightAngle > HalfAngle)
+        //    fAttenu = 0.f;
+        //else
+        //{
+        //    float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
 
-            float fTheta = (fDist / info.fRadius) * (PI / 2.f);
-            fAttenu = saturate(cos(fTheta));
-        }
+        //    float fTheta = (fDist / info.fRadius) * (PI / 2.f);
+        //    fAttenu = saturate(cos(fTheta));
+        //}
             
-            _output.vColor += info.Color.vColor * fAttenu;
+        //    _output.vColor += info.Color.vColor * fAttenu;
+        
+        // case 1 360도 가능
+        float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
+        if (fDist < info.fRadius)
+        {
+            if (LightAngle < HalfAngle)
+            {
+                float fTheta = (fDist / info.fRadius) * (PI / 2.f);
+                fAttenu = saturate(cos(fTheta));
+                _output.vColor += info.Color.vColor * fAttenu;
+            }
+            
+        }
     }
 }
 

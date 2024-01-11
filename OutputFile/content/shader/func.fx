@@ -52,7 +52,6 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
         
         float fAttenu = 1.f;
         
-        
         float halfangle = info.fAngle / 2.f;
             
         float2 disdir = normalize(_WorldPos.xy - info.vWorldPos.xy);
@@ -62,19 +61,31 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
             
         float lightAngle = degrees(acos(dot(disdir, info.vWorldDir.xy)));
             
-        if (centerdis < 0.f || centerdis > info.fRadius ) // 거리를 벗어남
-            fAttenu = 0.f;
-        else if (lightAngle > halfangle)
-            fAttenu = 0.f;
-        else
-        {
-            float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
+        //if (centerdis < 0.f || centerdis > info.fRadius ) // 거리를 벗어남
+        //    fAttenu = 0.f;
+        //else if (lightAngle > halfangle)
+        //    fAttenu = 0.f;
+        //else
+        //{
+        //    float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
 
-            float fTheta = (fDist / info.fRadius) * (PI / 2.f);
-            fAttenu = saturate(cos(fTheta));
-        }
+        //    float fTheta = (fDist / info.fRadius) * (PI / 2.f);
+        //    fAttenu = saturate(cos(fTheta));
+        //}
             
-            _output.vColor += info.Color.vColor * fAttenu;
+        //    _output.vColor += info.Color.vColor * fAttenu;
+        
+        float fDist = distance(info.vWorldPos.xy, _WorldPos.xy);
+        if (fDist < info.fRadius)
+        {
+            if (lightAngle < halfangle)
+            {
+                float fTheta = (fDist / info.fRadius) * (PI / 2.f);
+                fAttenu = saturate(cos(fTheta));
+                _output.vColor += info.Color.vColor * fAttenu;
+            }
+            
+        }
     }
 }
 
