@@ -33,6 +33,7 @@ void CPlayerScript::tick()
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
 	float fFlashAngle = Light2D()->GetAngle();
+	float fRadius = Light2D()->GetRadius();
 
 	if (KEY_PRESSED(KEY::UP))
 		vPos.y += DT * m_Speed;
@@ -92,7 +93,18 @@ void CPlayerScript::tick()
 		fFlashAngle -= DT * 50.f;
 	}
 
+	if (KEY_PRESSED(KEY::Q))
+	{
+		fRadius += DT * 100.f;
+	}
+
+	if (KEY_PRESSED(KEY::E))
+	{
+		fRadius -= DT * 100.f;
+	}
+
 	Light2D()->SetAngle(fFlashAngle);
+	Light2D()->SetRadius(fRadius);
 
 	if (KEY_TAP(KEY::SPACE))
 	{
