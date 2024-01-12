@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CTexture.h"
+
 class CConstBuffer;
 
 // Directx11 ±‚¡ÿ GPU ¡¶æÓ 
@@ -18,8 +20,7 @@ private:
 	ComPtr<ID3D11Texture2D>			m_RTTex;     // ∑ª¥ı≈∏∞Ÿ ≈ÿΩ∫√ƒ
 	ComPtr<ID3D11RenderTargetView>	m_RTView;    // ∑ª¥ı≈∏∞Ÿ ∫‰
 
-	ComPtr<ID3D11Texture2D>			m_DSTex;	 // âXΩ∫ Ω∫≈ŸΩ« ≈ÿΩ∫√ƒ	
-	ComPtr<ID3D11DepthStencilView>	m_DSView;	// âXΩ∫ Ω∫≈ŸΩ« ∫‰
+	Ptr<CTexture>					m_DSTex;
 
 	HWND							m_hRenderWnd;
 	Vec2							m_vRenderResolution;

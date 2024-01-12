@@ -133,7 +133,10 @@ void CRenderMgr::UpdateData()
 	}
 
 	// Light2D info 데이터를 구조화버퍼에 전달
-	m_Light2DBuffer->SetData(vecLight2DInfo.data(), vecLight2DInfo.size());
+	if (!vecLight2DInfo.empty())
+	{
+		m_Light2DBuffer->SetData(vecLight2DInfo.data(), (UINT)vecLight2DInfo.size());
+	}
 	m_Light2DBuffer->UpdateData(11);
 
 	vecLight2DInfo.clear();

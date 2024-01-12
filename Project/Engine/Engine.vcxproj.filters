@@ -130,6 +130,12 @@
     <Filter Include="03. Device\StructuredBuffer">
       <UniqueIdentifier>{c796f081-77bd-47a8-a8a8-8dbfb894a070}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShaderCode\Util">
+      <UniqueIdentifier>{bbd2839e-7693-4adb-8765-2a803e38fc3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderCode\Render">
+      <UniqueIdentifier>{f3170ad9-0ec7-4f1c-8291-f38404d21c85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -408,20 +414,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="std2d.fx">
-      <Filter>ShaderCode</Filter>
-    </FxCompile>
-    <FxCompile Include="value.fx">
-      <Filter>ShaderCode</Filter>
-    </FxCompile>
     <FxCompile Include="debug.fx">
-      <Filter>ShaderCode</Filter>
+      <Filter>ShaderCode\Render</Filter>
     </FxCompile>
-    <FxCompile Include="struct.fx">
-      <Filter>ShaderCode</Filter>
+    <FxCompile Include="std2d.fx">
+      <Filter>ShaderCode\Render</Filter>
     </FxCompile>
     <FxCompile Include="func.fx">
-      <Filter>ShaderCode</Filter>
+      <Filter>ShaderCode\Util</Filter>
+    </FxCompile>
+    <FxCompile Include="struct.fx">
+      <Filter>ShaderCode\Util</Filter>
+    </FxCompile>
+    <FxCompile Include="value.fx">
+      <Filter>ShaderCode\Util</Filter>
+    </FxCompile>
+    <FxCompile Include="postprocess.fx">
+      <Filter>ShaderCode\Render</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -189,23 +189,32 @@ void CLevelMgr::init()
 	m_CurLevel->AddObject(pObj, L"Monster", false);
 
 	// UI object 생성
-	//pObj = new CGameObject;
-	//pObj->SetName(L"UI");
+	pObj = new CGameObject;
+	pObj->SetName(L"UI");
 
-	//pObj->AddComponent(new CTransform);
-	//pObj->AddComponent(new CMeshRender);
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
 
-	//pObj->Transform()->SetRelativePos(Vec3(-590, 310.f, 500.f));
-	//pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
+	pObj->Transform()->SetRelativePos(Vec3(-590, 310.f, 500.f));
+	pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
 
 
-	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 
-	////pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\mil.jpg");
-	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
+	m_CurLevel->AddObject(pObj, L"UI", false);
 
-	//m_CurLevel->AddObject(pObj, L"UI", false);
+	// PostProcess 오브젝트 추가
+	pObj = new CGameObject;
+	pObj->SetName(L"GrayFilter");
+
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
+
+	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"GrayFilterMtrl"));
+
+	m_CurLevel->AddObject(pObj, L"Default", false);
 
 	m_CurLevel->begin();
 }
