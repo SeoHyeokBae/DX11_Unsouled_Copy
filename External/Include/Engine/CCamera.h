@@ -30,6 +30,12 @@ private:
 
 	UINT		m_LayerCheck;
 
+	// 물체 분류
+	vector<CGameObject*>    m_vecOpaque;
+	vector<CGameObject*>    m_vecMaked;
+	vector<CGameObject*>    m_vecTransparent;
+	vector<CGameObject*>    m_vecPostProcess;
+
 public:
 	PROJ_TYPE GetProjType() { return m_ProjType; }
 	void SetProjType(PROJ_TYPE _Type) { m_ProjType = _Type; }
@@ -50,7 +56,12 @@ public:
 
 public:
     virtual void finaltick() override;
+
+	void SortObject();
 	void render();
+
+private:
+	void render(vector<CGameObject*>& _vecObj);
 
 public:
     CCamera();
