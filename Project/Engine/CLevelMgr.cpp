@@ -79,16 +79,14 @@ void CLevelMgr::init()
 
 	// 광원 추가
 	CGameObject* pLight = new CGameObject;
-	//pLight->AddComponent(new CTransform);
-	//pLight->AddComponent(new CMeshRender);
-	//pLight->AddComponent(new CLight2D);
+	pLight->SetName(L"Directional Light");
+	pLight->AddComponent(new CTransform);
+	pLight->AddComponent(new CMeshRender);
+	pLight->AddComponent(new CLight2D);
 
-	//pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	//pLight->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
-	////pLight->Light2D()->SetRadius(300.f);
-	//pLight->Light2D()->SetAmbient(Vec3(0.3f, 0.3f, 0.3f));
-	//pLight->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
-	//m_CurLevel->AddObject(pLight, L"Light");
+	pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLight->Light2D()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
+	m_CurLevel->AddObject(pLight, L"Light");
 
 	// 두번째 광원 추가
 	//pLight = new CGameObject;
@@ -130,8 +128,6 @@ void CLevelMgr::init()
 
 	// Player Object 생성
 	pObj = new CGameObject;
-
-	pObj = new CGameObject;
 	pObj->SetName(L"Player");
 
 	pObj->AddComponent(new CTransform);
@@ -151,17 +147,11 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
 
-	pObj->AddComponent(new CLight2D);
-	pObj->Light2D()->SetLightType(LIGHT_TYPE::SPOT);
-	pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
-	pObj->Light2D()->SetRadius(300.f);
-	pObj->Light2D()->SetAngle(60.f);
-
-	//pObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.f);
-	//Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp");
-	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
-
-
+	//pObj->AddComponent(new CLight2D);
+	//pObj->Light2D()->SetLightType(LIGHT_TYPE::SPOT);
+	//pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
+	//pObj->Light2D()->SetRadius(300.f);
+	//pObj->Light2D()->SetAngle(60.f);
 
 	m_CurLevel->AddObject(pObj, L"Player", false);
 
@@ -204,16 +194,32 @@ void CLevelMgr::init()
 
 	m_CurLevel->AddObject(pObj, L"UI", false);
 
-	// PostProcess 오브젝트 추가
+	// GrayFilter 후처리
+	//pObj = new CGameObject;
+	//pObj->SetName(L"GrayFilter");
+
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CMeshRender);
+	//
+	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"GrayFilterMtrl"));
+
+	//m_CurLevel->AddObject(pObj, L"Default", false);
+
+	// Distortin 후처리
 	pObj = new CGameObject;
-	pObj->SetName(L"GrayFilter");
+	pObj->SetName(L"Distortion Object");
 
 	pObj->AddComponent(new CTransform);
 	pObj->AddComponent(new CMeshRender);
 
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"GrayFilterMtrl"));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+	pObj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 
+	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DistortionMtrl"));
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"NoiseTex", L"texture\\noise\\noise_03.jpg"));
+		
 	m_CurLevel->AddObject(pObj, L"Default", false);
 
 	m_CurLevel->begin();

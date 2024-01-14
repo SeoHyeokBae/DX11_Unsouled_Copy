@@ -20,8 +20,15 @@ void CRenderMgr::init()
 	m_pDebugObj->AddComponent(new CMeshRender);
 
 	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
-	m_PostProcessTex = CAssetMgr::GetInst()->CreateTexture((UINT)vRenderResolution.x
+	m_PostProcessTex = CAssetMgr::GetInst()->CreateTexture(L"PostProcessTex"
+														 ,(UINT)vRenderResolution.x
 														 , (UINT)vRenderResolution.y
 														 , DXGI_FORMAT_R8G8B8A8_UNORM
 														 , D3D11_BIND_SHADER_RESOURCE);
+}
+
+void CRenderMgr::CopyRenderTargetToPostProcessTarget()
+{
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
 }

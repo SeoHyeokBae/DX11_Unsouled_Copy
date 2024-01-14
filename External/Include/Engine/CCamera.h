@@ -62,6 +62,7 @@ public:
 
 private:
 	void render(vector<CGameObject*>& _vecObj);
+	void render_postprocess();
 
 public:
     CCamera();

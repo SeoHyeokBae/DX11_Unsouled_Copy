@@ -99,6 +99,9 @@ Texture2D g_anim2d_tex : register(t10);
 StructuredBuffer<tLightInfo> g_Light2D : register(t11);
 StructuredBuffer<tLightInfo> g_Light3D : register(t12);
 
+// 후처리용 텍스처 레지스터
+Texture2D g_postprocess : register(t13);
+
 // 샘플러 : 텍스쳐 자원의 데이터를 뽑아냄
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);
