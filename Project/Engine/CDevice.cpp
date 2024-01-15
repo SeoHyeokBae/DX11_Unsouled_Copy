@@ -190,8 +190,7 @@ int CDevice::CreateTargetView()
 
 
 
-	// OM(Output Merge State) 에 RenderTargetTexture 와 DepthStencilTexture 를 전달한다.
-	m_Context->OMSetRenderTargets(1, m_RTTex->GetRTV().GetAddressOf(), m_DSTex->GetDSV().Get());
+
 
 	return S_OK;
 }
