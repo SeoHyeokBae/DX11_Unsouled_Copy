@@ -8,8 +8,14 @@
     <Filter Include="Default">
       <UniqueIdentifier>{19d367c1-23f9-4af8-a9ab-52040f40287a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui">
+    <Filter Include="Default\ImGui">
       <UniqueIdentifier>{7ecd1163-e8da-493d-b3bd-ca8280d7b708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGuiMgr">
+      <UniqueIdentifier>{f51ee61a-5db4-4124-80ee-7e30039f5c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{40b2c8ac-13b2-44d8-8cb7-d038ca6db4a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,28 +32,37 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_dx11.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_win32.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_internal.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_rectpack.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_textedit.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="CImGuiMgr.h">
+      <Filter>ImGuiMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,29 +79,36 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Default</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_impl_win32.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_demo.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_tables.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_dx11.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Default\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="CImGuiMgr.cpp">
+      <Filter>ImGuiMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="UI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
