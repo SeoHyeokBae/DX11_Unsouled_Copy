@@ -11,7 +11,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CAsset.h>
 
-class TransformUI;
+class ComponentUI;
 
 class Inspector :
     public UI
@@ -20,7 +20,7 @@ private:
     CGameObject*    m_TargetObject;
     Ptr<CAsset>     m_TargetAsset;
 
-    TransformUI*    m_TransformUI;
+    ComponentUI*    m_arrComUI[(UINT)COMPONENT_TYPE::END];
 
 public:
     virtual void tick() override;

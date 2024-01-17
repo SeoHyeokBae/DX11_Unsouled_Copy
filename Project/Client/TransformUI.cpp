@@ -4,9 +4,10 @@
 #include <Engine/CTransform.h>
 
 TransformUI::TransformUI()
-	: UI("Tarnsform", "##Transform")
-	, m_TargetObject(nullptr)
+	: ComponentUI("Tarnsform", "##Transform", COMPONENT_TYPE::TRANSFORM)
 {
+	SetSize(ImVec2(0.f, 100.f));
+	SetComponentTitle("Transform");
 }
 
 
@@ -16,12 +17,14 @@ TransformUI::~TransformUI()
 
 void TransformUI::render_update()
 {
-	if (nullptr == m_TargetObject)
+	if (nullptr == GetTargetObject())
 		return;
 
-	Vec3 vPos = m_TargetObject->Transform()->GetRelativePos();
-	Vec3 vScale = m_TargetObject->Transform()->GetRelativeScale();
-	Vec3 vRot = m_TargetObject->Transform()->GetRelativeRotation();
+	ComponentUI::render_update();
+
+	Vec3 vPos = GetTargetObject()->Transform()->GetRelativePos();
+	Vec3 vScale = GetTargetObject()->Transform()->GetRelativeScale();
+	Vec3 vRot = GetTargetObject()->Transform()->GetRelativeRotation();
 	vRot.ToDegree();
 
 	ImGui::InputFloat3("Relative Position", vPos);
@@ -30,7 +33,7 @@ void TransformUI::render_update()
 
 	// Input시 수정 가능하게
 	vRot.ToRadian();
-	m_TargetObject->Transform()->SetRelativePos(vPos);
-	m_TargetObject->Transform()->SetRelativeScale(vScale);
-	m_TargetObject->Transform()->SetRelativeRotation(vRot);
+	GetTargetObject()->Transform()->SetRelativePos(vPos);
+	GetTargetObject()->Transform()->SetRelativeScale(vScale);
+	GetTargetObject()->Transform()->SetRelativeRotation(vRot);
 }

@@ -8,6 +8,7 @@ private:
 	string			m_strName;
 	const string	m_strID;
 
+	ImVec2			m_vSize; 
 	bool			m_bActive;
 
 	// °èÃþ ±¸Á¶
@@ -19,6 +20,9 @@ public:
 	void SetName(const string& _name) { m_strName = _name; }
 	const string& GetName() { return m_strName; }
 	const string& GetID() { return m_strID; }
+
+	void SetSize(ImVec2 _Size) { m_vSize = _Size; }
+	ImVec2 GetSize() { return m_vSize; }
 
 	void AddChildUI(UI* _ChildUI)
 	{
@@ -41,6 +45,6 @@ public:
 
 public:
 	UI(const string& _strName, const string& _strID);
-	~UI();
+	virtual ~UI();
 };
 

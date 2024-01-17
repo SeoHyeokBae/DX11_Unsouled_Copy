@@ -38,7 +38,7 @@ void UI::render()
 
 	else // 하위 단계 UI 일시 BeginChild() ~ EndChild()
 	{
-		ImGui::BeginChild(string(m_strName + m_strID).c_str());
+		ImGui::BeginChild(string(m_strName + m_strID).c_str(),m_vSize);
 
 		render_update();	// 내용 채우기
 

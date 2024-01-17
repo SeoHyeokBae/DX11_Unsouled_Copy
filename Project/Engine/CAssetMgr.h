@@ -70,6 +70,7 @@ inline void CAssetMgr::AddAsset(const wstring& _strKey, T* _Asset)
     map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
     assert(iter == m_mapAsset[(UINT)Type].end());
 
+    _Asset->SetKey(_strKey);
     m_mapAsset[(UINT)Type].insert(make_pair(_strKey, _Asset));
 }
 

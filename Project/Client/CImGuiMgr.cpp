@@ -15,6 +15,7 @@
 
 
 CImGuiMgr::CImGuiMgr()
+    : m_bDemoUI(true)
 {
 
 }
@@ -103,6 +104,12 @@ void CImGuiMgr::tick()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
+    // DemoUI »ý¼º
+    if (m_bDemoUI)
+    {
+        ImGui::ShowDemoWindow(&m_bDemoUI);
+    }
 
     for (const auto& pair : m_mapUI)
     {
