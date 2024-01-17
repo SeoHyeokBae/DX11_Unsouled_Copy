@@ -1,10 +1,17 @@
 #include "pch.h"
 #include "Inspector.h"
 
+#include <Engine/CTransform.h>
+
+#include "TransformUI.h"
 
 Inspector::Inspector()
-	: UI("Inspector","##Inspector")
+	: UI("Inspector", "##Inspector")
+	, m_TargetObject(nullptr)
 {
+	// 자식 UI 생성
+	m_TransformUI = new TransformUI;
+	AddChildUI(m_TransformUI);
 }
 
 Inspector::~Inspector()
@@ -27,6 +34,8 @@ void Inspector::render_update()
 void Inspector::SetTargetObject(CGameObject* _Object)
 {
 	m_TargetObject = _Object;
+
+	m_TransformUI->SetTargetObject(_Object);
 }
 
 void Inspector::SetTargetAsset(Ptr<CAsset> _Asset)

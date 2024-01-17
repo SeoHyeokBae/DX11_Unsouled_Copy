@@ -10,10 +10,23 @@ private:
 
 	bool			m_bActive;
 
+	// °èÃþ ±¸Á¶
+	UI*				m_Parent;
+	vector<UI*>		m_vecChildUI;
+
+
 public:
 	void SetName(const string& _name) { m_strName = _name; }
 	const string& GetName() { return m_strName; }
 	const string& GetID() { return m_strID; }
+
+	void AddChildUI(UI* _ChildUI)
+	{
+		m_vecChildUI.push_back(_ChildUI);
+		_ChildUI->m_Parent = this;
+	}
+
+	UI* GetParentUI() { return m_Parent; }
 
 	void Activate() { m_bActive = true; }
 	void Deactivate() { m_bActive = false; }

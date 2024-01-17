@@ -26,6 +26,12 @@
     <Filter Include="UI\Outliner">
       <UniqueIdentifier>{c0541cfd-7ced-4851-b875-b6170320ba75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Inspector\AssetUI">
+      <UniqueIdentifier>{d03c8d05-7916-43f5-8f74-037617106bd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Inspector\ComponentUI">
+      <UniqueIdentifier>{e6abdbd3-d052-4873-8f3f-a9cb5e4c3248}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -82,6 +88,9 @@
     <ClInclude Include="Inspector.h">
       <Filter>UI\Inspector</Filter>
     </ClInclude>
+    <ClInclude Include="TransformUI.h">
+      <Filter>UI\Inspector\ComponentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -136,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="Inspector.cpp">
       <Filter>UI\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformUI.cpp">
+      <Filter>UI\Inspector\ComponentUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
