@@ -74,9 +74,9 @@ void CImGuiMgr::init(HWND _hMainWnd, ComPtr<ID3D11Device> _Device
 
 void CImGuiMgr::progress()
 {
-    tick();
+    //tick();
 
-    render();
+    //render();
 }
 
 void CImGuiMgr::tick()

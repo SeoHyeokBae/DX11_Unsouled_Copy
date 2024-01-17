@@ -23,13 +23,16 @@ CRenderMgr::~CRenderMgr()
 {
 	if (nullptr != m_pDebugObj)
 		delete m_pDebugObj;
+
+	if (nullptr != m_Light2DBuffer)
+		delete m_Light2DBuffer;
 }
 
 
 void CRenderMgr::tick()
 {
 	// 윈도우 화면 클리어
-	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
+	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 0.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
 	// Light2D update

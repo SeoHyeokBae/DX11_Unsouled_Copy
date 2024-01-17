@@ -45,7 +45,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     //uint height = 0;
     //g_tex_1.GetDimensions(width, height);
     
-    float4 vColor = float4(1.f, 0.f, 1.f, 1.f);
+    float4 vColor = float4(1.f, 0.f, 1.f, 0.f);
     
     if (g_UseAnim2D)
     {
@@ -64,14 +64,6 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
             vColor = g_anim2d_tex.Sample(g_sam_1, vUV);
         }
         
-        
-        // background Á¦°Å
-        float fAlpha = vColor.a;
-        if (fAlpha < 0.1f)
-        {
-            // ÇÈ¼¿ ½¦ÀÌ´õ¸¦ Áß°£¿¡ Æó±âÃ³¸®
-            discard; //clip(-1);            
-        }
     }
     else
     {
@@ -85,7 +77,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         
             if (fAlpha < 0.1f)
             {
-            // ÇÈ¼¿ ½¦ÀÌ´õ¸¦ Áß°£¿¡ Æó±âÃ³¸®
+                 // ÇÈ¼¿ ½¦ÀÌ´õ¸¦ Áß°£¿¡ Æó±âÃ³¸®
                 discard; //clip(-1);            
             }
         }
