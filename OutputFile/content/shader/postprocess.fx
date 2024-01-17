@@ -83,62 +83,79 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
     vColor = g_postprocess.Sample(g_sam_0, vScreenUV);
     
     // Shock Wave
-    float offset = (g_time - floor(g_time)) / g_time;
-    float CurrentTime = (g_time) * (offset);
+ //   float offset = (g_time - floor(g_time)) / g_time;
+ //   float CurrentTime = (g_time) * (offset);
     
-    float3 WaveParams = float3(10.0, 0.8, 0.1);
+ //   float3 WaveParams = float3(10.0, 0.8, 0.1);
     
-    //Use this if you want to place the centre with the mouse instead
-	//vec2 WaveCentre = vec2( iMouse.xy / iResolution.xy );
+ //   //Use this if you want to place the centre with the mouse instead
+	////vec2 WaveCentre = vec2( iMouse.xy / iResolution.xy );
        
-    float2 WaveCentre = float2(0.5, 0.5);
-    //WaveCentre = g_vec2_0 / g_RenderResolution;
-    float2 texCoord = vScreenUV;
-    float Dist = distance(texCoord, WaveCentre);
+ //   float2 WaveCentre = float2(0.5, 0.5);
+ //   //WaveCentre = g_vec2_0 / g_RenderResolution;
+ //   float2 texCoord = vScreenUV;
+ //   float Dist = distance(texCoord, WaveCentre);
     
-    float4 Color = g_postprocess.Sample(g_sam_0, texCoord);
+ //   float4 Color = g_postprocess.Sample(g_sam_0, texCoord);
     
-    if ((Dist <= ((CurrentTime) + (WaveParams.z))) &&
-	(Dist >= ((CurrentTime) - (WaveParams.z))))
-    {
-        //The pixel offset distance based on the input parameters
-        float Diff = (Dist - CurrentTime);
-        float ScaleDiff = (1.0 - pow(abs(Diff * WaveParams.x), WaveParams.y));
-        float DiffTime = (Diff * ScaleDiff);
+ //   if ((Dist <= ((CurrentTime) + (WaveParams.z))) &&
+	//(Dist >= ((CurrentTime) - (WaveParams.z))))
+ //   {
+ //       //The pixel offset distance based on the input parameters
+ //       float Diff = (Dist - CurrentTime);
+ //       float ScaleDiff = (1.0 - pow(abs(Diff * WaveParams.x), WaveParams.y));
+ //       float DiffTime = (Diff * ScaleDiff);
         
-        //The direction of the distortion
-        float2 DiffTexCoord = normalize(texCoord - WaveCentre);
+ //       //The direction of the distortion
+ //       float2 DiffTexCoord = normalize(texCoord - WaveCentre);
         
-        //Perform the distortion and reduce the effect over time
-        texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.0));
-        Color = g_postprocess.Sample(g_sam_0, texCoord);
+ //       //Perform the distortion and reduce the effect over time
+ //       texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.0));
+ //       Color = g_postprocess.Sample(g_sam_0, texCoord);
         
-        //Blow out the color and reduce the effect over time
-        Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.0);
-    }
+ //       //Blow out the color and reduce the effect over time
+ //       Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.0);
+ //   }
     
-    vColor = Color;
+ //   vColor = Color;
    /////////////     
-
     
-    // Outline
-    float2 pixelSize = (float2(1.f, 1.f) / g_RenderResolution);
+    //chromatic aberration
+    float amount = 0.0;
+	
+    amount = (1.0 + sin(g_time * 6.0)) * 0.5;
+    amount *= 1.0 + sin(g_time * 16.0) * 0.5;
+    amount *= 1.0 + sin(g_time * 19.0) * 0.5;
+    amount *= 1.0 + sin(g_time * 27.0) * 0.5;
+    amount = pow(amount, 3.0);
+
+    amount *= 0.05;
+	
+    float4 col;
+    col.r = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + amount, vScreenUV.y)).r;
+    col.g = g_postprocess.Sample(g_sam_0, vScreenUV).g;
+    col.b = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - amount, vScreenUV.y)).b;
+    
+    vColor = col;
+    
+    //// Outline
+    //float2 pixelSize = (float2(1.f, 1.f) / g_RenderResolution);
 
 
-    // uvÁÂÇ¥¿¡¼­ÀÇ ÇÈ¼¿ÀÇ Å©±â
-    float4 pixelUp = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y + pixelSize.y));
-    float4 pixelDown = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y - pixelSize.y));
-    float4 pixelRight = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + pixelSize.x, vScreenUV.y));
-    float4 pixelLeft = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - pixelSize.x, vScreenUV.y));
+    //// uvÁÂÇ¥¿¡¼­ÀÇ ÇÈ¼¿ÀÇ Å©±â
+    //float4 pixelUp = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y + pixelSize.y));
+    //float4 pixelDown = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y - pixelSize.y));
+    //float4 pixelRight = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + pixelSize.x, vScreenUV.y));
+    //float4 pixelLeft = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - pixelSize.x, vScreenUV.y));
                 		 
     
-    if (pixelUp.a != vColor.a ||
-        pixelDown.a != vColor.a ||
-        pixelRight.a != vColor.a ||
-        pixelLeft.a != vColor.a)
-    {
-        vColor.r += 1.0f;
-    }
+    //if (pixelUp.a != vColor.a ||
+    //    pixelDown.a != vColor.a ||
+    //    pixelRight.a != vColor.a ||
+    //    pixelLeft.a != vColor.a)
+    //{
+    //    vColor.r += 1.0f;
+    //}
     
 
     return vColor;
