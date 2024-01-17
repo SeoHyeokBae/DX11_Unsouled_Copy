@@ -119,43 +119,26 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
     
  //   vColor = Color;
    /////////////     
+   
     
-    //chromatic aberration
-    float amount = 0.0;
-	
-    amount = (1.0 + sin(g_time * 6.0)) * 0.5;
-    amount *= 1.0 + sin(g_time * 16.0) * 0.5;
-    amount *= 1.0 + sin(g_time * 19.0) * 0.5;
-    amount *= 1.0 + sin(g_time * 27.0) * 0.5;
-    amount = pow(amount, 3.0);
-
-    amount *= 0.05;
-	
-    float4 col;
-    col.r = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + amount, vScreenUV.y)).r;
-    col.g = g_postprocess.Sample(g_sam_0, vScreenUV).g;
-    col.b = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - amount, vScreenUV.y)).b;
-    
-    vColor = col;
-    
-    //// Outline
-    //float2 pixelSize = (float2(1.f, 1.f) / g_RenderResolution);
+    // Outline
+    float2 pixelSize = (float2(1.f, 1.f) / g_RenderResolution);
 
 
-    //// uvÁÂÇ¥¿¡¼­ÀÇ ÇÈ¼¿ÀÇ Å©±â
-    //float4 pixelUp = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y + pixelSize.y));
-    //float4 pixelDown = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y - pixelSize.y));
-    //float4 pixelRight = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + pixelSize.x, vScreenUV.y));
-    //float4 pixelLeft = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - pixelSize.x, vScreenUV.y));
+    // uvÁÂÇ¥¿¡¼­ÀÇ ÇÈ¼¿ÀÇ Å©±â
+    float4 pixelUp = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y + pixelSize.y));
+    float4 pixelDown = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y - pixelSize.y));
+    float4 pixelRight = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + pixelSize.x, vScreenUV.y));
+    float4 pixelLeft = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - pixelSize.x, vScreenUV.y));
                 		 
     
-    //if (pixelUp.a != vColor.a ||
-    //    pixelDown.a != vColor.a ||
-    //    pixelRight.a != vColor.a ||
-    //    pixelLeft.a != vColor.a)
-    //{
-    //    vColor.r += 1.0f;
-    //}
+    if (pixelUp.a != vColor.a ||
+        pixelDown.a != vColor.a ||
+        pixelRight.a != vColor.a ||
+        pixelLeft.a != vColor.a)
+    {
+        vColor.r += 1.0f;
+    }
     
 
     return vColor;
