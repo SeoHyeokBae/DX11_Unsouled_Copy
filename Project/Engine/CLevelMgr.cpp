@@ -207,19 +207,19 @@ void CLevelMgr::init()
 	//m_CurLevel->AddObject(pObj, L"Default", false);
 
 	// Distortin ÈÄÃ³¸®
-	pObj = new CGameObject;
-	pObj->SetName(L"Distortion Object");
+	//pObj = new CGameObject;
+	//pObj->SetName(L"Distortion Object");
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CMeshRender);
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CMeshRender);
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
-	pObj->Transform()->SetRelativeScale(Vec3(1500.f, 1500.f, 1.f));
+	//pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+	//pObj->Transform()->SetRelativeScale(Vec3(1500.f, 1500.f, 1.f));
 
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DistortionMtrl"));
-	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"NoiseTex", L"texture\\noise\\noise_03.jpg"));
-	//pObj->MeshRender()->GetMaterial()->SetScalarParam(VEC2_0, Vec2(500.f,0.f));
+	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DistortionMtrl"));
+	////pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"NoiseTex", L"texture\\noise\\noise_03.jpg"));
+	////pObj->MeshRender()->GetMaterial()->SetScalarParam(VEC2_0, Vec2(500.f,0.f));
 
 	m_CurLevel->AddObject(pObj, L"Default", false);
 

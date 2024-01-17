@@ -17,6 +17,15 @@
     <Filter Include="UI">
       <UniqueIdentifier>{40b2c8ac-13b2-44d8-8cb7-d038ca6db4a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Content">
+      <UniqueIdentifier>{2de6595f-3dd4-492a-bd04-eba92653a50f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Inspector">
+      <UniqueIdentifier>{23458cb1-7c72-4250-a909-1eef0caa5869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Outliner">
+      <UniqueIdentifier>{c0541cfd-7ced-4851-b875-b6170320ba75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -64,6 +73,15 @@
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Content.h">
+      <Filter>UI\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Outliner.h">
+      <Filter>UI\Outliner</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>UI\Inspector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -109,6 +127,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Content.cpp">
+      <Filter>UI\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Outliner.cpp">
+      <Filter>UI\Outliner</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>UI\Inspector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
