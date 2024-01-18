@@ -25,7 +25,15 @@ void MeshRenderUI::render_update()
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
 	Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial();
 
+	string meshname = ToString(pMesh->GetKey()).c_str();
+	string mtrlname = ToString(pMtrl->GetKey()).c_str();
 
-	ImGui::Text(ToString(pMesh->GetKey()).c_str());
-	ImGui::Text(ToString(pMtrl->GetKey()).c_str());
+	ImGui::Text("Mesh    ");
+	ImGui::SameLine();
+	ImGui::InputText("##MeshName", (char*)meshname.c_str(), meshname.length(), ImGuiInputTextFlags_ReadOnly);
+
+	ImGui::Text("Material");
+	ImGui::SameLine();
+	ImGui::InputText("##MtrlName", (char*)mtrlname.c_str(), mtrlname.length(), ImGuiInputTextFlags_ReadOnly);
+
 }
