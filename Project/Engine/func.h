@@ -17,8 +17,8 @@ namespace GamePlayStatic
 	//void DrawDebugSphere();
 }
 
-string ToString(const wstring* _str);
-wstring ToWString(const string* _str);   
+string ToString(const wstring& _str);
+wstring ToWString(const string& _str);   
 
 
 
