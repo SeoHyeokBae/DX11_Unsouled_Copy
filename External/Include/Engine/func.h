@@ -20,8 +20,6 @@ namespace GamePlayStatic
 string ToString(const wstring& _str);
 wstring ToWString(const string& _str);   
 
-
-
 template<typename T, UINT SIZE>
 void Delete_Array(T* (&Arr)[SIZE])
 {
