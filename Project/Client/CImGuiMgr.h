@@ -1,21 +1,23 @@
 #pragma once
 #include <Engine/singleton.h>
 
-#include "UI.h"
+typedef void (*CALL_BACK_0)(void);
+typedef void (*CALL_BACK_1)(DWORD_PTR);
+typedef void (*CALL_BACK_2)(DWORD_PTR, DWORD_PTR);
+
+class UI;
 
 class CImGuiMgr :
     public CSingleton<CImGuiMgr>
 {
     SINGLE(CImGuiMgr);
-
 private:
-    map<string, UI*>     m_mapUI;
+    map<string, UI*> m_mapUI;
 
-    bool                 m_bDemoUI;
+    bool             m_bDemoUI;
 
-public: 
-    void init(HWND _hMainWnd, ComPtr<ID3D11Device> _Device
-        , ComPtr<ID3D11DeviceContext> _Context);
+public:
+    void init(HWND _hMainWnd, ComPtr<ID3D11Device> _Device, ComPtr <ID3D11DeviceContext> _Context);
     void progress();
 
 private:
@@ -26,6 +28,5 @@ private:
 public:
     UI* FindUI(const string& _strUIName);
     void AddUI(const string& _strKey, UI* _UI);
-
 };
 

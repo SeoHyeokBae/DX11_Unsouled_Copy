@@ -7,6 +7,11 @@ class MeshRenderUI :
 public:
     virtual void render_update() override;
 
+
+
+public:
+    void MeshDBClicked();
+
 public:
     MeshRenderUI();
     ~MeshRenderUI();
