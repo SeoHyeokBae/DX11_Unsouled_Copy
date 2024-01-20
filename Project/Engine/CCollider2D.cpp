@@ -9,6 +9,7 @@ CCollider2D::CCollider2D()
 	: CComponent(COMPONENT_TYPE::COLLIDER2D)
 	, m_CollisionCount(0)
 	, m_bAbsolute(false)
+	, m_bVisible(false)
 	, m_Type(COLLIDER2D_TYPE::RECT)
 {
 }
@@ -41,21 +42,24 @@ void CCollider2D::finaltick()
 		m_matColWorld *= matObjWorld;
 	}
 
-	Vec3 Pos = m_matColWorld.Translation();
+	Vec3 Pos = m_matColWorld.Translation(); 
 	// 충돌중이면 Red, 충돌하고 있지 않으면 Green
-	if (0 == m_CollisionCount)
+	if (m_bVisible)
 	{
-		if (m_Type == COLLIDER2D_TYPE::RECT)
-			GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
-		if (m_Type == COLLIDER2D_TYPE::CIRCLE)
-			GamePlayStatic::DrawDebugCircle(Pos,100.f, Vec3(0.f, 1.f, 0.f), false);
-	}
-	else
-	{
-		if (m_Type == COLLIDER2D_TYPE::RECT)
-			GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
-		if (m_Type == COLLIDER2D_TYPE::CIRCLE)
-			GamePlayStatic::DrawDebugCircle(Pos, 100.f, Vec3(1.f, 0.f, 0.f), false);
+		if (0 == m_CollisionCount)
+		{
+			if (m_Type == COLLIDER2D_TYPE::RECT)
+				GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
+			if (m_Type == COLLIDER2D_TYPE::CIRCLE)
+				GamePlayStatic::DrawDebugCircle(Pos, 100.f, Vec3(0.f, 1.f, 0.f), false);
+		}
+		else
+		{
+			if (m_Type == COLLIDER2D_TYPE::RECT)
+				GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
+			if (m_Type == COLLIDER2D_TYPE::CIRCLE)
+				GamePlayStatic::DrawDebugCircle(Pos, 100.f, Vec3(1.f, 0.f, 0.f), false);
+		}
 	}
 }
 
