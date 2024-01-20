@@ -10,7 +10,8 @@ public:
 
 
 public:
-    void MeshDBClicked();
+    void MeshSelect(DWORD_PTR _ptr);
+    void MaterialSelect(DWORD_PTR _ptr);
 
 public:
     MeshRenderUI();

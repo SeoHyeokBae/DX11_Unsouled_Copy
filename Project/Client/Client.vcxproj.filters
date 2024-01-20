@@ -41,6 +41,15 @@
     <Filter Include="UI\4. ListUI">
       <UniqueIdentifier>{179b25b0-b0c2-44c0-a5a5-6a04e74b890e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\3. Inspector\ComponentUI\Animator2D">
+      <UniqueIdentifier>{ee9ab6a0-cce4-4005-b4e3-90b81de09219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\3. Inspector\ComponentUI\Collider2D">
+      <UniqueIdentifier>{470e8e8c-18f6-433d-81ea-5cf1aed18e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\3. Inspector\ComponentUI\Light2D">
+      <UniqueIdentifier>{2b66fd48-9450-4bf6-a758-e4f82caac878}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -109,6 +118,15 @@
     <ClInclude Include="ListUI.h">
       <Filter>UI\4. ListUI</Filter>
     </ClInclude>
+    <ClInclude Include="Light2DUI.h">
+      <Filter>UI\3. Inspector\ComponentUI\Light2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2DUI.h">
+      <Filter>UI\3. Inspector\ComponentUI\Collider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator2DUI.h">
+      <Filter>UI\3. Inspector\ComponentUI\Animator2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -175,6 +193,15 @@
     </ClCompile>
     <ClCompile Include="ListUI.cpp">
       <Filter>UI\4. ListUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2DUI.cpp">
+      <Filter>UI\3. Inspector\ComponentUI\Light2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2DUI.cpp">
+      <Filter>UI\3. Inspector\ComponentUI\Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator2DUI.cpp">
+      <Filter>UI\3. Inspector\ComponentUI\Animator2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
