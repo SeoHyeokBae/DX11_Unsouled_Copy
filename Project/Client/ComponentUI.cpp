@@ -17,11 +17,13 @@ void ComponentUI::render_update()
 {
 	// ComponentUI 공용 머리말
 	ImGui::Separator();	// 분리 줄
-
+	//const float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+	//bool node_open = ImGui::TreeNode("##");
+	//ImGui::SameLine(0.0f, spacing);
 	ImGui::PushID(0);
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));			// 버튼색
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));	// 버튼 마우스 위
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));	// 버튼 눌렀을 시 
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.6f, 0.6f, 0.6f));	// 버튼 마우스 위
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.6f, 0.6f, 0.6f));	// 버튼 눌렀을 시 
 																							// 모두 같은색으로 색효과만
 	ImGui::Button(m_ComponentTitle.c_str());
 

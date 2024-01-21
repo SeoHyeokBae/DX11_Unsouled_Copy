@@ -55,28 +55,15 @@ void Light2DUI::render_update()
 		// Spot일때 Light 방향 수정
 		if (2 == LightTypeEnum)
 		{
-			const char* items[] = { "RIGHT" , "LEFT", "UP", "DOWN" };
-			static int item_current_idx = 0;
-			const char* combo_preview_value = items[item_current_idx];
 			ImGui::Text("Dir        ");
 			ImGui::SameLine();
-			if (ImGui::BeginCombo("##DirCombo", combo_preview_value))
-			{
-				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-				{
-					const bool is_selected = (item_current_idx == n);
-					if (ImGui::Selectable(items[n], is_selected))
-					{
-						item_current_idx = n;
-						SelectDir(items[item_current_idx]);
-					}
+			enum Element { RIGHT,UP,LEFT,DOWN ,END};
+			static int elem = (int)GetTargetObject()->Light2D()->GetLightDir();
+			const char* elems_names[END] = { "RIGHT" , "UP", "LEFT", "DOWN" };
+			const char* elem_name = (elem >= 0 && elem < END) ? elems_names[elem] : "Unknown";
+			ImGui::SliderInt("##Dir enum", &elem, 0, END - 1, elem_name);
+			SelectDir(elems_names[elem]);
 
-					// 리스트 중 해당 항목이 클릭되면 하이라이트 걸어줌
-					if (is_selected)
-						ImGui::SetItemDefaultFocus();
-				}
-				ImGui::EndCombo();
-			}
 		}
 		// 반지름(크기) 수정 
 		float fRadius = TargetInfo.fRadius;
