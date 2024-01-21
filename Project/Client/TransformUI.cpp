@@ -46,4 +46,5 @@ void TransformUI::render_update()
 	bool bAbsolute = GetTargetObject()->Transform()->IsAbsolute();
 	ImGui::Text("Scale Absolute"); ImGui::SameLine(); ImGui::Checkbox("##TransformAbsolute", &bAbsolute);
 	GetTargetObject()->Transform()->SetAbsolute(bAbsolute);
+
 }

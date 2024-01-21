@@ -175,7 +175,6 @@
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collider2DUI.h" />
-    <ClInclude Include="ColorPickerUI.h" />
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="Content.h" />
     <ClInclude Include="framework.h" />
@@ -202,7 +201,6 @@
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
-    <ClCompile Include="ColorPickerUI.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="imgui.cpp" />

@@ -7,6 +7,7 @@
 CLight2D::CLight2D()
 	: CComponent(COMPONENT_TYPE::LIGHT2D)
 	, m_OffsetPos(Vec3(0.f, 0.f, 0.f))
+	, m_Dir(eLight2DDir::RIGHT)
 {
 }
 
@@ -20,7 +21,9 @@ void CLight2D::finaltick()
 	Vec3 vWorldPos = Transform()->GetWorldPos();
 	m_Info.vWorldPos = vWorldPos + m_OffsetPos;
 
-	m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
+	// 월드 방향을 LightInfo 멤버에 갱신
+	//m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
+	UpdateLightDir(m_Dir);
 
 	//float aa = acos(cos((160.f) * (3.141592 / 180.f)));
 
@@ -41,4 +44,17 @@ void CLight2D::SetRadius(float _Radius)
 void CLight2D::SetAngle(float _Angle)
 {
 	m_Info.fAngle = _Angle;
+}
+
+
+void CLight2D::UpdateLightDir(eLight2DDir _dir)
+{
+	if (eLight2DDir::RIGHT == _dir)
+		m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
+	else if (eLight2DDir::LEFT == _dir)
+		m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT) * -1.0f;
+	else if (eLight2DDir::UP == _dir)
+		m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::UP);
+	else if (eLight2DDir::DOWN == _dir)
+		m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::UP) * -1.0f;
 }
