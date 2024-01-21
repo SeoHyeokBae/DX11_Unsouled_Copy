@@ -77,30 +77,28 @@ void Light2DUI::render_update()
 				}
 				ImGui::EndCombo();
 			}
-
-			// 반지름(크기) 수정 
-			float fRadius = TargetInfo.fRadius;
-			ImGui::Text("Radius     ");
-			ImGui::SameLine(); ImGui::DragFloat("##Light2D Radius", &fRadius);
-			GetTargetObject()->Light2D()->SetRadius(fRadius);
-
-			// Spot일때 각도 수정 (최소 0 ~ 최대 360)
-			if (2 == LightTypeEnum)
-			{
-				static float slider_f = TargetInfo.fAngle;
-
-				ImGui::Text("Angle      "); ImGui::SameLine();
-				ImGui::SliderFloat("##Light2D Angle", &slider_f, 0.0f, 360.0f, "%.1f degree");
-				GetTargetObject()->Light2D()->SetAngle(slider_f);
-			}
-
-			// 라이트 색상 수정
-			ImGui::Text("LightColor "); ImGui::SameLine();
-			static ImVec4 lightcolor = ImVec4(TargetInfo.vColor.x, TargetInfo.vColor.y, TargetInfo.vColor.z, 0.f);
-			ImGui::ColorEdit3("##LightColor", (float*)&lightcolor);
-			GetTargetObject()->Light2D()->SetLightColor(Vec3(lightcolor.x, lightcolor.y, lightcolor.z));
-
 		}
+		// 반지름(크기) 수정 
+		float fRadius = TargetInfo.fRadius;
+		ImGui::Text("Radius     ");
+		ImGui::SameLine(); ImGui::DragFloat("##Light2D Radius", &fRadius);
+		GetTargetObject()->Light2D()->SetRadius(fRadius);
+
+		// Spot일때 각도 수정 (최소 0 ~ 최대 360)
+		if (2 == LightTypeEnum)
+		{
+			static float slider_f = TargetInfo.fAngle;
+
+			ImGui::Text("Angle      "); ImGui::SameLine();
+			ImGui::SliderFloat("##Light2D Angle", &slider_f, 0.0f, 360.0f, "%.1f degree");
+			GetTargetObject()->Light2D()->SetAngle(slider_f);
+		}
+
+		// 라이트 색상 수정
+		ImGui::Text("LightColor "); ImGui::SameLine();
+		static ImVec4 lightcolor = ImVec4(TargetInfo.vColor.x, TargetInfo.vColor.y, TargetInfo.vColor.z, 0.f);
+		ImGui::ColorEdit3("##LightColor", (float*)&lightcolor);
+		GetTargetObject()->Light2D()->SetLightColor(Vec3(lightcolor.x, lightcolor.y, lightcolor.z));
 	}
 }
 
