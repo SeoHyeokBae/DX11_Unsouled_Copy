@@ -6,6 +6,7 @@
 
 CLight2D::CLight2D()
 	: CComponent(COMPONENT_TYPE::LIGHT2D)
+	, m_OffsetPos(Vec3(0.f, 0.f, 0.f))
 {
 }
 
@@ -17,7 +18,7 @@ void CLight2D::finaltick()
 {
 	// 월드 위치값을 LightInfo 멤버에 갱신해 놓는다.
 	Vec3 vWorldPos = Transform()->GetWorldPos();
-	m_Info.vWorldPos = vWorldPos;
+	m_Info.vWorldPos = vWorldPos + m_OffsetPos;
 
 	m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
 

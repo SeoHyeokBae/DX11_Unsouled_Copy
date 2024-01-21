@@ -5,7 +5,7 @@ class CLight2D :
 {
 private:
     tLightInfo      m_Info;
-
+    Vec3            m_OffsetPos;
 
 public:
     virtual void finaltick() override;
@@ -21,11 +21,15 @@ public:
     Vec4 GetSpecular(Vec3 _vSpec) { return m_Info.vSpecular; }
     Vec4 GetAmbient(Vec3 _vAmb) { return m_Info.vAmbient; }
 
+
     void SetLightType(LIGHT_TYPE _type);
+    void SetOffset(Vec3 _vOffset) { m_OffsetPos = _vOffset; }
     void SetRadius(float _Radius);
     void SetAngle(float _Angle);
 
+
     LIGHT_TYPE GetLightType() { return (LIGHT_TYPE)m_Info.LightType; }
+    Vec3 GetOffsetPos() { return m_OffsetPos; }
     float GetRadius() { return m_Info.fRadius; }
     float GetAngle() { return m_Info.fAngle; }
 

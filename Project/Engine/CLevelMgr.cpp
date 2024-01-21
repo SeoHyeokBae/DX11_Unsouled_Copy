@@ -85,7 +85,7 @@ void CLevelMgr::init()
 	pLight->AddComponent(new CLight2D);
 
 	pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	pLight->Light2D()->SetAmbient(Vec3(0.8f, 0.8f, 0.8f));
+	pLight->Light2D()->SetAmbient(Vec3(0.3f, 0.3f, 0.3f));
 	m_CurLevel->AddObject(pLight, L"Light");
 
 	// 두번째 광원 추가
@@ -147,11 +147,11 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
 
-	//pObj->AddComponent(new CLight2D);
-	//pObj->Light2D()->SetLightType(LIGHT_TYPE::SPOT);
-	//pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
-	//pObj->Light2D()->SetRadius(300.f);
-	//pObj->Light2D()->SetAngle(60.f);
+	pObj->AddComponent(new CLight2D);
+	pObj->Light2D()->SetLightType(LIGHT_TYPE::SPOT);
+	pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
+	pObj->Light2D()->SetRadius(300.f);
+	pObj->Light2D()->SetAngle(60.f);
 
 	m_CurLevel->AddObject(pObj, L"Player", false);
 
