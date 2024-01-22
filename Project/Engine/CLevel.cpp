@@ -136,6 +136,18 @@ void CLevel::FindObjectsByName(const wstring& _strName, vector<CGameObject*>& _v
 	}
 }
 
+void CLevel::GetLayerName(vector<string>& _Out)
+{
+	for (UINT i = 0; i < LAYER_MAX; ++i)
+	{
+		string Name = ToString(m_arrLayer[i]->GetName());
+		if ("\0" != Name)
+		{
+			_Out.push_back(Name);
+		}
+	}
+}
+
 void CLevel::GetObjectName(vector<string>& _Out)
 {
 	for (UINT i = 0; i < LAYER_MAX; ++i)

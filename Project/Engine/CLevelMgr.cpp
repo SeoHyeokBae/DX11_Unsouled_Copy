@@ -81,7 +81,7 @@ void CLevelMgr::init()
 	CGameObject* pLight = new CGameObject;
 	pLight->SetName(L"Directional Light");
 	pLight->AddComponent(new CTransform);
-	pLight->AddComponent(new CMeshRender);
+	//pLight->AddComponent(new CMeshRender);
 	pLight->AddComponent(new CLight2D);
 
 	pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);

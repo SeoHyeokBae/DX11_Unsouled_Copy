@@ -29,8 +29,13 @@ void MeshRenderUI::render_update()
 	ComponentUI::render_update();
 
 	CGameObject* pTarget = GetTargetObject();
-
+	
 	CMeshRender* pMeshRender = pTarget->MeshRender();
+
+	//if (nullptr == pMeshRender->GetMesh())
+	//	return;
+	//if (nullptr == pMeshRender->GetMaterial())
+	//	return;
 
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
 	Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial();
@@ -74,7 +79,6 @@ void MeshRenderUI::render_update()
 		pListUI->Activate();
 	}
 }
-
 
 void MeshRenderUI::MeshSelect(DWORD_PTR _ptr)
 {

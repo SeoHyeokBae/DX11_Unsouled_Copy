@@ -46,6 +46,9 @@ public:
 	float GetFOV() { return m_FOV; }
 	void SetFOV(float _FOV) { m_FOV = _FOV; }
 
+	float GetFar() { return m_Far; }
+	void SetFar(float _Far) { m_Far = _Far; }
+
 	const Matrix& GetViewMat() { return m_matView; }
 	const Matrix& GetProjMat() { return m_matProj; }
 
@@ -53,6 +56,7 @@ public:
 	void LayerCheck(UINT _LayerIdx, bool _bCheck);
 	void LayerCheck(const wstring& _strLayerName, bool _bCheck);
 	void LayerCheckAll() { m_LayerCheck = 0xffffffff; }
+	void LayerCheckOff() { m_LayerCheck = 0x00000000; }
 
 public:
     virtual void finaltick() override;

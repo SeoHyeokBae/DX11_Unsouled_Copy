@@ -8,6 +8,7 @@
 #include "Collider2DUI.h"
 #include "Light2DUI.h"
 #include "Animator2DUI.h"
+#include "CameraUI.h"
 
 
 Inspector::Inspector()
@@ -30,6 +31,9 @@ Inspector::Inspector()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]);
 }
 
 Inspector::~Inspector()
@@ -46,7 +50,7 @@ void Inspector::render_update()
 		return;
 
 	string strName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
-	ImGui::Text(strName.c_str());
+	ImGui::SeparatorText(strName.c_str());
 }
 
 void Inspector::SetTargetObject(CGameObject* _Object)
