@@ -17,9 +17,6 @@ void ComponentUI::render_update()
 {
 	// ComponentUI 공용 머리말
 	ImGui::Separator();	// 분리 줄
-	//const float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
-	//bool node_open = ImGui::TreeNode("##");
-	//ImGui::SameLine(0.0f, spacing);
 	ImGui::PushID(0);
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));			// 버튼색
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.6f, 0.6f, 0.6f));	// 버튼 마우스 위

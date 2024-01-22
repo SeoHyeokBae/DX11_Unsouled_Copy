@@ -23,9 +23,13 @@ MeshRenderUI::~MeshRenderUI()
 
 void MeshRenderUI::render_update()
 {
+	if (nullptr == GetTargetObject())
+		return;
+
 	ComponentUI::render_update();
 
 	CGameObject* pTarget = GetTargetObject();
+
 	CMeshRender* pMeshRender = pTarget->MeshRender();
 
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();

@@ -25,6 +25,8 @@ public:
 
 	CGameObject* FindObjectByName(const wstring& _strName);
 	void FindObjectsByName(const wstring& _strName, vector<CGameObject*>& _vecObj);
+	
+	void GetObjectName(vector<string>& _Out); // 모든 레이어에서의 obj name
 
 private:
 	void clear();

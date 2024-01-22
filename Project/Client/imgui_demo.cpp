@@ -669,7 +669,7 @@ static void ShowDemoWindowWidgets()
         ImGui::RadioButton("radio b", &e, 1); ImGui::SameLine();
         ImGui::RadioButton("radio c", &e, 2);
 
-        // Color buttons, demonstrate using PushID() to add unique identifier in the ID stack, and changing style.
+        // v
         IMGUI_DEMO_MARKER("Widgets/Basic/Buttons (Colored)");
         for (int i = 0; i < 7; i++)
         {

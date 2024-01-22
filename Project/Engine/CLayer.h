@@ -26,6 +26,7 @@ public:
 
     const vector<CGameObject*>& GetParentObjects() { return  m_vecParent; }
     const vector<CGameObject*>& GetLayerObjects() { return m_vecObjects; }
+
 public:
     CLayer();
     ~CLayer();
