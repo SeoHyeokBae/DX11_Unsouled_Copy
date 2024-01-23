@@ -19,7 +19,7 @@ void ListUI::render_update()
     vWinSize.y -= 27;
 
     static int item_current_idx = 0; // Here we store our selection data as an index.
-    if (ImGui::BeginListBox("##ListBox", vWinSize))
+    if (ImGui::BeginListBox("Select", vWinSize))
     {
         for (int i = 0; i < m_vecStr.size(); i++)
         {

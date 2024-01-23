@@ -17,8 +17,8 @@
 
 CImGuiMgr::CImGuiMgr()
     : m_bDemoUI(true)
+    , m_Open(true)
 {
-
 }
 
 CImGuiMgr::~CImGuiMgr()
@@ -88,7 +88,8 @@ void CImGuiMgr::tick()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    dockspace();
+    if (m_Open)
+        dockspace();
     
     if (m_bDemoUI)
     {
@@ -144,9 +145,19 @@ void CImGuiMgr::dockspace()
 
     if (ImGui::BeginMainMenuBar())
     {
+        if (ImGui::BeginMenu("Options"))
+        {
+            if (ImGui::MenuItem("Close", NULL, false, &m_Open != NULL))
+                m_Open = false;
+
+            ImGui::Separator();
+            ImGui::EndMenu();
+
+        }
         if (ImGui::BeginMenu("Scene"))
         {
             // ToDo
+            ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Tool"))
         {

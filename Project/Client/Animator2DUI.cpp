@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Animator2DUI.h"
-
-
+#include <Engine/CAnimator2D.h>
+#include <Engine/CAnim.h>
+#include "ListUI.h"
 #include "AnimationEditorUI.h"
 
 Animator2DUI::Animator2DUI()
@@ -21,6 +22,29 @@ void Animator2DUI::render_update()
 		return;
 
 	ComponentUI::render_update();
+
+	CGameObject* pTarget = GetTargetObject();
+	//CAnim* pAnim = pTarget->Animator2D()->GetCurAnim();
+
+	string animname = ToString(pTarget->Animator2D()->GetCurKey().c_str());
+
+	ImGui::Text("Current Animation ");
+	ImGui::SameLine();
+	//ImGui::InputText("##Current Animation", (char*)animname.c_str(), animname.length(), ImGuiInputTextFlags_ReadOnly);
+	if (ImGui::Button((char*)animname.c_str(), ImVec2(150, 20)))
+	{
+		//// ¸®½ºÆ® UI
+		//ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("##List");
+
+		//vector<string> vecMeshName;
+		//CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::MESH, vecMeshName);
+
+		//pListUI->AddString(vecMeshName);
+		////pListUI->SetDbClickCallBack(MeshSelect);
+		//pListUI->SetDbClickDelegate(this, (Delegate_1)&MeshRenderUI::MeshSelect);
+		//pListUI->Activate();
+	}
+
 
 	if (ImGui::Button("Editor"))
 	{

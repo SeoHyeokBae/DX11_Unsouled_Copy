@@ -11,7 +11,13 @@ class CAnimator2D :
 private:
     map<wstring, CAnim*>     m_mapAnim;
     CAnim*                   m_CurAnim;
+    wstring                  m_CurKey;
     bool                     m_bRepeat;
+
+public:
+    void SetCurAnim(CAnim* _anim) { m_CurAnim = _anim; }
+    CAnim* GetCurAnim() { return m_CurAnim; }
+    const wstring& GetCurKey() { return m_CurKey; }
 
 public:
     virtual void finaltick() override;

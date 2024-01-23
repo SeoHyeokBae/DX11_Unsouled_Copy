@@ -12,7 +12,7 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
     tLightInfo info = g_Light2D[_LightIdx];
     
     // Directional Light
-    if (0 == g_Light2D[0].LightType)
+    if (0 == info.LightType)
     {
         _output.vAmbient += info.Color.vAmbient;
     }
