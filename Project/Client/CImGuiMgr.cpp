@@ -13,6 +13,7 @@
 #include "Content.h"
 #include "Outliner.h"
 #include "ListUI.h"
+#include "AnimationEditorUI.h"
 
 CImGuiMgr::CImGuiMgr()
     : m_bDemoUI(true)
@@ -67,22 +68,6 @@ void CImGuiMgr::init(HWND _hMainWnd, ComPtr<ID3D11Device> _Device
     ImGui_ImplWin32_Init(_hMainWnd);
     ImGui_ImplDX11_Init(_Device.Get(), _Context.Get());
 
-    // Load Fonts
-    // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
-    // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
-    // - If the file cannot be loaded, the function will return a nullptr. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
-    // - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
-    // - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
-    // - Read 'docs/FONTS.md' for more instructions and details.
-    // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-    //io.Fonts->AddFontDefault();
-    //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
-    //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-    //IM_ASSERT(font != nullptr);
-
     create_ui();
 
     //CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
@@ -103,7 +88,8 @@ void CImGuiMgr::tick()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-
+    dockspace();
+    
     if (m_bDemoUI)
     {
         ImGui::ShowDemoWindow(&m_bDemoUI);
@@ -152,6 +138,33 @@ void CImGuiMgr::AddUI(const string& _strKey, UI* _UI)
     m_mapUI.insert(make_pair(_strKey, _UI));
 }
 
+void CImGuiMgr::dockspace()
+{
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("Scene"))
+        {
+            // ToDo
+        }
+        if (ImGui::BeginMenu("Tool"))
+        {
+            if (ImGui::MenuItem("Animation Editor"))
+            {
+                //ToDo
+            }
+            ImGui::Separator();
+            if (ImGui::MenuItem("Map Editor"))
+            {
+                //ToDo
+            }
+            ImGui::Separator();
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+}
 
 
 void CImGuiMgr::create_ui()
@@ -171,10 +184,13 @@ void CImGuiMgr::create_ui()
     AddUI(pUI->GetID(), pUI);
 
     // List
-    pUI = new ListUI;
+    pUI = new ListUI;           
+    AddUI(pUI->GetID(), pUI);  
+
+    // AnimationEditor
+    pUI = new AnimationEditorUI;
     AddUI(pUI->GetID(), pUI);
 }
-
 
 
 

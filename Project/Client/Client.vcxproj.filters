@@ -53,6 +53,9 @@
     <Filter Include="UI\3. Inspector\ComponentUI\Camera">
       <UniqueIdentifier>{7ce6dfd9-7a4e-4576-b329-a8a93a37e0ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\5. Editor">
+      <UniqueIdentifier>{3df3dfd1-e6cf-4cff-b192-f95081746d18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -133,6 +136,9 @@
     <ClInclude Include="CameraUI.h">
       <Filter>UI\3. Inspector\ComponentUI\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationEditorUI.h">
+      <Filter>UI\5. Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -211,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="CameraUI.cpp">
       <Filter>UI\3. Inspector\ComponentUI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationEditorUI.cpp">
+      <Filter>UI\5. Editor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

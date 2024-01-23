@@ -29,6 +29,7 @@ private:
     void tick();
     void render();
     void create_ui();
+    void dockspace();
 
 public:
     UI* FindUI(const string& _strUIName);

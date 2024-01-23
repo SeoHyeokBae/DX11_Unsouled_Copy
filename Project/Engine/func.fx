@@ -16,7 +16,6 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
     {
         _output.vAmbient += info.Color.vAmbient;
     }
-    
     // Point Light
     else if (1 == info.LightType)
     {
@@ -38,7 +37,6 @@ void CalLight2D(float3 _WorldPos, int _LightIdx, inout tLightColor _output)
             _output.vColor += info.Color.vColor * fAttenu;
         }
     }
-    
     // Spot Light
     else
     {

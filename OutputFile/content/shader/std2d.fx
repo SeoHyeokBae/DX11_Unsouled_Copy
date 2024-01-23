@@ -95,6 +95,9 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     }
     
     vColor.rgb *= (LightColor.vColor.rgb + LightColor.vAmbient.rgb);
+    //vColor.rgb *= (LightColor.vColor.rgb + LightColor.vAmbient.rgb);
+    //vColor.rgb += LightColor.vAmbient.rgb;
+    //vColor.rgb += (LightColor.vColor.rgb * LightColor.vAmbient.rgb);
     
     if (0.f == vColor.a)
         discard;
