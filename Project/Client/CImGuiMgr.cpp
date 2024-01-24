@@ -164,6 +164,9 @@ void CImGuiMgr::dockspace()
             if (ImGui::MenuItem("Animation Editor"))
             {
                 //ToDo
+                AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
+
+                Editor->Activate();
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Map Editor"))

@@ -72,3 +72,12 @@ void CAnimator2D::Play(const wstring& _strAnimName, bool _bRepeat)
 	m_CurKey = _strAnimName;
 	m_CurAnim->Reset();
 }
+
+void CAnimator2D::GetAnimName(vector<string>& _Out)
+{
+	map<wstring, CAnim*>::iterator iter = m_mapAnim.begin();
+	for (iter; iter != m_mapAnim.end(); iter++ )
+	{
+		_Out.push_back(ToString(iter->first));
+	}
+}

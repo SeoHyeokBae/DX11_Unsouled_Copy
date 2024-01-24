@@ -31,20 +31,22 @@ void Animator2DUI::render_update()
 	ImGui::Text("Current Animation ");
 	ImGui::SameLine();
 	//ImGui::InputText("##Current Animation", (char*)animname.c_str(), animname.length(), ImGuiInputTextFlags_ReadOnly);
-	if (ImGui::Button((char*)animname.c_str(), ImVec2(150, 20)))
+	if (ImGui::Button((char*)animname.c_str(), ImVec2(ImGui::GetContentRegionAvail().x - 20.f, 20)))
 	{
-		//// 리스트 UI
-		//ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("##List");
+		// 리스트 UI
+		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("##List");
 
-		//vector<string> vecMeshName;
-		//CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::MESH, vecMeshName);
+		vector<string> vecAnimation;
+		pTarget->Animator2D()->GetAnimName(vecAnimation);
+		pListUI->AddString(vecAnimation);
+		pListUI->SetDbClickDelegate(this, (Delegate_1)&Animator2DUI::AnimSelect);
+		pListUI->Activate();
 
 		//pListUI->AddString(vecMeshName);
 		////pListUI->SetDbClickCallBack(MeshSelect);
 		//pListUI->SetDbClickDelegate(this, (Delegate_1)&MeshRenderUI::MeshSelect);
 		//pListUI->Activate();
 	}
-
 
 	if (ImGui::Button("Editor"))
 	{
@@ -53,8 +55,6 @@ void Animator2DUI::render_update()
 
 		Editor->Activate();
 	}
-
-
 
 
 
@@ -74,9 +74,18 @@ void Animator2DUI::render_update()
 	//ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 	//ImGui::Image((void*)my_texture.Get(), ImVec2(my_image_width, my_image_height),uv0,uv1);
 	//ImGui::End();
-
-
 }
+
+void Animator2DUI::AnimSelect(DWORD_PTR _ptr)
+{
+	string strAnim = (char*)_ptr;
+	wstring strAnimName = ToWString(strAnim);
+
+	CAnim* pAnim = GetTargetObject()->Animator2D()->FindAnim(strAnimName);
+	GetTargetObject()->Animator2D()->SetCurAnim(pAnim);
+}
+
+
 
 //static bool open = true;
 //if (ImGui::CollapsingHeader("Header with a close button", &open))

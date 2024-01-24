@@ -19,6 +19,7 @@ public:
     CAnim* GetCurAnim() { return m_CurAnim; }
     const wstring& GetCurKey() { return m_CurKey; }
 
+
 public:
     virtual void finaltick() override;
 
@@ -31,6 +32,8 @@ public:
 
     CAnim* FindAnim(const wstring& _strAnimName);
     void Play(const wstring& _strAnimName, bool _bRepeat = true);
+
+    void GetAnimName(vector<string>& _Out);
 
 public:
     CAnimator2D();
