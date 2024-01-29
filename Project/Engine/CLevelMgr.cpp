@@ -17,6 +17,8 @@
 #include "CTexture.h"
 #include "CCollisionMgr.h"
 
+#include "CSetColorShader.h"
+
 CLevelMgr::CLevelMgr()
 	: m_CurLevel(nullptr)
 {
@@ -41,6 +43,21 @@ void CLevelMgr::init()
 	m_CurLevel->GetLayer(5)->SetName(L"Light");
 
 	m_CurLevel->GetLayer(31)->SetName(L"UI");
+
+
+	// ComputeShader 테스트
+	// 사용할 텍스쳐 생성
+	Ptr<CTexture> pTestTex = CAssetMgr::GetInst()->CreateTexture(L"TestTex"
+		, 1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+
+	Ptr<CSetColorShader> pCS = (CSetColorShader*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"SetColorShader").Get();
+	pCS->SetColor(Vec3(0.f, 1.f, 0.f));
+	pCS->SetTargetTexture(pTestTex);
+	pCS->Execute();
+
+
+
 
 	// 충돌 설정
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
@@ -77,6 +94,7 @@ void CLevelMgr::init()
 
 	m_CurLevel->AddObject(pCamObj, 0);
 
+
 	// 광원 추가
 	CGameObject* pLight = new CGameObject;
 	pLight->SetName(L"Directional Light");
@@ -105,31 +123,31 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl"));
 
 	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png");
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTestTex);
 
 	m_CurLevel->AddObject(pObj, L"Background", false);
 
 	// TileMap Object
-	pObj = new CGameObject;
-	pObj->SetName(L"TileMap");
+	//pObj = new CGameObject;
+	//pObj->SetName(L"TileMap");
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CTileMap);
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CTileMap);
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 550.f));
+	//pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 550.f));
 
-	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"TileAtlasTex", L"texture\\TILE.bmp");
-	pObj->TileMap()->SetTileAtlas(pTileAtlas, Vec2(64.f, 64.f));
-	pObj->TileMap()->SetFace(6, 6);
-	for (int i = 0; i < 6; ++i)
-	{
-		for (int j = 0; j < 6; ++j)
-		{
-			pObj->TileMap()->SetTileIndex(i, j, i * 6 + j);
-		}
-	}
+	//Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"TileAtlasTex", L"texture\\TILE.bmp");
+	//pObj->TileMap()->SetTileAtlas(pTileAtlas, Vec2(64.f, 64.f));
+	//pObj->TileMap()->SetFace(6, 6);
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	for (int j = 0; j < 6; ++j)
+	//	{
+	//		pObj->TileMap()->SetTileIndex(i, j, i * 6 + j);
+	//	}
+	//}
 
-	m_CurLevel->AddObject(pObj, L"Tile", false);
+	//m_CurLevel->AddObject(pObj, L"Tile", false);
 
 	// Player Object 생성
 	pObj = new CGameObject;
@@ -200,6 +218,7 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 
 	m_CurLevel->AddObject(pObj, L"UI", false);
+
 
 	// GrayFilter 후처리
 	//pObj = new CGameObject;

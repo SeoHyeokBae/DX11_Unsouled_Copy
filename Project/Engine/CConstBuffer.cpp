@@ -63,3 +63,7 @@ void CConstBuffer::UpdateData()
 	CONTEXT->PSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 }
 
+void CConstBuffer::UpdateData_CS()
+{
+	CONTEXT->CSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+}

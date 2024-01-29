@@ -13,6 +13,8 @@ void CAssetMgr::init()
 
 	CreateDefaultGraphicsShader();
 
+	CreateDefaultComputeShader();
+
 	CreateDefaultMaterial();
 
 }
@@ -288,4 +290,15 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"Std2DMtrl2", pMtrl);
+}
+
+#include "CSetColorShader.h"
+void CAssetMgr::CreateDefaultComputeShader()
+{
+	Ptr<CComputeShader> pShader = nullptr;
+
+	// SetColorShader
+	pShader = new CSetColorShader;
+	pShader->Create(L"shader\\setcolor.fx", "CS_SetColor");
+	AddAsset(L"SetColorShader", pShader.Get());
 }
