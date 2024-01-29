@@ -23,7 +23,7 @@ protected:
     const UINT                  m_ThreadY;
     const UINT                  m_ThreadZ;
 
-
+protected:
     tMtrlConst                  m_Const;
 
 public:

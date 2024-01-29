@@ -39,6 +39,11 @@ struct tLightInfo
 	Vec3	vPadding;
 };
 
+struct tPixel
+{
+	BYTE r, g, b, a;
+};
+
 // ==================
 // 상수버퍼 대응 구조체
 // ==================

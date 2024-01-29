@@ -3,6 +3,17 @@
 
 #include "CDevice.h"
 
+
+tPixel* CTexture::GetPixels()
+{
+	if (nullptr == m_Image.GetPixels())
+	{
+		CaptureTexture(DEVICE, CONTEXT, m_Tex2D.Get(), m_Image);
+	}
+
+	return (tPixel*)m_Image.GetPixels();
+}
+
 CTexture::CTexture()
 	: CAsset(ASSET_TYPE::TEXTURE)
 	, m_Desc{}

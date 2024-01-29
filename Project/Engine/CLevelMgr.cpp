@@ -52,11 +52,12 @@ void CLevelMgr::init()
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 
 	Ptr<CSetColorShader> pCS = (CSetColorShader*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"SetColorShader").Get();
-	pCS->SetColor(Vec3(0.f, 1.f, 0.f));
+	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
 	pCS->SetTargetTexture(pTestTex);
 	pCS->Execute();
 
-
+	tPixel* pPixel = pTestTex->GetPixels();
+	tPixel pixel = pPixel[0];
 
 
 	// 충돌 설정
