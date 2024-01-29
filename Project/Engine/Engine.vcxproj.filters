@@ -279,6 +279,9 @@
     <ClInclude Include="CBackgroundScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>08. Component\RenderComponent\02. TileMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -410,6 +413,9 @@
     <ClCompile Include="CAssetMgr_init.cpp">
       <Filter>04. Manager\AssetMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>08. Component\RenderComponent\02. TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -433,6 +439,9 @@
       <Filter>ShaderCode\Util</Filter>
     </FxCompile>
     <FxCompile Include="postprocess.fx">
+      <Filter>ShaderCode\Render</Filter>
+    </FxCompile>
+    <FxCompile Include="tilemap.fx">
       <Filter>ShaderCode\Render</Filter>
     </FxCompile>
   </ItemGroup>

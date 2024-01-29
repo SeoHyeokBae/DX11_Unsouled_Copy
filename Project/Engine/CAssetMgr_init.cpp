@@ -181,6 +181,21 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	AddAsset(L"EffectShader", pShader);
 
+	// =============
+	// TileMapShader
+	// =============
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
+	pShader->CreatePixelShader(L"shader\\tilemap.fx", "PS_TileMap");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+
+	AddAsset(L"TileMapShader", pShader);
+
 	// =================================
 	// GrayFilter Shader
 	// Mesh			: RectMesh
@@ -196,6 +211,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->SetRSType(RS_TYPE::CULL_BACK);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+
 
 	AddAsset(L"GrayFilterShader", pShader);
 
@@ -252,6 +268,11 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"BackgroundMtrl", pMtrl);
+
+	// TileMapMtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"TileMapShader"));
+	AddAsset<CMaterial>(L"TileMapMtrl", pMtrl);
 
 	// GrayFilterMtrl
 	pMtrl = new CMaterial;

@@ -109,6 +109,19 @@ void CLevelMgr::init()
 
 	m_CurLevel->AddObject(pObj, L"Background", false);
 
+	// TileMap Object
+	pObj = new CGameObject;
+	pObj->SetName(L"TileMap");
+
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CTileMap);
+
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 300.f));
+
+	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"TileAtlasTex", L"texture\\TILE.bmp");
+	pObj->TileMap()->SetTileAtlas(pTileAtlas, Vec2(64.f, 64.f));
+
+	m_CurLevel->AddObject(pObj, L"Tile", false);
 
 	// Player Object »ý¼º
 	pObj = new CGameObject;
