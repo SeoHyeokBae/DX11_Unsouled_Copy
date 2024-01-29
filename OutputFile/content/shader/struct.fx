@@ -21,5 +21,11 @@ struct tLightInfo
     float3 vPadding;
 };
 
+struct tTileInfo
+{
+    float2 vLeftTopUV;
+    int bRender;
+    int padding;
+};
 
 #endif
