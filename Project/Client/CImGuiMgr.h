@@ -11,7 +11,6 @@ typedef void (*CALL_BACK_0)(void);
 typedef void (*CALL_BACK_1)(DWORD_PTR);
 typedef void (*CALL_BACK_2)(DWORD_PTR, DWORD_PTR);
 
-
 class CImGuiMgr :
     public CSingleton<CImGuiMgr>
 {

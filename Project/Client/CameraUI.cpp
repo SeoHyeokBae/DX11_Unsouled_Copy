@@ -126,3 +126,5 @@ void CameraUI::SelectLayer(const string _str)
 		GetTargetObject()->Camera()->LayerCheck(ToWString(_str), true);
 	}
 }
+
+// Selectabled basic

@@ -21,7 +21,7 @@ Outliner::~Outliner()
 void Outliner::render_update()
 {
 	ImGui::SeparatorText("Current Level All Object");
-	static int item_current_idx = 0;
+	static int item_current_idx = -1;
 	for (int i = 0; i < m_vecStr.size(); i++)
 	{
 		const bool is_selected = (item_current_idx == i);
