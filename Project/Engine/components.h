@@ -7,6 +7,7 @@
 #include "CAnimator2D.h"
 #include "CLight2D.h"
 #include "CTileMap.h"
+#include "CParticleSystem.h"
 
 
 //#include "CCollider3D.h"
@@ -15,4 +16,3 @@
 //#include "Skybox.h"
 //#include "Decal.h"
 //#include "Landscape.h"
-//#include "ParticleSystem.h"
