@@ -57,7 +57,7 @@ void CLevelMgr::init()
 	pCS->Execute();
 
 	tPixel* pPixel = pTestTex->GetPixels();
-	tPixel pixel = pPixel[0];
+	tPixel pixel = pPixel[pTestTex->GetWidth() *1 + 5];
 
 
 	// 충돌 설정
@@ -94,7 +94,7 @@ void CLevelMgr::init()
 	pCamObj->Camera()->LayerCheck(L"UI", true);
 
 	m_CurLevel->AddObject(pCamObj, 0);
-
+	
 
 	// 광원 추가
 	CGameObject* pLight = new CGameObject;

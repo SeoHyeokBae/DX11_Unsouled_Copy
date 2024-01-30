@@ -32,7 +32,15 @@ int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Ty
 
     D3D11_BUFFER_DESC tDesc = {};
     tDesc.ByteWidth = m_ElementSize * m_ElementCount;
+
     tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;   // texture와 같음
+
+    // RW 옵션으로 생성된 구조화버퍼는 UnorderedAccessView 생성도 가능하게 만든다
+    if (SB_TYPE::READ_WRITE == m_Type)
+    {
+        tDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+    }
+
     tDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
     tDesc.StructureByteStride = m_ElementSize;
 
@@ -61,6 +69,19 @@ int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Ty
 
     hr = DEVICE->CreateShaderResourceView(m_SB.Get(), &SRVDesc, m_SRV.GetAddressOf());
     if (FAILED(hr)) return E_FAIL;
+
+    // Unordered Access View 생성
+    if (SB_TYPE::READ_WRITE == m_Type)
+    {
+        D3D11_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+        UAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+        UAVDesc.Buffer.NumElements = 1;
+
+        hr = DEVICE->CreateUnorderedAccessView(m_SB.Get(), &UAVDesc, m_UAV.GetAddressOf());
+
+        if (FAILED(hr)) 
+            return E_FAIL;
+    }
 
     if (m_bSysMemMove)
     {
