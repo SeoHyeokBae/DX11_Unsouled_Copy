@@ -8,6 +8,8 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 
+#include "CTransform.h"
+
 
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
