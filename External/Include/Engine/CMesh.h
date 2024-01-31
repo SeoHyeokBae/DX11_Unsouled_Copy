@@ -28,6 +28,7 @@ private:
 public:
     int Create(void* _Vts, UINT _VtxCount, void* _Idx, UINT _IdxCount);
     void render();
+    void render_asparticle(UINT ParticleCount);
 
 public:
     CMesh();

@@ -6,12 +6,13 @@
 
 StructuredBuffer<tParticle> g_ParticleBuffer : register(t20);
 
-#define Particle g_ParticleBuffer[g_int_0]
+#define Particle g_ParticleBuffer[_in.iInstID]
 
 struct VS_IN
 {
     float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
+    uint iInstID : SV_InstanceID;
 };
 
 struct VS_OUT
@@ -32,8 +33,17 @@ VS_OUT VS_Particle(VS_IN _in)
     return output;
 }
 
-float4 PS_Particle(VS_OUT _in) : SV_Target
+// Geometry Shader
+// 1. 담당 파티클이 비활성화 상태인 경우, 렌더링을 정점연산 단계에서 중단시키기
+// 2. 빌보드 구현의 편의성
+
+
+float4 PS_Particle(VS_OUT _in, uint _InstID : SV_InstanceID) : SV_Target
 {
+    if (!g_ParticleBuffer[_InstID].Active)
+    {
+        discard;
+    }
     return float4(1.f, 0.f, 0.f, 1.f);
 }
 #endif

@@ -96,3 +96,20 @@ void CMesh::render()
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 
 }
+
+
+// 인스턴싱
+// 렌더링 파이프라인 단계를 여러번 거쳐서 객체를 찍는것 보다 한번에 찍는게 더 빠르다
+void CMesh::render_asparticle(UINT _ParticleCount)
+{
+	UpdateData();
+
+	// 렌더링 파이프라인 안에서 자체적으로 _ParticleCount 만큼 반복문을 수행한다
+	// 함수가 한번만 수행되기 때문에 몇 번째 객체가 그려지는지 구별할 수 있는 요소가 추가적으로 필요
+	//  - 원래는 ScalarParmeter를 통해 몇번째 파라미터인지 구별할 수 있었다
+	// Vertex Shader의 입력으로 새로운 값을 받아올 수 있다
+	// -uint iInsID : SV_InstanceID
+	CONTEXT->DrawIndexedInstanced(m_IdxCount, _ParticleCount, 0, 0, 0);
+	
+}
+
