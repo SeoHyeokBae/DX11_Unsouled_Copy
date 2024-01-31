@@ -11,7 +11,7 @@ RWStructuredBuffer<tParticle> g_ParticleBuffer : register(u0);
 [numthreads(1024, 1, 1)]
 void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
 {
-    g_ParticleBuffer[id.x].vWorldPos.y += 100.f;
+    g_ParticleBuffer[id.x].vWorldPos.y = 2000.f;
 }
 
 
