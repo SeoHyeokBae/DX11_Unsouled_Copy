@@ -16,6 +16,7 @@ public:
 
 public:
     virtual int UpdateData() override;
+    virtual void UpdateGroupCount() override;
     virtual void Clear() override;
 
 public:

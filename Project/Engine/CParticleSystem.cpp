@@ -47,8 +47,11 @@ CParticleSystem::~CParticleSystem()
 void CParticleSystem::finaltick()
 {
 	// 파티컬 업데이트 컴퓨트 쉐이드
-	//m_CSParticleUpdate->SetBuffer(m_ParticleBuffer);
+	m_CSParticleUpdate->SetParticleBuffer(m_ParticleBuffer);
 	m_CSParticleUpdate->Execute();
+
+	tParticle arrParticle[100] = {};
+	m_ParticleBuffer->GetData(arrParticle);
 }
 
 void CParticleSystem::render()
@@ -66,6 +69,9 @@ void CParticleSystem::render()
 	GetMaterial()->SetScalarParam(INT_0, 0);
 	GetMaterial()->UpdateData();
 	GetMesh()->render_asparticle(m_MaxParticleCount);
+
+	// 렌더링때 사용한 리소스 바인딩 Clear
+	m_ParticleBuffer->Clear(20);
 }
 
 void CParticleSystem::UpdateData()

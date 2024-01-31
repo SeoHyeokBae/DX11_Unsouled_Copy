@@ -19,6 +19,7 @@ struct VS_OUT
 {
     float4 vPosition : SV_Position;
     float2 vUV : TEXCOORD;
+    float InstID : FOG;
 };
 
 VS_OUT VS_Particle(VS_IN _in)
@@ -29,6 +30,7 @@ VS_OUT VS_Particle(VS_IN _in)
     
     output.vPosition = mul(mul(float4(vWorldPos, 1.f), g_matView), g_matProj);
     output.vUV = _in.vUV;
+    output.InstID = _in.iInstID;
     
     return output;
 }
@@ -38,9 +40,9 @@ VS_OUT VS_Particle(VS_IN _in)
 // 2. 빌보드 구현의 편의성
 
 
-float4 PS_Particle(VS_OUT _in, uint _InstID : SV_InstanceID) : SV_Target
+float4 PS_Particle(VS_OUT _in) : SV_Target
 {
-    if (!g_ParticleBuffer[_InstID].Active)
+    if (!g_ParticleBuffer[(uint)_in.InstID].Active)
     {
         discard;
     }
