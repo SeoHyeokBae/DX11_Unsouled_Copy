@@ -43,16 +43,25 @@ CParticleSystem::CParticleSystem()
 	// 파티클 모듈값 세팅
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::SPAWN] = 1;
 
-	m_Module.SpaceType = 0;
+	m_Module.SpaceType = 1;
 	m_Module.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	m_Module.vSpawnMinScale = Vec4(20.f, 20.f, 1.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec4(50.f, 50.f, 1.f, 1.f);
+	m_Module.vSpawnMinScale = Vec4(15.f, 15.f, 1.f, 1.f);
+	m_Module.vSpawnMaxScale = Vec4(15.f, 15.f, 1.f, 1.f);
 	m_Module.MinLife = 0.4f;
-	m_Module.MaxLife = 1.f;
-	m_Module.SpawnShape = 0; // 0 : Sphere
+	m_Module.MaxLife = 2.f;
+	m_Module.SpawnShape = 1; // 0 : Sphere
 	m_Module.Radius = 100.f;
+	m_Module.vSpawnBoxScale = Vec4(500.f, 500.f, 0.f, 0.f);
+	m_Module.SpawnRate = 2;
 
-	m_Module.SpawnRate = 10;
+	// Add Velocity Module
+	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = 1;
+	m_Module.AddVelocityType = 0;
+	m_Module.MinSpeed = 100;
+	m_Module.MaxSpeed = 200;
+	m_Module.FixedDirection;
+	m_Module.FixedAngle;
+
 }
 
 CParticleSystem::~CParticleSystem()

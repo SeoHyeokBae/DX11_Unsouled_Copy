@@ -84,6 +84,22 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
                 Particle.Age = 0.f;
                 Particle.Life = (Module.MaxLife - Module.MinLife) * vRand[0] + Module.MaxLife;
                 
+                // Add VelocityModule
+                if (Module.arrModuleCheck[3])
+                {
+                    // 0 : From Center
+                    if (0 == Module.AddVelocityType)
+                    {
+                        float3 vDir = normalize(Particle.vLocalPos.xyz);
+                        Particle.vVelocity.xyz = vDir * clamp(vRand[2], Module.MinSpeed, Module.MaxSpeed);
+                    }
+                    if (1 == Module.AddVelocityType)
+                    {
+                        float3 vDir = -normalize(Particle.vLocalPos.xyz);
+                        Particle.vVelocity.xyz = vDir * clamp(vRand[2], Module.MinSpeed, Module.MaxSpeed);
+                    }
+                }
+                
                 break;
             }
         }

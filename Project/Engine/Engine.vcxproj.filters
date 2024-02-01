@@ -58,9 +58,6 @@
     <Filter Include="08. Component">
       <UniqueIdentifier>{e1189006-a3db-4274-b550-b6beefb3235b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08. Component\01. Transform">
-      <UniqueIdentifier>{385a0d3f-7200-4250-9176-e770bf37d041}</UniqueIdentifier>
-    </Filter>
     <Filter Include="08. Component\02. Collider2D">
       <UniqueIdentifier>{ec97c9cf-e21a-4c13-a650-822753600e33}</UniqueIdentifier>
     </Filter>
@@ -144,6 +141,9 @@
     </Filter>
     <Filter Include="ShaderCode\Compute\ParticleUpdate">
       <UniqueIdentifier>{739e72fe-ee47-4c95-acae-0b561bf90ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\01. Transform">
+      <UniqueIdentifier>{385a0d3f-7200-4250-9176-e770bf37d041}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
