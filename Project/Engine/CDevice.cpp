@@ -369,12 +369,15 @@ int CDevice::CreateSamplerState()
 	CONTEXT->DSSetSamplers(0, 1, m_arrSampler[0].GetAddressOf());
 	CONTEXT->GSSetSamplers(0, 1, m_arrSampler[0].GetAddressOf());
 	CONTEXT->PSSetSamplers(0, 1, m_arrSampler[0].GetAddressOf());
+	CONTEXT->CSSetSamplers(0, 1, m_arrSampler[0].GetAddressOf());
 
 	CONTEXT->VSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 	CONTEXT->HSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 	CONTEXT->DSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 	CONTEXT->GSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 	CONTEXT->PSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
+	CONTEXT->CSSetSamplers(1, 1, m_arrSampler[0].GetAddressOf());
+
 
 	return S_OK;
 }

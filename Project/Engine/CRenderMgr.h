@@ -26,6 +26,9 @@ private:
 
     bool                    m_DebugPosition;
 
+    // NoiseTexture
+    vector<Ptr<CTexture>>   m_vecNoiseTex;
+
 
 public:
     void RegisterCamera(CCamera* _Cam, int _Idx);

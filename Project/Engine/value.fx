@@ -102,7 +102,7 @@ StructuredBuffer<tLightInfo> g_Light3D : register(t12);
 // 후처리용 텍스처 레지스터
 Texture2D g_postprocess : register(t13);
 
-TextureCubeArray g_tex_14 : register(t14);
+Texture2D g_NoiseTex : register(t14);
 
 // 샘플러 : 텍스쳐 자원의 데이터를 뽑아냄
 SamplerState g_sam_0 : register(s0);
