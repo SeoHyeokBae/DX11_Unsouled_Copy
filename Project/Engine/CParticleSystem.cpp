@@ -31,7 +31,7 @@ CParticleSystem::CParticleSystem()
 	{
 		arrParticle[i].vWorldPos = Vec3((vResol.x / -2.f) + (i + 1) * vResol.x / (m_MaxParticleCount + 1), 0.f, 200.f);
 		arrParticle[i].vWorldScale = Vec3(10.f, 10.f, 1.f);
-		arrParticle[i].Active = 1;
+		arrParticle[i].Active = 0;
 	}
 
 	// 파티클을 저장하는 구조화 버퍼
@@ -71,7 +71,7 @@ void CParticleSystem::finaltick()
 	m_Module.vSpawnMaxScale = Vec4(20.f, 20.f, 1.f, 1.f);
 	m_Module.MinLife = 5.f;
 	m_Module.MaxLife = 5.f;
-	m_Module.SpawnRate = 100;
+	m_Module.SpawnRate = 10;
 
 	m_Time += DT;
 	if ((1.f/ m_Module.SpawnRate) < m_Time)

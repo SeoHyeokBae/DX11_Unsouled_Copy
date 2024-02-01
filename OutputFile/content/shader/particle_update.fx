@@ -7,28 +7,41 @@
 
 StructuredBuffer<tParticleModule> g_Module : register(t20);
 RWStructuredBuffer<tParticle> g_ParticleBuffer : register(u0);
-RWStructuredBuffer<uint3> g_SpawnCount : register(u1);
+RWStructuredBuffer<tSpawnCount> g_SpawnCount : register(u1);
 
-#define MAX_COUNT g_int_0
-#define SpawnCount g_SpawnCount[0].x
+#define MAX_COUNT   g_int_0
+#define SpawnCount  g_SpawnCount[0].iSpawnCount
+#define Particle    g_ParticleBuffer[id.x]
+#define Module      g_Module[0]
 
 [numthreads(1024, 1, 1)]
 void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
 {
-    if (0 < SpawnCount)
+    //if (MAX_COUNT <= id.x)
+    //    return;
+    
+    if (0 == Particle.Active)
     {
-       // Atomic 함수
-       // Interlock
-        
-        if (0 == g_ParticleBuffer[id.x].Active)
+        if (0 < SpawnCount)
         {
-            g_ParticleBuffer[id.x].Active = 1;
-            SpawnCount -= 1;
+            // Atomic 함수 
+            int AliveCount = SpawnCount;
+            int Exchange = SpawnCount - 1;
+            int Origin = 1;
+                        
+            //InterlockedCompareExchange(SpawnCount, AliveCount, Exchange, Origin);
+            InterlockedExchange(SpawnCount, Exchange, Origin);
+        
+            if (AliveCount == Origin)
+            {
+                Particle.Active = 1;
+            }
         }
     }
-    
-    g_ParticleBuffer[id.x].
-        vWorldPos.y += g_dt * 100.f;
+    else
+    {
+        Particle.vWorldPos.y += g_dt * 100.f;
+    }
  }
 
 
