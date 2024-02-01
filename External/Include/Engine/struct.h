@@ -46,7 +46,8 @@ struct tPixel
 
 struct tParticle
 {
-	Vec4	vWorldPos;		// 위치
+	Vec4	vLocalPos;		// 로컬 위치
+	Vec4	vWorldPos;		// 윌드 위치
 	Vec4	vWorldScale;	// 크기
 	Vec4	vWorldRotation;	// 회전값
 	Vec4	vVelocity;		// 속도

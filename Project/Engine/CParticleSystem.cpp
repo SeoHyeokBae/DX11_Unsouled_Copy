@@ -16,7 +16,7 @@
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_ParticleBuffer(nullptr)
-	, m_MaxParticleCount(100)
+	, m_MaxParticleCount(2000)
 {
 	// 전용 메쉬와 전용 재질 사용
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
@@ -25,18 +25,9 @@ CParticleSystem::CParticleSystem()
 	// 렌더링 해상도
 	Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
 
-	// 임시로 5개의 파티클이 초기 데이터를 입력하면서 구조화 버퍼 생성
-	tParticle arrParticle[1000] = {};
-	for (int i = 0; i < m_MaxParticleCount; i++)
-	{
-		arrParticle[i].vWorldPos = Vec3((vResol.x / -2.f) + (i + 1) * vResol.x / (m_MaxParticleCount + 1), 0.f, 200.f);
-		arrParticle[i].vWorldScale = Vec3(10.f, 10.f, 1.f);
-		arrParticle[i].Active = 0;
-	}
-
 	// 파티클을 저장하는 구조화 버퍼
 	m_ParticleBuffer = new CStructuredBuffer;
-	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticleCount, SB_TYPE::READ_WRITE, true, arrParticle);
+	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticleCount, SB_TYPE::READ_WRITE, true);
 
 	// 파티클 모듈정보를 저장하는 구조화버퍼
 	m_ParticleModuleBuffer = new CStructuredBuffer;
@@ -52,16 +43,16 @@ CParticleSystem::CParticleSystem()
 	// 파티클 모듈값 세팅
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::SPAWN] = 1;
 
-	m_Module.SpaceType = 1;
+	m_Module.SpaceType = 0;
 	m_Module.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
 	m_Module.vSpawnMinScale = Vec4(20.f, 20.f, 1.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec4(20.f, 20.f, 1.f, 1.f);
-	m_Module.MinLife = 5.f;
-	m_Module.MaxLife = 5.f;
+	m_Module.vSpawnMaxScale = Vec4(50.f, 50.f, 1.f, 1.f);
+	m_Module.MinLife = 0.4f;
+	m_Module.MaxLife = 1.f;
 	m_Module.SpawnShape = 0; // 0 : Sphere
 	m_Module.Radius = 100.f;
 
-	m_Module.SpawnRate = 100;
+	m_Module.SpawnRate = 10;
 }
 
 CParticleSystem::~CParticleSystem()
@@ -93,7 +84,7 @@ void CParticleSystem::finaltick()
 	}
 	else
 	{
-		tSpawnCount count = tSpawnCount{ 0, };
+		tSpawnCount count = tSpawnCount{ 0,0,0,0 };
 		m_SpawnCountBuffer->SetData(&count);
 	}
 
@@ -105,11 +96,9 @@ void CParticleSystem::finaltick()
 	m_CSParticleUpdate->SetParticleBuffer(m_ParticleBuffer);
 	m_CSParticleUpdate->SetParticleModuleBuffer(m_ParticleModuleBuffer);
 	m_CSParticleUpdate->SetParticleSpawnCount(m_SpawnCountBuffer);
+	m_CSParticleUpdate->SetParticleWorldPos(Transform()->GetWorldPos());
 
 	m_CSParticleUpdate->Execute();
-
-	tParticle arrParticle[100] = {};
-	m_ParticleBuffer->GetData(arrParticle);
 }
 
 void CParticleSystem::render()
