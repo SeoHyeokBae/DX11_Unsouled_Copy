@@ -44,15 +44,15 @@ CParticleSystem::CParticleSystem()
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::SPAWN] = 1;
 
 	m_Module.SpaceType = 1;
-	m_Module.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	m_Module.vSpawnColor = Vec4(0.2f, 0.4f, 0.9f, 1.f);
 	m_Module.vSpawnMinScale = Vec4(15.f, 15.f, 1.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec4(15.f, 15.f, 1.f, 1.f);
+	m_Module.vSpawnMaxScale = Vec4(150.f, 150.f, 1.f, 1.f);
 	m_Module.MinLife = 0.4f;
-	m_Module.MaxLife = 2.f;
+	m_Module.MaxLife = 1.f;
 	m_Module.SpawnShape = 1; // 0 : Sphere
 	m_Module.Radius = 100.f;
 	m_Module.vSpawnBoxScale = Vec4(500.f, 500.f, 0.f, 0.f);
-	m_Module.SpawnRate = 2;
+	m_Module.SpawnRate = 50;
 
 	// Add Velocity Module
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = 1;
@@ -61,6 +61,8 @@ CParticleSystem::CParticleSystem()
 	m_Module.MaxSpeed = 200;
 	m_Module.FixedDirection;
 	m_Module.FixedAngle;
+
+	m_ParticleTex = CAssetMgr::GetInst()->Load<CTexture>(L"texture\\particle\\CartoonSmoke.png", L"texture\\particle\\CartoonSmoke.png");
 
 }
 
@@ -123,7 +125,9 @@ void CParticleSystem::render()
 	// 
 	// 파티클 개별 랜더링 -> 인스턴싱
 	GetMaterial()->SetScalarParam(INT_0, 0);
+	GetMaterial()->SetTexParam(TEX_0, m_ParticleTex);
 	GetMaterial()->UpdateData();
+
 	GetMesh()->render_asparticle(m_MaxParticleCount);
 
 	// 렌더링때 사용한 리소스 바인딩 Clear
