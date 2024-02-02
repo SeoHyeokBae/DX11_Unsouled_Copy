@@ -29,8 +29,6 @@ CParticleSystem::CParticleSystem()
 	m_ParticleBuffer = new CStructuredBuffer;
 	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticleCount, SB_TYPE::READ_WRITE, true);
 
-
-
 	// 파티클 모듈정보를 저장하는 구조화버퍼
 	// tParticleModule 구조체 16바이트 단위 맞춰줌
 	m_ParticleModuleBuffer = new CStructuredBuffer;
@@ -55,11 +53,11 @@ CParticleSystem::CParticleSystem()
 	m_Module.vSpawnColor = Vec4(0.2f, 0.4f, 0.9f, 1.f);
 	m_Module.vSpawnMinScale = Vec4(30.f, 30.f, 1.f, 1.f);
 	m_Module.vSpawnMaxScale = Vec4(30.f, 30.f, 1.f, 1.f);
-	m_Module.MinLife = 0.4f;
-	m_Module.MaxLife = 1.f;
+	m_Module.MinLife = 3.0f;
+	m_Module.MaxLife = 5.f;
 	m_Module.MinMass = 1.f;
 	m_Module.MaxMass = 1.f;
-	m_Module.SpawnShape = 0; // 0 : Sphere
+	m_Module.SpawnShape = 1; // 0 : Sphere
 	m_Module.Radius = 100.f;
 	m_Module.vSpawnBoxScale = Vec4(500.f, 500.f, 0.f, 0.f);
 	m_Module.SpawnRate = 60;
@@ -73,12 +71,13 @@ CParticleSystem::CParticleSystem()
 	m_Module.FixedAngle;
 
 	// Scale
-	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::SCALE] = 1;
+	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::SCALE] = 0;
 	m_Module.vScaleRatio = Vec3(0.1f, 0.1f, 0.1f);
 
 	// Noise Force
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE] = 1;
-	m_Module.NoiseForceScale = 200.f;
+	m_Module.NoiseForceScale = 50.f;
+	m_Module.NoiseForceTerm = 0.3f;
 
 	// Calculate Force
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::CALCULATE_FORCE] = 1;
@@ -136,7 +135,6 @@ void CParticleSystem::finaltick()
 void CParticleSystem::render()
 {
 	// View, Proj 행렬 전달
-	//GetOwner()->GetComponent(COMPONENT_TYPE::TRANSFORM)->UpdateData();
 	Transform()->UpdateData();
 	
 	// ParticleBuffer 바인딩

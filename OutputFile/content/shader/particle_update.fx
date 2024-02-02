@@ -3,6 +3,7 @@
 
 #include "value.fx"
 #include "struct.fx"
+#include "func.fx"
 
 StructuredBuffer<tParticleModule> g_Module : register(t20);
 RWStructuredBuffer<tParticle> g_ParticleBuffer : register(u0);
@@ -46,6 +47,8 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
             if (AliveCount == Origin)
             {
                 Particle.Active = 1;
+                Particle.vNoiseForce = (float3) 0.f;
+                Particle.NoiseForceTime = 0.f;
                 
                 // ·£´ý
                 float2 vUV = float2((1.f / (MAX_COUNT - 1)) * id.x, 0.f);
@@ -143,13 +146,23 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
         // Noise Force
         if (Module.arrModuleCheck[4])
         {
-            float3 vRandomForce = normalize(vRand.xyz - 0.5f);
-            Particle.vForce.xyz += Module.NoiseForceScale * vRandomForce;
+            if (Particle.NoiseForceTime == 0.f)
+            {
+                Particle.vNoiseForce = normalize(vRand.xyz * 2.f - 1.f) * Module.NoiseForceScale;
+                Particle.NoiseForceTime = g_time;
+            }
+            else if (Module.NoiseForceTerm < g_time - Particle.NoiseForceTime)
+            {
+                Particle.vNoiseForce = normalize(vRand.xyz * 2.f - 1.f) * Module.NoiseForceScale;
+                Particle.NoiseForceTime = g_time;
+            }
         }
         
                 // Calculate Force
         if (Module.arrModuleCheck[5])
         {
+             Particle.vForce.xyz += Particle.vNoiseForce.xyz;
+            
             // Force ¿¬»ê
             // F = M x A
             float3 vAccel = Particle.vForce.xyz / Particle.Mass;

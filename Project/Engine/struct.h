@@ -54,6 +54,8 @@ struct tParticle
 	Vec3	vVelocity;		// 속도
 	Vec4	vColor;			// 색상
 	Vec4	vForce;			// 입자에 적용된 누적 힘 총량
+	Vec3	vNoiseForce;	// NoiseForce 모듈로 인한 랜덤 힘
+	float	NoiseForceTime;	// NoiseForce 를 세팅받는 시간
 
 	float	NormalizeAge;	// Age 를 Life 기준으로 정규화한 값
 	float	Mass;			// 질량
@@ -78,7 +80,6 @@ struct tParticleModule
 	int		SpawnShape;		// 스폰 범위 (0 : Sphere, 1 : Box)
 	float	Radius;			// SpawnShape 가 Sphere 인 경우, 반지름 길이
 	Vec4	vSpawnBoxScale;	// SpawnShape 가 Box 인 경우, Box의 크기
-	Vec2	padding;
 
 
 	// Add Velocity
@@ -93,6 +94,7 @@ struct tParticleModule
 
 	// Noise Force
 	float	NoiseForceScale;
+	float	NoiseForceTerm;
 
 	// Module On / OFF
 	int arrModuleCheck[(UINT)PARTICLE_MODULE::END];
@@ -151,11 +153,11 @@ struct tAnimData2D
 struct tGlobalData
 {
 	Vec2	g_RenderResolution; // 렌더링 해상도
+	Vec2	g_NoiseTexResolution;
 	float	g_dt;				// DeltaTime
 	float	g_time;				// 누적 시간
 	int		g_Light2DCount;		// 2D 광원 개수
 	int		g_Light3DCount;		// 3D 광원 개수
-	Vec2	g_vPadding;
 };
 
 extern tGlobalData g_global;
