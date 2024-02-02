@@ -49,13 +49,14 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
                 
                 // 랜덤
                 float2 vUV = float2((1.f / (MAX_COUNT - 1)) * id.x, 0.f);
-                
                 vUV.x += g_time * 0.2f;
                 //                 ( 주파수 )    (진폭)  (V 축 offset)
                 vUV.y = sin(vUV.x * 20.f * PI) * 0.2f + g_time * 0.1f;
                                 
                 float4 vRand = g_NoiseTex.SampleLevel(g_sam_0, vUV, 0);
-                        
+                float4 vRand1 = g_NoiseTex.SampleLevel(g_sam_0, vUV - float2(0.1f, 0.1f), 0);
+                float4 vRand2 = g_NoiseTex.SampleLevel(g_sam_0, vUV - float2(0.2f, 0.2f), 0);
+                
                 // SpawnShape 가 Sphere 타입이라면
                 if (0 == Module.SpawnShape)
                 {
@@ -78,11 +79,14 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
                 Particle.vColor = Module.vSpawnColor;
                 
                 // 스폰 크기 설정                
-                Particle.vWorldScale = (Module.vSpawnMaxScale - Module.vSpawnMinScale) * vRand[2] + Module.vSpawnMinScale;
+                Particle.vWorldInitScale = Particle.vWorldScale = (Module.vSpawnMaxScale - Module.vSpawnMinScale) * vRand[2] + Module.vSpawnMinScale;
                 
                 // 스폰 Life 설정
                 Particle.Age = 0.f;
                 Particle.Life = (Module.MaxLife - Module.MinLife) * vRand[0] + Module.MaxLife;
+                
+                // 스폰 Mass 설정
+                Particle.Mass = clamp(vRand1[0], Module.MinMass, Module.MaxMass);
                 
                 // Add VelocityModule
                 if (Module.arrModuleCheck[3])
@@ -98,6 +102,10 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
                         float3 vDir = -normalize(Particle.vLocalPos.xyz);
                         Particle.vVelocity.xyz = vDir * clamp(vRand[2], Module.MinSpeed, Module.MaxSpeed);
                     }
+                }
+                else
+                {
+                     Particle.vVelocity.xyz = float3(0.f, 0.f, 0.f);
                 }
                 
                 break;
@@ -115,14 +123,51 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
             return;
         }
         
-        if (0 == Module.SpaceType)
+        // 랜덤값 추출
+        float2 vUV = float2((1.f / (MAX_COUNT - 1)) * id.x, 0.f);
+        vUV.x += g_time * 0.2f;
+        vUV.y = sin(vUV.x * 20.f * PI) * 0.2f + g_time * 0.1f;
+        float4 vRand = g_NoiseTex.SampleLevel(g_sam_0, vUV, 0);
+        
+        // Normalize Age 계산
+        Particle.NomalizedAge = Particle.Age / Particle.Life;
+        
+        Particle.vForce.xyz = float3(0.f, 0.f, 0.f);
+        
+         // Scale 모듈
+        if (Module.arrModuleCheck[2])
         {
-            Particle.vLocalPos.xyz += Particle.vVelocity.xyz * g_dt;
-            Particle.vWorldPos.xyz = Particle.vLocalPos.xyz + CenterPos;
+            Particle.vWorldScale = Particle.vWorldInitScale * (1.f + (Module.vScaleRatio - 1.f) * Particle.NomalizedAge);
         }
-        else if (1 == Module.SpaceType)
+        
+        // Noise Force
+        if (Module.arrModuleCheck[4])
         {
-            Particle.vWorldPos.xyz += Particle.vVelocity.xyz * g_dt;
+            float3 vRandomForce = normalize(vRand.xyz - 0.5f);
+            Particle.vForce.xyz += Module.NoiseForceScale * vRandomForce;
+        }
+        
+                // Calculate Force
+        if (Module.arrModuleCheck[5])
+        {
+            // Force 연산
+            // F = M x A
+            float3 vAccel = Particle.vForce.xyz / Particle.Mass;
+            
+            // Accel 연산
+            Particle.vVelocity.xyz += vAccel * g_dt;
+            
+            // Velocity 연산
+            // 모듈 공간타입
+            if (0 == Module.SpaceType)
+            {
+                Particle.vLocalPos.xyz += Particle.vVelocity.xyz * g_dt;
+                Particle.vWorldPos.xyz = Particle.vLocalPos.xyz + CenterPos;
+            }
+            else if (1 == Module.SpaceType)
+            {
+                Particle.vWorldPos.xyz += Particle.vVelocity.xyz * g_dt;
+            }
         }
     }
 }
