@@ -145,6 +145,22 @@ int CDevice::CreateSwapChain()
 	pIdxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pAdapter.GetAddressOf());
 	pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pFactory.GetAddressOf());
 
+	//// 그래픽카드확인
+	//DXGI_ADAPTER_DESC adpterDesc;
+	//pAdapter->GetDesc(&adpterDesc);
+
+	//size_t strignLength = 0;
+	//char m_videoCardDescription[128] = { 0 };
+	//wcstombs_s(&strignLength, m_videoCardDescription, 128, adpterDesc.Description, 128);
+
+	//const WCHAR* pwcsName;
+	//int size = MultiByteToWideChar(CP_ACP, 0, m_videoCardDescription, -1, NULL, 0);
+	//pwcsName = new WCHAR[strignLength];
+	//MultiByteToWideChar(CP_ACP, 0, m_videoCardDescription, -1, (LPWSTR)pwcsName, size);
+
+	//OutputDebugString(pwcsName);
+	/////////////
+	
 	// SwapChain 생성
 	if (FAILED(pFactory->CreateSwapChain(m_Device.Get(), &tDesc, m_SwapChain.GetAddressOf())))
 	{

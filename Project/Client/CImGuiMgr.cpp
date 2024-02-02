@@ -141,7 +141,8 @@ void CImGuiMgr::AddUI(const string& _strKey, UI* _UI)
 
 void CImGuiMgr::dockspace()
 {
-    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+    //ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(),ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingOverCentralNode);
 
     if (ImGui::BeginMainMenuBar())
     {

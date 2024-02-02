@@ -59,10 +59,10 @@ CParticleSystem::CParticleSystem()
 	m_Module.MaxLife = 1.f;
 	m_Module.MinMass = 1.f;
 	m_Module.MaxMass = 1.f;
-	m_Module.SpawnShape = 1; // 0 : Sphere
+	m_Module.SpawnShape = 0; // 0 : Sphere
 	m_Module.Radius = 100.f;
 	m_Module.vSpawnBoxScale = Vec4(500.f, 500.f, 0.f, 0.f);
-	m_Module.SpawnRate = 5;
+	m_Module.SpawnRate = 60;
 
 	// Add Velocity Module
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = 0;
