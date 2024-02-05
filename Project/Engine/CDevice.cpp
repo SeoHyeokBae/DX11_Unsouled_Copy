@@ -17,18 +17,6 @@ CDevice::CDevice()
 CDevice::~CDevice()
 {
 	Delete_Array(m_arrCB);
-
-//#if defined(DEBUG) || defined(_DEBUG)
-//	Microsoft::WRL::ComPtr<ID3D11Debug> dxgiDebug;
-//
-//	if (SUCCEEDED(CDevice::GetInst()->GetDevice()->QueryInterface(IID_PPV_ARGS(&dxgiDebug))))
-//	{
-//		dxgiDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-//		dxgiDebug->Release();
-//		dxgiDebug = nullptr;
-//	}
-//#endif
-
 }
 
 int CDevice::init(HWND _hWnd, Vec2 _vResolution)
