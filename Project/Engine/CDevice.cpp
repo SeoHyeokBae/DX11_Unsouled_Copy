@@ -392,7 +392,7 @@ int CDevice::CreateSamplerState()
 	CONTEXT->DSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 	CONTEXT->GSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 	CONTEXT->PSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
-	CONTEXT->CSSetSamplers(1, 1, m_arrSampler[0].GetAddressOf());
+	CONTEXT->CSSetSamplers(1, 1, m_arrSampler[1].GetAddressOf());
 
 
 	return S_OK;
