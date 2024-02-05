@@ -20,7 +20,7 @@ struct VS_OUT
 {
     float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
-    float InstID : FOG;
+    uint InstID : FOG;
 };
 
 VS_OUT VS_Particle(VS_IN _in)
@@ -43,7 +43,7 @@ struct GS_OUT
 {
     float4 vPosition : SV_Position;
     float2 vUV : TEXCOORD;
-    float InstID : FOG;
+    uint InstID : FOG;
 };
 
 [maxvertexcount(12)]
@@ -53,7 +53,7 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
     GS_OUT output_cross[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
     
     // GS 가 담당하는 파티클 정보를 가져온다.
-    tParticle particle = g_ParticleBuffer[(int) _in[0].InstID];
+    tParticle particle = g_ParticleBuffer[_in[0].InstID];
     if (0 == particle.Active)
     {
         return;
@@ -154,7 +154,7 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
 
 float4 PS_Particle(GS_OUT _in) : SV_Target
 {
-    tParticle particle = g_ParticleBuffer[(uint) _in.InstID];
+    tParticle particle = g_ParticleBuffer[_in.InstID];
     tParticleModule module = g_ParticleModule[0];
     
     // 출력 색상
@@ -168,18 +168,18 @@ float4 PS_Particle(GS_OUT _in) : SV_Target
     }
     
     // 렌더모듈이 켜져 있으며
-    //if (module.arrModuleCheck[6])
-    //{
-    //    if (1 == module.AlphaBasedLife)
-    //    {
-    //        vOutColor.a = saturate(1.f - clamp(particle.NomalizedAge, 0.f, 1.f));
-    //    }
-    //    else if (2 == module.AlphaBasedLife)
-    //    {
-    //        float fRatio = particle.Age / module.AlphaMaxAge;
-    //        vOutColor.a = saturate(1.f - clamp(fRatio, 0.f, 1.f));
-    //    }
-    //}
+    if (module.arrModuleCheck[6])
+    {
+        if (1 == module.AlphaBasedLife)
+        {
+            vOutColor.a = saturate(1.f - clamp(particle.NomalizedAge, 0.f, 1.f));
+        }
+        else if (2 == module.AlphaBasedLife)
+        {
+            float fRatio = particle.Age / module.AlphaMaxAge;
+            vOutColor.a = saturate(1.f - clamp(fRatio, 0.f, 1.f));
+        }
+    }
     
     return vOutColor;
 }
