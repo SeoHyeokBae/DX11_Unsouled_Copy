@@ -97,7 +97,9 @@ struct tParticleModule
 	float	NoiseForceTerm;
 
 	// Render
-	int		VelocityAlignment; // 1 : On, 0 : Off
+	int		VelocityAlignment;  // 1 : On, 0 : Off
+	int		AlphaBasedLife;		// 0 : off, 1 : NomrlizedAge, 2: Age
+	float	AlphaMaxAge;
 
 	// Module On / OFF
 	int arrModuleCheck[(UINT)PARTICLE_MODULE::END];

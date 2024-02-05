@@ -50,13 +50,13 @@ void AnimationEditorUI::render_update()
 		for (int i = 0; i < m_vecRect.size(); i++)
 		{
 			if ( 0 != i)
-				ImGui::SameLine(100 * i);
+				ImGui::SameLine(100.f * i);
 
 			ImVec2 displayLT = m_vecRect[i].GetTL();
 			ImVec2 displayRB = m_vecRect[i].GetBR();
 			ImVec2 displaySize = m_vecRect[i].GetSize();
-			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6;
-			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6;
+			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
+			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
 			ComPtr<ID3D11ShaderResourceView> tSRV = m_CurAtlas.Get()->GetSRV();
 
 			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
