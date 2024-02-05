@@ -23,6 +23,12 @@ void CAssetMgr::CreateDefaultMesh()
 {
 	CMesh* pMesh = nullptr;
 
+	Vtx vPoint;
+	UINT Idx = 0;
+	pMesh = new CMesh;
+	pMesh->Create(&vPoint, 1, &Idx, 1);
+	AddAsset(L"PointMesh", pMesh);
+
 	// 전역변수에 삼각형 위치 설정
 	//   0(Red)-- 1(Blue)	     
 	//    |   \   |	     
@@ -203,8 +209,10 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	// ====================
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\particle.fx", "VS_Particle");
+	pShader->CreateGeometryShader(L"shader\\particle.fx", "GS_Particle");
 	pShader->CreatePixelShader(L"shader\\particle.fx", "PS_Particle");
 
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);		// 깊이 테스트는 진행, 깊이는 기록 X
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);

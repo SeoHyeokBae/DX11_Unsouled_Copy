@@ -96,6 +96,9 @@ struct tParticleModule
 	float	NoiseForceScale;
 	float	NoiseForceTerm;
 
+	// Render
+	int		VelocityAlignment; // 1 : On, 0 : Off
+
 	// Module On / OFF
 	int arrModuleCheck[(UINT)PARTICLE_MODULE::END];
 };

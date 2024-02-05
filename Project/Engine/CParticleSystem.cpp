@@ -19,7 +19,7 @@ CParticleSystem::CParticleSystem()
 	, m_MaxParticleCount(2000)
 {
 	// 전용 메쉬와 전용 재질 사용
-	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleMtrl"));
 
 	// 렌더링 해상도
@@ -46,13 +46,13 @@ CParticleSystem::CParticleSystem()
 	m_SpawnCountBuffer = new CStructuredBuffer;
 	m_SpawnCountBuffer->Create(sizeof(tSpawnCount), 1, SB_TYPE::READ_WRITE, true);
 
-	// 파티클 모듈값 세팅
+	// 초기 모듈 세팅
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::SPAWN] = 1;
 
 	m_Module.SpaceType = 1;
 	m_Module.vSpawnColor = Vec4(0.2f, 0.4f, 0.9f, 1.f);
-	m_Module.vSpawnMinScale = Vec4(30.f, 30.f, 1.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec4(30.f, 30.f, 1.f, 1.f);
+	m_Module.vSpawnMinScale = Vec4(100.f, 30.f, 1.f, 1.f);
+	m_Module.vSpawnMaxScale = Vec4(100.f, 30.f, 1.f, 1.f);
 	m_Module.MinLife = 3.0f;
 	m_Module.MaxLife = 5.f;
 	m_Module.MinMass = 1.f;
@@ -82,8 +82,11 @@ CParticleSystem::CParticleSystem()
 	// Calculate Force
 	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::CALCULATE_FORCE] = 1;
 
-	m_ParticleTex = CAssetMgr::GetInst()->Load<CTexture>(L"texture\\particle\\CartoonSmoke.png", L"texture\\particle\\CartoonSmoke.png");
+	// Render 
+	m_Module.arrModuleCheck[(UINT)PARTICLE_MODULE::RENDER] = 1;
+	m_Module.VelocityAlignment = 1; // 속도에 따른 방향 정렬
 
+	m_ParticleTex = CAssetMgr::GetInst()->Load<CTexture>(L"texture\\particle\\HardRain.png", L"texture\\particle\\HardRain.png");
 }
 
 CParticleSystem::~CParticleSystem()
@@ -139,6 +142,7 @@ void CParticleSystem::render()
 	
 	// ParticleBuffer 바인딩
 	m_ParticleBuffer->UpdateData(20);
+	m_ParticleModuleBuffer->UpdateData(21);
 
 	// 모든 파티클 렌더링
 	// 
@@ -151,6 +155,7 @@ void CParticleSystem::render()
 
 	// 렌더링때 사용한 리소스 바인딩 Clear
 	m_ParticleBuffer->Clear(20);
+	m_ParticleModuleBuffer->Clear(21);
 }
 
 void CParticleSystem::UpdateData()
