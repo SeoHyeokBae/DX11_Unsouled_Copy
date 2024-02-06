@@ -26,19 +26,12 @@ void TreeNode::render_update()
 	}
 }
 
+UINT TreeUI::NodeID = 0;
+
 TreeUI::TreeUI(const string& _ID)
 	: UI("", _ID)
+	, m_bShowRoot(true)
 {
-	m_Root = new TreeNode;
-	m_Root->m_Name = "Root";
-	m_Root->m_ID = "##1";
-
-	TreeNode* pChild = new TreeNode;
-	pChild->m_Name = "Child";
-	pChild->m_ID = "##2";
-
-	m_Root->m_vecChildNode.push_back(pChild);
-
 }
 
 TreeUI::~TreeUI()
@@ -48,8 +41,46 @@ TreeUI::~TreeUI()
 
 void TreeUI::render_update()
 {
-	if (nullptr != m_Root)
+	if (nullptr == m_Root)
+		return;
+
+	if (m_bShowRoot)
 	{
 		m_Root->render_update();
 	}
+
+	else
+	{
+		for (size_t i = 0; i < m_Root->m_vecChildNode.size(); i++)
+		{
+			m_Root->m_vecChildNode[i]->render_update();
+		}
+	}
+}
+
+TreeNode* TreeUI::AddTreeNode(TreeNode* _Parent, string _strName, DWORD_PTR _dwData)
+{
+	TreeNode* pNewNode = new TreeNode;
+	pNewNode->m_Data = _dwData;
+	pNewNode->SetName(_strName);
+
+	// 노드마다 겹치지 않는 숫자를 ## 뒤에 ID로 붙인다
+	UINT id = NodeID++;
+
+	char buff[50] = {};
+	sprintf_s(buff, "##%d", id);
+	pNewNode->SetID(buff);
+
+	if (nullptr == _Parent)
+	{
+		assert(!m_Root);
+
+		m_Root = pNewNode;
+	}
+	else
+	{
+		_Parent->AddChildeNode(pNewNode);
+	}
+
+	return pNewNode;
 }

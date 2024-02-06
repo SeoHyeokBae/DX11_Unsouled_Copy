@@ -142,7 +142,9 @@
     <ClInclude Include="AnimationEditorUI.h">
       <Filter>UI\5. Editor</Filter>
     </ClInclude>
-    <ClInclude Include="TreeUI.h" />
+    <ClInclude Include="TreeUI.h">
+      <Filter>UI\5. Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -225,6 +227,8 @@
     <ClCompile Include="AnimationEditorUI.cpp">
       <Filter>UI\5. Editor</Filter>
     </ClCompile>
-    <ClCompile Include="TreeUI.cpp" />
+    <ClCompile Include="TreeUI.cpp">
+      <Filter>UI\5. Module</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

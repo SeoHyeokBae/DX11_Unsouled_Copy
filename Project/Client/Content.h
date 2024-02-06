@@ -9,7 +9,10 @@ class Content :
     public UI
 {
 private:
-    TreeUI* m_Tree;
+    TreeUI*     m_Tree;
+
+public:
+    void ResetContent();
 
 public:
     virtual void render_update() override;
