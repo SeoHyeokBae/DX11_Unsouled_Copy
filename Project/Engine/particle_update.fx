@@ -170,17 +170,33 @@ void CS_ParticleUpdate(uint3 id : SV_DispatchThreadID)
             // Accel 연산
             Particle.vVelocity.xyz += vAccel * g_dt;
             
-            // Velocity 연산
-            // 모듈 공간타입
-            if (0 == Module.SpaceType)
+            // Drag 모듈이 켜져있으면
+            if (Module.arrModuleCheck[1])
             {
+                float LimitTime = Module.DragTime - Particle.Age;
+                
+                if (LimitTime <= 0.f)
+                {
+                    Particle.vVelocity = 0.f;
+                }
+                else
+                {
+                    float DT = g_dt / LimitTime;
+                    Particle.vVelocity -= Particle.vVelocity * DT;
+                }
+            }
+            
+            // Velocity 에 따른 위치이동 연산
+            // 모듈 공간타입
+                if (0 == Module.SpaceType)
+                {
                 Particle.vLocalPos.xyz += Particle.vVelocity.xyz * g_dt;
                 Particle.vWorldPos.xyz = Particle.vLocalPos.xyz + CenterPos;
-            }
-            else if (1 == Module.SpaceType)
-            {
+                }
+                else if (1 == Module.SpaceType)
+                {
                 Particle.vWorldPos.xyz += Particle.vVelocity.xyz * g_dt;
-            }
+                }
         }
     }
 }
