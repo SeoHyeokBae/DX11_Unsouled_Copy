@@ -197,6 +197,7 @@
     <ClInclude Include="AnimationEditorUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TransformUI.h" />
+    <ClInclude Include="TreeUI.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +228,7 @@
     </ClCompile>
     <ClCompile Include="AnimationEditorUI.cpp" />
     <ClCompile Include="TransformUI.cpp" />
+    <ClCompile Include="TreeUI.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
