@@ -96,6 +96,9 @@ struct tParticleModule
 	float	NoiseForceScale;
 	float	NoiseForceTerm;
 
+	// Drag
+	float	DragTime;	// 감속시키는데 걸리는 시간
+
 	// Render
 	int		VelocityAlignment;  // 1 : On, 0 : Off
 	int		AlphaBasedLife;		// 0 : off, 1 : NomrlizedAge, 2: Age

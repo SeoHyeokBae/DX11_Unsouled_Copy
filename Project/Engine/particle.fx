@@ -159,6 +159,7 @@ float4 PS_Particle(GS_OUT _in) : SV_Target
     
     // 출력 색상
     float4 vOutColor = particle.vColor;
+    vOutColor.a = 1.f;
     
     if (g_btex_0)
     {
@@ -172,12 +173,12 @@ float4 PS_Particle(GS_OUT _in) : SV_Target
     {
         if (1 == module.AlphaBasedLife)
         {
-            vOutColor.a = saturate(1.f - clamp(particle.NomalizedAge, 0.f, 1.f));
+            vOutColor.a *= saturate(1.f - clamp(particle.NomalizedAge, 0.f, 1.f));
         }
         else if (2 == module.AlphaBasedLife)
         {
             float fRatio = particle.Age / module.AlphaMaxAge;
-            vOutColor.a = saturate(1.f - clamp(fRatio, 0.f, 1.f));
+            vOutColor.a *= saturate(1.f - clamp(fRatio, 0.f, 1.f));
         }
     }
     
