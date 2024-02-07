@@ -9,6 +9,7 @@ AnimationEditorUI::AnimationEditorUI()
 	: UI("Animation Editor", "##AnimationEditor")
 	, m_bOpen(true)
 	, m_CurAtlas(nullptr)
+	, m_CanVasLeftTop(ImVec2(0.f,0.f))
 {
 	Deactivate();
 }
@@ -52,11 +53,11 @@ void AnimationEditorUI::render_update()
 			if ( 0 != i)
 				ImGui::SameLine(100.f * i);
 
-			ImVec2 displayLT = m_vecRect[i].GetTL();
-			ImVec2 displayRB = m_vecRect[i].GetBR();
+			ImVec2 displayLT = m_vecRect[i].GetTL() + m_CanVasLeftTop;
+			ImVec2 displayRB = m_vecRect[i].GetBR() + m_CanVasLeftTop;
 			ImVec2 displaySize = m_vecRect[i].GetSize();
-			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
-			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
+			float texturewidth = (m_CurAtlas.Get()->GetWidth()) ;
+			float textureheight = (m_CurAtlas.Get()->GetHeight()) ;
 			ComPtr<ID3D11ShaderResourceView> tSRV = m_CurAtlas.Get()->GetSRV();
 
 			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
@@ -64,19 +65,14 @@ void AnimationEditorUI::render_update()
 
 			ImGui::Image((void*)tSRV.Get(), ImVec2(displaySize.x, displaySize.y),uv0,uv1 ,ImVec4(1,1,1,1), ImVec4(1, 1, 1, 1));
 
-			//ImGui::Text("size = %d x %d", my_image_width, my_image_height);
+			//ImGui::Text("size = %d x %d", my_image_width, my_image_height); 24 17
 
 		}
 	}
 
 
-	
-
 	ImGui::EndChild();
 	ImGui::End();
-
-
-	
 }
 
 void AnimationEditorUI::DrawCanvas()
@@ -98,6 +94,8 @@ void AnimationEditorUI::DrawCanvas()
 	if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
 	ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
+	m_CanVasLeftTop = canvas_p0;
+
 	// Draw border and background color
 	ImGuiIO& io = ImGui::GetIO();
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -112,10 +110,10 @@ void AnimationEditorUI::DrawCanvas()
 	m_CurAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
 
 	my_texture = m_CurAtlas.Get()->GetSRV().Get();
-	float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f;
-	float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f;
+	float my_image_width = m_CurAtlas.Get()->GetWidth();
+	float my_image_height = m_CurAtlas.Get()->GetHeight();
 
-	ImVec2 left_top = ImVec2(50.f, 150.f) + ImVec2(scrolling.x, scrolling.y);
+	ImVec2 left_top = ImVec2(scrolling.x, scrolling.y);
 	ImVec2 right_bottom = ImVec2(my_image_width, my_image_height) + ImVec2(scrolling.x, scrolling.y);
 	
 	draw_list->AddImage((void*)my_texture.Get(), left_top * sz, right_bottom * sz);

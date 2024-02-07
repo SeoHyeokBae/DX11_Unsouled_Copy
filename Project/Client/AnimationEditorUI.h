@@ -11,6 +11,8 @@ private:
     vector<ImRect> m_vecRect;
     Ptr<CTexture> m_CurAtlas;
 
+    ImVec2 m_CanVasLeftTop;
+
     bool m_bOpen;
 
 public:
