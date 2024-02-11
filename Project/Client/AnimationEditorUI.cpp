@@ -81,8 +81,8 @@ void AnimationEditorUI::render_update()
 			if ( 0 != i)
 				ImGui::SameLine(110.f * i);
 
-			ImVec2 displayLT = m_vecRect[i].GetTL() ;
-			ImVec2 displayRB = m_vecRect[i].GetBR() ;
+			ImVec2 displayLT = m_vecRect[i].GetTL();
+			ImVec2 displayRB = m_vecRect[i].GetBR();
 			ImVec2 displaySize = m_vecRect[i].GetSize();
 			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
 			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
