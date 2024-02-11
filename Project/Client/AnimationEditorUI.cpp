@@ -135,6 +135,10 @@ void AnimationEditorUI::DrawCanvas()
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 	m_MousePos = mouse_pos_in_canvas;
 	m_CenterPos -= scrolling;
+	ImVec2 prvCenterpos = m_CenterPos;
+	m_CenterPos *= WheelSz;
+	ImVec2 gap = m_CenterPos - prvCenterpos;
+	
 
 	// MX = 마우스 포인트 위치 mouse_pos_in_canvas
 	// SX = element 와 화면 사이 거리
@@ -155,14 +159,14 @@ void AnimationEditorUI::DrawCanvas()
 	float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f;
 	float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f;
 
-	ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y);
+	ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y)- gap;
 	ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height) * WheelSz) ;
 
 	
 	draw_list->AddImage((void*)my_texture.Get(), left_top , right_bottom );
 	draw_list->AddRect(left_top , right_bottom , IM_COL32(255, 255, 255, 255)); // 아틀라스테두리
 	draw_list->PopClipRect();
-	
+	 
 	// 좌클릭시
 	if (is_hovered && !cutting_rect && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
