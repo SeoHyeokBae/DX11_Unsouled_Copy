@@ -22,13 +22,36 @@ AnimationEditorUI::~AnimationEditorUI()
 void AnimationEditorUI::render_update()
 {
 	// botton 추가
-	// todo
+	if (ImGui::Button("Load Texture"))
+	{
+		// todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Slice Sprite"))
+	{
+		// todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Trim Slice"))
+	{
+		// todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Smart Slice"))
+	{
+		// todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Add Sprite to Animation"))
+	{
+		// todo
+	}
 
 	DrawCanvas();
 
-	ImGui::Begin("list" , &m_bOpen);
-	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
-	ImVec2 canvas_sz = ImVec2(250.f,250.f);   // Resize canvas to what's available
+	ImGui::Begin("list" , &m_bOpen );
+	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();    
+	ImVec2 canvas_sz = ImVec2(250.f,250.f);
 	if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 	if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
 	ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
@@ -39,10 +62,6 @@ void AnimationEditorUI::render_update()
 	draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(50, 50, 50, 255));
 	ImGui::End();
 
-	//float my_image_width = m_CurAtlas.Get()->GetWidth() / canvas_sz.x;
-	//float my_image_height = m_CurAtlas.Get()->GetHeight() / canvas_sz.y;
-	//ImGui::Image((void*)m_CurAtlas.Get(), ImVec2(my_image_width, my_image_height));
-
 	// Sprite 나열
 	ImGui::Begin("Sprite", &m_bOpen);
 	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border);
@@ -51,22 +70,19 @@ void AnimationEditorUI::render_update()
 		for (int i = 0; i < m_vecRect.size(); i++)
 		{
 			if ( 0 != i)
-				ImGui::SameLine(100.f * i);
+				ImGui::SameLine(110.f * i);
 
 			ImVec2 displayLT = m_vecRect[i].GetTL() + m_CanVasLeftTop;
 			ImVec2 displayRB = m_vecRect[i].GetBR() + m_CanVasLeftTop;
 			ImVec2 displaySize = m_vecRect[i].GetSize();
-			float texturewidth = (m_CurAtlas.Get()->GetWidth()) ;
-			float textureheight = (m_CurAtlas.Get()->GetHeight()) ;
-			ComPtr<ID3D11ShaderResourceView> tSRV = m_CurAtlas.Get()->GetSRV();
+			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
+			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
 
 			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
-			ImGui::Image((void*)tSRV.Get(), ImVec2(displaySize.x, displaySize.y),uv0,uv1 ,ImVec4(1,1,1,1), ImVec4(1, 1, 1, 1));
-
-			//ImGui::Text("size = %d x %d", my_image_width, my_image_height); 24 17
-
+			//ImGui::Image((void*)tSRV.Get(), ImVec2(displaySize.x, displaySize.y),uv0,uv1 ,ImVec4(1,1,1,1), ImVec4(1, 1, 1, 1));
+			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), ImVec4(1, 1, 1, 1));
 		}
 	}
 
@@ -86,10 +102,11 @@ void AnimationEditorUI::DrawCanvas()
 	static bool opt_enable_context_menu = true;
 
 	ImGui::Checkbox("Enable grid", &opt_enable_grid);
+	ImGui::SameLine();
 	ImGui::Checkbox("Enable context menu", &opt_enable_context_menu);
 
-	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
-	ImVec2 canvas_sz = ImGui::GetContentRegionAvail() ;   // Resize canvas to what's available
+	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      
+	ImVec2 canvas_sz = ImGui::GetContentRegionAvail() ;  
 	if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 	if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
 	ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
@@ -102,7 +119,22 @@ void AnimationEditorUI::DrawCanvas()
 	draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(50, 50, 50, 255));
 	//draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(255, 255, 255, 255));
 
+	// This will catch our interactions
+	ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
+	const bool is_hovered = ImGui::IsItemHovered(); // Hovered
+	const bool is_active = ImGui::IsItemActive();   // Held
+	const ImVec2 origin(canvas_p0.x * sz + scrolling.x, canvas_p0.y* sz + scrolling.y); // Lock scrolled origin
+	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
+	// MX = 마우스 포인트 위치 mouse_pos_in_canvas
+// SX = element 와 화면 사이 거리
+// SX2 = sz 처리 이후
+// Scale = sz
+
+// 새로운 위치
+// SX2 = ( SX + MX) * ( Scale2 / Scale1) - mx
+// SX2 = ( SX + mouse_pos_in_canvas) * ( Scale1 * sz / Scale1) - mouse_pos_in_canvas
+// 
 	// Canvas 안에 이미지출력
 	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
 	ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
@@ -110,22 +142,17 @@ void AnimationEditorUI::DrawCanvas()
 	m_CurAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
 
 	my_texture = m_CurAtlas.Get()->GetSRV().Get();
-	float my_image_width = m_CurAtlas.Get()->GetWidth();
-	float my_image_height = m_CurAtlas.Get()->GetHeight();
+	float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f;
+	float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f;
 
 	ImVec2 left_top = ImVec2(scrolling.x, scrolling.y);
-	ImVec2 right_bottom = ImVec2(my_image_width, my_image_height) + ImVec2(scrolling.x, scrolling.y);
+	ImVec2 right_bottom = ImVec2(my_image_width, my_image_height) * sz + ImVec2(scrolling.x, scrolling.y);
+
 	
-	draw_list->AddImage((void*)my_texture.Get(), left_top * sz, right_bottom * sz);
-	draw_list->AddRect(left_top * sz, right_bottom * sz, IM_COL32(255, 255, 255, 255)); // 아틀라스테두리
+	draw_list->AddImage((void*)my_texture.Get(), left_top , right_bottom );
+	draw_list->AddRect(left_top , right_bottom , IM_COL32(255, 255, 255, 255)); // 아틀라스테두리
 	draw_list->PopClipRect();
 	
-	// This will catch our interactions
-	ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
-	const bool is_hovered = ImGui::IsItemHovered(); // Hovered
-	const bool is_active = ImGui::IsItemActive();   // Held
-	const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
-	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
 
 	// 좌클릭시
@@ -152,14 +179,14 @@ void AnimationEditorUI::DrawCanvas()
 	const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
 	if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
 	{
-		scrolling.x += io.MouseDelta.x;
-		scrolling.y += io.MouseDelta.y;
+		scrolling.x += io.MouseDelta.x * sz;
+		scrolling.y += io.MouseDelta.y * sz;
 	}
 
 	// 마우스 휠
 	if (io.MouseWheel > 0.f || io.MouseWheel)
 	{
-		sz += 0.1f*io.MouseWheel;
+		sz += 0.1f * io.MouseWheel;
 	}
 
 	// 오른쪽 마우스 메뉴
@@ -187,12 +214,13 @@ void AnimationEditorUI::DrawCanvas()
 	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
 	if (opt_enable_grid)
 	{
-		const float GRID_STEP = 64.0f;
-		for (float x = fmodf(scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
+		const float GRID_STEP = 64.0f* sz;
+		for (float x = fmodf(scrolling.x , GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
 			draw_list->AddLine(ImVec2(canvas_p0.x + x, canvas_p0.y), ImVec2(canvas_p0.x + x, canvas_p1.y), IM_COL32(200, 200, 200, 40));
 		for (float y = fmodf(scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
 	} 
+
 	// draw rect
 	for (int n = 0; n < points.Size; n += 2)
 	{
@@ -208,7 +236,7 @@ void AnimationEditorUI::DrawCanvas()
 			leftTop.y = origin.y + points[n + 1].y;
 			rightBottom.y = origin.y + points[n].y;
 		}
-		draw_list->AddRect(leftTop,rightBottom, IM_COL32(255, 255, 0, 255), 2.0f);	
+		draw_list->AddRect(leftTop ,rightBottom , IM_COL32(255, 255, 0, 255), 2.0f);
 	}
 
 	draw_list->PopClipRect();
@@ -221,18 +249,12 @@ void AnimationEditorUI::Deactivate()
 	UI::Deactivate();
 }
 
-//ImGui::Begin("DirectX11 Texture Test");
-//ImGui::End();
 
+// MX = 마우스 포인트 위치 mouse_pos_in_canvas
+// SX = element 와 화면 사이 거리
+// SX2 = sz 처리 이후
+// Scale = sz
 
-	////텍스처출력
-	////ID3D11ShaderResourceView* my_texture = NULL;
-	//ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
-	//Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
-	//my_texture = pAltasTex.Get()->GetSRV().Get();
-	//float my_image_width = pAltasTex.Get()->GetWidth() * 0.3f;
-	//float my_image_height = pAltasTex.Get()->GetHeight() * 0.3f;
-	//
-	//ImGui::Image((void*)my_texture.Get(), ImVec2(my_image_width, my_image_height));
-	//ImGui::Text("pointer = %p", my_texture);
-	//ImGui::Text("size = %d x %d", my_image_width, my_image_height);
+// 새로운 위치
+// SX2 = ( SX + MX) * ( Scale2 / Scale1) - mx
+// SX2 = ( SX + mouse_pos_in_canvas) * ( Scale1 * sz / Scale1) - mouse_pos_in_canvas
