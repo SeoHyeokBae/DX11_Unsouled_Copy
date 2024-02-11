@@ -11,8 +11,11 @@ private:
     vector<ImRect> m_vecRect;
     Ptr<CTexture> m_CurAtlas;
 
-    ImVec2 m_CanVasLeftTop;
-
+    ImVec2 m_CanvasLeftTop;
+    ImVec2 m_Scrolling;
+    ImVec2 m_MousePos;
+    ImVec2 m_CenterPos;
+    float m_Wheelsz;
     bool m_bOpen;
 
 public:
