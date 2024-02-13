@@ -133,11 +133,9 @@ void AnimationEditorUI::DrawCanvas()
 	const bool is_active = ImGui::IsItemActive();   // Held
 	const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
-	m_MousePos = mouse_pos_in_canvas;
 	m_CenterPos -= scrolling;
-	ImVec2 prvCenterpos = m_CenterPos;
-	m_CenterPos *= WheelSz;
-	ImVec2 gap = m_CenterPos - prvCenterpos;
+	ImVec2 gap = m_CenterPos * WheelSz - m_CenterPos;
+	m_MousePos = mouse_pos_in_canvas;
 	
 
 	// MX = 마우스 포인트 위치 mouse_pos_in_canvas
@@ -159,8 +157,8 @@ void AnimationEditorUI::DrawCanvas()
 	float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f;
 	float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f;
 
-	ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y)- gap;
-	ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height) * WheelSz) ;
+	ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y) - gap;
+	ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height) * WheelSz) + gap ;
 
 	
 	draw_list->AddImage((void*)my_texture.Get(), left_top , right_bottom );
@@ -220,7 +218,9 @@ void AnimationEditorUI::DrawCanvas()
 	for (int n = 0; n < points.Size; n += 2)
 	{
 		ImVec2 leftTop = points[n] + origin;
-		ImVec2 rightBottom = points[n + 1] + origin;
+		//ImVec2 rightBottom  = points[n+1] + origin;
+		
+		ImVec2 rightBottom = leftTop + (points[n + 1] - points[n]);
 
 		if (leftTop.x > rightBottom.x)
 		{

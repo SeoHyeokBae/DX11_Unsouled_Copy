@@ -299,5 +299,8 @@
     <ClCompile Include="ComputeShaderUI.cpp">
       <Filter>UI\3. Inspector\AssetUI\ComputeShacer</Filter>
     </ClCompile>
+    <ClCompile Include="Inspector_init.cpp">
+      <Filter>UI\3. Inspector</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

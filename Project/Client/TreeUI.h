@@ -1,9 +1,13 @@
 #pragma once
 #include "UI.h"
 
+class TreeUI;
+
 class TreeNode
 {
-public:
+private:
+    TreeUI*             m_Owner;
+
     string              m_Name;
     string              m_ID;
     vector<TreeNode*>   m_vecChildNode;
@@ -11,8 +15,15 @@ public:
     TreeNode*           m_ParentNode;
     DWORD_PTR           m_Data;
 
+    bool                m_bFrame;
+    bool                m_bSelected;
+
 public:
     void SetName(string& _Name) { m_Name = _Name; }
+    void SetFrame(bool _Frame) { m_bFrame = _Frame; }
+
+    const string& GetName() { return m_Name; }
+    DWORD_PTR GetData() { return m_Data; }
 
 private:
     void SetID(const string& _ID) { m_ID = _ID; }
@@ -41,12 +52,18 @@ private:
 
 private:
     TreeNode*   m_Root;
+    TreeNode*   m_Selected;
     bool        m_bShowRoot;
+
+    UI*             m_SelectInst;
+    Delegate_1      m_SelectFunc;
+    bool            m_bSelectEvent;
 
 public:
     virtual void render_update() override;
 
 public:
+    void AddSelectDelegate(UI* _Inst, Delegate_1 _pFunc) { m_SelectInst = _Inst; m_SelectFunc = _pFunc; }
     void ShowRootNode(bool _bShow) { m_bShowRoot = _bShow; }
     TreeNode* AddTreeNode(TreeNode* _Parent, string _strName, DWORD_PTR _dwData);
     void ClearNode()
@@ -58,8 +75,13 @@ public:
         }
     }
 
+private:
+    void SetSelectedNode(TreeNode* _SelectedNode);
+
 public:
     TreeUI(const string& _ID);
     ~TreeUI();
+
+    friend class TreeNode;
 };
 

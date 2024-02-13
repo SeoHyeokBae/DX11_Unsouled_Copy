@@ -12,6 +12,7 @@
 #include <Engine/CAsset.h>
 
 class ComponentUI;
+class AssetUI;
 
 class Inspector :
     public UI
@@ -21,6 +22,7 @@ private:
     Ptr<CAsset>     m_TargetAsset;
 
     ComponentUI*    m_arrComUI[(UINT)COMPONENT_TYPE::END];
+    AssetUI*        m_arrAssetUI[(UINT)ASSET_TYPE::END];
 
 public:
     virtual void tick() override;
@@ -32,6 +34,11 @@ public:
     void SetTargetAsset(Ptr<CAsset> _Asset);
 
     CGameObject* GetTargetObject() { return m_TargetObject; }
+
+private:
+    void CreateChildUI();
+    void CreateComponentUI();
+    void CreateAssetUI();
 
 
 public:

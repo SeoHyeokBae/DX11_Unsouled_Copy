@@ -33,12 +33,16 @@ void Content::render_update()
 
 void Content::ResetContent()
 {
+	// Tree Clear
 	m_Tree->ClearNode();
+
+	// 루트노드 추가
 	TreeNode* RootNode = m_Tree->AddTreeNode(nullptr, "Root", 0);
 
 	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
 	{
 		TreeNode* CategoryNode = m_Tree->AddTreeNode(RootNode, ASSET_TYPE_STRING[i], 0);
+		CategoryNode->SetFrame(true);
 
 		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
 
