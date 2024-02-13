@@ -219,8 +219,9 @@ void AnimationEditorUI::DrawCanvas()
 	// draw rect
 	for (int n = 0; n < points.Size; n += 2)
 	{
-		ImVec2 leftTop = ImVec2(origin.x + points[n].x, origin.y + points[n].y);
-		ImVec2 rightBottom = ImVec2(ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y));
+		ImVec2 leftTop = points[n] + origin;
+		ImVec2 rightBottom = points[n + 1] + origin;
+
 		if (leftTop.x > rightBottom.x)
 		{
 			leftTop.x = origin.x + points[n + 1].x;

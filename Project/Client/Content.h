@@ -14,6 +14,8 @@ private:
 public:
     void ResetContent();
 
+    void SelectAsset(DWORD_PTR _Node);
+
 public:
     virtual void render_update() override;
 

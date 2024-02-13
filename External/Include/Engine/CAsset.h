@@ -16,6 +16,8 @@ private:
 public:
     const wstring& GetKey() { return m_Key; }
     const wstring& GetRelativePath() { return m_RelativePath; }
+    int GetRefCount() { return m_RefCount; }
+    ASSET_TYPE GetType() { return m_Type; }
 
 private:
     void SetKey(const wstring& _Key) { m_Key = _Key; }
@@ -34,9 +36,6 @@ private:
             delete this;
         }
     }
-
-    int GetRefCount() { return m_RefCount; }
-    ASSET_TYPE GetType() { return m_Type; }
 
     virtual int Load(const wstring& _strFilePath) { return E_FAIL; }
 
