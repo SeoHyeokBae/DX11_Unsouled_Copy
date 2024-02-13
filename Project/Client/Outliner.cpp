@@ -3,15 +3,19 @@
 
 #include <Engine/CLevel.h>
 #include <Engine/CLevelMgr.h>
-#include "CImGuiMgr.h"
-#include "Inspector.h"
+#include <Engine/CLayer.h>
+#include <Engine/CGameObject.h>
 
+#include "TreeUI.h"
 
 Outliner::Outliner()
 	: UI("Outliner","##Outliner")
 {
-    m_CurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-    m_CurLevel->GetObjectName(m_vecStr);
+    m_Tree = new TreeUI("OutlinerTree");
+    m_Tree->ShowRootNode(false);
+    AddChildUI(m_Tree);
+
+    ResetCurrentLevel();
 }
 
 Outliner::~Outliner()
@@ -21,30 +25,40 @@ Outliner::~Outliner()
 void Outliner::render_update()
 {
 	ImGui::SeparatorText("Current Level All Object");
-	static int item_current_idx = -1;
-	for (int i = 0; i < m_vecStr.size(); i++)
-	{
-		const bool is_selected = (item_current_idx == i);
-
-		if (ImGui::Selectable(m_vecStr[i].c_str(), is_selected))
-			item_current_idx = i;
-
-        // 리스트 항목 중 더블클릭이 발생한다면            
-        if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-        {
-            m_strDBClicked = m_vecStr[i];
-
-            ObjectSelect(m_strDBClicked);
-        }
-	}
 
 }
 
-void Outliner::ObjectSelect(const string& _ptr)
+void Outliner::ResetCurrentLevel()
 {
-    string strObj = _ptr;
-    wstring strObjName = ToWString(strObj);
-    CGameObject* pObject = m_CurLevel->FindObjectByName(strObjName);
-    Inspector* inspec = (Inspector*)CImGuiMgr::GetInst()->FindUI("##Inspector");
-    inspec->SetTargetObject(pObject);
+    // 트리 내용을 삭제
+    m_Tree->ClearNode();
+
+    // 트리에 루트 추가
+    TreeNode* pRoodNode = m_Tree->AddTreeNode(nullptr, "DummyRoot", 0);
+
+    // 현재 레벨을 가져온다
+    CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+
+    for (UINT i = 0; i < LAYER_MAX; i++)
+    {
+        CLayer* pLayer = pCurLevel->GetLayer(i);
+        const vector<CGameObject*>& vecParent = pLayer->GetParentObjects();
+
+        for (size_t i = 0; i < vecParent.size(); i++)
+        {
+            AddObjectToTree(pRoodNode, vecParent[i]);
+        }
+    }
+}
+
+void Outliner::AddObjectToTree(TreeNode* _Node, CGameObject* _Object)
+{
+    TreeNode* pNode = m_Tree->AddTreeNode(_Node, string(_Object->GetName().begin(), _Object->GetName().end()), (DWORD_PTR)_Object);
+
+    const vector<CGameObject*>& vecChild = _Object->GetChild();
+
+    for (size_t i = 0; i < vecChild.size(); i++)
+    {
+        AddObjectToTree(pNode, vecChild[i]);
+    }
 }
