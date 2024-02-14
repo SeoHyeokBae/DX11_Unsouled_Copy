@@ -80,6 +80,12 @@
     <Filter Include="UI\3. Inspector\AssetUI\TextureUI">
       <UniqueIdentifier>{ad12e5ee-6bf8-473e-9389-69e243513551}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\5. Module\ParamUI">
+      <UniqueIdentifier>{80baa078-e96f-48b1-a929-55edd60dd103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\5. Module\TreeUI">
+      <UniqueIdentifier>{6db4acd2-46e6-4dfd-af3f-e610b2f3253f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -163,9 +169,6 @@
     <ClInclude Include="AnimationEditorUI.h">
       <Filter>UI\5. Editor</Filter>
     </ClInclude>
-    <ClInclude Include="TreeUI.h">
-      <Filter>UI\5. Module</Filter>
-    </ClInclude>
     <ClInclude Include="AssetUI.h">
       <Filter>UI\3. Inspector\AssetUI</Filter>
     </ClInclude>
@@ -189,6 +192,12 @@
     </ClInclude>
     <ClInclude Include="ComputeShaderUI.h">
       <Filter>UI\3. Inspector\AssetUI\ComputeShacer</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamUI.h">
+      <Filter>UI\5. Module\ParamUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeUI.h">
+      <Filter>UI\5. Module\TreeUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +281,6 @@
     <ClCompile Include="AnimationEditorUI.cpp">
       <Filter>UI\5. Editor</Filter>
     </ClCompile>
-    <ClCompile Include="TreeUI.cpp">
-      <Filter>UI\5. Module</Filter>
-    </ClCompile>
     <ClCompile Include="AssetUI.cpp">
       <Filter>UI\3. Inspector\AssetUI</Filter>
     </ClCompile>
@@ -301,6 +307,12 @@
     </ClCompile>
     <ClCompile Include="Inspector_init.cpp">
       <Filter>UI\3. Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="ParamUI.cpp">
+      <Filter>UI\5. Module\ParamUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeUI.cpp">
+      <Filter>UI\5. Module\TreeUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

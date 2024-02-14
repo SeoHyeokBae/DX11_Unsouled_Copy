@@ -21,6 +21,8 @@ public:
 
     void SetTexParam(TEX_PARAM _Param, Ptr<CTexture> _pTex);
 
+	void* GetScalarParam(SCALAR_PARAM _ParamType);
+
     void UpdateData();
 
 public:

@@ -13,6 +13,8 @@
 #include "Content.h"
 #include "Outliner.h"
 #include "ListUI.h"
+
+#include "ParamUI.h"
 #include "AnimationEditorUI.h"
 
 CImGuiMgr::CImGuiMgr()
@@ -100,6 +102,8 @@ void CImGuiMgr::tick()
     {
         pair.second->tick();
     }
+
+    ParamUI::ResetID();
 }
 
 void CImGuiMgr::render()

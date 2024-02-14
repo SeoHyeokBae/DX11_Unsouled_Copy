@@ -45,6 +45,9 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     
     float4 vColor = float4(1.f, 0.f, 1.f, 0.f);
     
+    if (g_int_0)
+        return float4(1.f, 1.f, 0.f, 1.f);
+    
     if (g_UseAnim2D)
     {
         float2 vBackgroundLeftTop = g_vLeftTop + (g_vSliceSize / 2.f) - (g_vBackground / 2.f);
