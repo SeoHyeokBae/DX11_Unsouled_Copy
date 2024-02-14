@@ -23,6 +23,7 @@ private:
     void SetKey(const wstring& _Key) { m_Key = _Key; }
     void SetRelativePath(const wstring& _RelativePath) { m_RelativePath = _RelativePath; }
 
+
     void AddRef() 
     { 
         ++m_RefCount; 
@@ -36,6 +37,7 @@ private:
             delete this;
         }
     }
+
 
     virtual int Load(const wstring& _strFilePath) { return E_FAIL; }
 

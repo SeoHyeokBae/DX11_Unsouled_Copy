@@ -44,6 +44,8 @@ public:
     GET_COMPONENT(Light2D, LIGHT2D);       
     GET_COMPONENT(TileMap, TILEMAP);       
 
+    int GetLayerIdx() { return m_iLayerIdx; }
+
     CGameObject* GetParent() { return m_Parent; }
     vector<CGameObject*>& GetChild() { return m_vecChild; }
 
@@ -61,8 +63,8 @@ public:
         return nullptr;
     }
 
-    void DisconnectWithParent();
-    void DisconnectWithLayer();
+    int DisconnectWithParent();
+    int DisconnectWithLayer();
 
     void AddChild(CGameObject* _Child);
     bool IsDead() { return m_bDead; }

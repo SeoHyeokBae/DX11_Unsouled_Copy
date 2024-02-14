@@ -20,6 +20,8 @@ public:
 private:
     void SetKey(const wstring& _Key) { m_Key = _Key; }
     void SetRelativePath(const wstring& _RelativePath) { m_RelativePath = _RelativePath; }
+    int GetRefCount() { return m_RefCount; }
+    ASSET_TYPE GetType() { return m_Type; }
 
     void AddRef() 
     { 
@@ -35,8 +37,6 @@ private:
         }
     }
 
-    int GetRefCount() { return m_RefCount; }
-    ASSET_TYPE GetType() { return m_Type; }
 
     virtual int Load(const wstring& _strFilePath) { return E_FAIL; }
 

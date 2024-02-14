@@ -16,7 +16,7 @@ void TreeNode::render_update()
 {
 	string strID = m_Name + m_ID;
 
-	UINT Flag = 0;
+	UINT Flag = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
 	if (m_bFrame)
 		Flag |= ImGuiTreeNodeFlags_Framed;
@@ -30,10 +30,34 @@ void TreeNode::render_update()
 
 	if (ImGui::TreeNodeEx(strID.c_str(), Flag))
 	{
-		if (ImGui::IsItemClicked())
+		if (ImGui::BeginDragDropSource())
 		{
-			m_Owner->SetSelectedNode(this);
+			ImGui::SetDragDropPayload(m_Owner->GetID().c_str(), &m_Data, sizeof(DWORD_PTR));
+			ImGui::Text(m_Name.c_str());
+			ImGui::EndDragDropSource();
+
+			// Tree 에 자신이 Drag 된 노드임을 알린다.
+			m_Owner->SetDragNode(this);
 		}
+
+		else if (ImGui::BeginDragDropTarget())
+		{
+			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_Owner->GetID().c_str());
+			if (payload)
+			{
+				m_Owner->SetDropNode(this);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		else
+		{
+			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && ImGui::IsItemHovered(ImGuiHoveredFlags_None))
+			{
+				m_Owner->SetSelectedNode(this);
+			}
+		}
+
 		for (size_t i = 0; i < m_vecChildNode.size(); ++i)
 		{
 			m_vecChildNode[i]->render_update();
@@ -41,6 +65,26 @@ void TreeNode::render_update()
 
 		ImGui::TreePop();
 	}
+	else
+	{
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload(m_Owner->GetID().c_str(), &m_Data, sizeof(DWORD_PTR));
+			ImGui::Text(m_Name.c_str());
+			ImGui::EndDragDropSource();
+
+			// Tree 에 자신이 Drag 된 노드임을 알린다.
+			m_Owner->SetDragNode(this);
+		}
+		else
+		{
+			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && ImGui::IsItemHovered(ImGuiHoveredFlags_None))
+			{
+				m_Owner->SetSelectedNode(this);
+			}
+		}
+	}
+	
 }
 
 UINT TreeUI::NodeID = 0;
@@ -48,6 +92,7 @@ UINT TreeUI::NodeID = 0;
 TreeUI::TreeUI(const string& _ID)
 	: UI("", _ID)
 	, m_bShowRoot(true)
+	, m_bDragDrop(false)
 {
 }
 
@@ -83,9 +128,28 @@ void TreeUI::render_update()
 		}
 	}
 
+	// 드래그 대상을 특정 노드가 아닌 공중드랍 시킨 경우
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && m_DragNode && !m_DropNode)
+	{
+		if (m_DragDropInst && m_DragDropFunc)
+		{
+			(m_DragDropInst->*m_DragDropFunc)((DWORD_PTR)m_DropNode, (DWORD_PTR)m_DragNode);
+		}
+		m_DragNode = nullptr;
+	}
+	else if (m_bDragDropEvent)
+	{
+		if (m_DragDropInst && m_DragDropFunc)
+		{
+			(m_DragDropInst->*m_DragDropFunc)((DWORD_PTR)m_DropNode, (DWORD_PTR)m_DragNode);
+		}
 
+		m_DropNode = nullptr;
+		m_DragNode = nullptr;
+	}
 
 	m_bSelectEvent = false;
+	m_bDragDropEvent = false;
 }
 
 TreeNode* TreeUI::AddTreeNode(TreeNode* _Parent, string _strName, DWORD_PTR _dwData)
@@ -131,4 +195,15 @@ void TreeUI::SetSelectedNode(TreeNode* _SelectedNode)
 	}
 
 	m_bSelectEvent = true;
+}
+
+void TreeUI::SetDragNode(TreeNode* _DragNode)
+{
+	m_DragNode = _DragNode;
+}
+
+void TreeUI::SetDropNode(TreeNode* _DropNode)
+{
+	m_DropNode = _DropNode;
+	m_bDragDropEvent = true;
 }

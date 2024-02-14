@@ -178,7 +178,20 @@ void CLevelMgr::init()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
 
+	m_CurLevel->AddObject(pObj, L"Player", false);
 
+	// Particle Object
+	CGameObject* pParticleObj = new CGameObject;
+	pParticleObj = new CGameObject;
+	pParticleObj->SetName(L"Particle");
+
+	pParticleObj->AddComponent(new CTransform);
+	pParticleObj->AddComponent(new CParticleSystem);
+
+	pParticleObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+
+	//m_CurLevel->AddObject(pObj, L"Default", false);
+	pObj->AddChild(pParticleObj);
 	m_CurLevel->AddObject(pObj, L"Player", false);
 
 	// Monster Object 积己
@@ -220,16 +233,7 @@ void CLevelMgr::init()
 
 	m_CurLevel->AddObject(pObj, L"UI", false);
 
-	// Particle Object
-	pObj = new CGameObject;
-	pObj->SetName(L"Particle");
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CParticleSystem);
-
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
-
-	m_CurLevel->AddObject(pObj, L"Default", false);
 
 	// GrayFilter 饶贸府
 	//pObj = new CGameObject;
