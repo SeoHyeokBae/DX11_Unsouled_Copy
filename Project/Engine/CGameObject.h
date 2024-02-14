@@ -71,6 +71,7 @@ public:
 
     void Destroy();
 
+    bool IsAncestor(CGameObject* _Other);
 public:
     CGameObject();
     ~CGameObject();

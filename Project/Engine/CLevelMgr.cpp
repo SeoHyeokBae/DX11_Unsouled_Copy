@@ -182,7 +182,6 @@ void CLevelMgr::init()
 
 	// Particle Object
 	CGameObject* pParticleObj = new CGameObject;
-	pParticleObj = new CGameObject;
 	pParticleObj->SetName(L"Particle");
 
 	pParticleObj->AddComponent(new CTransform);
@@ -191,8 +190,10 @@ void CLevelMgr::init()
 	pParticleObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
 
 	//m_CurLevel->AddObject(pObj, L"Default", false);
+
 	pObj->AddChild(pParticleObj);
 	m_CurLevel->AddObject(pObj, L"Player", false);
+
 
 	// Monster Object »ý¼º
 	pObj = new CGameObject;

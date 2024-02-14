@@ -183,18 +183,25 @@ int CGameObject::DisconnectWithLayer()
 
 void CGameObject::AddChild(CGameObject* _Child)
 {
-	if (_Child->m_Parent)
+	if (-1 == _Child->m_iLayerIdx)
+	{
+		// 레벨에 속하지 않았던 오브젝트가 자식으로 들어올때는 부모의 레이어를 따라간다
+		_Child->m_iLayerIdx = m_iLayerIdx;
+	}
+	else if (_Child->m_Parent)
 	{
 		// 이전 부모 오브젝트랑 연결 해제
-		_Child->DisconnectWithParent();
+		// 원래 레이어를 유지한다
+		int LayerIdx = _Child->DisconnectWithParent();
+		_Child->m_iLayerIdx = LayerIdx;
 	}
 	else
 	{
 		// 자식으로 들어오는 오브젝트가 최상위 부모타입이면,
 		// 소속 레이어의 Parent 오브젝트 목록에서 제거되어야 한다
-		// 레이어를 완전히 등지고 싶었던 것은 아니었다
-		int LayerIdx = _Child->m_iLayerIdx;
-		_Child->DisconnectWithLayer();
+		// 제거되기 전의 레이어를 유지한다
+		int LayerIdx = _Child->DisconnectWithLayer();
+
 		_Child->m_iLayerIdx = LayerIdx;
 
 	}
@@ -207,4 +214,17 @@ void CGameObject::AddChild(CGameObject* _Child)
 void CGameObject::Destroy()
 {
 	GamePlayStatic::DestroyGameObject(this);
+}
+
+bool CGameObject::IsAncestor(CGameObject* _Other)
+{
+	CGameObject* pParent = m_Parent;
+
+	while (pParent)
+	{
+		if (pParent == _Other)
+			return true;
+
+		pParent = pParent->m_Parent;
+	}
 }
