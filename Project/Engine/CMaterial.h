@@ -24,7 +24,7 @@ public:
     void UpdateData();
 
 public:
-    CMaterial();
+    CMaterial(bool _bEngine = false);
     ~CMaterial();
 
 };

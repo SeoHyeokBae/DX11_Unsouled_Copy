@@ -279,42 +279,42 @@ void CAssetMgr::CreateDefaultMaterial()
 	CMaterial* pMtrl = nullptr;
 
 	// Std2DMtrl
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"Std2DMtrl", pMtrl);
 
 	// DebugShapeMtrl
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"DebugShapeShader"));
 	AddAsset<CMaterial>(L"DebugShapeMtrl", pMtrl);
 
 	// BackgroundMtrl юс╫ц
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"BackgroundMtrl", pMtrl);
 
 	// TileMapMtrl
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"TileMapShader"));
 	AddAsset<CMaterial>(L"TileMapMtrl", pMtrl);
 
 	// ParticleMtrl
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"ParticleRenderShader"));
 	AddAsset<CMaterial>(L"ParticleMtrl", pMtrl);
 
 	// GrayFilterMtrl
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"GrayFilterShader"));
 	AddAsset<CMaterial>(L"GrayFilterMtrl", pMtrl);
 
 	// DistortionMtrl
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"DistortionShader"));
 	AddAsset<CMaterial>(L"DistortionMtrl", pMtrl);
 
 	// Std2DMtrl2 (potato)
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"Std2DMtrl2", pMtrl);
 }
