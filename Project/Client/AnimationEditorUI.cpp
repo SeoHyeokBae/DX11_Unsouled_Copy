@@ -139,16 +139,6 @@ void AnimationEditorUI::DrawCanvas()
 
 	m_MousePos = mouse_pos_in_canvas;
 	
-
-	// MX = 마우스 포인트 위치 mouse_pos_in_canvas
-	// SX = element 와 화면 사이 거리
-	// SX2 = WheelSz 처리 이후
-	// Scale = WheelSz
-
-	// 새로운 위치
-	// SX2 = ( SX + MX) * ( Scale2 / Scale1) - mx
-	// SX2 = ( SX + mouse_pos_in_canvas) * ( Scale1 * WheelSz / Scale1) - mouse_pos_in_canvas
-	// 
 	// Canvas 안에 이미지출력
 	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
 	ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
@@ -244,16 +234,6 @@ void AnimationEditorUI::Deactivate()
 {
 	UI::Deactivate();
 }
-
-
-// MX = 마우스 포인트 위치 mouse_pos_in_canvas
-// SX = element 와 화면 사이 거리
-// SX2 = WheelSz 처리 이후
-// Scale = WheelSz
-
-// 새로운 위치
-// SX2 = ( SX + MX) * ( Scale2 / Scale1) - mx
-// SX2 = ( SX + mouse_pos_in_canvas) * ( Scale1 * WheelSz / Scale1) - mouse_pos_in_canvas
 
 	// 오른쪽 마우스 메뉴
 //ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);

@@ -29,23 +29,39 @@ void MeshRenderUI::render_update()
 	ComponentUI::render_update();
 
 	CGameObject* pTarget = GetTargetObject();
-	
 	CMeshRender* pMeshRender = pTarget->MeshRender();
-
-	//if (nullptr == pMeshRender->GetMesh())
-	//	return;
-	//if (nullptr == pMeshRender->GetMaterial())
-	//	return;
 
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
 	Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial();
 
-	string meshname = ToString(pMesh->GetKey()).c_str();
-	string mtrlname = ToString(pMtrl->GetKey()).c_str();
+	string meshname, mtrlname;
+
+	if (nullptr == pMesh)
+		meshname = ToString(pMesh->GetKey().c_str());
+	if (nullptr == pMtrl)
+		mtrlname = ToString(pMtrl->GetKey().c_str());
 
 	ImGui::Text("Mesh    ");
 	ImGui::SameLine();
 	ImGui::InputText("##MeshName", (char*)meshname.c_str(), meshname.length(), ImGuiInputTextFlags_ReadOnly);
+
+	// Mesh Drop üũ
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		
+		if (payload)
+		{
+			DWORD_PTR data = *((DWORD_PTR*)payload->Data);
+			CAsset* pAsset = (CAsset*)data;
+			if (ASSET_TYPE::MATERIAL == pAsset->GetType())
+			{
+				GetTargetObject()->MeshRender()->SetMaterial((CMaterial*)pAsset);
+			}
+			ImGui::EndDragDropTarget();
+		}
+	}
+
 	ImGui::SameLine();
 	if (ImGui::Button("##MeshBtn", ImVec2(20, 20)))
 	{
@@ -64,6 +80,24 @@ void MeshRenderUI::render_update()
 	ImGui::Text("Material");
 	ImGui::SameLine();
 	ImGui::InputText("##MtrlName", (char*)mtrlname.c_str(), mtrlname.length(), ImGuiInputTextFlags_ReadOnly);
+
+	// Material Drop üũ
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+
+		if (payload)
+		{
+			DWORD_PTR data = *((DWORD_PTR*)payload->Data);
+			CAsset* pAsset = (CAsset*)data;
+			if (ASSET_TYPE::MATERIAL == pAsset->GetType())
+			{
+				GetTargetObject()->MeshRender()->SetMaterial((CMaterial*)pAsset);
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+
 	ImGui::SameLine();
 	if (ImGui::Button("##MtrlBtn", ImVec2(20, 20)))
 	{
