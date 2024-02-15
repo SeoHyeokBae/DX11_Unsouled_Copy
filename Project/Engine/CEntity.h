@@ -15,6 +15,8 @@ public:
 	const wstring& GetName() { return m_strName; }
 	UINT GetID() { return m_ID; }
 
+	virtual CEntity* Clone() { return nullptr; };
+
 public:
 	CEntity();
 	virtual ~CEntity();

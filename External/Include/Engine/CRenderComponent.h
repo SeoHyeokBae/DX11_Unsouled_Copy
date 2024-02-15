@@ -9,14 +9,21 @@ class CRenderComponent :
 {
 private:
     Ptr<CMesh>               m_Mesh;
-    Ptr<CMaterial>           m_Mtrl;
+
+    Ptr<CMaterial>           m_SharedMtrl;
+    Ptr<CMaterial>           m_DynamicMtrl;
+    Ptr<CMaterial>           m_CurMtrl;
 
 public:
     void SetMesh(Ptr<CMesh> _Mesh) { m_Mesh = _Mesh; }
-    void SetMaterial(Ptr<CMaterial> _Mtrl) { m_Mtrl = _Mtrl; }
+    void SetMaterial(Ptr<CMaterial> _Mtrl);
 
     Ptr<CMesh> GetMesh() { return m_Mesh; }
-    Ptr<CMaterial> GetMaterial() { return m_Mtrl; }
+    Ptr<CMaterial> GetMaterial() { return m_CurMtrl; }
+    Ptr<CMaterial> GetSharedMaterial() { return m_SharedMtrl; }
+    Ptr<CMaterial> GetDynamicMaterial();
+
+    void RestoreMaterial();
 
 public:
     virtual void finaltick() {};

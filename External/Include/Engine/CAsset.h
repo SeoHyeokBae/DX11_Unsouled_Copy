@@ -46,6 +46,8 @@ public:
     CAsset(ASSET_TYPE _Type, bool _bEngineAsset = false);
     ~CAsset();
 
+    virtual CAsset* Clone() { return nullptr; }
+
     friend class CAssetMgr;
 
     template<typename T>

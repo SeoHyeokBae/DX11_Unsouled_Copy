@@ -26,6 +26,8 @@ public:
 
     void UpdateData();
 
+	virtual CMaterial* Clone() { return new CMaterial(*this); }
+
 public:
     CMaterial(bool _bEngine = false);
     ~CMaterial();
