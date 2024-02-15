@@ -27,7 +27,7 @@ public:
 
 private:
     void SetID(const string& _ID) { m_ID = _ID; }
-    void AddChildeNode(TreeNode* _Node)
+    void AddChildNode(TreeNode* _Node)
     {
         m_vecChildNode.push_back(_Node);
         _Node->m_ParentNode = this;

@@ -173,7 +173,7 @@ TreeNode* TreeUI::AddTreeNode(TreeNode* _Parent, string _strName, DWORD_PTR _dwD
 	}
 	else
 	{
-		_Parent->AddChildeNode(pNewNode);
+		_Parent->AddChildNode(pNewNode);
 	}
 
 	pNewNode->m_Owner = this;

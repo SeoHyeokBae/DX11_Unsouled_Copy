@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "AnimationEditorUI.h"
-#include "imgui_internal.h"
 
 #include <Engine/CAssetMgr.h>
 

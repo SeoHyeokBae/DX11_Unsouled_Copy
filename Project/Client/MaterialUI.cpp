@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MaterialUI.h"
 
+#include <Engine/CAssetMgr.h>
 #include <Engine/CMaterial.h>
 #include <Engine/CGraphicsShader.h>
 #include <Engine/CTexture.h>
@@ -40,6 +41,10 @@ void MaterialUI::render_update()
     ImGui::SameLine();
     ImGui::InputText("##ShaderName", (char*)strShaderName.c_str(), strShaderName.length(), ImGuiInputTextFlags_ReadOnly);
 
+    ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+    ImGui::Text("Material Parameter");
+    ImGui::Spacing(); ImGui::Spacing();
+
     // Shader Parameter
     if (nullptr == pShader)
         return;
@@ -53,28 +58,26 @@ void MaterialUI::render_update()
         case INT_1:
         case INT_2:
         case INT_3:
-        {
-            int value = *(int*)pMtrl->GetScalarParam(vecScalarParam[i].Type);
-            if (ParamUI::Param_INT(&value, vecScalarParam[i].Desc))
-            {
-                pMtrl->SetScalarParam(vecScalarParam[i].Type, value);
-            }
-        }
+            ParamUI::Param_INT((int*)pMtrl->GetScalarParam(vecScalarParam[i].Type), vecScalarParam[i].Desc);
+            break;
         break;
         case FLOAT_0:
         case FLOAT_1:
         case FLOAT_2:
         case FLOAT_3:
+            ParamUI::Param_FLOAT((float*)pMtrl->GetScalarParam(vecScalarParam[i].Type), vecScalarParam[i].Desc);
             break;
         case VEC2_0:
         case VEC2_1:
         case VEC2_2:
         case VEC2_3:
+            ParamUI::Param_VEC2((Vec2*)pMtrl->GetScalarParam(vecScalarParam[i].Type), vecScalarParam[i].Desc);
             break;
         case VEC4_0:
         case VEC4_1:
         case VEC4_2:
         case VEC4_3:
+            ParamUI::Param_VEC4((Vec4*)pMtrl->GetScalarParam(vecScalarParam[i].Type), vecScalarParam[i].Desc);
             break;
         case MAT_0:
         case MAT_1:
@@ -82,6 +85,27 @@ void MaterialUI::render_update()
         case MAT_3:
             break;
         }
-
     }
+
+    const vector<tTexParam>& vecTexParam = pShader->GetTexParam();
+    for (size_t i = 0; i < vecTexParam.size(); i++)
+    {
+        Ptr<CTexture> pTex = pMtrl->GetTexParam(vecTexParam[i].Type);
+        if (ParamUI::Param_TEXTURE(pTex, vecTexParam[i].Desc, this, (Delegate_1)&MaterialUI::SelectTexture))
+        {
+            // 리스트 버튼을 눌렀다면
+            m_SelectTexParam = vecTexParam[i].Type;
+        }
+        pMtrl->SetTexParam(vecTexParam[i].Type, pTex);
+    }
+}
+
+void MaterialUI::SelectTexture(DWORD_PTR _dwData)
+{
+    string strTex = (char*)_dwData;
+    wstring strTexName = ToWString(strTex);
+
+    Ptr<CTexture> pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexName);
+    Ptr<CMaterial> pMtrl = (CMaterial*)GetAsset().Get();
+    pMtrl->SetTexParam(m_SelectTexParam, pTex);
 }
