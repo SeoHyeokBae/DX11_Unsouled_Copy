@@ -148,7 +148,7 @@ void CPlayerScript::tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
-	Ptr<CMaterial> pMtrl = GetOwner()->GetRenderComponent()->GetDynamicMaterial();
+	Ptr<CMaterial> pMtrl = GetRenderComponent()->GetDynamicMaterial();
 }
 
 void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

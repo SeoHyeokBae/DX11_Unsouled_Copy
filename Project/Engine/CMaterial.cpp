@@ -49,6 +49,7 @@ void CMaterial::UpdateData()
 
 }
 
+
 void CMaterial::SetTexParam(TEX_PARAM _Param, Ptr<CTexture> _pTex)
 {
 	m_arrTex[_Param] = _pTex;
@@ -106,4 +107,14 @@ void* CMaterial::GetScalarParam(SCALAR_PARAM _ParamType)
 	}
 
 	return nullptr;
+}
+
+int CMaterial::Save(const wstring& _strFilePath)
+{
+	return 0;
+}
+
+int CMaterial::Load(const wstring& _strPath)
+{
+	return 0;
 }

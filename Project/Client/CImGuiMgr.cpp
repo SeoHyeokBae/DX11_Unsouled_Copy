@@ -12,6 +12,7 @@
 #include "Inspector.h"
 #include "Content.h"
 #include "Outliner.h"
+#include "MenuUI.h"
 #include "ListUI.h"
 
 #include "ParamUI.h"
@@ -205,6 +206,10 @@ void CImGuiMgr::create_ui()
     // List
     pUI = new ListUI;           
     AddUI(pUI->GetID(), pUI);  
+
+    // List
+    pUI = new MenuUI;
+    AddUI(pUI->GetID(), pUI);
 
     // AnimationEditor
     pUI = new AnimationEditorUI;

@@ -40,7 +40,8 @@ private:
     }
 
 
-    virtual int Load(const wstring& _strFilePath) { return E_FAIL; }
+    virtual int Save(const wstring& _strFilePath) { return E_FAIL; }
+    virtual int Load(const wstring& _strPath) { return E_FAIL; } //절대경로
 
 public:
     CAsset(ASSET_TYPE _Type, bool _bEngineAsset = false);

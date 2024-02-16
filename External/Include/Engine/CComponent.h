@@ -32,6 +32,8 @@ public:
     GET_OTHER_COMPONENT(Light2D);
     GET_OTHER_COMPONENT(TileMap);
 
+    CRenderComponent* GetRenderComponent() { return m_Owner->GetRenderComopnent(); }
+
 public:
     CComponent(COMPONENT_TYPE _Type);
     ~CComponent();
