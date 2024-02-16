@@ -27,8 +27,8 @@ public:
     void UpdateData();
 
 	virtual CMaterial* Clone() { return new CMaterial(*this); }
-	virtual int Save(const wstring& _strFilePath);
-	virtual int Load(const wstring& _strPath);
+	virtual int Save(const wstring& _strRelativePath);
+	virtual int Load(const wstring& _strFilePath);
 
 public:
     CMaterial(bool _bEngine = false);

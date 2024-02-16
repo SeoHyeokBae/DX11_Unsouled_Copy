@@ -33,6 +33,9 @@ CLevelMgr::~CLevelMgr()
 
 void CLevelMgr::init()
 {
+	// 재질  로드 테스트
+	CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
+
 	// 초기 레벨 구성하기
 	m_CurLevel = new CLevel;
 	m_CurLevel->GetLayer(0)->SetName(L"Default");

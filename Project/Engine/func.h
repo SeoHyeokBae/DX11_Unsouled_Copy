@@ -38,17 +38,17 @@ void SaveAssetRef(Ptr<T> _Asset, FILE* _File)	// 존재여부, 이름(Key)길이, 이름, 
 		wstring strKey = _Asset->GetKey();
 		size_t len = strKey.length();
 		fwrite(&len, sizeof(size_t), 1, _File);
-		fWrite(strKey.c_str(), sizeof(wchar_t), strKey.length(), _File);
+		fwrite(strKey.c_str(), sizeof(wchar_t), strKey.length(), _File);
 
 		wstring strRelativePath = _Asset->GetRelativePath();
 		len = strRelativePath.length();
 		fwrite(&len, sizeof(size_t), 1, _File);
-		fWrite(strRelativePath.c_str(), sizeof(wchar_t), strRelativePath.length(), _File);
+		fwrite(strRelativePath.c_str(), sizeof(wchar_t), strRelativePath.length(), _File);
 	}
 }
 
 template<typename T>
-void LoadAssetRef(Ptr<T> _Asset, FILE* _File)
+void LoadAssetRef(Ptr<T>& _Asset, FILE* _File)
 {
 	bool bAssetExist = false;
 	fread(&bAssetExist, sizeof(bool), 1, _File);
