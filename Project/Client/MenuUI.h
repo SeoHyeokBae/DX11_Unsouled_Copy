@@ -5,8 +5,8 @@ class MenuUI :
 {
 
 public:
-    virtual void render();
-    virtual void render_update();
+    virtual void render() override;
+    virtual void render_update() override;
 
 public:
     MenuUI();

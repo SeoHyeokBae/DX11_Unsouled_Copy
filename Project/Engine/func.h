@@ -20,7 +20,58 @@ namespace GamePlayStatic
 string ToString(const wstring& _str);
 wstring ToWString(const string& _str);   
 
-//Vec3 DecomposeRotMat(const Matrix& _matRot);
+template<typename T>
+class Ptr;
+
+#include "CAssetMgr.h"
+
+template<typename T>
+void SaveAssetRef(Ptr<T> _Asset, FILE* _File)	// 존재여부, 이름(Key)길이, 이름, 경로길이, 경로
+{
+	bool bAssetExist = false;
+	_Asset == nullptr ? bAssetExist = false : bAssetExist = true;
+
+	fwrite(&bAssetExist, sizeof(bool), 1, _File);
+
+	if (bAssetExist)
+	{
+		wstring strKey = _Asset->GetKey();
+		size_t len = strKey.length();
+		fwrite(&len, sizeof(size_t), 1, _File);
+		fWrite(strKey.c_str(), sizeof(wchar_t), strKey.length(), _File);
+
+		wstring strRelativePath = _Asset->GetRelativePath();
+		len = strRelativePath.length();
+		fwrite(&len, sizeof(size_t), 1, _File);
+		fWrite(strRelativePath.c_str(), sizeof(wchar_t), strRelativePath.length(), _File);
+	}
+}
+
+template<typename T>
+void LoadAssetRef(Ptr<T> _Asset, FILE* _File)
+{
+	bool bAssetExist = false;
+	fread(&bAssetExist, sizeof(bool), 1, _File);
+
+	if (bAssetExist)
+	{
+		wstring strKey, strRelativePath;
+		size_t len = 0;
+		wchar_t szBuff[256] = {};
+
+		fread(&len, sizeof(size_t), 1, _File);
+		fread(szBuff, sizeof(wchar_t), len, _File);
+		strKey = szBuff;
+
+		wmemset(szBuff, 0, 256);
+
+		fread(&len, sizeof(size_t), 1, _File);
+		fread(szBuff, sizeof(wchar_t), len, _File);
+		strRelativePath = szBuff;
+
+		_Asset = CAssetMgr::GetInst()->Load<T>(strKey, strRelativePath);
+	}
+}
 
 template<typename T, UINT SIZE>
 void Delete_Array(T* (&Arr)[SIZE])
