@@ -52,33 +52,78 @@ void AnimationEditorUI::render_update()
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
+
 	ImGui::Text("Mouse pos: (%g, %g)", m_MousePos.x, m_MousePos.y);
 	ImGui::Text("Center pos: (%g, %g)", m_CenterPos.x, m_CenterPos.y);
 	ImGui::Text("Mouse wheel: %.1f", m_Wheelsz);
 	DrawCanvas();
 
-	//ImGui::Begin("list" , &m_bOpen );
-	//ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();    
-	//ImVec2 canvas_sz = ImVec2(250.f,250.f);
-	//if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
-	//if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
-	//ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
-	//// Draw border and background color
-	//ImGuiIO& io = ImGui::GetIO();
-	//ImDrawList* draw_list = ImGui::GetWindowDrawList();
-	//draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(50, 50, 50, 255));
-	//ImGui::End();
+	// animation make
+	ImGui::Begin("Sprite Animation" , &m_bOpen );
+	if (ImGui::Button("New Animation"))
+	{
+		// todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load Animation"))
+	{
+		// todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Save Animation"))
+	{
+		// todo
+	}
+
+		static int selectedidx = 0;
+	// preview
+	ImVec2 SpriteCanvasLT = ImGui::GetCursorScreenPos();    
+	ImVec2 Spritecanvas_sz = ImVec2(250.f,250.f);
+	ImVec2 SpriteCanvasRB = ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x, SpriteCanvasLT.y + Spritecanvas_sz.y);
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB, IM_COL32(50, 50, 50, 255));
+	if (0 != m_vecRect.size())
+	{
+		// Canvas 안에 이미지출력
+		draw_list->PushClipRect(SpriteCanvasLT, SpriteCanvasRB, true);
+
+		ImVec2 displayLT = m_vecRect[selectedidx].GetTL();
+		ImVec2 displayRB = m_vecRect[selectedidx].GetBR();
+		ImVec2 displaySize = m_vecRect[selectedidx].GetSize();
+		float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
+		float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
+
+		if (m_vecRect[selectedidx].Min.x > m_vecRect[selectedidx].Max.x) ImSwap(m_vecRect[selectedidx].Min.x, m_vecRect[selectedidx].Max.x);
+		if (m_vecRect[selectedidx].Min.y > m_vecRect[selectedidx].Max.y) ImSwap(m_vecRect[selectedidx].Min.y, m_vecRect[selectedidx].Max.y);
+
+		ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
+		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
+
+		//draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), SpriteCanvasLT, SpriteCanvasRB,uv0,uv1);
+		//ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), Spritecanvas_sz, uv0, uv1);
+		draw_list->PopClipRect();
+	}
+	// 십자선
+
+	draw_list->AddLine(ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x/2, SpriteCanvasLT.y)
+					 , ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x/2, SpriteCanvasRB.y), IM_COL32(0, 255, 0, 150));
+	draw_list->AddLine(ImVec2(SpriteCanvasLT.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2)
+					 , ImVec2(SpriteCanvasRB.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2), IM_COL32(255, 0, 0, 150));
 
 	// Sprite 나열
-	ImGui::Begin("Sprite", &m_bOpen);
-	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border);
+	ImGui::Dummy(ImVec2(0.f, 500.f));
+	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar);
 	if (nullptr != m_CurAtlas)
 	{
+
 		for (int i = 0; i < m_vecRect.size(); i++)
 		{
-			if ( 0 != i)
-				ImGui::SameLine(110.f * i);
+			ImGuiWindow* window = ImGui::GetCurrentWindow();
+			ImGuiContext& g = *GImGui;
+			const ImVec2 padding = g.Style.FramePadding;
+
+			ImVec4 col = ImVec4(1, 1, 1, 1);
 
 			ImVec2 displayLT = m_vecRect[i].GetTL();
 			ImVec2 displayRB = m_vecRect[i].GetBR();
@@ -86,15 +131,32 @@ void AnimationEditorUI::render_update()
 			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
 			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
 
+			if (m_vecRect[i].Min.x > m_vecRect[i].Max.x) ImSwap(m_vecRect[i].Min.x, m_vecRect[i].Max.x);
+			if (m_vecRect[i].Min.y > m_vecRect[i].Max.y) ImSwap(m_vecRect[i].Min.y, m_vecRect[i].Max.y);
+
 			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
-			//ImGui::Image((void*)tSRV.Get(), ImVec2(displaySize.x, displaySize.y),uv0,uv1 ,ImVec4(1,1,1,1), ImVec4(1, 1, 1, 1));
-			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), ImVec4(1, 1, 1, 1));
+			const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + m_vecRect[i].GetSize() + padding * 2.0f);
+			if (bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+				selectedidx = i;
+
+			if (i == selectedidx) // 선택된 rect 테두리 색상
+				col = ImVec4(1, 0, 0, 1);;
+
+
+			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), col);
+			//ImGui::ImageButton(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1,-1, ImVec4(1, 1, 1, 0), col);
+			ImGui::SameLine();
 		}
+
+		//for (int i = 0; i < m_vecRect.size(); i++)
+		//{
+		//	m_vecRect[i]
+		//}
+
 	}
-
-
+	ImGui::SetScrollX(ImGui::GetScrollX() - (15.f * io.MouseWheel));
 	ImGui::EndChild();
 	ImGui::End();
 }
@@ -188,11 +250,13 @@ void AnimationEditorUI::DrawCanvas()
 	// 마우스 휠
 	if (io.MouseWheel > 0.f || io.MouseWheel)
 	{
-		WheelSz += 0.1f * io.MouseWheel;
-		m_Wheelsz = WheelSz;
+		ImRect Incanvas(canvas_p0, canvas_p1);
+		if (Incanvas.Contains(io.MousePos))
+		{
+			WheelSz += 0.1f * io.MouseWheel;
+			m_Wheelsz = WheelSz;
+		}
 	}
-
-
 
 	// Draw grid 
 	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
@@ -204,7 +268,6 @@ void AnimationEditorUI::DrawCanvas()
 		for (float y = fmodf(scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
 	} 
-
 	// draw rect
 	for (int n = 0; n < points.Size; n += 2)
 	{
@@ -213,19 +276,18 @@ void AnimationEditorUI::DrawCanvas()
 
 		if (leftTop.x > rightBottom.x)
 		{
-			leftTop.x = origin.x + points[n + 1].x;
-			rightBottom.x = origin.x + points[n].x;
+			leftTop.x = points[n + 1].x * WheelSz + origin.x;
+			rightBottom.x = points[n].x * WheelSz + origin.x;
 		}
 		if (leftTop.y > rightBottom.y)
 		{
-			leftTop.y = origin.y + points[n + 1].y;
-			rightBottom.y = origin.y + points[n].y;
+			leftTop.y = points[n + 1].y * WheelSz + origin.y;
+			rightBottom.y = points[n].y * WheelSz + origin.y;
 		}
 		draw_list->AddRect(leftTop ,rightBottom , IM_COL32(255, 255, 0, 255), 2.0f);
 	}
 
 	draw_list->PopClipRect();
-
 }
 
 
