@@ -82,7 +82,9 @@ void AnimationEditorUI::render_update()
 	ImVec2 Spritecanvas_sz = ImVec2(250.f,250.f);
 	ImVec2 SpriteCanvasRB = ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x, SpriteCanvasLT.y + Spritecanvas_sz.y);
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
-	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB, IM_COL32(50, 50, 50, 255));
+	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB, IM_COL32(70, 70, 70, 255));
+	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB - Spritecanvas_sz / 2, IM_COL32(50, 50, 50, 255));
+	draw_list->AddRectFilled(SpriteCanvasLT + Spritecanvas_sz /2, SpriteCanvasRB, IM_COL32(50, 50, 50, 255));
 	if (0 != m_vecRect.size())
 	{
 		// Canvas 안에 이미지출력
@@ -100,8 +102,9 @@ void AnimationEditorUI::render_update()
 		ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
-		//draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), SpriteCanvasLT, SpriteCanvasRB,uv0,uv1);
-		//ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), Spritecanvas_sz, uv0, uv1);
+		ImRect rec(SpriteCanvasLT, SpriteCanvasRB);
+		rec.Expand(-50.f);
+		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.GetTL(), rec.GetBR(), uv0, uv1);
 		draw_list->PopClipRect();
 	}
 	// 십자선
