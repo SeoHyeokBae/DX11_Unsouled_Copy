@@ -2,7 +2,7 @@
 #include "ListUI.h"
 
 ListUI::ListUI()
-    : UI("", "##List")
+    : UI("", "Select##List")
     , m_CallBackFunc(nullptr)
 {
     Deactivate();

@@ -3,6 +3,7 @@
 
 #include <Engine/CAssetMgr.h>
 
+#include "ListUI.h"
 
 AnimationEditorUI::AnimationEditorUI()
 	: UI("Animation Editor", "##AnimationEditor")
@@ -13,6 +14,9 @@ AnimationEditorUI::AnimationEditorUI()
 	, m_MousePos(ImVec2(0.f,0.f))
 	, m_CenterPos(ImVec2(0.f,0.f))
 	, m_Wheelsz(1.f)
+	, m_bSlice(false)
+	, m_bTrim(false)
+	, m_bSmartSlice(false)
 {
 	Deactivate();
 }
@@ -21,29 +25,34 @@ AnimationEditorUI::~AnimationEditorUI()
 {
 }
 
-
-
 void AnimationEditorUI::render_update()
 {
 	// botton 추가
 	if (ImGui::Button("Load Texture"))
 	{
-		// todo
+		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
+
+		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)2);
+		for (const auto& pair : mapAsset)
+			pListUI->AddString(string(pair.first.begin(), pair.first.end()));
+
+		pListUI->SetDbClickDelegate(this, (Delegate_1)&AnimationEditorUI::AtlasSelect);
+		pListUI->Activate();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Slice Sprite"))
 	{
-		// todo
+		m_bSlice = true;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Trim Slice"))
 	{
-		// todo
+		m_bTrim = true;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Smart Slice"))
 	{
-		// todo
+		m_bSmartSlice = true;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Add Sprite to Animation"))
@@ -76,7 +85,7 @@ void AnimationEditorUI::render_update()
 		// todo
 	}
 
-		static int selectedidx = 0;
+	static int selectedidx = 0;
 	// preview
 	ImVec2 SpriteCanvasLT = ImGui::GetCursorScreenPos();    
 	ImVec2 Spritecanvas_sz = ImVec2(250.f,250.f);
@@ -107,8 +116,8 @@ void AnimationEditorUI::render_update()
 		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.GetTL(), rec.GetBR(), uv0, uv1);
 		draw_list->PopClipRect();
 	}
-	// 십자선
 
+	// 십자선
 	draw_list->AddLine(ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x/2, SpriteCanvasLT.y)
 					 , ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x/2, SpriteCanvasRB.y), IM_COL32(0, 255, 0, 150));
 	draw_list->AddLine(ImVec2(SpriteCanvasLT.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2)
@@ -140,24 +149,19 @@ void AnimationEditorUI::render_update()
 			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
+			// rect 선택
 			const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + m_vecRect[i].GetSize() + padding * 2.0f);
 			if (bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				selectedidx = i;
 
 			if (i == selectedidx) // 선택된 rect 테두리 색상
-				col = ImVec4(1, 0, 0, 1);;
+				col = ImVec4(1, 0, 0, 1);
 
 
 			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), col);
 			//ImGui::ImageButton(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1,-1, ImVec4(1, 1, 1, 0), col);
 			ImGui::SameLine();
 		}
-
-		//for (int i = 0; i < m_vecRect.size(); i++)
-		//{
-		//	m_vecRect[i]
-		//}
-
 	}
 	ImGui::SetScrollX(ImGui::GetScrollX() - (15.f * io.MouseWheel));
 	ImGui::EndChild();
@@ -204,25 +208,26 @@ void AnimationEditorUI::DrawCanvas()
 	m_MousePos = mouse_pos_in_canvas;
 	
 	// Canvas 안에 이미지출력
-	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
-	ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
+	if (nullptr != m_CurAtlas)
+	{
+		draw_list->PushClipRect(canvas_p0, canvas_p1, true);
+		ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
 
-	m_CurAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
+		my_texture = m_CurAtlas.Get()->GetSRV().Get();
+		float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f * WheelSz;
+		float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f * WheelSz;
 
-	my_texture = m_CurAtlas.Get()->GetSRV().Get();
-	float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f * WheelSz;
-	float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f * WheelSz;
+		ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y) - WheelOffset;
+		ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height));
 
-	ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y) - WheelOffset;
-	ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height)) ;
 
-	
-	draw_list->AddImage((void*)my_texture.Get(), left_top , right_bottom );
-	draw_list->AddRect(left_top , right_bottom , IM_COL32(255, 255, 255, 255)); // 아틀라스테두리
-	draw_list->PopClipRect();
-	 
+		draw_list->AddImage((void*)my_texture.Get(), left_top, right_bottom);
+		draw_list->AddRect(left_top, right_bottom, IM_COL32(255, 255, 255, 255)); // 아틀라스테두리
+		draw_list->PopClipRect();
+	}
+
 	// 좌클릭시
-	if (is_hovered && !cutting_rect && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	if (m_bSlice && is_hovered && !cutting_rect && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		points.push_back(mouse_pos_in_canvas / WheelSz);
 		points.push_back(mouse_pos_in_canvas / WheelSz);
@@ -238,6 +243,7 @@ void AnimationEditorUI::DrawCanvas()
 			cutting_rect = false;
 			ImRect rect(points[points.size() - 2],points.back());
 			m_vecRect.push_back(rect);
+			m_bSlice = false;
 		}
 	}
 
@@ -274,6 +280,13 @@ void AnimationEditorUI::DrawCanvas()
 	// draw rect
 	for (int n = 0; n < points.Size; n += 2)
 	{
+		static bool selectedidx = false;
+		ImGuiWindow* window = ImGui::GetCurrentWindow();
+		ImGuiContext& g = *GImGui;
+		const ImVec2 padding = g.Style.FramePadding;
+		ImU32 col = IM_COL32(255, 255, 0, 255);
+
+
 		ImVec2 leftTop = points[n] * WheelSz + origin;
 		ImVec2 rightBottom  = points[n+1] * WheelSz + origin;
 
@@ -287,10 +300,26 @@ void AnimationEditorUI::DrawCanvas()
 			leftTop.y = points[n + 1].y * WheelSz + origin.y;
 			rightBottom.y = points[n].y * WheelSz + origin.y;
 		}
-		draw_list->AddRect(leftTop ,rightBottom , IM_COL32(255, 255, 0, 255), 2.0f);
+
+		//const ImRect bb(leftTop, rightBottom + padding * 2.0f);
+		//if (bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		//	col = IM_COL32(255, 0, 0, 255);
+		//if (!bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		//	col = IM_COL32(255, 255, 0, 255);
+
+		draw_list->AddRect(leftTop ,rightBottom , col, 2.0f);
 	}
 
 	draw_list->PopClipRect();
+}
+
+void AnimationEditorUI::AtlasSelect(DWORD_PTR _ptr)
+{
+	string strAnim = (char*)_ptr;
+	wstring strAnimName = ToWString(strAnim);
+
+	Ptr<CTexture> Tex = CAssetMgr::GetInst()->FindAsset<CTexture>(strAnimName);
+	m_CurAtlas = Tex;
 }
 
 

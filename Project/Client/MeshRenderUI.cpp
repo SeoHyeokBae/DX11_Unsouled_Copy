@@ -66,7 +66,7 @@ void MeshRenderUI::render_update()
 	if (ImGui::Button("##MeshBtn", ImVec2(20, 20)))
 	{
 		// 리스트 UI
-		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("##List");
+		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
 
 		vector<string> vecMeshName;
 		CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::MESH, vecMeshName);
@@ -102,7 +102,7 @@ void MeshRenderUI::render_update()
 	if (ImGui::Button("##MtrlBtn", ImVec2(20, 20)))
 	{
 		// 리스트 UI
-		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("##List");
+		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
 
 		vector<string> vecMtrlName;
 		CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::MATERIAL, vecMtrlName);

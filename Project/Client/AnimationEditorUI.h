@@ -18,8 +18,13 @@ private:
     float m_Wheelsz;
     bool m_bOpen;
 
+    bool m_bSlice;
+    bool m_bTrim;
+    bool m_bSmartSlice;
+
 public:
     void DrawCanvas();
+    void AtlasSelect(DWORD_PTR _ptr);
 
 public:
     virtual void render_update() override;

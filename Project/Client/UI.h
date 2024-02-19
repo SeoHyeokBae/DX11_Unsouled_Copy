@@ -36,6 +36,7 @@ public:
 	virtual void Deactivate() { m_bActive = false; }
 	bool IsActivate() { return m_bActive; }
 	void SetModal(bool _Modal) { m_bModal = _Modal; }
+	bool GetModal() { return m_bModal; }
 
 
 public:
