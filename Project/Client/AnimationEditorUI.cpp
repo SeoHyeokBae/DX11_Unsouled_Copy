@@ -57,7 +57,7 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
-		// todo
+		m_vecAnimRect.push_back(m_vecRect.back());
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -85,8 +85,8 @@ void AnimationEditorUI::render_update()
 		// todo
 	}
 
-	static int selectedidx = 0;
 	// preview
+	static int selectedidx = 0;
 	ImVec2 SpriteCanvasLT = ImGui::GetCursorScreenPos();    
 	ImVec2 Spritecanvas_sz = ImVec2(250.f,250.f);
 	ImVec2 SpriteCanvasRB = ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x, SpriteCanvasLT.y + Spritecanvas_sz.y);
@@ -94,19 +94,21 @@ void AnimationEditorUI::render_update()
 	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB, IM_COL32(70, 70, 70, 255));
 	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB - Spritecanvas_sz / 2, IM_COL32(50, 50, 50, 255));
 	draw_list->AddRectFilled(SpriteCanvasLT + Spritecanvas_sz /2, SpriteCanvasRB, IM_COL32(50, 50, 50, 255));
-	if (0 != m_vecRect.size())
+	if (0 != m_vecAnimRect.size())
 	{
 		// Canvas 안에 이미지출력
 		draw_list->PushClipRect(SpriteCanvasLT, SpriteCanvasRB, true);
 
-		ImVec2 displayLT = m_vecRect[selectedidx].GetTL();
-		ImVec2 displayRB = m_vecRect[selectedidx].GetBR();
-		ImVec2 displaySize = m_vecRect[selectedidx].GetSize();
+		ImVec2 displayLT = m_vecAnimRect[selectedidx].GetTL();
+		ImVec2 displayRB = m_vecAnimRect[selectedidx].GetBR();
+		ImVec2 displaySize = m_vecAnimRect[selectedidx].GetSize();
 		float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
 		float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
 
-		if (m_vecRect[selectedidx].Min.x > m_vecRect[selectedidx].Max.x) ImSwap(m_vecRect[selectedidx].Min.x, m_vecRect[selectedidx].Max.x);
-		if (m_vecRect[selectedidx].Min.y > m_vecRect[selectedidx].Max.y) ImSwap(m_vecRect[selectedidx].Min.y, m_vecRect[selectedidx].Max.y);
+		if (m_vecAnimRect[selectedidx].Min.x > m_vecAnimRect[selectedidx].Max.x) 
+			ImSwap(m_vecAnimRect[selectedidx].Min.x, m_vecAnimRect[selectedidx].Max.x);
+		if (m_vecAnimRect[selectedidx].Min.y > m_vecAnimRect[selectedidx].Max.y) 
+			ImSwap(m_vecAnimRect[selectedidx].Min.y, m_vecAnimRect[selectedidx].Max.y);
 
 		ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
@@ -129,7 +131,7 @@ void AnimationEditorUI::render_update()
 	if (nullptr != m_CurAtlas)
 	{
 
-		for (int i = 0; i < m_vecRect.size(); i++)
+		for (int i = 0; i < m_vecAnimRect.size(); i++)
 		{
 			ImGuiWindow* window = ImGui::GetCurrentWindow();
 			ImGuiContext& g = *GImGui;
@@ -137,14 +139,14 @@ void AnimationEditorUI::render_update()
 
 			ImVec4 col = ImVec4(1, 1, 1, 1);
 
-			ImVec2 displayLT = m_vecRect[i].GetTL();
-			ImVec2 displayRB = m_vecRect[i].GetBR();
-			ImVec2 displaySize = m_vecRect[i].GetSize();
+			ImVec2 displayLT = m_vecAnimRect[i].GetTL();
+			ImVec2 displayRB = m_vecAnimRect[i].GetBR();
+			ImVec2 displaySize = m_vecAnimRect[i].GetSize();
 			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
 			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
 
-			if (m_vecRect[i].Min.x > m_vecRect[i].Max.x) ImSwap(m_vecRect[i].Min.x, m_vecRect[i].Max.x);
-			if (m_vecRect[i].Min.y > m_vecRect[i].Max.y) ImSwap(m_vecRect[i].Min.y, m_vecRect[i].Max.y);
+			if (m_vecAnimRect[i].Min.x > m_vecAnimRect[i].Max.x) ImSwap(m_vecAnimRect[i].Min.x, m_vecAnimRect[i].Max.x);
+			if (m_vecAnimRect[i].Min.y > m_vecAnimRect[i].Max.y) ImSwap(m_vecAnimRect[i].Min.y, m_vecAnimRect[i].Max.y);
 
 			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
@@ -277,6 +279,7 @@ void AnimationEditorUI::DrawCanvas()
 		for (float y = fmodf(scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
 	} 
+
 	// draw rect
 	for (int n = 0; n < points.Size; n += 2)
 	{

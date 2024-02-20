@@ -8,7 +8,8 @@ class AnimationEditorUI :
     public UI
 {
 private:
-    vector<ImRect> m_vecRect;
+    vector<ImRect> m_vecRect;       // 드래그 저장
+    vector<ImRect> m_vecAnimRect;  // 스프라이트 출력용
     Ptr<CTexture> m_CurAtlas;
 
     ImVec2 m_CanvasLeftTop;
