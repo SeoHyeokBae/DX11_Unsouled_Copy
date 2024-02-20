@@ -32,7 +32,7 @@ void AnimationEditorUI::render_update()
 	{
 		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
 
-		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)2);
+		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
 		for (const auto& pair : mapAsset)
 			pListUI->AddString(string(pair.first.begin(), pair.first.end()));
 
@@ -152,8 +152,8 @@ void AnimationEditorUI::render_update()
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
 			// rect 선택
-			const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + m_vecRect[i].GetSize() + padding * 2.0f);
-			if (bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			const ImRect select(window->DC.CursorPos, window->DC.CursorPos + m_vecRect[i].GetSize() + padding * 2.0f);
+			if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				selectedidx = i;
 
 			if (i == selectedidx) // 선택된 rect 테두리 색상
@@ -281,14 +281,13 @@ void AnimationEditorUI::DrawCanvas()
 	} 
 
 	// draw rect
+	static int selectidx = -1;	 // 나중에 여러 개 선택되게
 	for (int n = 0; n < points.Size; n += 2)
 	{
-		static bool selectedidx = false;
 		ImGuiWindow* window = ImGui::GetCurrentWindow();
 		ImGuiContext& g = *GImGui;
 		const ImVec2 padding = g.Style.FramePadding;
 		ImU32 col = IM_COL32(255, 255, 0, 255);
-
 
 		ImVec2 leftTop = points[n] * WheelSz + origin;
 		ImVec2 rightBottom  = points[n+1] * WheelSz + origin;
@@ -304,12 +303,66 @@ void AnimationEditorUI::DrawCanvas()
 			rightBottom.y = points[n].y * WheelSz + origin.y;
 		}
 
-		//const ImRect bb(leftTop, rightBottom + padding * 2.0f);
-		//if (bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-		//	col = IM_COL32(255, 0, 0, 255);
-		//if (!bb.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-		//	col = IM_COL32(255, 255, 0, 255);
+		const ImRect select(leftTop, rightBottom + padding * 2.0f);
 
+		// Mouse Grip Cursur
+		static ImGuiDir dir = ImGuiDir_None;
+			if (leftTop.x -5.f <= io.MousePos.x &&
+				leftTop.x + 5.f > io.MousePos.x && 
+				leftTop.y <= io.MousePos.y &&
+				rightBottom.y > io.MousePos.y)
+			{
+				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+				dir = ImGuiDir_Left;
+			}
+
+			if (rightBottom.x - 5.f <= io.MousePos.x &&
+				rightBottom.x + 5.f > io.MousePos.x &&
+				leftTop.y <= io.MousePos.y &&
+				rightBottom.y > io.MousePos.y)
+			{
+				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+				dir = ImGuiDir_Right;
+			}
+
+			if (leftTop.y - 5.f <= io.MousePos.y &&
+				leftTop.y + 5.f > io.MousePos.y &&
+				leftTop.x <= io.MousePos.x &&
+				rightBottom.x > io.MousePos.x)
+			{
+				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+				dir = ImGuiDir_Up;
+			}
+
+			if (rightBottom.y - 5.f <= io.MousePos.y &&
+				rightBottom.y + 5.f > io.MousePos.y &&
+				leftTop.x <= io.MousePos.x &&
+				rightBottom.x > io.MousePos.x)
+			{
+				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+				dir = ImGuiDir_Down;
+			}
+			
+			if (dir == ImGuiDir_Left || dir == ImGuiDir_Right)
+			{
+				// 좌클시 bool cut = true 좌클down시 수정완 cut = false
+				// if cut true 이면 x or y 사이즈 변경 
+				// 사이즈 변경 시 등록된 vecRect 사이즈 함께 변경 
+
+			}
+			else if (dir == ImGuiDir_Up || dir == ImGuiDir_Down)
+			{
+
+			}
+
+		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			selectidx = n;
+
+		if(n == selectidx)
+			col = IM_COL32(255, 0, 0, 255);
+
+		// mouse grip cursur
+		
 		draw_list->AddRect(leftTop ,rightBottom , col, 2.0f);
 	}
 
@@ -324,7 +377,6 @@ void AnimationEditorUI::AtlasSelect(DWORD_PTR _ptr)
 	Ptr<CTexture> Tex = CAssetMgr::GetInst()->FindAsset<CTexture>(strAnimName);
 	m_CurAtlas = Tex;
 }
-
 
 void AnimationEditorUI::Deactivate()
 {
@@ -351,3 +403,5 @@ void AnimationEditorUI::Deactivate()
 //	}
 //	ImGui::EndPopup();
 //}
+
+// 줄에 걸치면 ImGui::IsItemHovered() ImGui::SetMouseCursor(ImGuiMouseCursor_COUNT)

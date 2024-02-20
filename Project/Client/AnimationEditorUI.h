@@ -9,19 +9,22 @@ class AnimationEditorUI :
 {
 private:
     vector<ImRect> m_vecRect;       // 드래그 저장
-    vector<ImRect> m_vecAnimRect;  // 스프라이트 출력용
-    Ptr<CTexture> m_CurAtlas;
+    vector<ImRect> m_vecAnimRect;   // 스프라이트 출력용
+    vector<int>    m_vecSelect;
 
-    ImVec2 m_CanvasLeftTop;
-    ImVec2 m_Scrolling;
-    ImVec2 m_MousePos;
-    ImVec2 m_CenterPos;
-    float m_Wheelsz;
-    bool m_bOpen;
+    Ptr<CTexture>  m_CurAtlas;
 
-    bool m_bSlice;
-    bool m_bTrim;
-    bool m_bSmartSlice;
+    ImVec2         m_CanvasLeftTop;
+    ImVec2         m_Scrolling;
+    ImVec2         m_MousePos;
+    ImVec2         m_CenterPos;
+    
+    float          m_Wheelsz;
+    
+    bool           m_bOpen;
+    bool           m_bSlice;
+    bool           m_bTrim;
+    bool           m_bSmartSlice;
 
 public:
     void DrawCanvas();
