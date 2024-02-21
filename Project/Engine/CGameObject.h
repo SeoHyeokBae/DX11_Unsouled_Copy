@@ -29,7 +29,7 @@ private:
 public:
     void begin();
     void tick();
-    void finaltick();
+    virtual void finaltick();
     void render();
 
 public:

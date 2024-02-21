@@ -30,6 +30,8 @@ private:
 
 	UINT		m_LayerCheck;
 
+	int			m_CameraPriority;
+
 	// 물체 분류
 	vector<CGameObject*>    m_vecOpaque;
 	vector<CGameObject*>    m_vecMaked;
@@ -59,6 +61,7 @@ public:
 	void LayerCheckOff() { m_LayerCheck = 0x00000000; }
 
 public:
+	virtual void begin() override;
 	virtual void finaltick() override;
 
 	void SortObject();
