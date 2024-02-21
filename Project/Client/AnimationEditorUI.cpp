@@ -307,13 +307,31 @@ void AnimationEditorUI::DrawCanvas()
 
 		// Mouse Grip Cursur
 		static ImGuiDir dir = ImGuiDir_None;
+		static bool grip_resize = false;
+		static ImVec2 grip_point;
+		static ImVec2 grip_delta = ImVec2(0.f,0.f);
 			if (leftTop.x -5.f <= io.MousePos.x &&
 				leftTop.x + 5.f > io.MousePos.x && 
 				leftTop.y <= io.MousePos.y &&
 				rightBottom.y > io.MousePos.y)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-				dir = ImGuiDir_Left;
+
+				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+				{
+					grip_point = mouse_pos_in_canvas / WheelSz;
+					grip_resize = true;
+				}
+				if (grip_resize)
+				{
+					grip_delta = grip_point - mouse_pos_in_canvas / WheelSz;
+					leftTop.x -= grip_delta.x;
+					points[n].x = (leftTop.x - origin.x) / WheelSz;
+					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+					{
+						grip_resize = false;
+					}
+				}
 			}
 
 			if (rightBottom.x - 5.f <= io.MousePos.x &&
@@ -342,26 +360,12 @@ void AnimationEditorUI::DrawCanvas()
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
 				dir = ImGuiDir_Down;
 			}
-			
-			if (dir == ImGuiDir_Left || dir == ImGuiDir_Right)
-			{
-				// 좌클시 bool cut = true 좌클down시 수정완 cut = false
-				// if cut true 이면 x or y 사이즈 변경 
-				// 사이즈 변경 시 등록된 vecRect 사이즈 함께 변경 
-
-			}
-			else if (dir == ImGuiDir_Up || dir == ImGuiDir_Down)
-			{
-
-			}
 
 		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			selectidx = n;
 
 		if(n == selectidx)
 			col = IM_COL32(255, 0, 0, 255);
-
-		// mouse grip cursur
 		
 		draw_list->AddRect(leftTop ,rightBottom , col, 2.0f);
 	}
