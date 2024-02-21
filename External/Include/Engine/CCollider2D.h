@@ -34,6 +34,8 @@ public:
     Vec2 GetOffsetScale() { return Vec2(m_vOffsetScale.x, m_vOffsetScale.y); }
     COLLIDER2D_TYPE GetType() { return m_Type; }
 
+    const Matrix& GetColliderWorldMat() { return m_matColWorld; }
+
 public:
     virtual void finaltick() override;
 
@@ -42,10 +44,10 @@ public:
     void Overlap(CCollider2D* _OtherCollider);
     void EndOverlap(CCollider2D* _OtherCollider);
 
-    const Matrix& GetColliderWorldMat() { return m_matColWorld; }
-
+    CLONE(CCollider2D);
 public:
     CCollider2D();
+    CCollider2D(const CCollider2D& _OriginCollider2D);
     ~CCollider2D();
 };
 

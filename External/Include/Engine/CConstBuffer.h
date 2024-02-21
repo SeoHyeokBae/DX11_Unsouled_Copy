@@ -17,6 +17,8 @@ public:
     void UpdateData();
     void SetData(void* _Src, UINT _ElementCount = 0);
     void UpdateData_CS();
+    
+    CLONE_DISABLE(CConstBuffer);
 
 public:
     CConstBuffer(CB_TYPE _Type);

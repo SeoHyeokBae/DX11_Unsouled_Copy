@@ -9,6 +9,7 @@ private:
 public:
     virtual void tick() override;
 
+    CLONE(CMissileScript);
 public:
     CMissileScript();
     ~CMissileScript();

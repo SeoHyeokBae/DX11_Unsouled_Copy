@@ -34,8 +34,10 @@ public:
 
     CRenderComponent* GetRenderComponent() { return m_Owner->GetRenderComopnent(); }
 
+    virtual CComponent* Clone() = 0;
 public:
     CComponent(COMPONENT_TYPE _Type);
+    CComponent(const CComponent& _OriginComponent);
     ~CComponent();
 
     friend class CGameObject;

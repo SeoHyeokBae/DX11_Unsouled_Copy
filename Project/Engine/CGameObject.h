@@ -73,8 +73,11 @@ public:
     void Destroy();
 
     bool IsAncestor(CGameObject* _Other);
+
+    CLONE(CGameObject);
 public:
     CGameObject();
+    CGameObject(const CGameObject& _OriginObject);
     ~CGameObject();
 
     friend class CLayer;

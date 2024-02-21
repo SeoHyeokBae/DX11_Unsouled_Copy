@@ -48,9 +48,11 @@ public:
     virtual void UpdateData() override;
     virtual void render() override;
 
+    CLONE(CTileMap);
 
 public:
     CTileMap();
+    CTileMap(const CTileMap& _OriginTileMap);
     ~CTileMap();
 };
 

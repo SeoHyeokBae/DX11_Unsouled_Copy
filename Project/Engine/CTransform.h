@@ -39,6 +39,7 @@ public:
     Vec3 GetLocalDir(DIR_TYPE _type) { return m_arrLocalDir[(UINT)_type]; }
     Vec3 GetWorldDir(DIR_TYPE _type) { return m_arrWorldDir[(UINT)_type]; }
 
+    CLONE(CTransform);
 public:
     CTransform();
     ~CTransform();

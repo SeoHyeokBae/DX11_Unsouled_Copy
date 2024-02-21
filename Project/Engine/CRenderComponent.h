@@ -25,6 +25,7 @@ public:
 
     void RestoreMaterial();
 
+    virtual CRenderComponent* Clone() = 0;
 public:
     virtual void finaltick() {};
     virtual void UpdateData() = 0;
@@ -32,6 +33,7 @@ public:
 
 public:
     CRenderComponent(COMPONENT_TYPE _Type);
+    CRenderComponent(const CRenderComponent& _OriginRenderCom);
     ~CRenderComponent();
 };
 

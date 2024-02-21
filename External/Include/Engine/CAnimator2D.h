@@ -35,8 +35,10 @@ public:
 
     void GetAnimName(vector<string>& _Out);
 
+    CLONE(CAnimator2D);
 public:
     CAnimator2D();
+    CAnimator2D(const CAnimator2D& _OriginAnimator);
     ~CAnimator2D();
 };
 

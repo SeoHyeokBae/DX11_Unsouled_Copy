@@ -6,6 +6,25 @@ CRenderComponent::CRenderComponent(COMPONENT_TYPE _Type)
 {
 }
 
+CRenderComponent::CRenderComponent(const CRenderComponent& _OriginRenderCom)
+	: CComponent(_OriginRenderCom)
+	, m_Mesh(_OriginRenderCom.m_Mesh)
+	, m_SharedMtrl(_OriginRenderCom.m_SharedMtrl)
+{
+	// 원본 오브젝트가 공유재질을 참조하고 있고, 현재 사용재질은 공유재질이 아닌경우
+	if (_OriginRenderCom.m_SharedMtrl != _OriginRenderCom.m_CurMtrl)
+	{
+		assert(_OriginRenderCom.m_DynamicMtrl.Get());
+
+		// 복사 렌더 컴포넌트도 별도의 동적재질을 생성한다.
+		GetDynamicMaterial();
+	}
+	else
+	{
+		m_CurMtrl = m_SharedMtrl;
+	}
+}
+
 CRenderComponent::~CRenderComponent()
 {
 }

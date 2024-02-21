@@ -47,7 +47,7 @@ public:
     CAsset(ASSET_TYPE _Type, bool _bEngineAsset = false);
     ~CAsset();
 
-    virtual CAsset* Clone() { return nullptr; }
+    virtual CAsset* Clone() = 0;
 
     friend class CAssetMgr;
 

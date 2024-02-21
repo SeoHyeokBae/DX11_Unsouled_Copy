@@ -14,6 +14,16 @@ CCollider2D::CCollider2D()
 {
 }
 
+CCollider2D::CCollider2D(const CCollider2D& _OriginCollider2D)
+	: CComponent(_OriginCollider2D)
+	, m_vOffsetPos(_OriginCollider2D.m_vOffsetPos)
+	, m_vOffsetScale(_OriginCollider2D.m_vOffsetScale)
+	, m_CollisionCount(0)
+	, m_bAbsolute(_OriginCollider2D.m_bAbsolute)
+	, m_Type(_OriginCollider2D.m_Type)
+{
+}
+
 CCollider2D::~CCollider2D()
 {
 }

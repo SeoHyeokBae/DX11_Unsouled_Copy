@@ -13,6 +13,7 @@ private:
     void MoveOrthographic();
     void MovePerspective();
 
+    CLONE(CCameraMoveScript);
 public:
     CCameraMoveScript();
     ~CCameraMoveScript();

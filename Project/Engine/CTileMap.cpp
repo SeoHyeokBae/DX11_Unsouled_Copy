@@ -13,7 +13,6 @@ CTileMap::CTileMap()
 	, m_FaceX(2)
 	, m_FaceY(2)
 	, m_vTileRenderSize(Vec2(128.f, 128.f))
-	, m_TileIdx(47)
 	, m_TileInfoBuffer(nullptr)
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
@@ -22,6 +21,26 @@ CTileMap::CTileMap()
 	m_TileInfoBuffer = new CStructuredBuffer;
 
 	SetFace(m_FaceX, m_FaceY);
+}
+
+CTileMap::CTileMap(const CTileMap& _OriginTileMap)
+	: CRenderComponent(_OriginTileMap)
+	, m_FaceX(_OriginTileMap.m_FaceX)
+	, m_FaceY(_OriginTileMap.m_FaceY)
+	, m_vTileRenderSize(_OriginTileMap.m_vTileRenderSize)
+	, m_vTileMapWorldPos(_OriginTileMap.m_vTileMapWorldPos)
+	, m_TileAtlas(_OriginTileMap.m_TileAtlas)
+	, m_vTilePixelSize(_OriginTileMap.m_vTilePixelSize)
+	, m_vSliceSizeUV(_OriginTileMap.m_vSliceSizeUV)
+	, m_MaxCol(_OriginTileMap.m_MaxCol)
+	, m_MaxRow(_OriginTileMap.m_MaxRow)
+	, m_vecTileInfo(_OriginTileMap.m_vecTileInfo)
+	, m_TileInfoBuffer(nullptr)
+{
+	if (nullptr != _OriginTileMap.m_TileInfoBuffer)
+	{
+		m_TileInfoBuffer = _OriginTileMap.m_TileInfoBuffer->Clone();
+	}
 }
 
 CTileMap::~CTileMap()

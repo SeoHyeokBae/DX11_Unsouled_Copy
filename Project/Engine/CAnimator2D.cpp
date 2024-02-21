@@ -8,6 +8,26 @@ CAnimator2D::CAnimator2D()
 {
 }
 
+CAnimator2D::CAnimator2D(const CAnimator2D& _OriginAnimator)
+	: CComponent(_OriginAnimator)
+	, m_CurAnim(nullptr)
+	, m_bRepeat(_OriginAnimator.m_bRepeat)
+{
+	map<wstring, CAnim*>::const_iterator iter = _OriginAnimator.m_mapAnim.begin();
+	for (; iter != _OriginAnimator.m_mapAnim.end(); ++iter)
+	{
+		CAnim* pCloneAnim = iter->second->Clone();
+
+		pCloneAnim->m_Animator = this;
+		m_mapAnim.insert(make_pair(iter->first, pCloneAnim));
+	}
+
+	if (nullptr != _OriginAnimator.m_CurAnim)
+	{
+		m_CurAnim = FindAnim(_OriginAnimator.m_CurAnim->GetName());
+	}
+}
+
 CAnimator2D::~CAnimator2D()
 {
 	Delete_Map(m_mapAnim);

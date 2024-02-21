@@ -46,6 +46,7 @@ public:
 
     void UpdateLightDir(eLight2DDir);
 
+    CLONE(CLight2D);
 public:
     CLight2D();
     ~CLight2D();

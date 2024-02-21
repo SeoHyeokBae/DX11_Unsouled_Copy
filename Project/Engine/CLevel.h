@@ -38,8 +38,10 @@ public:
 private:
 	void clear();
 
+	CLONE(CLevel);
 public:
 	CLevel();
+	CLevel(const CLevel& _OriginLevel);
 	~CLevel();
 
 	friend class CLevelMgr;

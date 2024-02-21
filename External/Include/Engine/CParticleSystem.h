@@ -28,8 +28,10 @@ public:
     virtual void finaltick() override;
     virtual void render() override;
 
+    CLONE(CParticleSystem);
 public:
     CParticleSystem();
+    CParticleSystem(const CParticleSystem& _OriginParticle);
     ~CParticleSystem();
 };
 

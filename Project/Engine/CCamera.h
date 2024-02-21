@@ -8,14 +8,14 @@ enum class PROJ_TYPE
 };
 
 class CCamera :
-    public CComponent
+	public CComponent
 {
 private:
 	PROJ_TYPE   m_ProjType;		//투영방식
 
 	// 원근투영(Perspective)
 	float		m_FOV;          // 시야 각
-			
+
 	// 직교투영(Orthographic)
 	float		m_Width;        // 직교투영 가로 길이
 	float		m_Scale;        // 직교투영 배율
@@ -59,17 +59,18 @@ public:
 	void LayerCheckOff() { m_LayerCheck = 0x00000000; }
 
 public:
-    virtual void finaltick() override;
+	virtual void finaltick() override;
 
 	void SortObject();
 	void render();
+
+	CLONE(CCamera);
 
 private:
 	void render(vector<CGameObject*>& _vecObj);
 	void render_postprocess();
 
 public:
-    CCamera();
-    ~CCamera();
+	CCamera();
+	~CCamera();
 };
-

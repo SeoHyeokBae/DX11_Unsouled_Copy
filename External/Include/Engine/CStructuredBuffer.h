@@ -45,8 +45,11 @@ public:
     UINT GetElementSize() { return m_ElementSize; }
     UINT GetElementCount() { return m_ElementCount; }
 
+    CLONE(CStructuredBuffer);
+
 public:
     CStructuredBuffer();
+    CStructuredBuffer(const CStructuredBuffer& _OriginBuffer);
     ~CStructuredBuffer();
 };
 

@@ -45,10 +45,13 @@ public:
     void Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop
         , Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _FrmCount, float _FPS);
 
-
+    CLONE(CAnim);
 
 public:
     CAnim();
+    CAnim(const CAnim& _OriginAnim);
     ~CAnim();
+
+    friend class CAnimator2D;
 };
 

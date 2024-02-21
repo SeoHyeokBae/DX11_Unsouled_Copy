@@ -12,7 +12,6 @@
 
 #include "CTransform.h"
 
-
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_ParticleBuffer(nullptr)
@@ -94,6 +93,27 @@ CParticleSystem::CParticleSystem()
 
 	m_ParticleTex = CAssetMgr::GetInst()->Load<CTexture>(L"texture\\particle\\ray.png"
 														, L"texture\\particle\\ray.png");
+}
+
+CParticleSystem::CParticleSystem(const CParticleSystem& _OriginParticle)
+	: CRenderComponent(_OriginParticle)
+	, m_ParticleBuffer(nullptr)
+	, m_MaxParticleCount(_OriginParticle.m_MaxParticleCount)
+	, m_Module(_OriginParticle.m_Module)
+	, m_ParticleModuleBuffer(nullptr)
+	, m_SpawnCountBuffer(nullptr)
+	, m_CSParticleUpdate(_OriginParticle.m_CSParticleUpdate)
+	, m_ParticleTex(_OriginParticle.m_ParticleTex)
+	, m_Time(0.f)
+{
+	if (nullptr != _OriginParticle.m_ParticleBuffer)
+		m_ParticleBuffer = _OriginParticle.m_ParticleBuffer->Clone();
+
+	if (nullptr != _OriginParticle.m_ParticleModuleBuffer)
+		m_ParticleModuleBuffer = _OriginParticle.m_ParticleModuleBuffer->Clone();
+
+	if (nullptr != _OriginParticle.m_SpawnCountBuffer)
+		m_SpawnCountBuffer = _OriginParticle.m_SpawnCountBuffer->Clone();
 }
 
 CParticleSystem::~CParticleSystem()

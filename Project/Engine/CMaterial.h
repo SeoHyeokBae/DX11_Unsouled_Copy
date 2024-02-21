@@ -26,10 +26,10 @@ public:
 
     void UpdateData();
 
-	virtual CMaterial* Clone() { return new CMaterial(*this); }
 	virtual int Save(const wstring& _strRelativePath);
 	virtual int Load(const wstring& _strFilePath);
 
+	CLONE(CMaterial);
 public:
     CMaterial(bool _bEngine = false);
     ~CMaterial();
