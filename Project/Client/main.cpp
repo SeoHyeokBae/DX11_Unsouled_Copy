@@ -14,11 +14,15 @@
 #pragma comment(lib, "Engine\\Engine.lib")
 #endif
 
-#include "CImGuiMgr.h"
-
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+
+#include "CImGuiMgr.h"
+#include "CEditorObjMgr.h"
+
+// 배포용 게임모드 editor ui 출력x
+//#define _RELEASE_GAME 
 
 // 전역 변수:
 HINSTANCE    hInst;                                // 현재 인스턴스입니다.
@@ -58,10 +62,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 0;
     }
 
+#ifndef _RELEASE_GAME
+    // EditorObjectManager 초기화
+    CEditorObjMgr::GetInst()->init();
+
+    // ImGui 초기화
     CImGuiMgr::GetInst()->init(hWnd, DEVICE, CONTEXT);
+#endif
 
-
-    // 기본 메시지 루프입니다:
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -82,8 +90,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             // Engine Update
             CEngine::GetInst()->Progress();
 
+
+#ifndef _RELEASE_GAME
+            // EditorObj
+            CEditorObjMgr::GetInst()->progress();
+
             // ImGui Update
             CImGuiMgr::GetInst()->progress();
+#endif
 
             // Engine 및 ImGui 렌더링 최종 결과를 출력한다.
             CDevice::GetInst()->Present();

@@ -5,12 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Default">
-      <UniqueIdentifier>{19d367c1-23f9-4af8-a9ab-52040f40287a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Default\ImGui">
-      <UniqueIdentifier>{7ecd1163-e8da-493d-b3bd-ca8280d7b708}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. UI">
       <UniqueIdentifier>{40b2c8ac-13b2-44d8-8cb7-d038ca6db4a7}</UniqueIdentifier>
     </Filter>
@@ -97,6 +91,12 @@
     </Filter>
     <Filter Include="01. UIMgr\02. EditorObjMgr\GameObjectEx">
       <UniqueIdentifier>{8e211dca-3add-415b-8644-4d5df439c5f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default">
+      <UniqueIdentifier>{19d367c1-23f9-4af8-a9ab-52040f40287a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default\ImGui">
+      <UniqueIdentifier>{7ecd1163-e8da-493d-b3bd-ca8280d7b708}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

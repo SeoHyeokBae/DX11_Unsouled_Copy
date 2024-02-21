@@ -128,6 +128,7 @@ void CGameObject::render()
 		m_RenderCom->render();
 	}
 
+	// 자식 오브젝트 렌더 문제(카메라에서 따로 렌더링 하고 있음)
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
 		m_vecChild[i]->render();
