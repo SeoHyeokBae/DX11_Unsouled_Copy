@@ -7,6 +7,8 @@
 #include "CComponent.h"
 
 CTaskMgr::CTaskMgr()
+	: m_bCreateObject(false)
+	, m_bDeleteObject(false)
 {
 
 }
@@ -18,6 +20,8 @@ CTaskMgr::~CTaskMgr()
 
 void CTaskMgr::tick()
 {
+	Clear();
+
 	for (size_t i = 0; i < m_vecTask.size(); ++i)
 	{
 		switch (m_vecTask[i].Type)
@@ -29,6 +33,8 @@ void CTaskMgr::tick()
 
 			CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 			pCurLevel->AddObject(Object, LayerIdx, true);
+
+			m_bCreateObject = true;
 
 			/*if (LEVEL_STATE::PLAY == pCurLevel->GetState())
 			{
@@ -56,6 +62,11 @@ void CTaskMgr::tick()
 					queue.push_back(pObject->m_vecChild[i]);
 				}
 			}
+
+			if (m_DeleteFrameCount == 0)
+				++m_DeleteFrameCount;
+			else if (m_DeleteFrameCount == 2)
+				m_DeleteFrameCount = 1;
 		}
 		break;
 		case TASK_TYPE::CHANGE_LEVELSTATE:
@@ -83,4 +94,21 @@ void CTaskMgr::tick()
 	}
 
 	m_vecTask.clear();
+}
+
+void CTaskMgr::Clear()
+{
+	m_bCreateObject = false;
+
+	// ¾ïÁö
+	if (1 == m_DeleteFrameCount)
+	{
+		++m_DeleteFrameCount;
+		m_bDeleteObject = true;
+	}
+	else if (2 <= m_DeleteFrameCount)
+	{
+		m_DeleteFrameCount = 0;
+		m_bDeleteObject = false;
+	}
 }

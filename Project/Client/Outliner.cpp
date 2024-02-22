@@ -5,11 +5,13 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
+#include <Engine/CKeyMgr.h>
 
 #include "CImGuiMgr.h"
 #include "Inspector.h"
 #include "TreeUI.h"
 
+#include <Engine/CTaskMgr.h>
 
 Outliner::Outliner()
 	: UI("Outliner","##Outliner")
@@ -36,6 +38,21 @@ void Outliner::render_update()
 {
 	ImGui::SeparatorText("Current Level All Object");
 
+    if (CTaskMgr::GetInst()->GetObjectEvent())
+    {
+        ResetCurrentLevel();
+    }
+
+    if (KEY_TAP(KEY::DEL))
+    {
+        TreeNode* pNode = m_Tree->GetSelectedNode();
+        if (nullptr != pNode)
+        {
+            CGameObject* pSelectObj = (CGameObject*)pNode->GetData();
+            GamePlayStatic::DestroyGameObject(pSelectObj);
+            m_Tree->NoneSelectedNode();
+        }
+    }
 }
 
 void Outliner::ResetCurrentLevel()

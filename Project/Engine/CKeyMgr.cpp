@@ -4,74 +4,19 @@
 
 int g_KeySync[KEY::KEY_END] =
 {
-	'0',
-	'1',
-	'2',
-	'3',
-	'4',
-	'5',
-	'6',
-	'7',
-	'8',
-	'9',
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 
-	VK_NUMPAD0,
-	VK_NUMPAD1,
-	VK_NUMPAD2,
-	VK_NUMPAD3,
-	VK_NUMPAD4,
-	VK_NUMPAD5,
-	VK_NUMPAD6,
-	VK_NUMPAD7,
-	VK_NUMPAD8,
-	VK_NUMPAD9,
+	VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2, VK_NUMPAD3, VK_NUMPAD4,
+	VK_NUMPAD5, VK_NUMPAD6, VK_NUMPAD7,  VK_NUMPAD8, VK_NUMPAD9,
 
-	'Q',
-	'W',
-	'E',
-	'R',
-	'T',
-	'Y',
-	'U',
-	'I',
-	'O',
-	'P',
+	'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+	'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+	'Z', 'X', 'C', 'V', 'B', 'N', 'M',
 
-	'A',
-	'S',
-	'D',
-	'F',
-	'G',
-	'H',
-	'J',
-	'K',
-	'L',
-
-	'Z',
-	'X',
-	'C',
-	'V',
-	'B',
-	'N',
-	'M',
-
-	VK_TAB,
-	VK_LSHIFT,
-	VK_LMENU,
-	VK_LCONTROL,
-	VK_SPACE,
-
-	VK_ESCAPE,
-	VK_RETURN,
-	VK_BACK,
-
-	VK_LEFT,
-	VK_RIGHT,
-	VK_UP,
-	VK_DOWN,
-
-	VK_LBUTTON,
-	VK_RBUTTON,
+	VK_TAB, VK_LSHIFT, VK_LMENU, VK_LCONTROL, VK_SPACE,
+	VK_ESCAPE, VK_RETURN, VK_BACK, VK_DELETE,
+	VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN,
+	VK_LBUTTON, VK_RBUTTON,
 };
 
 
@@ -158,8 +103,8 @@ void CKeyMgr::tick()
 		m_vMousePrevPos = m_vMousePos;
 
 		POINT pt = {};
-		GetCursorPos(&pt);	// 전체화면 기준 좌표
-		ScreenToClient(CEngine::GetInst()->GetMainWind(), &pt);	// 전체화면 커서 좌표를 윈도우 화면용으로
+		GetCursorPos(&pt);
+		ScreenToClient(CEngine::GetInst()->GetMainWind(), &pt);
 		m_vMousePos = Vec2((float)pt.x, (float)pt.y);
 
 		// 마우스 이동 방향

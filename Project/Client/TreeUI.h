@@ -72,6 +72,11 @@ public:
     virtual void render_update() override;
 
 public:
+    TreeNode* GetRootNode() { return m_Root; }
+    TreeNode* GetSelectedNode() { return m_Selected; }
+    void NoneSelectedNode() { m_Selected = nullptr; }
+
+public:
     void AddSelectDelegate(UI* _Inst, Delegate_1 _pFunc) { m_SelectInst = _Inst; m_SelectFunc = _pFunc; }
     void AddDragDropDelegate(UI* _Inst, Delegate_2 _pFunc) { m_DragDropInst = _Inst; m_DragDropFunc = _pFunc; }
 
