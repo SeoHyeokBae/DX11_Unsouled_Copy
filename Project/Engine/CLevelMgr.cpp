@@ -162,7 +162,7 @@ void CLevelMgr::init()
 
 	pObj = pObj->Clone();
 	pObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 500.f));
-	m_CurLevel->AddObject(pObj, L"Player", false);
+	//m_CurLevel->AddObject(pObj, L"Player", false);
 
 	// Particle Object
 	CGameObject* pParticleObj = new CGameObject;
@@ -176,7 +176,13 @@ void CLevelMgr::init()
 
 	pParticleObj = pParticleObj->Clone();
 	pParticleObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 200.f));
-	m_CurLevel->AddObject(pParticleObj, L"Default", false);
+	//m_CurLevel->AddObject(pParticleObj, L"Default", false);
+
+	pObj->AddChild(pParticleObj);
+	m_CurLevel->AddObject(pObj, L"Default", false);
+
+	CGameObject* pCloneObj = pObj->Clone();
+	m_CurLevel->AddObject(pCloneObj, L"Default", false);
 
 	// UI object 생성
 	pObj = new CGameObject;
@@ -196,9 +202,9 @@ void CLevelMgr::init()
 
 
 	// Level 시작
-	CLevel* pNewLevel = m_CurLevel->Clone();
-	delete m_CurLevel;
-	m_CurLevel = pNewLevel;
+	//CLevel* pNewLevel = m_CurLevel->Clone();
+	//delete m_CurLevel;
+	//m_CurLevel = pNewLevel;
 
 	// 레벨 플레이
 	m_CurLevel->begin();
