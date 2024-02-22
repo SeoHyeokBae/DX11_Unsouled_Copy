@@ -38,17 +38,12 @@ VS_OUT VS_Std2D(VS_IN _in)
 
 float4 PS_Std2D(VS_OUT _in) : SV_Target
 {
-    
-    //uint width = 0;
-    //uint height = 0;
-    //g_tex_1.GetDimensions(width, height);
-    
-    float4 vColor = float4(1.f, 0.f, 1.f, 0.f);
-    
+    float4 vColor = float4(1.f, 0.f, 1.f, 1.f);
+
     if (g_vec4_1.w == 3.14f)
         return float4(1.f, 1.f, 0.f, 1.f);
     
-    if (g_UseAnim2D)
+    if(g_UseAnim2D)
     {
         float2 vBackgroundLeftTop = g_vLeftTop + (g_vSliceSize / 2.f) - (g_vBackground / 2.f);
         vBackgroundLeftTop -= g_vOffset;
@@ -96,9 +91,6 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     }
     
     vColor.rgb *= (LightColor.vColor.rgb + LightColor.vAmbient.rgb);
-    //vColor.rgb *= (LightColor.vColor.rgb + LightColor.vAmbient.rgb);
-    //vColor.rgb += LightColor.vAmbient.rgb;
-    //vColor.rgb += (LightColor.vColor.rgb * LightColor.vAmbient.rgb);
     
     if (0.f == vColor.a)
         discard;

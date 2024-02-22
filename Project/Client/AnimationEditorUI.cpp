@@ -222,7 +222,6 @@ void AnimationEditorUI::DrawCanvas()
 		ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y) - WheelOffset;
 		ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height));
 
-
 		draw_list->AddImage((void*)my_texture.Get(), left_top, right_bottom);
 		draw_list->AddRect(left_top, right_bottom, IM_COL32(255, 255, 255, 255)); // 아틀라스테두리
 		draw_list->PopClipRect();
