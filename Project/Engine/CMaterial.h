@@ -26,6 +26,20 @@ public:
 
     void UpdateData();
 
+	void operator = (const CMaterial& _OtherMtrl)
+	{
+		SetName(_OtherMtrl.GetName());
+
+		m_Const = _OtherMtrl.m_Const;
+
+		for (UINT i = 0; i < (UINT)TEX_PARAM::END; ++i)
+		{
+			m_arrTex[i] = _OtherMtrl.m_arrTex[i];
+		}
+
+		m_pShader = _OtherMtrl.m_pShader;
+	}
+
 	virtual int Save(const wstring& _strRelativePath);
 	virtual int Load(const wstring& _strFilePath);
 

@@ -89,7 +89,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // Engine Update
             CEngine::GetInst()->Progress();
-
+            
 
 #ifndef _RELEASE_GAME
             // EditorObj
