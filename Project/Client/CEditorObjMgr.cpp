@@ -15,7 +15,7 @@ CEditorObjMgr::CEditorObjMgr()
 
 CEditorObjMgr::~CEditorObjMgr()
 {
-
+	Delete_Vec(m_vecEditorObj);
 }
 
 void CEditorObjMgr::init()
