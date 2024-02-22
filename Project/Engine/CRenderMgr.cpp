@@ -15,8 +15,10 @@ CRenderMgr::CRenderMgr()
 	: m_Light2DBuffer(nullptr)
 	, m_pDebugObj(nullptr)
 	, m_DebugPosition(true)
+	, m_EditorCam(nullptr)
+	, m_RenderFunc(nullptr)
 {
-
+	m_RenderFunc = &CRenderMgr::render;
 }
 
 CRenderMgr::~CRenderMgr()
@@ -31,6 +33,12 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::tick()
 {
+	// OM(Output Merge State) 에 RenderTargetTexture 와 DepthStencilTexture 를 전달한다.
+	// 렌더타켓 및 깊이 타켓 설정
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+
 	// 윈도우 화면 클리어
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 0.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
@@ -38,7 +46,8 @@ void CRenderMgr::tick()
 	// Light2D update
 	UpdateData();
 
-	render();
+	// 카메라에 따라 일반 렌더 or Editor 렌더
+	(this->*m_RenderFunc)();
 
 	render_debug();
 
@@ -49,17 +58,20 @@ void CRenderMgr::tick()
 
 void CRenderMgr::render()
 {
-	// OM(Output Merge State) 에 RenderTargetTexture 와 DepthStencilTexture 를 전달한다.
-	// 렌더타켓 및 깊이타켓 설정
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
-	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
-	
 	for (size_t i = 0; i < m_vecCam.size(); i++)
 	{
 		m_vecCam[i]->SortObject();
 		m_vecCam[i]->render();
 	}
+}
+
+void CRenderMgr::render_editor()
+{
+	if (nullptr == m_EditorCam)
+		return;
+
+	m_EditorCam->SortObject();
+	m_EditorCam->render();
 }
 
 void CRenderMgr::render_debug()

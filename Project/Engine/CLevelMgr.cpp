@@ -3,13 +3,13 @@
 
 #include "CDevice.h"
 #include "CAssetMgr.h"
+#include "CTaskMgr.h"
 
 #include "CLevel.h"
 #include "CLayer.h"
 #include "CGameObject.h"
 #include "components.h"
 #include "CPlayerScript.h"
-#include "CCameraMoveScript.h"
 #include "CBackgroundScript.h"
 
 #include "CMesh.h"
@@ -73,7 +73,6 @@ void CLevelMgr::init()
 	pCamObj->SetName(L"MainCamera");
 	pCamObj->AddComponent(new CTransform);
 	pCamObj->AddComponent(new CCamera);
-	pCamObj->AddComponent(new CCameraMoveScript);
 
 	pCamObj->Transform()->SetRelativePos(Vec3(0.5f, 0.f, 0.f));
 	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
@@ -217,3 +216,13 @@ void CLevelMgr::tick()
 	m_CurLevel->finaltick();
 }
 
+void CLevelMgr::ChangeLevelState(LEVEL_STATE _State)
+{
+	tTask task = {};
+
+	task.Type = TASK_TYPE::CHANGE_LEVELSTATE;
+	task.Param_1 = (DWORD_PTR)m_CurLevel;
+	task.Param_2 = (DWORD_PTR)_State;
+
+	CTaskMgr::GetInst()->AddTask(task);
+}

@@ -4,18 +4,14 @@
 class CLayer;
 class CGameObject;
 
-enum class LEVEL_STATE
-{
-	PLAY,
-	PAUSE,
-	STOP,
-};
+
 
 class CLevel :
 	public CEntity
 {
 private:
-	CLayer* m_arrLayer[LAYER_MAX];
+	CLayer*			m_arrLayer[LAYER_MAX];
+	LEVEL_STATE		m_State;
 
 
 public:
@@ -34,6 +30,10 @@ public:
 	
 	void GetLayerName(vector<string>& _Out);
 	void GetObjectName(vector<string>& _Out); // 모든 레이어에서의 obj name
+
+public:
+	void ChangeState(LEVEL_STATE _NextState);
+	LEVEL_STATE GetState() { return m_State; }
 
 private:
 	void clear();

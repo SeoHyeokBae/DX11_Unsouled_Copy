@@ -13,8 +13,10 @@ private:
 
 public:
 	void init();
-
 	void tick();
+
+public:
+	void ChangeLevelState(LEVEL_STATE _State);
 
 public:
 	CLevel* GetCurrentLevel() { return m_CurLevel; }

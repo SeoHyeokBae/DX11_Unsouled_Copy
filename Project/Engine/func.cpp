@@ -6,7 +6,7 @@
 
 void GamePlayStatic::SpawnGameObject(CGameObject* _Target, int _LayerIdx)
 {
-	FTask task = {};
+	tTask task = {};
 	task.Type = TASK_TYPE::CREATE_OBJECT;
 	task.Param_1 = (DWORD_PTR)_LayerIdx;
 	task.Param_2 = (DWORD_PTR)_Target;
@@ -15,7 +15,7 @@ void GamePlayStatic::SpawnGameObject(CGameObject* _Target, int _LayerIdx)
 
 void GamePlayStatic::DestroyGameObject(CGameObject* _Target)
 {
-	FTask task = {};
+	tTask task = {};
 	task.Type = TASK_TYPE::DELETE_OBJECT;
 	task.Param_1 = (DWORD_PTR)_Target;
 	CTaskMgr::GetInst()->AddTask(task);

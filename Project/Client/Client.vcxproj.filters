@@ -98,6 +98,9 @@
     <Filter Include="Default\ImGui">
       <UniqueIdentifier>{7ecd1163-e8da-493d-b3bd-ca8280d7b708}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scripts">
+      <UniqueIdentifier>{75cfc25b-9ef0-4c15-8498-c22aa2301378}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -220,6 +223,7 @@
     <ClInclude Include="CGameObjectEx.h">
       <Filter>01. UIMgr\02. EditorObjMgr\GameObjectEx</Filter>
     </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -344,5 +348,6 @@
     <ClCompile Include="CGameObjectEx.cpp">
       <Filter>01. UIMgr\02. EditorObjMgr\GameObjectEx</Filter>
     </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp" />
   </ItemGroup>
 </Project>

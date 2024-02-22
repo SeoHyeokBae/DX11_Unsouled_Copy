@@ -12,6 +12,9 @@
 #define DT	CTimeMgr::GetInst()->GetDeltaTime()
 #define DTd	CTimeMgr::GetInst()->GetDeltaTime_d()
 
+#define DT_ENGINE	CTimeMgr::GetInst()->GetEngineDeltaTime()
+#define DTd_ENGINE	CTimeMgr::GetInst()->GetEngineDeltaTime_d()
+
 #define KEY_TAP(Key) KEY_CHECK(Key, TAP)
 #define KEY_PRESSED(Key) KEY_CHECK(Key, PRESSED)
 #define KEY_RELEASED(Key) KEY_CHECK(Key, RELEASED)
@@ -214,4 +217,11 @@ enum class PARTICLE_MODULE
 	RENDER,				// 렌더링 때의 옵션 관련
 
 	END,
+};
+
+enum class LEVEL_STATE
+{
+	PLAY,
+	PAUSE,
+	STOP,
 };

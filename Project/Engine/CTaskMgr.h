@@ -8,8 +8,11 @@ enum class TASK_TYPE
 	// Param1 : Object Adress
 	DELETE_OBJECT,
 
+	// Param1 : Level, Param2 : LEVEL_STATE
+	CHANGE_LEVELSTATE,
+
 	// Param1 : LEVEL_TYPE
-	LEVEL_CHANGE,
+	CHANGE_LEVEL,
 
 	// Param1 : Parent Object, Param2 : Child Object
 	ADD_CHILD,
@@ -18,7 +21,7 @@ enum class TASK_TYPE
 	DISCONNECT_PARENT,
 };
 
-struct FTask
+struct tTask
 {
 	TASK_TYPE Type;
 	UINT_PTR  Param_1;
@@ -32,12 +35,12 @@ class CTaskMgr
 	SINGLE(CTaskMgr);
 
 private:
-	vector<FTask>	m_vecTask;
+	vector<tTask>	m_vecTask;
 
 public:
 	void tick();
 
-	void AddTask(const FTask& _Task)
+	void AddTask(const tTask& _Task)
 	{
 		m_vecTask.push_back(_Task);
 	}

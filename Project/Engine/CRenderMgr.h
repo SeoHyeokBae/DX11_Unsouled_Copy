@@ -15,6 +15,7 @@ class CRenderMgr :
     SINGLE(CRenderMgr);
 private:
     vector <CCamera*>       m_vecCam;   
+    CCamera*                m_EditorCam;
 
     Ptr<CTexture>           m_PostProcessTex;
 
@@ -29,13 +30,13 @@ private:
     // NoiseTexture
     vector<Ptr<CTexture>>   m_vecNoiseTex;
 
+    // render function pointer
+    typedef void(CRenderMgr::* RENDER_FUNC)(void);
+    RENDER_FUNC             m_RenderFunc;
 
 public:
     void RegisterCamera(CCamera* _Cam, int _Idx);
-    void AddDebugShapeInfo(const tDebugShapeInfo& _info)
-    {
-        m_DbgShapeInfo.push_back(_info);
-    }
+    void AddDebugShapeInfo(const tDebugShapeInfo& _info){ m_DbgShapeInfo.push_back(_info);}
 
     void SetDebugPosition(bool _OnOff) { m_DebugPosition = _OnOff; }
     bool IsDebugPosition() { return m_DebugPosition; }
@@ -45,6 +46,8 @@ public:
     void CopyRenderTargetToPostProcessTarget(); // 렌더타켓을 후처리용으로 텍스처 복사
     Ptr<CTexture> GetPostProcessTex() { return m_PostProcessTex; }
 
+    void RegisterEditorCamera(CCamera* _Cam) { m_EditorCam = _Cam; }
+
 public:
     void init();
     void tick();
@@ -52,6 +55,7 @@ public:
 private:
     void render();
     void render_debug();
+    void render_editor();
 
     // 리소스 바인딩
     void UpdateData();

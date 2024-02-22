@@ -4,10 +4,11 @@
 #include "CLayer.h"
 #include "CGameObject.h"
 
-
+#include "CTimeMgr.h"
 
 CLevel::CLevel()
 	: m_arrLayer{}
+	, m_State(LEVEL_STATE::STOP)
 {
 	for (UINT i = 0; i < LAYER_MAX; ++i)
 	{
@@ -192,4 +193,36 @@ void CLevel::clear()
 	{
 		m_arrLayer[i]->m_vecObjects.clear();
 	}
+}
+
+void CLevel::ChangeState(LEVEL_STATE _NextState)
+{
+	if (m_State == _NextState)
+		return;
+
+	// 정지 -> 플레이
+	if ((LEVEL_STATE::STOP == m_State || LEVEL_STATE::PAUSE == m_State) && LEVEL_STATE::PLAY == _NextState)
+	{
+		CTimeMgr::GetInst()->LockDeltaTime(false);
+
+		// 레벨 카메라 모드
+		//CRenderMgr::GetInst()->
+
+		if (LEVEL_STATE::STOP == m_State)
+		{
+			begin();
+		}
+	}
+
+	// 플레이 -> 정지 or 일시정지
+	else if (LEVEL_STATE::PLAY == m_State && (LEVEL_STATE::STOP == _NextState || LEVEL_STATE::PAUSE == _NextState))
+	{
+		CTimeMgr::GetInst()->LockDeltaTime(true);
+
+		// 에디터 카메라 모드
+		//CRenderMgr::GetInst()->
+	}
+
+	// 레벨 스테이트 변경
+	m_State = _NextState;
 }

@@ -2,14 +2,13 @@
 #include "CCameraMoveScript.h"
 
 CCameraMoveScript::CCameraMoveScript()
-	:m_CamSpeed(500.f)
+	: m_CamSpeed(500.f)
 {
 }
 
 CCameraMoveScript::~CCameraMoveScript()
 {
 }
-
 
 void CCameraMoveScript::tick()
 {
@@ -24,16 +23,18 @@ void CCameraMoveScript::tick()
 		}
 	}
 
+
 	if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 	{
 		MoveOrthographic();
 	}
+
 	else
 	{
 		MovePerspective();
 	}
 
-	if (KEY_PRESSED(KEY::_1))
+	if (KEY_PRESSED(KEY::NUM1))
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 			Camera()->SetScale(Camera()->GetScale() + DT * 0.2f);
@@ -41,7 +42,7 @@ void CCameraMoveScript::tick()
 			Camera()->SetFOV(Camera()->GetFOV() + DT * 2.f);
 	}
 
-	if (KEY_PRESSED(KEY::_2))
+	if (KEY_PRESSED(KEY::NUM2))
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 			Camera()->SetScale(Camera()->GetScale() - DT * 0.2f);
