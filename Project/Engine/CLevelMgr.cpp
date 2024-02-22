@@ -206,8 +206,7 @@ void CLevelMgr::init()
 	//delete m_CurLevel;
 	//m_CurLevel = pNewLevel;
 
-	// 레벨 플레이
-	m_CurLevel->begin();
+	m_CurLevel->ChangeState(LEVEL_STATE::STOP);
 }
 
 void CLevelMgr::tick()

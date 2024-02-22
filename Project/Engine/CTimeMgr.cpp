@@ -8,6 +8,7 @@ CTimeMgr::CTimeMgr()
 	, m_PrevCount{}
 	, m_CurCount{}
 	, m_Time(0.f)
+	, m_bLock(true)
 {
 
 }

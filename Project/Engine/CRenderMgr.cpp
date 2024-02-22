@@ -18,7 +18,7 @@ CRenderMgr::CRenderMgr()
 	, m_EditorCam(nullptr)
 	, m_RenderFunc(nullptr)
 {
-	m_RenderFunc = &CRenderMgr::render;
+	m_RenderFunc = &CRenderMgr::render_play;
 }
 
 CRenderMgr::~CRenderMgr()
@@ -40,7 +40,7 @@ void CRenderMgr::tick()
 	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
 
 	// 윈도우 화면 클리어
-	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 0.f };
+	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
 	// Light2D update
@@ -56,7 +56,7 @@ void CRenderMgr::tick()
 
 }
 
-void CRenderMgr::render()
+void CRenderMgr::render_play()
 {
 	for (size_t i = 0; i < m_vecCam.size(); i++)
 	{
@@ -76,6 +76,9 @@ void CRenderMgr::render_editor()
 
 void CRenderMgr::render_debug()
 {
+	if (m_vecCam.empty())
+		return;
+
 	g_Transform.matView = m_vecCam[0]->GetViewMat();
 	g_Transform.matProj = m_vecCam[0]->GetProjMat();
 

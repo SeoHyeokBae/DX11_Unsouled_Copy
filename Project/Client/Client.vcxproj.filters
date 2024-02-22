@@ -80,18 +80,6 @@
     <Filter Include="02. UI\6. Module\TreeUI">
       <UniqueIdentifier>{6db4acd2-46e6-4dfd-af3f-e610b2f3253f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. UIMgr">
-      <UniqueIdentifier>{8d8969b0-4704-4067-84ef-5b2adec0eb9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. UIMgr\01. UIMgr">
-      <UniqueIdentifier>{68652860-b809-4d17-a136-d2aa6994809d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. UIMgr\02. EditorObjMgr">
-      <UniqueIdentifier>{c7a847f7-d8ff-45b4-a59b-6b3dfd646633}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. UIMgr\02. EditorObjMgr\GameObjectEx">
-      <UniqueIdentifier>{8e211dca-3add-415b-8644-4d5df439c5f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Default">
       <UniqueIdentifier>{19d367c1-23f9-4af8-a9ab-52040f40287a}</UniqueIdentifier>
     </Filter>
@@ -100,6 +88,18 @@
     </Filter>
     <Filter Include="03. Scripts">
       <UniqueIdentifier>{75cfc25b-9ef0-4c15-8498-c22aa2301378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Manager">
+      <UniqueIdentifier>{8d8969b0-4704-4067-84ef-5b2adec0eb9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Manager\01. UIMgr">
+      <UniqueIdentifier>{68652860-b809-4d17-a136-d2aa6994809d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Manager\02. EditorObjMgr">
+      <UniqueIdentifier>{c7a847f7-d8ff-45b4-a59b-6b3dfd646633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Manager\02. EditorObjMgr\GameObjectEx">
+      <UniqueIdentifier>{8e211dca-3add-415b-8644-4d5df439c5f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -215,15 +215,17 @@
       <Filter>02. UI\4. MenuUI</Filter>
     </ClInclude>
     <ClInclude Include="CImGuiMgr.h">
-      <Filter>01. UIMgr\01. UIMgr</Filter>
+      <Filter>01. Manager\01. UIMgr</Filter>
     </ClInclude>
     <ClInclude Include="CEditorObjMgr.h">
-      <Filter>01. UIMgr\02. EditorObjMgr</Filter>
+      <Filter>01. Manager\02. EditorObjMgr</Filter>
     </ClInclude>
     <ClInclude Include="CGameObjectEx.h">
-      <Filter>01. UIMgr\02. EditorObjMgr\GameObjectEx</Filter>
+      <Filter>01. Manager\02. EditorObjMgr\GameObjectEx</Filter>
     </ClInclude>
-    <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>03. Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -340,14 +342,16 @@
       <Filter>02. UI\4. MenuUI</Filter>
     </ClCompile>
     <ClCompile Include="CImGuiMgr.cpp">
-      <Filter>01. UIMgr\01. UIMgr</Filter>
+      <Filter>01. Manager\01. UIMgr</Filter>
     </ClCompile>
     <ClCompile Include="CEditorObjMgr.cpp">
-      <Filter>01. UIMgr\02. EditorObjMgr</Filter>
+      <Filter>01. Manager\02. EditorObjMgr</Filter>
     </ClCompile>
     <ClCompile Include="CGameObjectEx.cpp">
-      <Filter>01. UIMgr\02. EditorObjMgr\GameObjectEx</Filter>
+      <Filter>01. Manager\02. EditorObjMgr\GameObjectEx</Filter>
     </ClCompile>
-    <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>03. Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,10 +3,9 @@
 
 #include "CGameObjectEx.h"
 #include <Engine/components.h>
-#include <Engine/CCameraMoveScript.h>
+#include "CCameraMoveScript.h"
 
 #include <Engine/CRenderMgr.h>
-
 
 CEditorObjMgr::CEditorObjMgr()
 {
@@ -25,6 +24,12 @@ void CEditorObjMgr::init()
 	pEditorCam->AddComponent(new CTransform);
 	pEditorCam->AddComponent(new CCamera);
 	pEditorCam->AddComponent(new CCameraMoveScript);
+
+	pEditorCam->Camera()->LayerCheckAll();
+	pEditorCam->Camera()->LayerCheck(31, false);
+	pEditorCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	pEditorCam->Camera()->SetFOV(XM_PI / 2.f);
+	pEditorCam->Camera()->SetFar(100000.f);
 
 	m_vecEditorObj.push_back(pEditorCam);
 

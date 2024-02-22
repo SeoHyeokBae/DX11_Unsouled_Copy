@@ -30,17 +30,20 @@ void CTaskMgr::tick()
 			CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 			pCurLevel->AddObject(Object, LayerIdx, true);
 
-		    /*if (LEVEL_STATE::PLAY == pCurLevel->GetState())
+			/*if (LEVEL_STATE::PLAY == pCurLevel->GetState())
 			{
 				Object->begin();
-			}*/		
-		}		
-			break;
+			}*/
+		}
+		break;
 		case TASK_TYPE::DELETE_OBJECT:
 		{
 			CGameObject* pDeadObj = (CGameObject*)m_vecTask[i].Param_1;
+
 			list<CGameObject*> queue;
 			queue.push_back(pDeadObj);
+
+			// 레이어에 입력되는 오브젝트 포함, 그 밑에 달린 자식들까지 모두 확인
 			while (!queue.empty())
 			{
 				CGameObject* pObject = queue.front();
@@ -53,10 +56,8 @@ void CTaskMgr::tick()
 					queue.push_back(pObject->m_vecChild[i]);
 				}
 			}
-
 		}
-			break;
-
+		break;
 		case TASK_TYPE::CHANGE_LEVELSTATE:
 		{
 			CLevel* pLevel = (CLevel*)m_vecTask[i].Param_1;
@@ -64,17 +65,18 @@ void CTaskMgr::tick()
 
 			pLevel->ChangeState(NextState);
 		}
+		break;
+
 		case TASK_TYPE::CHANGE_LEVEL:
 		{
+
 			break;
-		
 		}
 		case TASK_TYPE::ADD_CHILD:
 
 			break;
 
 		case TASK_TYPE::DISCONNECT_PARENT:
-
 
 			break;
 		}

@@ -36,7 +36,7 @@ private:
 
 public:
     void RegisterCamera(CCamera* _Cam, int _Idx);
-    void AddDebugShapeInfo(const tDebugShapeInfo& _info){ m_DbgShapeInfo.push_back(_info);}
+    void AddDebugShapeInfo(const tDebugShapeInfo& _info) { m_DbgShapeInfo.push_back(_info); }
 
     void SetDebugPosition(bool _OnOff) { m_DebugPosition = _OnOff; }
     bool IsDebugPosition() { return m_DebugPosition; }
@@ -48,14 +48,23 @@ public:
 
     void RegisterEditorCamera(CCamera* _Cam) { m_EditorCam = _Cam; }
 
+    void ActiveEditorMode(bool _bActive)
+    {
+        if (_bActive)
+            m_RenderFunc = &CRenderMgr::render_editor;
+        else
+            m_RenderFunc = &CRenderMgr::render_play;
+    }
+
+
 public:
     void init();
     void tick();
 
 private:
-    void render();
-    void render_debug();
+    void render_play();
     void render_editor();
+    void render_debug();
 
     // 리소스 바인딩
     void UpdateData();
