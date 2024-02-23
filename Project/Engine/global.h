@@ -23,6 +23,12 @@ using std::string;
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+using namespace std::experimental;
+using namespace std::experimental::filesystem;
+using std::experimental::filesystem::path;
+
 // Directx 11 헤더 및 라이브러리 참조
 #include <d3d11.h>
 #include <d3dcompiler.h>

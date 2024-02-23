@@ -10,6 +10,12 @@
 #include "CComputeShader.h"
 #include "CMaterial.h"
 
+// std::is_same_v
+//template<typename T1, typename T2>
+//constexpr bool MyBool = false;
+//template <typename T1>
+//constexpr bool MyBool<T1, T1> = true;
+
 class CAssetMgr :
 	public CSingleton<CAssetMgr>
 {
@@ -57,19 +63,17 @@ public:
 template<typename T>
 ASSET_TYPE GetAssetType()
 {
-	const type_info& info = typeid(T);
-
 	ASSET_TYPE Type = ASSET_TYPE::END;
 
-	if (&info == &typeid(CMesh))
-		Type = ASSET_TYPE::MESH;
-    else if (&info == &typeid(CTexture))
+    if constexpr (std::is_same_v<CMesh, T>)
+        Type = ASSET_TYPE::MESH;
+    if constexpr (std::is_same_v<CTexture, T>)
         Type = ASSET_TYPE::TEXTURE;
-	else if (&info == &typeid(CGraphicsShader))
-		Type = ASSET_TYPE::GRAPHICS_SHADER;
-    else if (&info == &typeid(CComputeShader))
+    if constexpr (std::is_same_v<CGraphicsShader, T>)
+        Type = ASSET_TYPE::GRAPHICS_SHADER;
+    if constexpr (std::is_same_v<CComputeShader, T>)
         Type = ASSET_TYPE::COMPUTE_SHADER;
-    else if (&info == &typeid(CMaterial))
+    if constexpr (std::is_same_v<CMaterial, T>)
         Type = ASSET_TYPE::MATERIAL;
 
 	return Type;

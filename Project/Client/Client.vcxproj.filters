@@ -101,6 +101,9 @@
     <Filter Include="01. Manager\02. EditorObjMgr\GameObjectEx">
       <UniqueIdentifier>{8e211dca-3add-415b-8644-4d5df439c5f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Manager\03. CreateTempLevel">
+      <UniqueIdentifier>{639da12e-1df0-42b1-ab11-0a893b122227}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -225,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>03. Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CCreateTempLevel.h">
+      <Filter>01. Manager\03. CreateTempLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>03. Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CCreateTempLevel.cpp">
+      <Filter>01. Manager\03. CreateTempLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

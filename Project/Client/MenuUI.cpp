@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MenuUI.h"
 
+#include <Engine/CPathMgr.h>
 #include <Engine/CTaskMgr.h>
 
 #include <Engine/CGameObject.h>
@@ -108,9 +109,22 @@ void MenuUI::Asset()
     {
         if (ImGui::MenuItem("Create Empty Material"))
         {
+            wchar_t szPath[255] = {};
+            wstring FilePath = CPathMgr::GetContentPath();
+
+            int num = 0;
+            while (true)
+            {
+                swprintf_s(szPath, L"Material//New Material_%d.mtrl", num);
+                if (!exists(FilePath + szPath))
+                    break;
+                ++num;
+            }
+
+
             CMaterial* pMtrl = new CMaterial;
-            pMtrl->SetName(L"Material//New Material.mtrl");
-            pMtrl->Save(L"Material//New Material.mtrl");
+            pMtrl->SetName(szPath);
+            pMtrl->Save(szPath);
             GamePlayStatic::AddAsset(pMtrl);
         }
 

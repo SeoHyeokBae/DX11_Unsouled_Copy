@@ -63,8 +63,10 @@ void Outliner::ResetCurrentLevel()
     // 트리에 루트 추가
     TreeNode* pRoodNode = m_Tree->AddTreeNode(nullptr, "DummyRoot", 0);
 
-    // 현재 레벨을 가져온다
+    // 현재 레벨을 가져온다.
     CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+    if (nullptr == pCurLevel)
+        return;
 
     for (UINT i = 0; i < LAYER_MAX; i++)
     {

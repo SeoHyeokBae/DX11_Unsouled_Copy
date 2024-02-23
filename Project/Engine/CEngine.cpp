@@ -56,9 +56,8 @@ void CEngine::Progress()
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();
 
+	// Level Update
 	CLevelMgr::GetInst()->tick();
-	CCollisionMgr::GetInst()->tick();
-	CRenderMgr::GetInst()->tick();
 
 	// GC
 	CGC::GetInst()->tick();

@@ -71,9 +71,9 @@ ASSET_TYPE GetAssetType()
         Type = ASSET_TYPE::TEXTURE;
     if constexpr (std::is_same_v<CGraphicsShader, T>)
         Type = ASSET_TYPE::GRAPHICS_SHADER;
-    if constexpr (std::is_same_v<COMPUTE_SHADER, T>)
+    if constexpr (std::is_same_v<CComputeShader, T>)
         Type = ASSET_TYPE::COMPUTE_SHADER;
-    if constexpr (std::is_same_v<MATERIAL, T>)
+    if constexpr (std::is_same_v<CMaterial, T>)
         Type = ASSET_TYPE::MATERIAL;
 
 	return Type;
