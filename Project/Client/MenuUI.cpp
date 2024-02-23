@@ -108,7 +108,10 @@ void MenuUI::Asset()
     {
         if (ImGui::MenuItem("Create Empty Material"))
         {
-
+            CMaterial* pMtrl = new CMaterial;
+            pMtrl->SetName(L"Material//New Material.mtrl");
+            pMtrl->Save(L"Material//New Material.mtrl");
+            GamePlayStatic::AddAsset(pMtrl);
         }
 
         ImGui::EndMenu();

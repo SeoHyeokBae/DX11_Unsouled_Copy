@@ -8,6 +8,9 @@ enum class TASK_TYPE
 	// Param1 : Object Adress
 	DELETE_OBJECT,
 
+	// Param1 : Asset Adress, Param2 : Asset 
+	ADD_ASSET,
+
 	// Param1 : Level, Param2 : LEVEL_STATE
 	CHANGE_LEVELSTATE,
 
@@ -39,6 +42,7 @@ private:
 
 	bool			m_bCreateObject;
 	bool			m_bDeleteObject;
+	bool			m_bAssetChange;
 
 	int				m_DeleteFrameCount;
 
@@ -48,6 +52,7 @@ public:
 	void AddTask(const tTask& _Task) { m_vecTask.push_back(_Task); }
 
 	bool GetObjectEvent() { return m_bCreateObject || m_bDeleteObject; }
+	bool GetAssetEvent() { return m_bAssetChange; }
 
 private:
 	void Clear();

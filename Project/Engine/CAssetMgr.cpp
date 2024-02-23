@@ -15,6 +15,17 @@ CAssetMgr::~CAssetMgr()
 
 }
 
+void CAssetMgr::AddAsset(const wstring& _strKey, CAsset* _Asset)
+{
+	ASSET_TYPE Type = _Asset->GetType();
+
+	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
+	assert(iter == m_mapAsset[(UINT)Type].end());
+
+	_Asset->SetKey(_strKey);
+	_Asset->SetRelativePath(_strKey);
+	m_mapAsset[(UINT)Type].insert(make_pair(_strKey, _Asset));
+}
 
 Ptr<CTexture> CAssetMgr::CreateTexture(const wstring& _strKey	
 									  ,UINT _Width, UINT _Height, DXGI_FORMAT _Format

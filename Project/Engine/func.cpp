@@ -21,6 +21,14 @@ void GamePlayStatic::DestroyGameObject(CGameObject* _Target)
 	CTaskMgr::GetInst()->AddTask(task);
 }
 
+void GamePlayStatic::AddAsset(CAsset* _Asset)
+{
+	tTask task = {};
+	task.Type = TASK_TYPE::ADD_ASSET;
+	task.Param_1 = (DWORD_PTR)_Asset;
+	CTaskMgr::GetInst()->AddTask(task);
+}
+
 // 행렬로 DebugRect 정보전달
 void GamePlayStatic::DrawDebugRect(const Matrix& _WorldMat, Vec3 _Color, bool _bDepthTest, float _Duration)
 {

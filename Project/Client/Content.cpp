@@ -2,6 +2,7 @@
 #include "Content.h"
 
 #include <Engine/CAssetMgr.h>
+#include <Engine/CTaskMgr.h>
 
 #include "CImGuiMgr.h"
 #include "Inspector.h"
@@ -28,6 +29,10 @@ Content::~Content()
 
 void Content::render_update()
 {
+	if (CTaskMgr::GetInst()->GetAssetEvent())
+	{
+		ResetContent();
+	}
 }
 
 

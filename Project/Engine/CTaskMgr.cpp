@@ -6,6 +6,8 @@
 #include "CGameObject.h"
 #include "CComponent.h"
 
+#include "CAssetMgr.h"
+
 CTaskMgr::CTaskMgr()
 	: m_bCreateObject(false)
 	, m_bDeleteObject(false)
@@ -69,6 +71,16 @@ void CTaskMgr::tick()
 				m_DeleteFrameCount = 1;
 		}
 		break;
+
+		case TASK_TYPE::ADD_ASSET:
+		{
+			// Param1 : Asset Adress
+			CAsset* pAsset = (CAsset*)m_vecTask[i].Param_1;
+			CAssetMgr::GetInst()->AddAsset(pAsset->GetName(), pAsset);
+			m_bAssetChange = true;
+		}
+		break;
+
 		case TASK_TYPE::CHANGE_LEVELSTATE:
 		{
 			CLevel* pLevel = (CLevel*)m_vecTask[i].Param_1;
@@ -111,4 +123,6 @@ void CTaskMgr::Clear()
 		m_DeleteFrameCount = 0;
 		m_bDeleteObject = false;
 	}
+
+	m_bAssetChange = false;
 }
