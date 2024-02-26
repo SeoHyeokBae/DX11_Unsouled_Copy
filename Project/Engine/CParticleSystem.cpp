@@ -174,8 +174,8 @@ void CParticleSystem::render()
 	// 모든 파티클 렌더링
 	// 
 	// 파티클 개별 랜더링 -> 인스턴싱
-	GetMaterial()->SetScalarParam(INT_0, 0);
-	GetMaterial()->SetTexParam(TEX_0, m_ParticleTex);
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, 0);
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_ParticleTex);
 	GetMaterial()->UpdateData();
 
 	GetMesh()->render_asparticle(m_MaxParticleCount);

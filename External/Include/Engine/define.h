@@ -132,7 +132,7 @@ enum class BS_TYPE
 };
 
 // ScalarParam
-enum SCALAR_PARAM
+enum class SCALAR_PARAM
 {
 	INT_0,
 	INT_1,
@@ -160,7 +160,7 @@ enum SCALAR_PARAM
 	MAT_3,
 };
 
-enum TEX_PARAM
+enum class TEX_PARAM
 {
 	TEX_0,
 	TEX_1,

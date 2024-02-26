@@ -108,7 +108,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl"));
 
 	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png");
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex);
 
 	pTempLevel->AddObject(pObj, L"Background", false);
 

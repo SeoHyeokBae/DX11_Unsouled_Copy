@@ -171,8 +171,8 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 
 	// Parameter
-	pShader->AddScalarParam(INT_0, "Test_Param");
-	pShader->AddTexParam(TEX_0, "Output Texture 1");
+	pShader->AddScalarParam(SCALAR_PARAM::INT_0, "Test_Param");
+	pShader->AddTexParam(TEX_PARAM::TEX_0, "Output Texture 1");
 
 	AddAsset(L"Std2DShader", pShader.Get());
 

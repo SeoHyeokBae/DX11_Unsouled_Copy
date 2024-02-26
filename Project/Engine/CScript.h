@@ -13,7 +13,10 @@ class CScript :
     public CComponent
 {
 private:
-    UINT    m_iScriptType;
+    const UINT    m_iScriptType;
+
+public:
+    UINT GetScriptType() { return m_iScriptType; }
 
 public:
     virtual void finaltick() final {} // script는 tick에서 동작 finaltick 은 상수버퍼
@@ -24,7 +27,7 @@ public:
 
     CScript* Clone() = 0;
 public:
-    CScript();
+    CScript(UINT _ScriptType);
     ~CScript();
 };
 
