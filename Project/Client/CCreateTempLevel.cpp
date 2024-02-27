@@ -19,9 +19,11 @@
 
 void CCreateTempLevel::CreateTempLevel()
 {
+	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
+
 	// 재질  로드 테스트
 	//CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
-
+	
 	// 초기 레벨 구성하기
 	CLevel* pTempLevel = new CLevel;
 	pTempLevel->GetLayer(0)->SetName(L"Default");

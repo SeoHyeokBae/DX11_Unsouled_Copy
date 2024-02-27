@@ -48,6 +48,11 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Trim Slice"))
 	{
 		m_bTrim = true;
+		// rect 영역 안에 pixel 체크 
+		// how to pixel check ?
+		//m_CurAtlas.Get()->GetPixels();
+		//tPixel* pPixel = pTestTex->GetPixels();
+		//tPixel pixel = pPixel[pTestTex->GetWidth() * 1 + 5];
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Smart Slice"))
@@ -305,66 +310,97 @@ void AnimationEditorUI::DrawCanvas()
 		const ImRect select(leftTop, rightBottom + padding * 2.0f);
 
 		// Mouse Grip Cursur
-		static ImGuiDir dir = ImGuiDir_None;
 		static bool grip_resize = false;
-		static ImVec2 grip_point;
-		static ImVec2 grip_delta = ImVec2(0.f,0.f);
-			if (leftTop.x -5.f <= io.MousePos.x &&
-				leftTop.x + 5.f > io.MousePos.x && 
+
+		// 왼쪽
+			if (leftTop.x -10.f <= io.MousePos.x &&
+				leftTop.x + 10.f > io.MousePos.x && 
 				leftTop.y <= io.MousePos.y &&
 				rightBottom.y > io.MousePos.y)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
 
 				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-				{
-					grip_point = mouse_pos_in_canvas / WheelSz;
 					grip_resize = true;
-				}
+
 				if (grip_resize)
 				{
-					grip_delta = grip_point - mouse_pos_in_canvas / WheelSz;
-					leftTop.x -= grip_delta.x;
-					points[n].x = (leftTop.x - origin.x) / WheelSz;
+					points[n].x = mouse_pos_in_canvas.x / WheelSz;
 					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-					{
 						grip_resize = false;
-					}
 				}
 			}
 
-			if (rightBottom.x - 5.f <= io.MousePos.x &&
-				rightBottom.x + 5.f > io.MousePos.x &&
+		// 오른쪽
+			if (rightBottom.x - 10.f <= io.MousePos.x &&
+				rightBottom.x + 10.f > io.MousePos.x &&
 				leftTop.y <= io.MousePos.y &&
 				rightBottom.y > io.MousePos.y)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-				dir = ImGuiDir_Right;
+
+				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+					grip_resize = true;
+
+				if (grip_resize)
+				{
+					points[n+1].x = mouse_pos_in_canvas.x / WheelSz;
+					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+						grip_resize = false;
+				}
 			}
 
-			if (leftTop.y - 5.f <= io.MousePos.y &&
-				leftTop.y + 5.f > io.MousePos.y &&
+		// 위
+			if (leftTop.y - 10.f <= io.MousePos.y &&
+				leftTop.y + 10.f > io.MousePos.y &&
 				leftTop.x <= io.MousePos.x &&
 				rightBottom.x > io.MousePos.x)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-				dir = ImGuiDir_Up;
+
+				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+					grip_resize = true;
+
+				if (grip_resize)
+				{
+					points[n].y = mouse_pos_in_canvas.y / WheelSz;
+					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+						grip_resize = false;
+				}
 			}
 
-			if (rightBottom.y - 5.f <= io.MousePos.y &&
-				rightBottom.y + 5.f > io.MousePos.y &&
+		// 아래
+			if (rightBottom.y - 10.f <= io.MousePos.y &&
+				rightBottom.y + 10.f > io.MousePos.y &&
 				leftTop.x <= io.MousePos.x &&
 				rightBottom.x > io.MousePos.x)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-				dir = ImGuiDir_Down;
+
+				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+					grip_resize = true;
+
+				if (grip_resize)
+				{
+					points[n+1].y = mouse_pos_in_canvas.y / WheelSz;
+					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+						grip_resize = false;
+				}
 			}
 
 		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			selectidx = n;
 
-		if(n == selectidx)
+		if (n == selectidx)
+		{
 			col = IM_COL32(255, 0, 0, 255);
+
+			if (m_bTrim)
+			{
+				m_bTrim = false;
+
+			}
+		}
 		
 		draw_list->AddRect(leftTop ,rightBottom , col, 2.0f);
 	}
