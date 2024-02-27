@@ -135,6 +135,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 	if (type == COMPONENT_TYPE::SCRIPT)
 	{
+		// Script 타입 Component 가 실제로 Script 클래스가 아닌 경우
 		assert(dynamic_cast<CScript*>(_Component));
 
 		m_vecScript.push_back((CScript*)_Component);
