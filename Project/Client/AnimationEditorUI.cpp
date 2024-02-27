@@ -52,7 +52,8 @@ void AnimationEditorUI::render_update()
 		// how to pixel check ?
 		//m_CurAtlas.Get()->GetPixels();
 		//tPixel* pPixel = pTestTex->GetPixels();
-		//tPixel pixel = pPixel[pTestTex->GetWidth() * 1 + 5];
+		//ex)) tPixel pixel = pPixel[pTestTex->GetWidth() * 1 + 5];
+		// 잘린 UV 좌표 RECT에서 LeftTop ~ RightBottom 좌표까지 순회
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Smart Slice"))
@@ -157,7 +158,8 @@ void AnimationEditorUI::render_update()
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
 			// rect 선택
-			const ImRect select(window->DC.CursorPos, window->DC.CursorPos + m_vecRect[i].GetSize() + padding * 2.0f);
+			// ImVec2(100.f, 100.f) == 애니메이션 사이즈
+			const ImRect select(window->DC.CursorPos, window->DC.CursorPos + ImVec2(100.f, 100.f) + padding * 2.0f);
 			if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				selectedidx = i;
 
@@ -327,8 +329,12 @@ void AnimationEditorUI::DrawCanvas()
 				{
 					points[n].x = mouse_pos_in_canvas.x / WheelSz;
 					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+					{
 						grip_resize = false;
+						m_vecRect[n / 2].Min.x = points[n].x;
+					}
 				}
+
 			}
 
 		// 오른쪽
@@ -346,7 +352,10 @@ void AnimationEditorUI::DrawCanvas()
 				{
 					points[n+1].x = mouse_pos_in_canvas.x / WheelSz;
 					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+					{
 						grip_resize = false;
+						m_vecRect[n / 2].Max.x = points[n + 1].x;
+					}
 				}
 			}
 
@@ -365,7 +374,10 @@ void AnimationEditorUI::DrawCanvas()
 				{
 					points[n].y = mouse_pos_in_canvas.y / WheelSz;
 					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+					{
 						grip_resize = false;
+						m_vecRect[n / 2].Min.y = points[n].y;
+					}
 				}
 			}
 
@@ -384,7 +396,10 @@ void AnimationEditorUI::DrawCanvas()
 				{
 					points[n+1].y = mouse_pos_in_canvas.y / WheelSz;
 					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+					{
 						grip_resize = false;
+						m_vecRect[n / 2].Max.y = points[n+1].y;
+					}
 				}
 			}
 
