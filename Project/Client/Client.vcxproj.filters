@@ -104,6 +104,9 @@
     <Filter Include="01. Manager\03. CreateTempLevel">
       <UniqueIdentifier>{639da12e-1df0-42b1-ab11-0a893b122227}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Manager\04. LevelSaveLoad">
+      <UniqueIdentifier>{0b96c5e7-df31-4f88-a1aa-bd753cc49173}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -231,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="CCreateTempLevel.h">
       <Filter>01. Manager\03. CreateTempLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelSaveLoad.h">
+      <Filter>01. Manager\04. LevelSaveLoad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +367,9 @@
     </ClCompile>
     <ClCompile Include="CCreateTempLevel.cpp">
       <Filter>01. Manager\03. CreateTempLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelSaveLoad.cpp">
+      <Filter>01. Manager\04. LevelSaveLoad</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

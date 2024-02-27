@@ -27,7 +27,6 @@ public:
     const vector<CGameObject*>& GetParentObjects() { return  m_vecParent; }
     const vector<CGameObject*>& GetLayerObjects() { return m_vecObjects; }
 
-private:
     void AddObject(CGameObject* _Object, bool _bMove);
 
 public:

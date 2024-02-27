@@ -126,4 +126,20 @@ wstring ToWString(const string& _str)
 {
 	return wstring(_str.begin(), _str.end());
 }
+
+void SaveWString(const wstring& _str, FILE* _File)
+{
+	size_t len = _str.length();
+	fwrite(&len, sizeof(size_t), 1, _File);
+	fwrite(_str.c_str(), sizeof(wchar_t), _str.length(), _File);
+}
+
+void LoadWString(wstring& _str, FILE* _File)
+{
+	size_t len = 0;
+	wchar_t szBuff[256] = {};
+	fread(&len, sizeof(size_t), 1, _File);
+	fread(szBuff, sizeof(wchar_t), len, _File);
+	_str = szBuff;
+}
                
