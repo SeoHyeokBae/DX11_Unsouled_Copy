@@ -28,7 +28,8 @@ private:
 
 public:
     void DrawCanvas();
-    void AtlasSelect(DWORD_PTR _ptr);
+    void SelectAtlas(DWORD_PTR _ptr);
+    ImRect TrimAtlas(int _idx);
 
 public:
     virtual void render_update() override;

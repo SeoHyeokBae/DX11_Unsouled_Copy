@@ -36,7 +36,7 @@ void AnimationEditorUI::render_update()
 		for (const auto& pair : mapAsset)
 			pListUI->AddString(string(pair.first.begin(), pair.first.end()));
 
-		pListUI->SetDbClickDelegate(this, (Delegate_1)&AnimationEditorUI::AtlasSelect);
+		pListUI->SetDbClickDelegate(this, (Delegate_1)&AnimationEditorUI::SelectAtlas);
 		pListUI->Activate();
 	}
 	ImGui::SameLine();
@@ -108,8 +108,8 @@ void AnimationEditorUI::render_update()
 		ImVec2 displayLT = m_vecAnimRect[selectedidx].GetTL();
 		ImVec2 displayRB = m_vecAnimRect[selectedidx].GetBR();
 		ImVec2 displaySize = m_vecAnimRect[selectedidx].GetSize();
-		float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
-		float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
+		float texturewidth = (m_CurAtlas.Get()->GetWidth());
+		float textureheight = (m_CurAtlas.Get()->GetHeight());
 
 		if (m_vecAnimRect[selectedidx].Min.x > m_vecAnimRect[selectedidx].Max.x) 
 			ImSwap(m_vecAnimRect[selectedidx].Min.x, m_vecAnimRect[selectedidx].Max.x);
@@ -148,8 +148,8 @@ void AnimationEditorUI::render_update()
 			ImVec2 displayLT = m_vecAnimRect[i].GetTL();
 			ImVec2 displayRB = m_vecAnimRect[i].GetBR();
 			ImVec2 displaySize = m_vecAnimRect[i].GetSize();
-			float texturewidth = (m_CurAtlas.Get()->GetWidth()) * 0.6f;
-			float textureheight = (m_CurAtlas.Get()->GetHeight()) * 0.6f;
+			float texturewidth = (m_CurAtlas.Get()->GetWidth());
+			float textureheight = (m_CurAtlas.Get()->GetHeight());
 
 			if (m_vecAnimRect[i].Min.x > m_vecAnimRect[i].Max.x) ImSwap(m_vecAnimRect[i].Min.x, m_vecAnimRect[i].Max.x);
 			if (m_vecAnimRect[i].Min.y > m_vecAnimRect[i].Max.y) ImSwap(m_vecAnimRect[i].Min.y, m_vecAnimRect[i].Max.y);
@@ -223,8 +223,8 @@ void AnimationEditorUI::DrawCanvas()
 		ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
 
 		my_texture = m_CurAtlas.Get()->GetSRV().Get();
-		float my_image_width = m_CurAtlas.Get()->GetWidth() * 0.6f * WheelSz;
-		float my_image_height = m_CurAtlas.Get()->GetHeight() * 0.6f * WheelSz;
+		float my_image_width = m_CurAtlas.Get()->GetWidth() * WheelSz;
+		float my_image_height = m_CurAtlas.Get()->GetHeight() * WheelSz;
 
 		ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y) - WheelOffset;
 		ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height));
@@ -312,16 +312,14 @@ void AnimationEditorUI::DrawCanvas()
 		const ImRect select(leftTop, rightBottom + padding * 2.0f);
 
 		// Mouse Grip Cursur
-		static bool grip_resize = false;
-
 		// 왼쪽
-			if (leftTop.x -10.f <= io.MousePos.x &&
+			if (leftTop.x - 10.f < io.MousePos.x &&
 				leftTop.x + 10.f > io.MousePos.x && 
 				leftTop.y <= io.MousePos.y &&
 				rightBottom.y > io.MousePos.y)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-
+				static bool grip_resize = false;
 				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 					grip_resize = true;
 
@@ -338,13 +336,13 @@ void AnimationEditorUI::DrawCanvas()
 			}
 
 		// 오른쪽
-			if (rightBottom.x - 10.f <= io.MousePos.x &&
+			if (rightBottom.x - 10.f < io.MousePos.x &&
 				rightBottom.x + 10.f > io.MousePos.x &&
 				leftTop.y <= io.MousePos.y &&
 				rightBottom.y > io.MousePos.y)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-
+				static bool grip_resize = false;
 				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 					grip_resize = true;
 
@@ -360,13 +358,13 @@ void AnimationEditorUI::DrawCanvas()
 			}
 
 		// 위
-			if (leftTop.y - 10.f <= io.MousePos.y &&
+			if (leftTop.y - 10.f < io.MousePos.y &&
 				leftTop.y + 10.f > io.MousePos.y &&
 				leftTop.x <= io.MousePos.x &&
 				rightBottom.x > io.MousePos.x)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-
+				static bool grip_resize = false;
 				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 					grip_resize = true;
 
@@ -382,13 +380,13 @@ void AnimationEditorUI::DrawCanvas()
 			}
 
 		// 아래
-			if (rightBottom.y - 10.f <= io.MousePos.y &&
+			if (rightBottom.y - 10.f < io.MousePos.y &&
 				rightBottom.y + 10.f > io.MousePos.y &&
 				leftTop.x <= io.MousePos.x &&
 				rightBottom.x > io.MousePos.x)
 			{
 				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-
+				static bool grip_resize = false;
 				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 					grip_resize = true;
 
@@ -413,7 +411,11 @@ void AnimationEditorUI::DrawCanvas()
 			if (m_bTrim)
 			{
 				m_bTrim = false;
+				ImRect rec = TrimAtlas(selectidx);
 
+				points[n] = rec.Min;
+				points[n + 1] = rec.Max;
+				m_vecRect[n / 2] = rec;
 			}
 		}
 		
@@ -423,13 +425,52 @@ void AnimationEditorUI::DrawCanvas()
 	draw_list->PopClipRect();
 }
 
-void AnimationEditorUI::AtlasSelect(DWORD_PTR _ptr)
+void AnimationEditorUI::SelectAtlas(DWORD_PTR _ptr)
 {
 	string strAnim = (char*)_ptr;
 	wstring strAnimName = ToWString(strAnim);
 
 	Ptr<CTexture> Tex = CAssetMgr::GetInst()->FindAsset<CTexture>(strAnimName);
 	m_CurAtlas = Tex;
+}
+
+ImRect AnimationEditorUI::TrimAtlas(int _idx)
+{
+	ImRect rec = m_vecRect[_idx];
+	int rec_width = rec.GetWidth();
+	int rec_height = rec.GetHeight();
+	int rec_minx = rec.Min.x;
+	int rec_miny = rec.Min.y;
+
+	ImVec2 leftTop = ImVec2(m_CurAtlas->GetWidth() + 1.f, m_CurAtlas->GetHeight() + 1.f);
+	ImVec2 rightBottom = ImVec2(-1.f, -1.f);
+
+	// 잘린 UV 좌표 RECT에서 LeftTop ~ RightBottom 좌표까지 순회
+	tPixel* pPixel = m_CurAtlas.Get()->GetPixels();
+	for (size_t i = 0; i < rec_height; i++)
+	{
+		for (size_t j = 0; j < rec_width; j++)
+		{
+			tPixel pixel = pPixel[(m_CurAtlas->GetWidth() * (rec_miny - 1 + i)) + rec_minx + j];
+			if (0 != pixel.a)
+			{
+				if (rec_minx + j < leftTop.x)
+					leftTop.x = rec_minx + j;
+				if (rec_miny - 1 + i < leftTop.y)
+					leftTop.y = rec_miny -1 + i;
+				if (rec_minx + j > rightBottom.x)
+					rightBottom.x = rec_minx + j;
+				if (rec_miny - 1 + i > rightBottom.y)
+					rightBottom.y = rec_miny -1  + i;
+			}
+		}
+	}
+
+	rec.Min = leftTop;
+	rec.Max = rightBottom;
+
+	return rec;
+	//255 . 408
 }
 
 void AnimationEditorUI::Deactivate()
