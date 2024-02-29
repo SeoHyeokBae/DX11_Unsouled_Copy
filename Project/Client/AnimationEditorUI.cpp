@@ -13,6 +13,7 @@ AnimationEditorUI::AnimationEditorUI()
 	, m_Scrolling(ImVec2(0.f,0.f))
 	, m_MousePos(ImVec2(0.f,0.f))
 	, m_CenterPos(ImVec2(0.f,0.f))
+	, m_SelectIdx(0)
 	, m_Wheelsz(1.f)
 	, m_bSlice(false)
 	, m_bTrim(false)
@@ -48,12 +49,6 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Trim Slice"))
 	{
 		m_bTrim = true;
-		// rect 영역 안에 pixel 체크 
-		// how to pixel check ?
-		//m_CurAtlas.Get()->GetPixels();
-		//tPixel* pPixel = pTestTex->GetPixels();
-		//ex)) tPixel pixel = pPixel[pTestTex->GetWidth() * 1 + 5];
-		// 잘린 UV 좌표 RECT에서 LeftTop ~ RightBottom 좌표까지 순회
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Smart Slice"))
@@ -63,7 +58,7 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
-		m_vecAnimRect.push_back(m_vecRect.back());
+		m_vecAnimRect.push_back(m_vecRect[m_SelectIdx]);
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -287,7 +282,7 @@ void AnimationEditorUI::DrawCanvas()
 	} 
 
 	// draw rect
-	static int selectidx = -1;	 // 나중에 여러 개 선택되게
+	//static int selectidx = -1;	 // 나중에 여러 개 선택되게
 	for (int n = 0; n < points.Size; n += 2)
 	{
 		ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -402,16 +397,16 @@ void AnimationEditorUI::DrawCanvas()
 			}
 
 		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-			selectidx = n;
+			m_SelectIdx = n;
 
-		if (n == selectidx)
+		if (n == m_SelectIdx)
 		{
 			col = IM_COL32(255, 0, 0, 255);
 
 			if (m_bTrim)
 			{
 				m_bTrim = false;
-				ImRect rec = TrimAtlas(selectidx);
+				ImRect rec = TrimAtlas(m_SelectIdx);
 
 				points[n] = rec.Min;
 				points[n + 1] = rec.Max;
@@ -445,23 +440,21 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 	ImVec2 leftTop = ImVec2(m_CurAtlas->GetWidth() + 1.f, m_CurAtlas->GetHeight() + 1.f);
 	ImVec2 rightBottom = ImVec2(-1.f, -1.f);
 
-	// 잘린 UV 좌표 RECT에서 LeftTop ~ RightBottom 좌표까지 순회
-	tPixel* pPixel = m_CurAtlas.Get()->GetPixels();
+	tPixel* pPixel = m_CurAtlas.Get()->GetPixels(); 
+	// y == 0 일때 x = 0 ~ Width -1 값 (ex width 1200일때 : 0 ~ 1199)
 	for (size_t i = 0; i < rec_height; i++)
 	{
 		for (size_t j = 0; j < rec_width; j++)
 		{
-			tPixel pixel = pPixel[(m_CurAtlas->GetWidth() * (rec_miny - 1 + i)) + rec_minx + j];
+			int x = rec_minx + j;
+			int y = rec_miny - 1 + i;
+			tPixel pixel = pPixel[(m_CurAtlas->GetWidth() * y) + x];
 			if (0 != pixel.a)
 			{
-				if (rec_minx + j < leftTop.x)
-					leftTop.x = rec_minx + j;
-				if (rec_miny - 1 + i < leftTop.y)
-					leftTop.y = rec_miny -1 + i;
-				if (rec_minx + j > rightBottom.x)
-					rightBottom.x = rec_minx + j;
-				if (rec_miny - 1 + i > rightBottom.y)
-					rightBottom.y = rec_miny -1  + i;
+				if (x < leftTop.x) leftTop.x = x;
+				if (y < leftTop.y) leftTop.y = y;
+				if (x > rightBottom.x) rightBottom.x = x;
+				if (y > rightBottom.y) rightBottom.y = y;
 			}
 		}
 	}
@@ -470,7 +463,6 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 	rec.Max = rightBottom;
 
 	return rec;
-	//255 . 408
 }
 
 void AnimationEditorUI::Deactivate()
@@ -500,3 +492,9 @@ void AnimationEditorUI::Deactivate()
 //}
 
 // 줄에 걸치면 ImGui::IsItemHovered() ImGui::SetMouseCursor(ImGuiMouseCursor_COUNT)
+
+// ToDo
+// Trim float 잘리는 영역
+// 코드 간소화
+// - Points[n] 따로구현 된것
+// - 

@@ -10,7 +10,7 @@ class AnimationEditorUI :
 private:
     vector<ImRect> m_vecRect;       // 드래그 저장
     vector<ImRect> m_vecAnimRect;   // 스프라이트 출력용
-    vector<int>    m_vecSelect;
+    //vector<int>    m_vecSelect;
 
     Ptr<CTexture>  m_CurAtlas;
 
@@ -19,6 +19,8 @@ private:
     ImVec2         m_MousePos;
     ImVec2         m_CenterPos;
     
+    int            m_SelectIdx;
+
     float          m_Wheelsz;
     
     bool           m_bOpen;
