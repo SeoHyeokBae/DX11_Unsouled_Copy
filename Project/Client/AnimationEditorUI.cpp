@@ -304,8 +304,6 @@ void AnimationEditorUI::DrawCanvas()
 			rightBottom.y = points[n].y * WheelSz + origin.y;
 		}
 
-		const ImRect select(leftTop, rightBottom + padding * 2.0f);
-
 		// Mouse Grip Cursur
 		// ¿ÞÂÊ
 			if (leftTop.x - 10.f < io.MousePos.x &&
@@ -396,10 +394,11 @@ void AnimationEditorUI::DrawCanvas()
 				}
 			}
 
+		const ImRect select(leftTop, rightBottom + padding * 2.0f);
 		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-			m_SelectIdx = n;
+			m_SelectIdx = n / 2;
 
-		if (n == m_SelectIdx)
+		if (n / 2  == m_SelectIdx)
 		{
 			col = IM_COL32(255, 0, 0, 255);
 
