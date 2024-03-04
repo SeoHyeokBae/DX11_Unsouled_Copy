@@ -6,5 +6,7 @@
 #include <Engine/global.h>
 
 #include <string.h>
+#include <queue>
 using std::string;
 using std::wstring;
+using std::queue;

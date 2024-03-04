@@ -32,6 +32,7 @@ public:
     void DrawCanvas();
     void SelectAtlas(DWORD_PTR _ptr);
     ImRect TrimAtlas(int _idx);
+    void SmartSlice(ImVector<ImVec2>& _points);
 
 public:
     virtual void render_update() override;

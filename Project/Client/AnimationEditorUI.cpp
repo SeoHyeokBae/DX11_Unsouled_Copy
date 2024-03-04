@@ -281,6 +281,11 @@ void AnimationEditorUI::DrawCanvas()
 			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
 	} 
 
+	if (m_bSmartSlice)
+	{
+		SmartSlice(points);
+	}
+
 	// draw rect
 	//static int selectidx = -1;	 // 나중에 여러 개 선택되게
 	for (int n = 0; n < points.Size; n += 2)
@@ -462,6 +467,71 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 	rec.Max = rightBottom;
 
 	return rec;
+}
+// 1. 이미 방문했던 픽셀or 생성RECT범위 pass
+// 2. 방문한 픽셀의 a != 0
+//		이진트리 진입 후 LT RB 조사후 RECT생성
+// 3. 다음 X좌표는 RB의 X부터 시작
+void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
+{
+	m_bSmartSlice = false;
+
+	tPixel* pPixel = m_CurAtlas.Get()->GetPixels();
+	int width = m_CurAtlas->GetWidth();
+	int height = m_CurAtlas->GetHeight();
+	vector<vector<bool>> visit(height,vector<bool>(width,false)); // 방문 pixel
+
+	const int dir[4][2] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} }; // 상 하 좌 우
+
+	for (size_t y = 0; y < height; y++)
+	{
+		for (size_t x = 0; x < width; x++)
+		{
+			if (visit[y][x])
+				continue;
+
+			ImVec2 leftTop = ImVec2(m_CurAtlas->GetWidth() + 1.f, m_CurAtlas->GetHeight() + 1.f);
+			ImVec2 rightBottom = ImVec2(-1.f, -1.f);
+
+			tPixel pixel = pPixel[width * y + x];
+			if (0 != pixel.a)
+			{
+				// 이진검색트리
+				// LT , RB 찾은후 RECT(points) 추가
+				queue<ImVec2> qPixel;
+				qPixel.push(ImVec2(x, y));
+				while (!qPixel.empty())
+				{
+					ImVec2 dot = qPixel.front();
+					visit[dot.y][dot.x] = true;
+
+					for (size_t i = 0; i < 4; i++)
+					{
+						int newX = dot.x + dir[i][0];
+						int newY = dot.y + dir[i][1];
+						if (newX < 0 || newX >= width || newY < 0 || newY >= height)
+							continue;
+
+						tPixel pixel = pPixel[width * newY + newX];
+						if (0 != pixel.a && !visit[newY][newX])
+						{
+							qPixel.push(ImVec2(newX, newY));
+						}
+							visit[newY][newX] = true;
+							if (dot.x < leftTop.x) leftTop.x = dot.x;
+							if (dot.y < leftTop.y) leftTop.y = dot.y;
+							if (dot.x > rightBottom.x) rightBottom.x = dot.x;
+							if (dot.y > rightBottom.y) rightBottom.y = dot.y;
+					}
+					qPixel.pop();
+				}
+				// LT,RB points에 저장
+				_points.push_back(leftTop);
+				_points.push_back(rightBottom);
+			}
+		}
+	}
+
 }
 
 void AnimationEditorUI::Deactivate()
