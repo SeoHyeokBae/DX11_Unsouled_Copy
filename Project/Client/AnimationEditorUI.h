@@ -3,6 +3,7 @@
 
 #include "imgui_internal.h"
 #include <Engine/CTexture.h>
+#include <Engine/CAnim.h>
 
 class AnimationEditorUI :
     public UI
@@ -18,6 +19,8 @@ private:
     ImVec2         m_Scrolling;
     ImVec2         m_MousePos;
     ImVec2         m_CenterPos;
+
+    tAnimFrm       m_FrmInfo;
     
     int            m_SelectIdx;
 

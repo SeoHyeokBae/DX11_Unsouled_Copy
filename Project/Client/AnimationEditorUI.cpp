@@ -18,6 +18,7 @@ AnimationEditorUI::AnimationEditorUI()
 	, m_bSlice(false)
 	, m_bTrim(false)
 	, m_bSmartSlice(false)
+	, m_FrmInfo{}
 {
 	Deactivate();
 }
@@ -203,7 +204,7 @@ void AnimationEditorUI::render_update()
 
 	// Sprite 나열
 	//ImGui::Dummy(ImVec2(0.f, 500.f));
-	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar);
+	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar| ImGuiWindowFlags_NoScrollWithMouse);
 	if (nullptr != m_CurAtlas)
 	{
 
@@ -513,25 +514,34 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 	ImRect rec = m_vecRect[_idx];
 	int rec_width = rec.GetWidth();
 	int rec_height = rec.GetHeight();
-	int rec_minx = rec.Min.x;
-	int rec_miny = rec.Min.y;
+	const int atlas_width = m_CurAtlas->GetWidth();
+	const int atlas_height = m_CurAtlas->GetHeight();
 
-	ImVec2 leftTop = ImVec2(m_CurAtlas->GetWidth() + 1.f, m_CurAtlas->GetHeight() + 1.f);
+	// slice rec가 atlas범위를 벗어날경우
+	if (rec.Min.x < 0) { rec_width += rec.Min.x; rec.Min.x = 0; }
+	if (rec.Min.y < 0) { rec_height += rec.Min.y; rec.Min.y = 0; }
+	if (rec.Max.x > atlas_width) rec_width = atlas_width - rec.Min.x;
+	if (rec.Max.y > atlas_height) rec_height = atlas_height - rec.Min.y;
+
+	ImVec2 leftTop = ImVec2(atlas_width + 1.f, atlas_height + 1.f);
 	ImVec2 rightBottom = ImVec2(-1.f, -1.f);
 
 	tPixel* pPixel = m_CurAtlas.Get()->GetPixels(); 
-	// y == 0 일때 x = 0 ~ Width -1 값 (ex width 1200일때 : 0 ~ 1199)
 	for (int i = 0; i < rec_height; i++)
 	{
 		for (int j = 0; j < rec_width; j++)
 		{
-			int x = rec_minx + j;
-			int y = rec_miny - 1 + i;
-			tPixel pixel = pPixel[(m_CurAtlas->GetWidth() * y) + x];
+			int x = rec.Min.x + j;
+			int y = rec.Min.y + i;
+			tPixel pixel = pPixel[(atlas_width * y) + x];
 			if (0 != pixel.a)
 			{
 				if (x < leftTop.x) leftTop.x = x;
 				if (y < leftTop.y) leftTop.y = y;
+			}
+			else if (0 != pPixel[(atlas_width * y) + x - 1].a
+				|| (0 != y && 0 != pPixel[(atlas_width * (y - 1)) + x].a))
+			{
 				if (x > rightBottom.x) rightBottom.x = x;
 				if (y > rightBottom.y) rightBottom.y = y;
 			}
@@ -544,10 +554,6 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 	return rec;
 }
 
-// 1. 이미 방문했던 픽셀or 생성RECT범위 pass
-// 2. 방문한 픽셀의 a != 0
-//		이진트리 진입 후 LT RB 조사후 RECT생성
-// 3. 다음 X좌표는 RB의 X부터 시작
 void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 {
 	_points.clear();	// 기존 points vector를 비워줌
@@ -586,6 +592,12 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 					{
 						int newX = dot.x + dir[i][0];
 						int newY = dot.y + dir[i][1];
+
+						if (dot.x < leftTop.x) leftTop.x = dot.x;
+						if (dot.y < leftTop.y) leftTop.y = dot.y;
+						if (newX > rightBottom.x) rightBottom.x = newX;
+						if (newY > rightBottom.y) rightBottom.y = newY;
+
 						if (newX < 0 || newX >= width || newY < 0 || newY >= height)
 							continue;
 
@@ -594,12 +606,8 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 						{
 							qPixel.push(ImVec2(newX, newY));
 						}
-						
+
 						visit[newY][newX] = true;
-						if (dot.x < leftTop.x) leftTop.x = dot.x;
-						if (dot.y < leftTop.y) leftTop.y = dot.y;
-						if (dot.x > rightBottom.x) rightBottom.x = dot.x;
-						if (dot.y > rightBottom.y) rightBottom.y = dot.y;
 					}
 					qPixel.pop();
 				}
