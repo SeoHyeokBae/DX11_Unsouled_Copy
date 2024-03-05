@@ -35,6 +35,9 @@ public:
 
     void GetAnimName(vector<string>& _Out);
 
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
+
     CLONE(CAnimator2D);
 public:
     CAnimator2D();

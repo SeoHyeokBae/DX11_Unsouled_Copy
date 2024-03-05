@@ -101,3 +101,53 @@ void CAnimator2D::GetAnimName(vector<string>& _Out)
 		_Out.push_back(ToString(iter->first));
 	}
 }
+
+void CAnimator2D::SaveToFile(FILE* _File)
+{
+	// 애니메이션 개수 저장
+	size_t AnimCount = m_mapAnim.size();
+	fwrite(&AnimCount, sizeof(size_t), 1, _File);
+
+	for (const auto& pair : m_mapAnim)
+	{
+		pair.second->SaveToFile(_File);
+	}
+
+	// 플레이 중이던 애니메이션의 키를 저장한다.
+	wstring PlayAnimName;
+
+	if (nullptr != m_CurAnim)
+	{
+		PlayAnimName = m_CurAnim->GetName();
+	}
+
+	SaveWString(PlayAnimName, _File);
+	fwrite(&m_bRepeat, sizeof(bool), 1, _File);
+}
+
+void CAnimator2D::LoadFromFile(FILE* _File)
+{
+	// 애니메이션 개수 로드
+	size_t AnimCount = 0;
+	fread(&AnimCount, sizeof(size_t), 1, _File);
+
+	for (size_t i = 0; i < AnimCount; ++i)
+	{
+		CAnim* pAnim = new CAnim;
+		pAnim->LoadFromFile(_File);
+
+		pAnim->m_Animator = this;
+		m_mapAnim.insert(make_pair(pAnim->GetName(), pAnim));
+	}
+
+	// 플레이 중이던 애니메이션의 키를 불러온다
+	wstring PlayAnimName;
+	LoadWString(PlayAnimName, _File);
+
+	if (!PlayAnimName.empty())
+	{
+		m_CurAnim = FindAnim(PlayAnimName);
+	}
+
+	fread(&m_bRepeat, sizeof(bool), 1, _File);
+}

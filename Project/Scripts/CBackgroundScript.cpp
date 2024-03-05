@@ -23,3 +23,12 @@ void CBackgroundScript::tick()
 		i = !i;
 	}
 }
+
+void CBackgroundScript::SaveToFile(FILE* _File)
+{
+}
+
+void CBackgroundScript::LoadFromFile(FILE* _File)
+{
+}
+

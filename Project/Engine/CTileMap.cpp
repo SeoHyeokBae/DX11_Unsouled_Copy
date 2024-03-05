@@ -28,7 +28,6 @@ CTileMap::CTileMap(const CTileMap& _OriginTileMap)
 	, m_FaceX(_OriginTileMap.m_FaceX)
 	, m_FaceY(_OriginTileMap.m_FaceY)
 	, m_vTileRenderSize(_OriginTileMap.m_vTileRenderSize)
-	, m_vTileMapWorldPos(_OriginTileMap.m_vTileMapWorldPos)
 	, m_TileAtlas(_OriginTileMap.m_TileAtlas)
 	, m_vTilePixelSize(_OriginTileMap.m_vTilePixelSize)
 	, m_vSliceSizeUV(_OriginTileMap.m_vSliceSizeUV)
@@ -86,6 +85,8 @@ void CTileMap::render()
 	GetMesh()->render();
 }
 
+
+
 void CTileMap::UpdateData()
 {
 }
@@ -129,4 +130,47 @@ void CTileMap::SetTileIndex(UINT _Row, UINT _Col, UINT _ImgIdx)	// 행 , 렬 , 사�
 		, (iRow * m_vTilePixelSize.y) / m_TileAtlas->GetHeight());
 
 	m_vecTileInfo[idx].bRender = 1;
+}
+
+void CTileMap::SaveToFile(FILE* _File)
+{
+	// TileMap 정보 저장
+	fwrite(&m_FaceX, sizeof(UINT), 1, _File);
+	fwrite(&m_FaceY, sizeof(UINT), 1, _File);
+	fwrite(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
+	fwrite(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
+
+	SaveAssetRef(m_TileAtlas, _File);
+
+	fwrite(&m_vTilePixelSize, sizeof(Vec2), 1, _File);
+	fwrite(&m_vSliceSizeUV, sizeof(Vec2), 1, _File);
+
+	fwrite(&m_MaxCol, sizeof(UINT), 1, _File);
+	fwrite(&m_MaxRow, sizeof(UINT), 1, _File);
+
+	size_t InfoCount = m_vecTileInfo.size();
+	fwrite(&InfoCount, sizeof(size_t), 1, _File);
+	fwrite(m_vecTileInfo.data(), sizeof(tTileInfo), InfoCount, _File);
+}
+
+void CTileMap::LoadFromFile(FILE* _File)
+{
+	// TileMap 정보 저장
+	fread(&m_FaceX, sizeof(UINT), 1, _File);
+	fread(&m_FaceY, sizeof(UINT), 1, _File);
+	fread(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
+	fread(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
+
+	LoadAssetRef(m_TileAtlas, _File);
+
+	fread(&m_vTilePixelSize, sizeof(Vec2), 1, _File);
+	fread(&m_vSliceSizeUV, sizeof(Vec2), 1, _File);
+
+	fread(&m_MaxCol, sizeof(UINT), 1, _File);
+	fread(&m_MaxRow, sizeof(UINT), 1, _File);
+
+	size_t InfoCount = 0;
+	fread(&InfoCount, sizeof(size_t), 1, _File);
+	m_vecTileInfo.reserve(InfoCount);
+	fread(m_vecTileInfo.data(), sizeof(tTileInfo), InfoCount, _File);
 }

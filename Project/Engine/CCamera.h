@@ -67,6 +67,10 @@ public:
 	void SortObject();
 	void render();
 
+
+	virtual void SaveToFile(FILE* _File) override;
+	virtual void LoadFromFile(FILE* _File) override;
+
 	CLONE(CCamera);
 
 private:

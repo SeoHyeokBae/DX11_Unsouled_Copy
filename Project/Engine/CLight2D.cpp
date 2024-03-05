@@ -58,3 +58,13 @@ void CLight2D::UpdateLightDir(eLight2DDir _dir)
 	else if (eLight2DDir::DOWN == _dir)
 		m_Info.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::UP) * -1.0f;
 }
+
+void CLight2D::SaveToFile(FILE* _File)
+{
+	fwrite(&m_Info, sizeof(tLightInfo), 1, _File);
+}
+
+void CLight2D::LoadFromFile(FILE* _File)
+{
+	fread(&m_Info, sizeof(tLightInfo), 1, _File);
+}

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CRenderComponent.h"
 
+#include "CLevelMgr.h"
+#include "CLevel.h"
+
 CRenderComponent::CRenderComponent(COMPONENT_TYPE _Type)
 	:CComponent(_Type)
 {
@@ -42,6 +45,10 @@ void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 
 Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 {
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	if (pCurLevel->GetState() != LEVEL_STATE::PLAY)
+		nullptr;
+
 	// 이미 동적재질을 보유하고 있으면 그걸 준다.
 	if (nullptr != m_DynamicMtrl)
 		return m_DynamicMtrl;
@@ -60,4 +67,18 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 void CRenderComponent::RestoreMaterial()
 {
 	m_CurMtrl = m_SharedMtrl;
+}
+
+void CRenderComponent::SaveToFile(FILE* _File)
+{
+	SaveAssetRef(m_Mesh, _File);
+	SaveAssetRef(m_SharedMtrl, _File);
+}
+
+void CRenderComponent::LoadFromFile(FILE* _File)
+{
+	LoadAssetRef(m_Mesh, _File);
+	LoadAssetRef(m_SharedMtrl, _File);
+
+	SetMaterial(m_SharedMtrl);
 }

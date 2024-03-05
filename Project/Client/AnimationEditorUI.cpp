@@ -539,8 +539,8 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 				if (x < leftTop.x) leftTop.x = x;
 				if (y < leftTop.y) leftTop.y = y;
 			}
-			else if (0 != pPixel[(atlas_width * y) + x - 1].a
-				|| (0 != y && 0 != pPixel[(atlas_width * (y - 1)) + x].a))
+			else if (0 != pPixel[(atlas_width * y) + x - 1].a ||
+					(0 != y && 0 != pPixel[(atlas_width * (y - 1)) + x].a))
 			{
 				if (x > rightBottom.x) rightBottom.x = x;
 				if (y > rightBottom.y) rightBottom.y = y;
@@ -648,9 +648,3 @@ void AnimationEditorUI::Deactivate()
 //}
 
 // 줄에 걸치면 ImGui::IsItemHovered() ImGui::SetMouseCursor(ImGuiMouseCursor_COUNT)
-
-// ToDo
-// Trim float 잘리는 영역
-// 코드 간소화
-// - Points[n] 따로구현 된것
-// - 

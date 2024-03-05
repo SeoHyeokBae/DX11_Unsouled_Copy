@@ -34,6 +34,9 @@ public:
 
     CRenderComponent* GetRenderComponent() { return m_Owner->GetRenderComopnent(); }
 
+    virtual void SaveToFile(FILE* _File) = 0;
+    virtual void LoadFromFile(FILE* _File) = 0;
+
     virtual CComponent* Clone() = 0;
 public:
     CComponent(COMPONENT_TYPE _Type);

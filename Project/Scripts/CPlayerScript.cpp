@@ -32,6 +32,8 @@ void CPlayerScript::begin()
 	Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 
 	Animator2D()->Play(L"IDLE_DOWN");
+
+	GetRenderComponent()->GetDynamicMaterial();
 }
 
 void CPlayerScript::tick()
@@ -158,4 +160,15 @@ void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCol
 
 void CPlayerScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+}
+
+
+void CPlayerScript::SaveToFile(FILE* _File)
+{
+	fwrite(&m_Speed, sizeof(float), 1, _File);
+}
+
+void CPlayerScript::LoadFromFile(FILE* _File)
+{
+	fread(&m_Speed, sizeof(float), 1, _File);
 }

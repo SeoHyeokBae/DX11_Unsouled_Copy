@@ -98,3 +98,34 @@ void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop,
 	//m_vecFrm[1].vOffset.x = 5.0f / (float)_Atlas->GetWidth();
 
 }
+
+void CAnim::SaveToFile(FILE* _File)
+{
+	// 애니메이션 이름 저장
+	SaveWString(GetName(), _File);
+
+	// 모든 프레임 정보 저장
+	size_t FrmSize = m_vecFrm.size();
+	fwrite(&FrmSize, sizeof(size_t), 1, _File);
+	fwrite(m_vecFrm.data(), sizeof(tAnimFrm), m_vecFrm.size(), _File);
+
+	// 애니메이션이 참조하던 텍스쳐 정보 저장
+	SaveAssetRef(m_AtlasTex, _File);
+}
+
+void CAnim::LoadFromFile(FILE* _File)
+{
+	// 애니메이션 이름 로드
+	wstring strName;
+	LoadWString(strName, _File);
+	SetName(strName);
+
+	// 모든 프레임 정보 로드
+	size_t FrmSize = 0;
+	fread(&FrmSize, sizeof(size_t), 1, _File);
+	m_vecFrm.resize(FrmSize);
+	fread(m_vecFrm.data(), sizeof(tAnimFrm), m_vecFrm.size(), _File);
+
+	// 애니메이션이 참조하던 텍스쳐 정보 로드
+	LoadAssetRef(m_AtlasTex, _File);
+}

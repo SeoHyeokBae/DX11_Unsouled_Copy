@@ -46,6 +46,9 @@ public:
 
     void UpdateLightDir(eLight2DDir);
 
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
+
     CLONE(CLight2D);
 public:
     CLight2D();

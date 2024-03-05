@@ -25,12 +25,16 @@ public:
 
     void RestoreMaterial();
 
-    virtual CRenderComponent* Clone() = 0;
 public:
     virtual void finaltick() {};
     virtual void UpdateData() = 0;
     virtual void render() = 0;
 
+public:
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
+    
+    virtual CRenderComponent* Clone() = 0;
 public:
     CRenderComponent(COMPONENT_TYPE _Type);
     CRenderComponent(const CRenderComponent& _OriginRenderCom);
