@@ -44,16 +44,22 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Slice Sprite"))
 	{
 		m_bSlice = true;
+		m_bTrim = false;
+		m_bSmartSlice = false;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Trim Slice"))
 	{
 		m_bTrim = true;
+		m_bSlice = false;
+		m_bSmartSlice = false;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Smart Slice"))
 	{
 		m_bSmartSlice = true;
+		m_bSlice = false;
+		m_bTrim = false;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Add Sprite to Animation"))
@@ -103,8 +109,8 @@ void AnimationEditorUI::render_update()
 		ImVec2 displayLT = m_vecAnimRect[selectedidx].GetTL();
 		ImVec2 displayRB = m_vecAnimRect[selectedidx].GetBR();
 		ImVec2 displaySize = m_vecAnimRect[selectedidx].GetSize();
-		float texturewidth = (m_CurAtlas.Get()->GetWidth());
-		float textureheight = (m_CurAtlas.Get()->GetHeight());
+		UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
+		UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
 		if (m_vecAnimRect[selectedidx].Min.x > m_vecAnimRect[selectedidx].Max.x) 
 			ImSwap(m_vecAnimRect[selectedidx].Min.x, m_vecAnimRect[selectedidx].Max.x);
@@ -126,9 +132,78 @@ void AnimationEditorUI::render_update()
 	draw_list->AddLine(ImVec2(SpriteCanvasLT.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2)
 					 , ImVec2(SpriteCanvasRB.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2), IM_COL32(255, 0, 0, 150));
 
+	//Sprite 정보
+	static string spritename;
+	ImGui::SetCursorPosX(265.f);
+	ImGui::Text("Name"); 
+	ImGui::SetCursorPosX(265.f);
+	ImGui::InputText("##Sprite", (char*)spritename.c_str(), spritename.length()); 
+	ImGui::SetCursorPosX(265.f); ImGui::Separator();
+
+	ImGui::SetCursorPos(ImVec2(265.f,110.f));
+	ImGui::Text("Frame Number");
+	ImGui::SetCursorPosX(265.f);
+	static ImU8  u8_v = 255; // Frame num
+	static bool inputs_step = true;
+	const int u8_one = 1;
+	ImGui::PushItemWidth(125);
+	ImGui::InputScalar("##FrameNum", ImGuiDataType_U8, &u8_v, inputs_step ? &u8_one : NULL, NULL, "%u"); 
+	ImGui::SetCursorPosX(265.f); ImGui::Separator();
+	ImGui::PopItemWidth();
+
+	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
+	int x = 0, y = 0;
+	ImGui::Text("Offset : X = %d, Y = %d", x, y);
+
+	ImGui::SetCursorPos(ImVec2(335.f,212.f));
+	static int counter = 0;
+	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { counter--; }
+	ImGui::SetCursorPosX(313.f);
+	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { counter--; }
+	ImGui::SameLine(); ImGui::SetCursorPosX(357.f);
+	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { counter--; }
+	ImGui::SetCursorPosX(335.f);
+	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { counter--; }
+	ImGui::SetCursorPos(ImVec2(265.f,300.f)); ImGui::Separator();
+
+	ImGui::Text("Frame Length"); ImGui::SameLine();
+	static ImU8  u8_v2 = 255; // Frame num
+	static bool inputs_step2 = true;
+	const int u8_one2 = 1;
+	ImGui::PushItemWidth(110);
+	ImGui::InputScalar("##FrameLength", ImGuiDataType_U8, &u8_v2, inputs_step2 ? &u8_one2 : NULL, NULL, "%u");
+
+	ImGui::SameLine();
+	ImGui::Text("FPS"); ImGui::SameLine();
+	static ImU8  u8_v3 = 60; // FPS
+	static bool inputs_step3 = true;
+	const int u8_one3 = 1;
+	ImGui::InputScalar("##FPS", ImGuiDataType_U8, &u8_v3, inputs_step3 ? &u8_one3 : NULL, NULL, "%u");
+	ImGui::PopItemWidth(); 
+
+	ImGui::SameLine();
+	ImGui::Text("Loop");
+	static bool bLoop = true;
+	ImGui::SameLine();
+	ImGui::Checkbox("##Loop", &bLoop);
+
+	if (ImGui::Button("Play")) 
+	{
+		// Todo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Pause"))
+	{
+		// Todo
+	}
+	ImGui::SameLine();
+	int test = 0;
+	ImGui::Text("Current Frame : %d", test);
+
+
 	// Sprite 나열
-	ImGui::Dummy(ImVec2(0.f, 500.f));
-	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar);
+	//ImGui::Dummy(ImVec2(0.f, 500.f));
+	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar);
 	if (nullptr != m_CurAtlas)
 	{
 
@@ -143,8 +218,8 @@ void AnimationEditorUI::render_update()
 			ImVec2 displayLT = m_vecAnimRect[i].GetTL();
 			ImVec2 displayRB = m_vecAnimRect[i].GetBR();
 			ImVec2 displaySize = m_vecAnimRect[i].GetSize();
-			float texturewidth = (m_CurAtlas.Get()->GetWidth());
-			float textureheight = (m_CurAtlas.Get()->GetHeight());
+			UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
+			UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
 			if (m_vecAnimRect[i].Min.x > m_vecAnimRect[i].Max.x) ImSwap(m_vecAnimRect[i].Min.x, m_vecAnimRect[i].Max.x);
 			if (m_vecAnimRect[i].Min.y > m_vecAnimRect[i].Max.y) ImSwap(m_vecAnimRect[i].Min.y, m_vecAnimRect[i].Max.y);
@@ -446,9 +521,9 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 
 	tPixel* pPixel = m_CurAtlas.Get()->GetPixels(); 
 	// y == 0 일때 x = 0 ~ Width -1 값 (ex width 1200일때 : 0 ~ 1199)
-	for (size_t i = 0; i < rec_height; i++)
+	for (int i = 0; i < rec_height; i++)
 	{
-		for (size_t j = 0; j < rec_width; j++)
+		for (int j = 0; j < rec_width; j++)
 		{
 			int x = rec_minx + j;
 			int y = rec_miny - 1 + i;
@@ -468,24 +543,26 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 
 	return rec;
 }
-// 1. 이미 방문했던 픽셀or 생성RECT범위 pass
+
+// 1. 이미 방문했던 픽셀or 생성RECT범위 pass
 // 2. 방문한 픽셀의 a != 0
 //		이진트리 진입 후 LT RB 조사후 RECT생성
 // 3. 다음 X좌표는 RB의 X부터 시작
 void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 {
+	_points.clear();	// 기존 points vector를 비워줌
 	m_bSmartSlice = false;
 
 	tPixel* pPixel = m_CurAtlas.Get()->GetPixels();
-	int width = m_CurAtlas->GetWidth();
-	int height = m_CurAtlas->GetHeight();
+	const int width = m_CurAtlas->GetWidth();
+	const int height = m_CurAtlas->GetHeight();
 	vector<vector<bool>> visit(height,vector<bool>(width,false)); // 방문 pixel
 
 	const int dir[4][2] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} }; // 상 하 좌 우
 
-	for (size_t y = 0; y < height; y++)
+	for (int y = 0; y < height; y++)
 	{
-		for (size_t x = 0; x < width; x++)
+		for (int x = 0; x < width; x++)
 		{
 			if (visit[y][x])
 				continue;
@@ -505,7 +582,7 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 					ImVec2 dot = qPixel.front();
 					visit[dot.y][dot.x] = true;
 
-					for (size_t i = 0; i < 4; i++)
+					for (int i = 0; i < 4; i++)
 					{
 						int newX = dot.x + dir[i][0];
 						int newY = dot.y + dir[i][1];
@@ -517,17 +594,19 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 						{
 							qPixel.push(ImVec2(newX, newY));
 						}
-							visit[newY][newX] = true;
-							if (dot.x < leftTop.x) leftTop.x = dot.x;
-							if (dot.y < leftTop.y) leftTop.y = dot.y;
-							if (dot.x > rightBottom.x) rightBottom.x = dot.x;
-							if (dot.y > rightBottom.y) rightBottom.y = dot.y;
+						
+						visit[newY][newX] = true;
+						if (dot.x < leftTop.x) leftTop.x = dot.x;
+						if (dot.y < leftTop.y) leftTop.y = dot.y;
+						if (dot.x > rightBottom.x) rightBottom.x = dot.x;
+						if (dot.y > rightBottom.y) rightBottom.y = dot.y;
 					}
 					qPixel.pop();
 				}
 				// LT,RB points에 저장
 				_points.push_back(leftTop);
 				_points.push_back(rightBottom);
+				m_vecRect.push_back(ImRect(leftTop, rightBottom));
 			}
 		}
 	}
