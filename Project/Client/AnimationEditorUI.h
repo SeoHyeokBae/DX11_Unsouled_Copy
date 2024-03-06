@@ -10,7 +10,7 @@ class AnimationEditorUI :
 {
 private:
     vector<ImRect> m_vecRect;       // 드래그 저장
-    vector<ImRect> m_vecAnimRect;   // 스프라이트 출력용
+    vector<tAnimFrm> m_vecAnimRect;   // 스프라이트 출력용
     //vector<int>    m_vecSelect;
 
     Ptr<CTexture>  m_CurAtlas;
@@ -22,10 +22,12 @@ private:
 
     tAnimFrm       m_FrmInfo;
     
-    int            m_SelectIdx;
+    int            m_SelectCanvasIdx;
+    int            m_SelectAnimIdx;
 
+    float          m_fps;
     float          m_Wheelsz;
-    
+
     bool           m_bOpen;
     bool           m_bSlice;
     bool           m_bTrim;

@@ -96,8 +96,13 @@ void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop,
 
 	// 1번프레임 offset 조정
 	//m_vecFrm[1].vOffset.x = 5.0f / (float)_Atlas->GetWidth();
+}
+
+void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas )
+{
 
 }
+
 
 void CAnim::SaveToFile(FILE* _File)
 {
