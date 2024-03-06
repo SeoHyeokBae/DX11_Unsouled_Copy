@@ -4,6 +4,7 @@
 #include <Engine/CPathMgr.h>
 #include <Engine/CAssetMgr.h>
 #include <Engine/CAnimator2D.h>
+#include <Engine/CTimeMgr.h>
 
 #include "ListUI.h"
 
@@ -17,7 +18,7 @@ AnimationEditorUI::AnimationEditorUI()
 	, m_CenterPos(ImVec2(0.f,0.f))
 	, m_SelectCanvasIdx(0)
 	, m_SelectAnimIdx(-1)
-	, m_fps(60.f)
+	, m_fps(1.f)
 	, m_Wheelsz(1.f)
 	, m_bSlice(false)
 	, m_bTrim(false)
@@ -214,19 +215,51 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	ImGui::Checkbox("##Loop", &bLoop);
 
+	static bool bPlay = false;
+	static bool bPause = false;
+	static bool bfinish = false;
+	static float ftime = 0.f;
 	if (ImGui::Button("Play")) 
 	{
-		// Todo
+		bPlay = true;
+		bfinish = false;
+		if (bPause)
+			bPause = false;
+		else
+		{ 
+			m_SelectAnimIdx = 0; 
+			ftime = 0.f;
+		}
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Pause"))
+	if (bPlay && ImGui::Button("Pause"))
 	{
-		// Todo
+		bPause = true;
+		bPlay = false;
 	}
 	ImGui::SameLine();
-	int test = 0;
-	ImGui::Text("Current Frame : %d", test);
+	ImGui::Text("Current Frame : %d", m_SelectAnimIdx);
+	
+	if (bPlay)
+	{
+		ftime += DT_ENGINE;
+		if (1.f / m_fps < ftime)
+		{
+			++m_SelectAnimIdx;
+			if (m_vecAnimRect.size() <= m_SelectAnimIdx)
+			{
+				m_SelectAnimIdx = (int)m_vecAnimRect.size() - 1;
+				bfinish = true;
+			}
+			ftime = 0.f;
+		}
 
+		if (bfinish && bLoop)
+		{
+			m_SelectAnimIdx = 0;
+			bfinish = false;
+		}
+	}
 
 	// Anim ³ª¿­
 	//ImGui::Dummy(ImVec2(0.f, 500.f));
