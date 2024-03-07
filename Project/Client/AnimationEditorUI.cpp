@@ -323,7 +323,6 @@ void AnimationEditorUI::DrawCanvas()
 
 	m_CanvasLeftTop = canvas_p0;
 	m_CenterPos = canvas_sz / 2;
-
 	// Draw border and background color
 	ImGuiIO& io = ImGui::GetIO();
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -360,7 +359,7 @@ void AnimationEditorUI::DrawCanvas()
 	}
 
 	// 좌클릭시
-	if (m_bSlice && is_hovered && !cutting_rect && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	if (ImGui::IsWindowFocused() && m_bSlice && is_hovered && !cutting_rect && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		points.push_back(mouse_pos_in_canvas / WheelSz);
 		points.push_back(mouse_pos_in_canvas / WheelSz);
@@ -384,7 +383,7 @@ void AnimationEditorUI::DrawCanvas()
 
 	// 오른쪽 마우스 드래그
 	const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
-	if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
+	if (ImGui::IsWindowFocused() && is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
 	{
 		scrolling.x += io.MouseDelta.x;
 		scrolling.y += io.MouseDelta.y;
@@ -392,7 +391,7 @@ void AnimationEditorUI::DrawCanvas()
 	}
 
 	// 마우스 휠
-	if (io.MouseWheel > 0.f || io.MouseWheel)
+	if (ImGui::IsWindowFocused() && (io.MouseWheel > 0.f || io.MouseWheel))
 	{
 		ImRect Incanvas(canvas_p0, canvas_p1);
 		if (Incanvas.Contains(io.MousePos))
@@ -422,7 +421,6 @@ void AnimationEditorUI::DrawCanvas()
 	//static int selectidx = -1;	 // 나중에 여러 개 선택되게
 	for (int n = 0; n < points.Size; n += 2)
 	{
-		ImGuiWindow* window = ImGui::GetCurrentWindow();
 		ImGuiContext& g = *GImGui;
 		const ImVec2 padding = g.Style.FramePadding;
 		ImU32 col = IM_COL32(255, 255, 0, 255);
@@ -433,103 +431,18 @@ void AnimationEditorUI::DrawCanvas()
 		if (leftTop.x > rightBottom.x) ImSwap(leftTop.x, rightBottom.x);
 		if (leftTop.y > rightBottom.y) ImSwap(leftTop.y, rightBottom.y);
 
-		// Mouse Grip Cursur
-		// 왼쪽
-			if (leftTop.x - 10.f < io.MousePos.x &&
-				leftTop.x + 10.f > io.MousePos.x && 
-				leftTop.y <= io.MousePos.y &&
-				rightBottom.y > io.MousePos.y)
-			{
-				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-				static bool grip_resize = false;
-				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-					grip_resize = true;
-
-				if (grip_resize)
-				{
-					points[n].x = mouse_pos_in_canvas.x / WheelSz;
-					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-					{
-						grip_resize = false;
-						m_vecRect[n / 2].Min.x = points[n].x;
-					}
-				}
-
-			}
-
-		// 오른쪽
-			if (rightBottom.x - 10.f < io.MousePos.x &&
-				rightBottom.x + 10.f > io.MousePos.x &&
-				leftTop.y <= io.MousePos.y &&
-				rightBottom.y > io.MousePos.y)
-			{
-				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-				static bool grip_resize = false;
-				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-					grip_resize = true;
-
-				if (grip_resize)
-				{
-					points[n+1].x = mouse_pos_in_canvas.x / WheelSz;
-					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-					{
-						grip_resize = false;
-						m_vecRect[n / 2].Max.x = points[n + 1].x;
-					}
-				}
-			}
-
-		// 위
-			if (leftTop.y - 10.f < io.MousePos.y &&
-				leftTop.y + 10.f > io.MousePos.y &&
-				leftTop.x <= io.MousePos.x &&
-				rightBottom.x > io.MousePos.x)
-			{
-				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-				static bool grip_resize = false;
-				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-					grip_resize = true;
-
-				if (grip_resize)
-				{
-					points[n].y = mouse_pos_in_canvas.y / WheelSz;
-					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-					{
-						grip_resize = false;
-						m_vecRect[n / 2].Min.y = points[n].y;
-					}
-				}
-			}
-
-		// 아래
-			if (rightBottom.y - 10.f < io.MousePos.y &&
-				rightBottom.y + 10.f > io.MousePos.y &&
-				leftTop.x <= io.MousePos.x &&
-				rightBottom.x > io.MousePos.x)
-			{
-				ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-				static bool grip_resize = false;
-				if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-					grip_resize = true;
-
-				if (grip_resize)
-				{
-					points[n+1].y = mouse_pos_in_canvas.y / WheelSz;
-					if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-					{
-						grip_resize = false;
-						m_vecRect[n / 2].Max.y = points[n+1].y;
-					}
-				}
-			}
 
 		const ImRect select(leftTop, rightBottom + padding * 2.0f);
 		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			m_SelectCanvasIdx = n / 2;
 
+		// MouseGrip
+		MouseGrip(io.MousePos, mouse_pos_in_canvas, leftTop, rightBottom, points, n, WheelSz);
+
 		if (n / 2  == m_SelectCanvasIdx)
 		{
 			col = IM_COL32(255, 0, 0, 255);
+
 
 			if (m_bTrim)
 			{
@@ -555,6 +468,103 @@ void AnimationEditorUI::SelectAtlas(DWORD_PTR _ptr)
 
 	Ptr<CTexture> Tex = CAssetMgr::GetInst()->FindAsset<CTexture>(strAnimName);
 	m_CurAtlas = Tex;
+}
+
+void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canvasMousePos, 
+	const ImVec2& _LT, const ImVec2& _RB, ImVector<ImVec2>& _points, const float _idx, const float _wheel )
+{
+	if (!ImGui::IsWindowFocused())
+		return;
+
+	// Mouse Grip Cursur
+	// 왼쪽
+	if (_LT.x - 10.f < _ioMousePos.x &&
+		_LT.x + 10.f > _ioMousePos.x &&
+		_LT.y <= _ioMousePos.y &&
+		_RB.y > _ioMousePos.y)
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+		static bool grip_resize = false;
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			grip_resize = true;
+
+		if (grip_resize)
+		{
+			_points[_idx].x = _canvasMousePos.x / _wheel;
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			{
+				grip_resize = false;
+				m_vecRect[_idx / 2].Min.x = _points[_idx].x;
+			}
+		}
+
+	}
+
+	// 오른쪽
+	if (_RB.x - 10.f < _ioMousePos.x &&
+		_RB.x + 10.f > _ioMousePos.x &&
+		_LT.y <= _ioMousePos.y &&
+		_RB.y > _ioMousePos.y)
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+		static bool grip_resize = false;
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			grip_resize = true;
+
+		if (grip_resize)
+		{
+			_points[_idx + 1].x = _canvasMousePos.x / _wheel;
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			{
+				grip_resize = false;
+				m_vecRect[_idx / 2].Max.x = _points[_idx + 1].x;
+			}
+		}
+	}
+
+	// 위
+	if (_LT.y - 10.f < _ioMousePos.y &&
+		_LT.y + 10.f > _ioMousePos.y &&
+		_LT.x <= _ioMousePos.x &&
+		_RB.x > _ioMousePos.x)
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+		static bool grip_resize = false;
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			grip_resize = true;
+
+		if (grip_resize)
+		{
+			_points[_idx].y = _canvasMousePos.y / _wheel;
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			{
+				grip_resize = false;
+				m_vecRect[_idx / 2].Min.y = _points[_idx].y;
+			}
+		}
+	}
+
+	// 아래
+	if (_RB.y - 10.f < _ioMousePos.y &&
+		_RB.y + 10.f > _ioMousePos.y &&
+		_LT.x <= _ioMousePos.x &&
+		_RB.x > _ioMousePos.x)
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+		static bool grip_resize = false;
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			grip_resize = true;
+
+		if (grip_resize)
+		{
+			_points[_idx + 1].y = _canvasMousePos.y / _wheel;
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			{
+				grip_resize = false;
+				m_vecRect[_idx / 2].Max.y = _points[_idx + 1].y;
+			}
+		}
+	}
 }
 
 ImRect AnimationEditorUI::TrimAtlas(int _idx)
@@ -627,8 +637,6 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 			tPixel pixel = pPixel[width * y + x];
 			if (0 != pixel.a)
 			{
-				// 이진검색트리
-				// LT , RB 찾은후 RECT(points) 추가
 				queue<ImVec2> qPixel;
 				qPixel.push(ImVec2(x, y));
 				while (!qPixel.empty())

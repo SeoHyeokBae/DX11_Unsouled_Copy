@@ -35,6 +35,8 @@ private:
 public:
     void DrawCanvas();
     void SelectAtlas(DWORD_PTR _ptr);
+    void MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canvasMousePos, 
+        const ImVec2& _LT, const ImVec2& _RB, ImVector<ImVec2>& _points, const float _idx, const float _wheel);
     ImRect TrimAtlas(int _idx);
     void SmartSlice(ImVector<ImVec2>& _points);
 
