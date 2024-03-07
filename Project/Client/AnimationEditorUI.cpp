@@ -70,8 +70,8 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
 		tAnimFrm frm = {};
-		frm.vLeftTop = Vec2(m_vecRect[m_SelectCanvasIdx].Min.x, m_vecRect[m_SelectCanvasIdx].Min.y);
-		frm.vSlice = Vec2(m_vecRect[m_SelectCanvasIdx].GetSize().x, m_vecRect[m_SelectCanvasIdx].GetSize().y);
+		frm.vLeftTop = m_vecRect[m_SelectCanvasIdx].Min;
+		frm.vSlice = m_vecRect[m_SelectCanvasIdx].GetSize();
 		m_vecAnimRect.push_back(frm);
 		m_SelectAnimIdx = m_vecAnimRect.size() - 1;
 	}
@@ -127,7 +127,7 @@ void AnimationEditorUI::render_update()
 	// preview
 	ImVec2 SpriteCanvasLT = ImGui::GetCursorScreenPos();    
 	ImVec2 Spritecanvas_sz = ImVec2(250.f,250.f);
-	ImVec2 SpriteCanvasRB = ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x, SpriteCanvasLT.y + Spritecanvas_sz.y);
+	ImVec2 SpriteCanvasRB = SpriteCanvasLT + Spritecanvas_sz;
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB, IM_COL32(70, 70, 70, 255));
 	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB - Spritecanvas_sz / 2, IM_COL32(50, 50, 50, 255));
@@ -433,7 +433,7 @@ void AnimationEditorUI::DrawCanvas()
 
 
 		const ImRect select(leftTop, rightBottom + padding * 2.0f);
-		if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		if (ImGui::IsWindowFocused() && select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			m_SelectCanvasIdx = n / 2;
 
 		// MouseGrip
@@ -442,7 +442,6 @@ void AnimationEditorUI::DrawCanvas()
 		if (n / 2  == m_SelectCanvasIdx)
 		{
 			col = IM_COL32(255, 0, 0, 255);
-
 
 			if (m_bTrim)
 			{

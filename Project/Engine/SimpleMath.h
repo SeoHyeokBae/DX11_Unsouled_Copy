@@ -25,6 +25,8 @@
 #include <DirectXPackedVector.h>
 #include <DirectXCollision.h>
 
+#include "../Client/imgui.h"
+
 #ifndef XM_CONSTEXPR
 #define XM_CONSTEXPR
 #endif
@@ -120,7 +122,8 @@ namespace DirectX
             Vector2(const Vector2&) = default;
             Vector2& operator=(const Vector2&) = default;
             Vector2& operator =(FXMVECTOR V) { XMStoreFloat2(this, V); return *this; }
-            Vector2& operator = (const ImVec2& _imv2);
+
+            Vector2& operator = (const ImVec2& _imv2) { this->x = _imv2.x; this->y = _imv2.y;  return *this; }
 
             Vector2(Vector2&&) = default;
             Vector2& operator=(Vector2&&) = default;
