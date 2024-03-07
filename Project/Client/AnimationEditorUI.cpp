@@ -15,8 +15,8 @@ AnimationEditorUI::AnimationEditorUI()
 	, m_Scrolling(ImVec2(0.f,0.f))
 	, m_MousePos(ImVec2(0.f,0.f))
 	, m_CenterPos(ImVec2(0.f,0.f))
-	, m_SelectCanvasIdx(0)
-	, m_SelectAnimIdx(-1)
+	, m_CanvasIdx(0)
+	, m_AnimIdx(-1)
 	, m_fps(1.f)
 	, m_Wheelsz(1.f)
 	, m_bSlice(false)
@@ -70,10 +70,10 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
 		tAnimFrm frm = {};
-		frm.vLeftTop = m_vecRect[m_SelectCanvasIdx].Min;
-		frm.vSlice = m_vecRect[m_SelectCanvasIdx].GetSize();
+		frm.vLeftTop = m_vecRect[m_CanvasIdx].Min;
+		frm.vSlice = m_vecRect[m_CanvasIdx].GetSize();
 		m_vecAnimRect.push_back(frm);
-		m_SelectAnimIdx = m_vecAnimRect.size() - 1;
+		m_AnimIdx = m_vecAnimRect.size() - 1;
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -125,38 +125,39 @@ void AnimationEditorUI::render_update()
 	}
 
 	// preview
-	ImVec2 SpriteCanvasLT = ImGui::GetCursorScreenPos();    
-	ImVec2 Spritecanvas_sz = ImVec2(250.f,250.f);
-	ImVec2 SpriteCanvasRB = SpriteCanvasLT + Spritecanvas_sz;
+	ImVec2 PrevCanvasLT = ImGui::GetCursorScreenPos();    
+	ImVec2 Prevcanvas_sz = ImVec2(250.f,250.f);
+	ImVec2 PrevCanvasRB = PrevCanvasLT + Prevcanvas_sz;
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
-	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB, IM_COL32(70, 70, 70, 255));
-	draw_list->AddRectFilled(SpriteCanvasLT, SpriteCanvasRB - Spritecanvas_sz / 2, IM_COL32(50, 50, 50, 255));
-	draw_list->AddRectFilled(SpriteCanvasLT + Spritecanvas_sz /2, SpriteCanvasRB, IM_COL32(50, 50, 50, 255));
+	draw_list->AddRectFilled(PrevCanvasLT, PrevCanvasRB, IM_COL32(70, 70, 70, 255));
+	draw_list->AddRectFilled(PrevCanvasLT, PrevCanvasRB - Prevcanvas_sz / 2, IM_COL32(50, 50, 50, 255));
+	draw_list->AddRectFilled(PrevCanvasLT + Prevcanvas_sz /2, PrevCanvasRB, IM_COL32(50, 50, 50, 255));
 	if (0 != m_vecAnimRect.size())
 	{
 		// Canvas 안에 이미지출력
-		draw_list->PushClipRect(SpriteCanvasLT, SpriteCanvasRB, true);
+		draw_list->PushClipRect(PrevCanvasLT, PrevCanvasRB, true);
 
-		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop - m_vecAnimRect[m_SelectAnimIdx].vOffset);
-		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop + m_vecAnimRect[m_SelectAnimIdx].vSlice - m_vecAnimRect[m_SelectAnimIdx].vOffset);
-		ImVec2 displaySize = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vSlice);
+		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_AnimIdx].vLeftTop);
+		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_AnimIdx].vLeftTop + m_vecAnimRect[m_AnimIdx].vSlice);
+		ImVec2 displaySize = ImVec2(m_vecAnimRect[m_AnimIdx].vSlice);
 		UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
 		UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
 		ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
 		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
 
-		ImRect rec(SpriteCanvasLT, SpriteCanvasRB);
+		ImRect rec(PrevCanvasLT, PrevCanvasRB);
 		rec.Expand(-50.f);
-		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.GetTL(), rec.GetBR(), uv0, uv1);
+		rec.Translate(m_vecAnimRect[m_AnimIdx].vOffset);
+		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.Min, rec.Max, uv0, uv1);
 		draw_list->PopClipRect();
 	}
 
 	// 십자선
-	draw_list->AddLine(ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x/2, SpriteCanvasLT.y)
-					 , ImVec2(SpriteCanvasLT.x + Spritecanvas_sz.x/2, SpriteCanvasRB.y), IM_COL32(0, 255, 0, 150));
-	draw_list->AddLine(ImVec2(SpriteCanvasLT.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2)
-					 , ImVec2(SpriteCanvasRB.x, SpriteCanvasLT.y + Spritecanvas_sz.y/2), IM_COL32(255, 0, 0, 150));
+	draw_list->AddLine(ImVec2(PrevCanvasLT.x + Prevcanvas_sz.x/2, PrevCanvasLT.y)
+					 , ImVec2(PrevCanvasLT.x + Prevcanvas_sz.x/2, PrevCanvasRB.y), IM_COL32(0, 255, 0, 150));
+	draw_list->AddLine(ImVec2(PrevCanvasLT.x, PrevCanvasLT.y + Prevcanvas_sz.y/2)
+					 , ImVec2(PrevCanvasRB.x, PrevCanvasLT.y + Prevcanvas_sz.y/2), IM_COL32(255, 0, 0, 150));
 
 	//Anim 정보
 	static string spritename;
@@ -172,24 +173,24 @@ void AnimationEditorUI::render_update()
 	static bool inputs_step = true;
 	const int frmUnit = 1;
 	ImGui::PushItemWidth(125);
-	ImGui::InputScalar("##FrameNum", ImGuiDataType_U8, &m_SelectAnimIdx, inputs_step ? &frmUnit : NULL, NULL, "%u");
-	if (m_SelectAnimIdx > m_vecAnimRect.size() - 1) m_SelectAnimIdx = m_vecAnimRect.size() - 1;
+	ImGui::InputScalar("##FrameNum", ImGuiDataType_U8, &m_AnimIdx, inputs_step ? &frmUnit : NULL, NULL, "%u");
+	if (m_AnimIdx > m_vecAnimRect.size() - 1) m_AnimIdx = m_vecAnimRect.size() - 1;
 	ImGui::SetCursorPosX(265.f); ImGui::Separator();
 	ImGui::PopItemWidth();
 
 	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
 	ImVec2 offset = ImVec2(0.f, 0.f);
-	if(0 != m_vecAnimRect.size()) offset = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vOffset);
+	if(0 != m_vecAnimRect.size()) offset = ImVec2(m_vecAnimRect[m_AnimIdx].vOffset);
 	ImGui::Text("Offset : X = %0.f, Y = %0.f", offset.x, offset.y);
 
 	ImGui::SetCursorPos(ImVec2(335.f,212.f));
-	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { m_vecAnimRect[m_SelectAnimIdx].vOffset.y--; }
+	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { m_vecAnimRect[m_AnimIdx].vOffset.y--; }
 	ImGui::SetCursorPosX(313.f);
-	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { m_vecAnimRect[m_SelectAnimIdx].vOffset.x--; }
+	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { m_vecAnimRect[m_AnimIdx].vOffset.x--; }
 	ImGui::SameLine(); ImGui::SetCursorPosX(357.f);
-	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { m_vecAnimRect[m_SelectAnimIdx].vOffset.x++; }
+	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { m_vecAnimRect[m_AnimIdx].vOffset.x++; }
 	ImGui::SetCursorPosX(335.f);
-	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { m_vecAnimRect[m_SelectAnimIdx].vOffset.y++; }
+	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { m_vecAnimRect[m_AnimIdx].vOffset.y++; }
 	ImGui::SetCursorPos(ImVec2(265.f,300.f)); ImGui::Separator();
 
 	ImGui::Text("Frame Length"); ImGui::SameLine();
@@ -225,7 +226,7 @@ void AnimationEditorUI::render_update()
 			bPause = false;
 		else
 		{ 
-			m_SelectAnimIdx = 0; 
+			m_AnimIdx = 0; 
 			ftime = 0.f;
 		}
 	}
@@ -236,17 +237,17 @@ void AnimationEditorUI::render_update()
 		bPlay = false;
 	}
 	ImGui::SameLine();
-	ImGui::Text("Current Frame : %d", m_SelectAnimIdx);
+	ImGui::Text("Current Frame : %d", m_AnimIdx);
 	
 	if (bPlay)
 	{
 		ftime += DT_ENGINE;
 		if (1.f / m_fps < ftime)
 		{
-			++m_SelectAnimIdx;
-			if (m_vecAnimRect.size() <= m_SelectAnimIdx) // frmlength 연결필요
+			++m_AnimIdx;
+			if (m_vecAnimRect.size() <= m_AnimIdx) // frmlength 연결필요
 			{
-				m_SelectAnimIdx = (int)m_vecAnimRect.size() - 1;
+				m_AnimIdx = (int)m_vecAnimRect.size() - 1;
 				bfinish = true;
 			}
 			ftime = 0.f;
@@ -254,7 +255,7 @@ void AnimationEditorUI::render_update()
 
 		if (bfinish && bLoop)
 		{
-			m_SelectAnimIdx = 0;
+			m_AnimIdx = 0;
 			bfinish = false;
 		}
 	}
@@ -284,9 +285,9 @@ void AnimationEditorUI::render_update()
 			// ImVec2(100.f, 100.f) == 애니메이션 사이즈
 			const ImRect select(window->DC.CursorPos, window->DC.CursorPos + ImVec2(100.f, 100.f) + padding * 2.0f);
 			if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-				m_SelectAnimIdx = i;
+				m_AnimIdx = i;
 
-			if (i == m_SelectAnimIdx) // 선택된 rect 테두리 색상
+			if (i == m_AnimIdx) // 선택된 rect 테두리 색상
 				col = ImVec4(1, 0, 0, 1);
 
 			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), col);
@@ -393,6 +394,7 @@ void AnimationEditorUI::DrawCanvas()
 		if (Incanvas.Contains(io.MousePos))
 		{
 			WheelSz += 0.1f * io.MouseWheel;
+			if (WheelSz <= 0.f) WheelSz = 0.f;
 			m_Wheelsz = WheelSz;
 		}
 	}
@@ -430,19 +432,19 @@ void AnimationEditorUI::DrawCanvas()
 
 		const ImRect select(leftTop, rightBottom + padding * 2.0f);
 		if (ImGui::IsWindowFocused() && select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-			m_SelectCanvasIdx = n / 2;
+			m_CanvasIdx = n / 2;
 
 		// MouseGrip
 		MouseGrip(io.MousePos, mouse_pos_in_canvas, leftTop, rightBottom, points, n, WheelSz);
 
-		if (n / 2  == m_SelectCanvasIdx)
+		if (n / 2  == m_CanvasIdx)
 		{
 			col = IM_COL32(255, 0, 0, 255);
 
 			if (m_bTrim)
 			{
 				m_bTrim = false;
-				ImRect rec = TrimAtlas(m_SelectCanvasIdx);
+				ImRect rec = TrimAtlas(m_CanvasIdx);
 
 				points[n] = rec.Min;
 				points[n + 1] = rec.Max;
