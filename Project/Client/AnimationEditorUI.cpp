@@ -10,7 +10,6 @@
 
 AnimationEditorUI::AnimationEditorUI()
 	: UI("Animation Editor", "##AnimationEditor")
-	, m_bOpen(true)
 	, m_CurAtlas(nullptr)
 	, m_CanvasLeftTop(ImVec2(0.f,0.f))
 	, m_Scrolling(ImVec2(0.f,0.f))
@@ -86,7 +85,7 @@ void AnimationEditorUI::render_update()
 
 
 	// animation make
-	ImGui::Begin("Sprite Animation" , &m_bOpen );
+	ImGui::Begin("Sprite Animation");
 	if (ImGui::Button("New Animation"))
 	{
 		// todo
@@ -138,9 +137,10 @@ void AnimationEditorUI::render_update()
 		// Canvas 안에 이미지출력
 		draw_list->PushClipRect(SpriteCanvasLT, SpriteCanvasRB, true);
 
-		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop.x, m_vecAnimRect[m_SelectAnimIdx].vLeftTop.y);
-		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop.x + m_vecAnimRect[m_SelectAnimIdx].vSlice.x,
-								  m_vecAnimRect[m_SelectAnimIdx].vLeftTop.y + m_vecAnimRect[m_SelectAnimIdx].vSlice.y);
+		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop.x - m_vecAnimRect[m_SelectAnimIdx].vOffset.x
+								 ,m_vecAnimRect[m_SelectAnimIdx].vLeftTop.y - m_vecAnimRect[m_SelectAnimIdx].vOffset.y);
+		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop.x + m_vecAnimRect[m_SelectAnimIdx].vSlice.x - m_vecAnimRect[m_SelectAnimIdx].vOffset.x
+								 ,m_vecAnimRect[m_SelectAnimIdx].vLeftTop.y + m_vecAnimRect[m_SelectAnimIdx].vSlice.y - m_vecAnimRect[m_SelectAnimIdx].vOffset.y);
 		ImVec2 displaySize = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vSlice.x, m_vecAnimRect[m_SelectAnimIdx].vSlice.y);
 		UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
 		UINT textureheight = (m_CurAtlas.Get()->GetHeight());
@@ -246,7 +246,7 @@ void AnimationEditorUI::render_update()
 		if (1.f / m_fps < ftime)
 		{
 			++m_SelectAnimIdx;
-			if (m_vecAnimRect.size() <= m_SelectAnimIdx)
+			if (m_vecAnimRect.size() <= m_SelectAnimIdx) // frmlength 연결필요
 			{
 				m_SelectAnimIdx = (int)m_vecAnimRect.size() - 1;
 				bfinish = true;
@@ -266,7 +266,6 @@ void AnimationEditorUI::render_update()
 	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar| ImGuiWindowFlags_NoScrollWithMouse);
 	if (nullptr != m_CurAtlas)
 	{
-		
 		for (int i = 0; i < m_vecAnimRect.size(); i++)
 		{
 			ImGuiWindow* window = ImGui::GetCurrentWindow();

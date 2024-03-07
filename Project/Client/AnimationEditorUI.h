@@ -28,7 +28,6 @@ private:
     float          m_fps;
     float          m_Wheelsz;
 
-    bool           m_bOpen;
     bool           m_bSlice;
     bool           m_bTrim;
     bool           m_bSmartSlice;
