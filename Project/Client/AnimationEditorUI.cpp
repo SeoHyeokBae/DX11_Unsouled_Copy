@@ -137,11 +137,9 @@ void AnimationEditorUI::render_update()
 		// Canvas 안에 이미지출력
 		draw_list->PushClipRect(SpriteCanvasLT, SpriteCanvasRB, true);
 
-		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop.x - m_vecAnimRect[m_SelectAnimIdx].vOffset.x
-								 ,m_vecAnimRect[m_SelectAnimIdx].vLeftTop.y - m_vecAnimRect[m_SelectAnimIdx].vOffset.y);
-		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop.x + m_vecAnimRect[m_SelectAnimIdx].vSlice.x - m_vecAnimRect[m_SelectAnimIdx].vOffset.x
-								 ,m_vecAnimRect[m_SelectAnimIdx].vLeftTop.y + m_vecAnimRect[m_SelectAnimIdx].vSlice.y - m_vecAnimRect[m_SelectAnimIdx].vOffset.y);
-		ImVec2 displaySize = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vSlice.x, m_vecAnimRect[m_SelectAnimIdx].vSlice.y);
+		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop - m_vecAnimRect[m_SelectAnimIdx].vOffset);
+		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vLeftTop + m_vecAnimRect[m_SelectAnimIdx].vSlice - m_vecAnimRect[m_SelectAnimIdx].vOffset);
+		ImVec2 displaySize = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vSlice);
 		UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
 		UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
@@ -181,7 +179,7 @@ void AnimationEditorUI::render_update()
 
 	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
 	ImVec2 offset = ImVec2(0.f, 0.f);
-	if(0 != m_vecAnimRect.size()) offset = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vOffset.x, m_vecAnimRect[m_SelectAnimIdx].vOffset.y);
+	if(0 != m_vecAnimRect.size()) offset = ImVec2(m_vecAnimRect[m_SelectAnimIdx].vOffset);
 	ImGui::Text("Offset : X = %0.f, Y = %0.f", offset.x, offset.y);
 
 	ImGui::SetCursorPos(ImVec2(335.f,212.f));
@@ -273,10 +271,9 @@ void AnimationEditorUI::render_update()
 			const ImVec2 padding = g.Style.FramePadding;
 
 			ImVec4 col = ImVec4(1, 1, 1, 1);
-			ImVec2 displayLT = ImVec2(m_vecAnimRect[i].vLeftTop.x, m_vecAnimRect[i].vLeftTop.y);
-			ImVec2 displayRB = ImVec2(m_vecAnimRect[i].vLeftTop.x + m_vecAnimRect[i].vSlice.x,
-									  m_vecAnimRect[i].vLeftTop.y + m_vecAnimRect[i].vSlice.y);
-			ImVec2 displaySize = ImVec2(m_vecAnimRect[i].vSlice.x, m_vecAnimRect[i].vSlice.y);
+			ImVec2 displayLT = ImVec2(m_vecAnimRect[i].vLeftTop);
+			ImVec2 displayRB = ImVec2(m_vecAnimRect[i].vLeftTop + m_vecAnimRect[i].vSlice);
+			ImVec2 displaySize = ImVec2(m_vecAnimRect[i].vSlice);
 			UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
 			UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
@@ -293,7 +290,6 @@ void AnimationEditorUI::render_update()
 				col = ImVec4(1, 0, 0, 1);
 
 			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), col);
-			//ImGui::ImageButton(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1,-1, ImVec4(1, 1, 1, 0), col);
 			ImGui::SameLine();
 		}
 	}

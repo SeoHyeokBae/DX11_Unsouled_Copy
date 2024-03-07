@@ -31,8 +31,8 @@
 #define XM_CONSTEXPR
 #endif
 
-struct ImVec2;
-struct ImVec4;
+//struct ImVec2;
+//struct ImVec4;
 
 namespace DirectX
 {
@@ -123,7 +123,7 @@ namespace DirectX
             Vector2& operator=(const Vector2&) = default;
             Vector2& operator =(FXMVECTOR V) { XMStoreFloat2(this, V); return *this; }
 
-            Vector2& operator = (const ImVec2& _imv2) { this->x = _imv2.x; this->y = _imv2.y;  return *this; }
+            Vector2& operator = (const ImVec2& _imv2) { x = _imv2.x; y = _imv2.y;  return *this; }
 
             Vector2(Vector2&&) = default;
             Vector2& operator=(Vector2&&) = default;
@@ -132,7 +132,7 @@ namespace DirectX
 
             
             // Conversion
-            operator ImVec2() const;
+            operator ImVec2() const { return ImVec2(x, y); }
 
             typedef float(&f2)[2];
             operator f2() const { return (f2)x; }
