@@ -19,18 +19,47 @@
 
 #include "CLevelSaveLoad.h"
 
+#include <Scripts/CMissileScript.h>
+
+#include <Engine/CAssetMgr.h>
+#include <Engine/CPrefab.h>
+
+void CCreateTempLevel::Init()
+{
+	// Missile Prefab »ý¼º
+	//CGameObject* pObj = nullptr;
+
+	//pObj = new CGameObject;
+	//pObj->SetName(L"Missile");
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CMeshRender);
+	//pObj->AddComponent(new CMissileScript);
+
+	//pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
+
+	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+
+	//Ptr<CPrefab> pMissilePrefab = new CPrefab(pObj);
+	//CAssetMgr::GetInst()->AddAsset<CPrefab>(L"MissilePrefab", pMissilePrefab.Get());
+
+
+	//pMissilePrefab->Save(L"prefab\\missile.pref");
+	
+}
+
 void CCreateTempLevel::CreateTempLevel()
 {
 
-	Ptr<CMaterial> pBackgroudMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl");
-	Ptr<CMaterial> pStd2DMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl");
+	//Ptr<CMaterial> pBackgroudMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl");
+	//Ptr<CMaterial> pStd2DMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl");
 
-	pBackgroudMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png"));
-	pStd2DMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
+	//pBackgroudMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png"));
+	//pStd2DMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
 
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\temp.lv");
-	CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
-	return;
+	//CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\temp.lv");
+	//CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
+	//return;
 
 	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"penitent_running_anim", L"texture\\penitent_running_anim.png");
 	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
@@ -204,7 +233,7 @@ void CCreateTempLevel::CreateTempLevel()
 	CCollisionMgr::GetInst()->LayerCheck(3, 4);
 	CCollisionMgr::GetInst()->LayerCheck(4, 4);
 
-	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
+	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::PLAY);
 
 	CLevelSaveLoad::SaveLevel(pTempLevel, L"level\\temp.lv");
 }

@@ -5,7 +5,8 @@ class CPlayerScript :
     public CScript
 {
 private:
-    float       m_Speed;
+    Ptr<CPrefab>    m_Missile;
+    float           m_Speed;
 
 public:
     virtual void tick() override;

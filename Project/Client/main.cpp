@@ -74,6 +74,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 임시 레벨 생성
     CPrefab::GAMEOBJECT_SAVE = &CLevelSaveLoad::SaveGameObject;
     CPrefab::GAMEOBJECT_LOAD = &CLevelSaveLoad::LoadGameObject;
+
+    CCreateTempLevel::Init();
     CCreateTempLevel::CreateTempLevel();
 
 #ifndef _RELEASE_GAME

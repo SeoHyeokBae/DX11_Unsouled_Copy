@@ -9,6 +9,7 @@
 #include "CGraphicsShader.h"
 #include "CComputeShader.h"
 #include "CMaterial.h"
+#include "CPrefab.h"
 
 // std::is_same_v
 //template<typename T1, typename T2>
@@ -75,6 +76,8 @@ ASSET_TYPE GetAssetType()
         Type = ASSET_TYPE::COMPUTE_SHADER;
     if constexpr (std::is_same_v<CMaterial, T>)
         Type = ASSET_TYPE::MATERIAL;
+    if constexpr (std::is_same_v<CPrefab, T>)
+        Type = ASSET_TYPE::PREFAB;
 
 	return Type;
 }

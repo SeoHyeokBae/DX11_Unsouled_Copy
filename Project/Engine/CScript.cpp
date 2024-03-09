@@ -11,6 +11,18 @@ CScript::~CScript()
 {
 }
 
+void CScript::Instantiate(Ptr<CPrefab> _Prefab, Vec3 _vWorldPos, int _layerIdx)
+{
+	if (nullptr == _Prefab)
+		return;
+
+	CGameObject* pNewObj = _Prefab->Instantiate();
+
+	pNewObj->Transform()->SetRelativePos(_vWorldPos);
+
+	GamePlayStatic::SpawnGameObject(pNewObj, _layerIdx);
+}
+
 void CScript::SaveToFile(FILE* _File)
 {
 

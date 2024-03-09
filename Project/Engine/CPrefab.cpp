@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPrefab.h"
 
+#include "CGameObject.h"
 
 SAVE_TYPE CPrefab::GAMEOBJECT_SAVE = nullptr;
 LOAD_TYPE CPrefab::GAMEOBJECT_LOAD = nullptr;
@@ -12,8 +13,29 @@ CPrefab::CPrefab()
 {
 }
 
+CPrefab::CPrefab(CGameObject* _Proto)
+	: CAsset(ASSET_TYPE::PREFAB)
+	, m_ProtoObj(_Proto)
+{
+}
+
 CPrefab::~CPrefab()
 {
+	if (nullptr != m_ProtoObj)
+		delete m_ProtoObj;
+}
+
+void CPrefab::SetGameObject(CGameObject* _Object)
+{
+	if (nullptr != m_ProtoObj)
+		delete m_ProtoObj;
+
+	m_ProtoObj = _Object;
+}
+
+CGameObject* CPrefab::Instantiate()
+{
+	return m_ProtoObj->Clone();
 }
 
 int CPrefab::Save(const wstring& _strRelativePath)

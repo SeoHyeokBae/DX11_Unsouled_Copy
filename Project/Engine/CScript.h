@@ -3,7 +3,6 @@
 
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
-//#include "CResMgr.h"
 
 #include "CGameObject.h"
 #include "components.h"
@@ -17,6 +16,9 @@ private:
 
 public:
     UINT GetScriptType() { return m_iScriptType; }
+
+protected:
+    void Instantiate(Ptr<CPrefab> _Prefab, Vec3 _vWorldPos, int _LayerIdx);
 
 public:
     virtual void finaltick() final {} // script는 tick에서 동작 finaltick 은 상수버퍼
