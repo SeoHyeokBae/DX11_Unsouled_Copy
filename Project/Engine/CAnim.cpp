@@ -6,6 +6,8 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
+//#include "CPathMgr.h"
+
 CAnim::CAnim()
 	: m_Animator(nullptr)
 	, m_CurFrmIdx(0)
@@ -74,7 +76,7 @@ void CAnim::Clear()
 	pCB->UpdateData();
 }
 
-void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _FrmCount, float _FPS)
+void CAnim::Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _FrmCount, float _FPS)
 {
 	m_Animator = _Animator;
 	m_AtlasTex = _Atlas;
@@ -93,6 +95,22 @@ void CAnim::Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop,
 
 		m_vecFrm.push_back(frm);
 	}
+
+	// Anim 을 저장할 경로
+	//wstring strAnimPath = CPathMgr::GetContentPath();
+	//strAnimPath += L"anim\\";
+	//strAnimPath += (_strKey + L".anim");
+
+
+	//FILE* pFile = nullptr;
+	//_wfopen_s(&pFile, strAnimPath.c_str(), L"wb");
+
+	//SaveToFile(pFile);
+	//// 레벨의 이름
+	////SaveWString(m_Animator->GetName(), pFile);
+
+	//fclose(pFile);
+
 
 	// 1번프레임 offset 조정
 	//m_vecFrm[1].vOffset.x = 5.0f / (float)_Atlas->GetWidth();

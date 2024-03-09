@@ -66,7 +66,7 @@ void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _
 	assert(!pAnim);
 
 	pAnim = new CAnim;
-	pAnim->Create(this, _AtlasTex, _LeftTop, _vSliceSize, _OffsetSize, _Background, _FrmCount, _FPS);
+	pAnim->Create(_strKey, this, _AtlasTex, _LeftTop, _vSliceSize, _OffsetSize, _Background, _FrmCount, _FPS);
 	m_mapAnim.insert(make_pair(_strKey, pAnim));
 }
 

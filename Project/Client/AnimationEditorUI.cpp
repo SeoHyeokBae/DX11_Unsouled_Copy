@@ -5,6 +5,7 @@
 #include <Engine/CAssetMgr.h>
 #include <Engine/CAnimator2D.h>
 #include <Engine/CTimeMgr.h>
+#include <Engine/CAnim.h>
 
 #include "ListUI.h"
 
@@ -29,6 +30,7 @@ AnimationEditorUI::AnimationEditorUI()
 
 AnimationEditorUI::~AnimationEditorUI()
 {
+	
 }
 
 void AnimationEditorUI::render_update()
@@ -88,12 +90,23 @@ void AnimationEditorUI::render_update()
 	ImGui::Begin("Sprite Animation");
 	if (ImGui::Button("New Animation"))
 	{
-		// todo
+		//PreView 상태 모두 초기화
+		if (!m_vecAnimRect.empty())
+			m_vecAnimRect.clear();
+
+		m_AnimIdx = -1;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load Animation"))
 	{
-		// todo
+		//ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
+
+		//const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
+		//for (const auto& pair : mapAsset)
+		//	pListUI->AddString(string(pair.first.begin(), pair.first.end()));
+
+		//pListUI->SetDbClickDelegate(this, (Delegate_1)&AnimationEditorUI::SelectAtlas);
+		//pListUI->Activate();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Save Animation"))
@@ -611,8 +624,13 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 
 void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 {
-	_points.clear();	// 기존 points vector를 비워줌
 	m_bSmartSlice = false;
+
+	if (nullptr == m_CurAtlas)
+		return;
+	
+	if(!_points.empty())
+		_points.clear(); // 기존 points vector를 비워줌
 
 	tPixel* pPixel = m_CurAtlas.Get()->GetPixels();
 	const int width = m_CurAtlas->GetWidth();
