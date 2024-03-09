@@ -57,6 +57,8 @@ void LoadAssetRef(Ptr<T>& _Asset, FILE* _File)
 		wstring strKey, strRelativePath;
 		LoadWString(strKey, _File);
 		LoadWString(strRelativePath, _File);
+
+		_Asset = CAssetMgr::GetInst()->Load<T>(strKey, strRelativePath);
 	}
 }
 

@@ -128,6 +128,8 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _strLevelPath)
 	}
 
 	fclose(pFile);
+
+	return pLevel;
 }
 
 void CLevelSaveLoad::LoadLayer(CLayer* _Layer, FILE* _File)

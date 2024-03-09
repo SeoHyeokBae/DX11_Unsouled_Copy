@@ -7,6 +7,9 @@
 #include <Engine\global.h>
 #include <Engine\CEngine.h>
 #include <Engine\CDevice.h>
+#include <Engine/CPrefab.h>
+
+#include "CLevelSaveLoad.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_d.lib")
@@ -59,7 +62,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
-
     MSG msg;
     
     // CEngine 초기화 실패시 프로그램 종료
@@ -70,6 +72,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     // 임시 레벨 생성
+    CPrefab::GAMEOBJECT_SAVE = &CLevelSaveLoad::SaveGameObject;
+    CPrefab::GAMEOBJECT_LOAD = &CLevelSaveLoad::LoadGameObject;
     CCreateTempLevel::CreateTempLevel();
 
 #ifndef _RELEASE_GAME

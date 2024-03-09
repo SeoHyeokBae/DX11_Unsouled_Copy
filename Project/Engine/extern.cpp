@@ -8,6 +8,7 @@ const char* ASSET_TYPE_STRING[(UINT)ASSET_TYPE::END]
 {
 	"MESH",
 	"MESHDATA",
+	"PREFAB",
 	"TEXTURE",
 	"MATERIAL",
 	"SOUND",

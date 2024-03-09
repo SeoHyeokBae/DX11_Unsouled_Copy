@@ -17,14 +17,23 @@
 #include <Engine/CTexture.h>
 #include <Engine/CSetColorShader.h>
 
+#include "CLevelSaveLoad.h"
+
 void CCreateTempLevel::CreateTempLevel()
 {
+
+	Ptr<CMaterial> pBackgroudMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl");
+	Ptr<CMaterial> pStd2DMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl");
+
+	pBackgroudMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png"));
+	pStd2DMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
+
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\temp.lv");
+	CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
+	return;
+
 	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"penitent_running_anim", L"texture\\penitent_running_anim.png");
 	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
-
-
-	// 재질  로드 테스트
-	//CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
 	
 	// 초기 레벨 구성하기
 	CLevel* pTempLevel = new CLevel;
@@ -144,7 +153,7 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
 
 	pTempLevel->AddObject(pObj, L"Player", false);
 
@@ -196,4 +205,6 @@ void CCreateTempLevel::CreateTempLevel()
 	CCollisionMgr::GetInst()->LayerCheck(4, 4);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
+
+	CLevelSaveLoad::SaveLevel(pTempLevel, L"level\\temp.lv");
 }

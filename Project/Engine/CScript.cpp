@@ -11,3 +11,11 @@ CScript::~CScript()
 {
 }
 
+void CScript::SaveToFile(FILE* _File)
+{
+
+}
+
+void CScript::LoadFromFile(FILE* _File)
+{
+}

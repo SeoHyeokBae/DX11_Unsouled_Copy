@@ -28,6 +28,8 @@ public:
     virtual void finaltick() override;
     virtual void render() override;
 
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
     CLONE(CParticleSystem);
 public:
     CParticleSystem();

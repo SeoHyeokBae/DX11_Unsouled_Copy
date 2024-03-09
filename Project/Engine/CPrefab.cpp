@@ -1,0 +1,49 @@
+#include "pch.h"
+#include "CPrefab.h"
+
+
+SAVE_TYPE CPrefab::GAMEOBJECT_SAVE = nullptr;
+LOAD_TYPE CPrefab::GAMEOBJECT_LOAD = nullptr;
+
+
+CPrefab::CPrefab()
+	: CAsset(ASSET_TYPE::PREFAB)
+	, m_ProtoObj(nullptr)
+{
+}
+
+CPrefab::~CPrefab()
+{
+}
+
+int CPrefab::Save(const wstring& _strRelativePath)
+{
+	assert(GAMEOBJECT_SAVE);
+
+	wstring strContentPath = CPathMgr::GetContentPath();
+	strContentPath += _strRelativePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strContentPath.c_str(), L"wb");
+
+	GAMEOBJECT_SAVE(m_ProtoObj, pFile);
+
+	fclose(pFile);
+	return S_OK;
+}
+
+int CPrefab::Load(const wstring& _strFilePath)
+{
+	assert(GAMEOBJECT_LOAD);
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
+
+	if (nullptr == pFile)
+		return E_FAIL;
+
+	m_ProtoObj = GAMEOBJECT_LOAD(pFile);
+
+	fclose(pFile);
+	return S_OK;
+}
