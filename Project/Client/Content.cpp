@@ -112,7 +112,7 @@ void Content::ReloadContent()
 			CAssetMgr::GetInst()->Load<CMaterial>(m_vecAssetFileName[i], m_vecAssetFileName[i]);
 			break;
 		case ASSET_TYPE::SOUND:
-			//CAssetMgr::GetInst()->Load<CSound>(m_vecAssetFileName[i], m_vecAssetFileName[i]);
+			CAssetMgr::GetInst()->Load<CSound>(m_vecAssetFileName[i], m_vecAssetFileName[i]);
 			break;
 		}
 	}

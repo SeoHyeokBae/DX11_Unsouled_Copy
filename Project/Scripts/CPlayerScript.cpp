@@ -129,6 +129,9 @@ void CPlayerScript::tick()
 	{
 		Instantiate(m_Missile, Transform()->GetWorldPos(), 0);
 
+		//GamePlayStatic::Play2DSound(L"sound\\DM.wav", 1, 0.5f, false);
+		GamePlayStatic::Play2DBGM(L"sound\\DM.wav", 0.5f);
+
 		GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), true, 3);
 		GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
 	}

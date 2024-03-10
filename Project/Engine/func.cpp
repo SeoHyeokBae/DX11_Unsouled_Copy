@@ -42,6 +42,34 @@ void GamePlayStatic::DrawDebugRect(const Matrix& _WorldMat, Vec3 _Color, bool _b
 	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
 }
 
+void GamePlayStatic::Play2DSound(const wstring& _SoundPath, int _Loop, float _Volume, bool _Overlap)
+{
+	Ptr<CSound> pSound = CAssetMgr::GetInst()->Load<CSound>(_SoundPath, _SoundPath);
+
+	if (nullptr != pSound)
+	{
+		pSound->Play(_Loop, _Volume, _Overlap);
+	}
+}
+
+void GamePlayStatic::Play2DBGM(const wstring& _SoundPath, float _Volume)
+{
+	static Ptr<CSound> CurBGM = nullptr;
+
+	Ptr<CSound> pSound = CAssetMgr::GetInst()->Load<CSound>(_SoundPath, _SoundPath);
+
+	if (nullptr != pSound)
+	{
+		if (nullptr != CurBGM)
+		{
+			CurBGM->Stop();
+		}
+
+		pSound->Play(0, _Volume);
+		CurBGM = pSound;
+	}
+}
+
 // 하나하나 DebugRect 정보전달
 void GamePlayStatic::DrawDebugRect(Vec3 _vWorldPos, Vec3 _vWorldScale, Vec3 _vWorldRot, Vec3 _Color, bool _bDepthTest, float _Duration)
 {

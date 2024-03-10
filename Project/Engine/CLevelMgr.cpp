@@ -37,7 +37,12 @@ void CLevelMgr::tick()
 	// 이전 프레임에 등록된 오브젝트들 clear
 	m_CurLevel->clear();
 
-	m_CurLevel->tick();
+	// 레벨이 Play 상태일 경우에만 tick() 호출
+	if (m_CurLevel->GetState() == LEVEL_STATE::PLAY)
+	{
+		m_CurLevel->tick();
+	}
+
 	m_CurLevel->finaltick();
 
 	// 충돌 처리

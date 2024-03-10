@@ -62,6 +62,16 @@ int CSound::Play(int _iRoopCount, float _fVolume, bool _bOverlap)
 	return iIdx;
 }
 
+void CSound::Stop()
+{
+	list<FMOD::Channel*>::iterator iter;
+
+	while (!m_listChannel.empty())
+	{
+		iter = m_listChannel.begin();
+		(*iter)->stop();
+	}
+}
 
 void CSound::RemoveChannel(FMOD::Channel* _pTargetChannel)
 {

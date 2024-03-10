@@ -16,6 +16,10 @@ namespace GamePlayStatic
 	void DrawDebugCircle(Vec3 _vWorldPos, float _fRadius, Vec3 _Color, bool _bDepthTest, float _Duration = 0.f);
 
 	void DrawDebugCross(Vec3 _vWorldPos, float _fScale, Vec3 _Color, bool _bDepthTest, float _Duration = 0.f);
+
+	void Play2DSound(const wstring& _SoundPath, int _Loop, float _Volume, bool _Overlap = true);
+	void Play2DBGM(const wstring& _SoundPath, float _Volume);
+
 	//void DrawDebugCube();
 	//void DrawDebugSphere();
 }
