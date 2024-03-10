@@ -107,6 +107,9 @@
     <Filter Include="01. Manager\04. LevelSaveLoad">
       <UniqueIdentifier>{0b96c5e7-df31-4f88-a1aa-bd753cc49173}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. UI\3. Inspector\AssetUI\Prefab">
+      <UniqueIdentifier>{2b3de59f-3b87-444f-9a28-fb60b0802d0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -237,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="CLevelSaveLoad.h">
       <Filter>01. Manager\04. LevelSaveLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabUI.h">
+      <Filter>02. UI\3. Inspector\AssetUI\Prefab</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +376,9 @@
     </ClCompile>
     <ClCompile Include="CLevelSaveLoad.cpp">
       <Filter>01. Manager\04. LevelSaveLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabUI.cpp">
+      <Filter>02. UI\3. Inspector\AssetUI\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -19,6 +19,7 @@ public:
     const wstring& GetRelativePath() { return m_RelativePath; }
     int GetRefCount() { return m_RefCount; }
     ASSET_TYPE GetType() { return m_Type; }
+    bool IsEngineAsset() { return m_bEngineAsset; }
 
 private:
     void SetKey(const wstring& _Key) { m_Key = _Key; }

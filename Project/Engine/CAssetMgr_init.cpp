@@ -25,7 +25,7 @@ void CAssetMgr::CreateDefaultMesh()
 
 	Vtx vPoint;
 	UINT Idx = 0;
-	pMesh = new CMesh;
+	pMesh = new CMesh(true);
 	pMesh->Create(&vPoint, 1, &Idx, 1);
 	AddAsset(L"PointMesh", pMesh);
 
@@ -290,7 +290,7 @@ void CAssetMgr::CreateDefaultMaterial()
 	// TestMtrl
 	//pMtrl = new CMaterial(true);
 	//pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
-	//pMtrl->SetTexParam(TEX_0, Load<CTexture>(L"BackgroundTex", L"texture\\Background.jpg"));
+	//pMtrl->SetTexParam(TEX_0, Load<CTexture>(L"texture\\Background.jpg", L"texture\\Background.jpg"));
 	//pMtrl->SetScalarParam(INT_0, 10);
 	//pMtrl->Save(L"material\\testmtrl.mtrl");
 	//AddAsset<CMaterial>(L"TestMtrl", pMtrl);

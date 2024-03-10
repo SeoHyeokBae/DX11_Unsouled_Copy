@@ -5,8 +5,8 @@
 
 
 
-CTexture::CTexture()
-	: CAsset(ASSET_TYPE::TEXTURE)
+CTexture::CTexture(bool _Engine)
+	: CAsset(ASSET_TYPE::TEXTURE, _Engine)
 	, m_Desc{}
 {
 }

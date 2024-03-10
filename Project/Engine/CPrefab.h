@@ -25,8 +25,8 @@ public:
     virtual int Load(const wstring& _strFilePath);
 
 public:
-    CPrefab();
-    CPrefab(CGameObject* _Proto);
+    CPrefab(bool _Engine = false);
+    CPrefab(CGameObject* _Proto, bool _Engine);
     ~CPrefab();
 };
 

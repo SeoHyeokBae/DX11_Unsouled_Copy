@@ -35,7 +35,7 @@ Ptr<CTexture> CAssetMgr::CreateTexture(const wstring& _strKey
 	Ptr<CTexture> pTex = FindAsset<CTexture>(_strKey);
 	assert(!pTex.Get());
 	
-	pTex = new CTexture;
+	pTex = new CTexture(true);
 
 	if (FAILED(pTex->Create(_Width, _Height, _Format, _Flag, _Usage)))
 	{
@@ -54,7 +54,7 @@ Ptr<CTexture> CAssetMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Text
 	Ptr<CTexture> pTex = FindAsset<CTexture>(_strKey);
 	assert(!pTex.Get());
 
-	pTex = new CTexture;
+	pTex = new CTexture(true);
 
 	if (FAILED(pTex->Create(_tex2D)))
 	{
@@ -65,6 +65,15 @@ Ptr<CTexture> CAssetMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Text
 	AddAsset<CTexture>(_strKey, pTex.Get());
 
 	return pTex;
+}
+
+void CAssetMgr::DeleteAsset(ASSET_TYPE _Type, const wstring& _strKey)
+{
+	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)_Type].find(_strKey);
+
+	assert(!(iter == m_mapAsset[(UINT)_Type].end()));
+
+	m_mapAsset[(UINT)_Type].erase(iter);
 }
 
 void CAssetMgr::GetAssetName(ASSET_TYPE _Type, vector<string>& _Out)

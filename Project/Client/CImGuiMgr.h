@@ -17,8 +17,10 @@ class CImGuiMgr :
     SINGLE(CImGuiMgr);
 private:
     map<string, UI*> m_mapUI;
-
     bool             m_bDemoUI;
+
+    HANDLE           m_hNotify;
+
     bool             m_Open;    // dock space 출력여부
 
 public:
@@ -30,6 +32,7 @@ private:
     void render();
     void create_ui();
     void dockspace();
+    void observe_content();
 
 public:
     UI* FindUI(const string& _strUIName);

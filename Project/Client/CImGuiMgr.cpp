@@ -5,6 +5,8 @@
 #include <Engine/CLevel.h>
 #include <Engine/CGameObject.h>
 
+#include <Engine/CPathMgr.h>
+
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
@@ -21,6 +23,7 @@
 CImGuiMgr::CImGuiMgr()
     : m_bDemoUI(true)
     , m_Open(true)
+    , m_hNotify(nullptr)
 {
 }
 
@@ -33,6 +36,9 @@ CImGuiMgr::~CImGuiMgr()
 
     // UI 
     Delete_Map(m_mapUI);
+
+    // 디렉터리 변경 감시 종료
+    FindCloseChangeNotification(m_hNotify);
 }
 
 void CImGuiMgr::init(HWND _hMainWnd, ComPtr<ID3D11Device> _Device
@@ -73,9 +79,11 @@ void CImGuiMgr::init(HWND _hMainWnd, ComPtr<ID3D11Device> _Device
 
     create_ui();
 
-    //CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-    //CGameObject* pObject = pCurLevel->FindObjectByName(L"Player");
-    //((Inspector*)FindUI("##Inspector"))->SetTargetObject(pObject);
+    // Content 폴더 감시
+    wstring strContentPath = CPathMgr::GetContentPath();
+    m_hNotify = FindFirstChangeNotification(strContentPath.c_str(), true
+        , FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME
+        | FILE_ACTION_ADDED | FILE_ACTION_REMOVED);
 }
 
 void CImGuiMgr::progress()
@@ -83,6 +91,8 @@ void CImGuiMgr::progress()
     tick();
 
     render();
+
+    observe_content();
 }
 
 void CImGuiMgr::tick()
@@ -216,7 +226,17 @@ void CImGuiMgr::create_ui()
     AddUI(pUI->GetID(), pUI);
 }
 
+void CImGuiMgr::observe_content()
+{
+    // WaitForSingleObject 를 이용해서 알림이 있는지 확인,
+    // 대기시간은 0로 설정해서 알림이 있던 없던 바로 반환
+    if (WAIT_OBJECT_0 == WaitForSingleObject(m_hNotify, 0))
+    {
+        // 다시 알림 활성화
+        FindNextChangeNotification(m_hNotify);
 
-
-
-
+        // ContentUI 에 Reload 작업 수행
+        Content* pContentUI = (Content*)FindUI("##Content");
+        pContentUI->ReloadContent();
+    }
+}
