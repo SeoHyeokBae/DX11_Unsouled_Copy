@@ -144,7 +144,11 @@ void Content::ReloadContent()
 				}
 
 				// 에셋 매니저에서 해당 에셋을 삭제한다.
-				// CAssetMgr::GetInst()->DeleteAsset((ASSET_TYPE)i, pair.first);
+				tTask task = {};
+				task.Type = TASK_TYPE::DELETE_ASSET;
+				task.Param_1 = (DWORD_PTR)i;
+				task.Param_2 = (DWORD_PTR)pair.second.Get();
+				CTaskMgr::GetInst()->AddTask(task);
 			}
 		}
 	}

@@ -26,10 +26,7 @@ private:
     void SetRelativePath(const wstring& _RelativePath) { m_RelativePath = _RelativePath; }
 
 
-    void AddRef() 
-    { 
-        ++m_RefCount; 
-    }
+    void AddRef() { ++m_RefCount; }
 
     void Release() 
     { 
@@ -45,7 +42,7 @@ private:
     virtual int Load(const wstring& _strPath) { return E_FAIL; } //절대경로
 
 public:
-    CAsset(ASSET_TYPE _Type, bool _bEngineAsset = false);
+    CAsset(ASSET_TYPE _Type, bool _bEngineAsset);
     ~CAsset();
 
     virtual CAsset* Clone() = 0;

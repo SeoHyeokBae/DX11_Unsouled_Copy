@@ -8,8 +8,11 @@ enum class TASK_TYPE
 	// Param1 : Object Adress
 	DELETE_OBJECT,
 
-	// Param1 : Asset Adress, Param2 : Asset 
+	// Param1 : Asset Adress
 	ADD_ASSET,
+
+	// Param1 : AssetType, Param2 : Asset Adress
+	DELETE_ASSET,
 
 	// Param1 : Level, Param2 : LEVEL_STATE
 	CHANGE_LEVELSTATE,
