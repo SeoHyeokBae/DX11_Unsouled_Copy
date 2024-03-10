@@ -10,6 +10,7 @@
 #include "CComputeShader.h"
 #include "CMaterial.h"
 #include "CPrefab.h"
+#include "CSound.h"
 
 // std::is_same_v
 //template<typename T1, typename T2>
@@ -29,6 +30,7 @@ private:
 public:
 	void init();
 private:
+    void InitSound();
     void CreateDefaultMesh();
     void CreateDefaultGraphicsShader();
     void CreateDefaultComputeShader();
@@ -56,8 +58,17 @@ public:
         , UINT _Width, UINT _Height, DXGI_FORMAT _Format, UINT _Flag, D3D11_USAGE _Usage = D3D11_USAGE_DEFAULT);
     Ptr<CTexture> CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _tex2D);
 
-public:
+    // 지정된 타입의 모든 에셋의 이름을 받아온다
     void GetAssetName(ASSET_TYPE _Type, vector<string>& _Out);
+
+private:
+    // 지정된 에셋을 삭제한다.
+    template<typename T>
+    void DeleteAsset(const wstring& _strKey);
+    void DeleteAsset(ASSET_TYPE _Type, const wstring& _strKey);
+
+
+    friend class CTaskMgr;
 
 };
 
@@ -147,4 +158,16 @@ Ptr<T> CAssetMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
     AddAsset<T>(_strKey, (T*)pAsset.Get());
 
     return (T*)pAsset.Get();
+}
+
+template<typename T>
+inline void CAssetMgr::DeleteAsset(const wstring& _strKey)
+{
+    ASSET_TYPE AssetType = GetAssetType<T>();
+
+    map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)AssetType].find(_strKey);
+
+    assert(!(iter == m_mapAsset[(UINT)AssetType].end()));
+
+    m_mapAsset[(UINT)AssetType].erase(iter);
 }

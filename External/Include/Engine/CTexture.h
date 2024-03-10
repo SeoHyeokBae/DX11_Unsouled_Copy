@@ -47,7 +47,7 @@ public:
 
     CLONE_DISABLE(CTexture);
 public:
-    CTexture();
+    CTexture(bool _Engine = false);
     ~CTexture();
 
     friend class CAssetMgr;

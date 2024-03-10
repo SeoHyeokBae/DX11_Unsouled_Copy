@@ -5,6 +5,8 @@
 #include "CGraphicsShader.h"
 #include "CMaterial.h"
 
+#include "CSound.h"
+
 CAssetMgr::CAssetMgr()
 {
 

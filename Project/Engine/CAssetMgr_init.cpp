@@ -8,6 +8,7 @@
 
 void CAssetMgr::init()
 {
+	InitSound();
 
 	CreateDefaultMesh();
 
@@ -344,4 +345,18 @@ void CAssetMgr::CreateDefaultComputeShader()
 	// ParticleUpdateShader
 	pShader = new CParticleUpdate;
 	AddAsset(L"ParticleUpdateShader", pShader.Get());
+}
+
+#include "CSound.h"
+void CAssetMgr::InitSound()
+{
+	FMOD::System_Create(&CSound::g_pFMOD);
+
+	if (nullptr == CSound::g_pFMOD)
+	{
+		assert(nullptr);
+	}
+
+	// 32개 채널 생성
+	CSound::g_pFMOD->init(32, FMOD_DEFAULT, nullptr);
 }

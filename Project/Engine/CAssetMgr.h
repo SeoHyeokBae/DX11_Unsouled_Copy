@@ -10,6 +10,7 @@
 #include "CComputeShader.h"
 #include "CMaterial.h"
 #include "CPrefab.h"
+#include "CSound.h"
 
 // std::is_same_v
 //template<typename T1, typename T2>
@@ -29,6 +30,7 @@ private:
 public:
 	void init();
 private:
+    void InitSound();
     void CreateDefaultMesh();
     void CreateDefaultGraphicsShader();
     void CreateDefaultComputeShader();

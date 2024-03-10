@@ -13,6 +13,8 @@
 #include "CRenderMgr.h"
 #include "CCollisionMgr.h"
 
+#include "CSound.h"
+
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)
 	, m_vResolution()
@@ -22,6 +24,11 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
+	if (nullptr != CSound::g_pFMOD)
+	{
+		CSound::g_pFMOD->release();
+		CSound::g_pFMOD = nullptr;
+	}
 }
 
 int CEngine::init(HWND _hWnd, Vec2 _vResolution)
@@ -55,6 +62,9 @@ void CEngine::Progress()
 	// Manager Update
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();
+
+	// FMOD Update
+	CSound::g_pFMOD->update();
 
 	// Level Update
 	CLevelMgr::GetInst()->tick();
