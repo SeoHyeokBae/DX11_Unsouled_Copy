@@ -10,7 +10,7 @@ class AnimationEditorUI :
 {
 private:
     ImVector<ImRect> m_vecRect;       // 드래그 저장
-    vector<tAnimFrm> m_vecAnimRect;   // 스프라이트 출력용
+    vector<tAnimFrm> m_vecAnim;   // 스프라이트 출력용
     //vector<int>    m_vecSelect;
 
     Ptr<CTexture>  m_CurAtlas;

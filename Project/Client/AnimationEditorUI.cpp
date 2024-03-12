@@ -74,8 +74,8 @@ void AnimationEditorUI::render_update()
 		tAnimFrm frm = {};
 		frm.vLeftTop = m_vecRect[m_CanvasIdx].Min;
 		frm.vSlice = m_vecRect[m_CanvasIdx].GetSize();
-		m_vecAnimRect.push_back(frm);
-		m_AnimIdx = m_vecAnimRect.size() - 1;
+		m_vecAnim.push_back(frm);
+		m_AnimIdx = m_vecAnim.size() - 1;
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -91,8 +91,8 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("New Animation"))
 	{
 		//PreView 상태 모두 초기화
-		if (!m_vecAnimRect.empty())
-			m_vecAnimRect.clear();
+		if (!m_vecAnim.empty())
+			m_vecAnim.clear();
 
 		m_AnimIdx = -1;
 	}
@@ -111,7 +111,7 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Save Animation"))
 	{
-		assert(!(0 != m_vecAnimRect.size()));
+		assert(!(0 != m_vecAnim.size()));
 		//// 애니메이션 이름 저장
 		//SaveWString(GetName(), _File);
 
@@ -145,14 +145,14 @@ void AnimationEditorUI::render_update()
 	draw_list->AddRectFilled(PrevCanvasLT, PrevCanvasRB, IM_COL32(70, 70, 70, 255));
 	draw_list->AddRectFilled(PrevCanvasLT, PrevCanvasRB - Prevcanvas_sz / 2, IM_COL32(50, 50, 50, 255));
 	draw_list->AddRectFilled(PrevCanvasLT + Prevcanvas_sz /2, PrevCanvasRB, IM_COL32(50, 50, 50, 255));
-	if (0 != m_vecAnimRect.size())
+	if (0 != m_vecAnim.size())
 	{
 		// Canvas 안에 이미지출력
 		draw_list->PushClipRect(PrevCanvasLT, PrevCanvasRB, true);
 
-		ImVec2 displayLT = ImVec2(m_vecAnimRect[m_AnimIdx].vLeftTop);
-		ImVec2 displayRB = ImVec2(m_vecAnimRect[m_AnimIdx].vLeftTop + m_vecAnimRect[m_AnimIdx].vSlice);
-		ImVec2 displaySize = ImVec2(m_vecAnimRect[m_AnimIdx].vSlice);
+		ImVec2 displayLT = ImVec2(m_vecAnim[m_AnimIdx].vLeftTop);
+		ImVec2 displayRB = ImVec2(m_vecAnim[m_AnimIdx].vLeftTop + m_vecAnim[m_AnimIdx].vSlice);
+		ImVec2 displaySize = ImVec2(m_vecAnim[m_AnimIdx].vSlice);
 		UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
 		UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
@@ -161,7 +161,7 @@ void AnimationEditorUI::render_update()
 
 		ImRect rec(PrevCanvasLT, PrevCanvasRB);
 		rec.Expand(-50.f);
-		rec.Translate(m_vecAnimRect[m_AnimIdx].vOffset);
+		rec.Translate(m_vecAnim[m_AnimIdx].vOffset);
 		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.Min, rec.Max, uv0, uv1);
 		draw_list->PopClipRect();
 	}
@@ -187,31 +187,31 @@ void AnimationEditorUI::render_update()
 	const int frmUnit = 1;
 	ImGui::PushItemWidth(125);
 	ImGui::InputScalar("##FrameNum", ImGuiDataType_U8, &m_AnimIdx, inputs_step ? &frmUnit : NULL, NULL, "%u");
-	if (m_AnimIdx > m_vecAnimRect.size() - 1) m_AnimIdx = m_vecAnimRect.size() - 1;
+	if (m_AnimIdx > m_vecAnim.size() - 1) m_AnimIdx = m_vecAnim.size() - 1;
 	ImGui::SetCursorPosX(265.f); ImGui::Separator();
 	ImGui::PopItemWidth();
 
 	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
 	ImVec2 offset = ImVec2(0.f, 0.f);
-	if(0 != m_vecAnimRect.size()) offset = ImVec2(m_vecAnimRect[m_AnimIdx].vOffset);
+	if(0 != m_vecAnim.size()) offset = ImVec2(m_vecAnim[m_AnimIdx].vOffset);
 	ImGui::Text("Offset : X = %0.f, Y = %0.f", offset.x, offset.y);
 
 	ImGui::SetCursorPos(ImVec2(335.f,212.f));
-	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { m_vecAnimRect[m_AnimIdx].vOffset.y--; }
+	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { m_vecAnim[m_AnimIdx].vOffset.y--; }
 	ImGui::SetCursorPosX(313.f);
-	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { m_vecAnimRect[m_AnimIdx].vOffset.x--; }
+	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { m_vecAnim[m_AnimIdx].vOffset.x--; }
 	ImGui::SameLine(); ImGui::SetCursorPosX(357.f);
-	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { m_vecAnimRect[m_AnimIdx].vOffset.x++; }
+	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { m_vecAnim[m_AnimIdx].vOffset.x++; }
 	ImGui::SetCursorPosX(335.f);
-	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { m_vecAnimRect[m_AnimIdx].vOffset.y++; }
+	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { m_vecAnim[m_AnimIdx].vOffset.y++; }
 	ImGui::SetCursorPos(ImVec2(265.f,300.f)); ImGui::Separator();
 
 	ImGui::Text("Frame Length"); ImGui::SameLine();
-	ImU8 frmlength = m_vecAnimRect.size(); // Frame num  실시간 변경 필요
+	ImU8 frmlength = m_vecAnim.size(); // Frame num  실시간 변경 필요
 	static bool length_step = true;
 	ImGui::PushItemWidth(110);
 	ImGui::InputScalar("##FrameLength", ImGuiDataType_U8, &frmlength, length_step ? &frmUnit : NULL, NULL, "%u");
-	if (frmlength > m_vecAnimRect.size() - 1) frmlength = m_vecAnimRect.size() - 1;
+	if (frmlength > m_vecAnim.size() - 1) frmlength = m_vecAnim.size() - 1;
 
 	ImGui::SameLine();
 	ImGui::Text("FPS"); ImGui::SameLine();
@@ -258,9 +258,9 @@ void AnimationEditorUI::render_update()
 		if (1.f / m_fps < ftime)
 		{
 			++m_AnimIdx;
-			if (m_vecAnimRect.size() <= m_AnimIdx) // frmlength 연결필요
+			if (m_vecAnim.size() <= m_AnimIdx) // frmlength 연결필요
 			{
-				m_AnimIdx = (int)m_vecAnimRect.size() - 1;
+				m_AnimIdx = (int)m_vecAnim.size() - 1;
 				bfinish = true;
 			}
 			ftime = 0.f;
@@ -278,16 +278,16 @@ void AnimationEditorUI::render_update()
 	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar| ImGuiWindowFlags_NoScrollWithMouse);
 	if (nullptr != m_CurAtlas)
 	{
-		for (int i = 0; i < m_vecAnimRect.size(); i++)
+		for (int i = 0; i < m_vecAnim.size(); i++)
 		{
 			ImGuiWindow* window = ImGui::GetCurrentWindow();
 			ImGuiContext& g = *GImGui;
 			const ImVec2 padding = g.Style.FramePadding;
 
 			ImVec4 col = ImVec4(1, 1, 1, 1);
-			ImVec2 displayLT = ImVec2(m_vecAnimRect[i].vLeftTop);
-			ImVec2 displayRB = ImVec2(m_vecAnimRect[i].vLeftTop + m_vecAnimRect[i].vSlice);
-			ImVec2 displaySize = ImVec2(m_vecAnimRect[i].vSlice);
+			ImVec2 displayLT = ImVec2(m_vecAnim[i].vLeftTop);
+			ImVec2 displayRB = ImVec2(m_vecAnim[i].vLeftTop + m_vecAnim[i].vSlice);
+			ImVec2 displaySize = ImVec2(m_vecAnim[i].vSlice);
 			UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
 			UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
