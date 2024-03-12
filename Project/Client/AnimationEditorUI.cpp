@@ -99,6 +99,10 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Load Animation"))
 	{
+		// dummy gameobj 만들어서 animator component 생성후 anim load
+		// anim 폴더에서 anim또는 animator 찾아와서 add
+		// animator로 anim 묶어서 저장 또는 anim 단위로 개별 저장
+		// 
 		//ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
 
 		//const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
@@ -135,6 +139,14 @@ void AnimationEditorUI::render_update()
 		//}
 		//bgsize += 200.f;
 
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Save Animator"))
+	{
+		// todo
+		// sprite 아래 애니메이션 여러개 목록 띄워줌
+		// 현재 선택된 애니메이션을 sprite로 보여줌
+		// 저장시 애니메이션 묶어서 애니메이터로 save
 	}
 
 	// preview
