@@ -61,7 +61,7 @@ void CCreateTempLevel::CreateTempLevel()
 	//CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
 	//return;
 
-	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"penitent_running_anim", L"texture\\SpriteAtlas.png");
+	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"dragoonIdle", L"texture\\dragoonIdle.bmp");
 	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
 	
 	// 초기 레벨 구성하기
@@ -182,12 +182,13 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\port.png"));
 
 	pTempLevel->AddObject(pObj, L"Player", false);
 
 	pObj = pObj->Clone();
 	pObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 500.f));
+
 	//m_CurLevel->AddObject(pObj, L"Player", false);
 
 	// Particle Object
