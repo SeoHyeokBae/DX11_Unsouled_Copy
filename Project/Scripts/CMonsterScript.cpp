@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CMonsterScript.h"
 
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+
 CMonsterScript::CMonsterScript()
 	: CScript(MONSTERSCRIPT)
 	, m_DetectRange(400.f)
@@ -20,7 +23,13 @@ void CMonsterScript::begin()
 		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
 
 		// 플레이어를 찾아서 Object 타입으로 블랙보드에 기록한다.
-		//StateMachine()->AddBlackboardData(L"TargetObject", BB_DATA::OBJECT, );
+		CGameObject* pPlayer = CLevelMgr::GetInst()->GetCurrentLevel()->FindObjectByName(L"Player");
+		if (pPlayer)
+		{
+			StateMachine()->AddBlackboardData(L"TargetObject", BB_DATA::OBJECT, pPlayer);
+		}
+
+		StateMachine()->GetFSM()->SetState(L"IdleState");
 	}
 }
 

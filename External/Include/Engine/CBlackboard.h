@@ -23,9 +23,9 @@ class CBlackboard :
 private:
     map<wstring, tBlackboardData>   m_mapBBData;
 
-
 public:
     void AddBlackboardData(const wstring& _strKey, BB_DATA _Type, void* _Data);
+    void* GetBlackboardData(const wstring& _strKey);
 
 
 

@@ -74,7 +74,7 @@ void CCreateTempLevel::CreateTempLevel()
 	//CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
 	//return;
 
-	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"dragoonIdle", L"texture\\dragoonIdle.bmp");
+	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"testAtlas", L"texture\\player_tilesheet.png");
 	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
 	
 	// 초기 레벨 구성하기

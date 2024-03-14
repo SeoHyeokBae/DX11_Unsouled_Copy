@@ -97,7 +97,7 @@ void GamePlayStatic::DrawDebugCircle(Vec3 _vWorldPos, float _fRadius, Vec3 _Colo
 	info.eShape = DEBUG_SHAPE::CIRCLE;
 
 	info.vWorldPos = _vWorldPos;
-	info.vWorldScale = Vec3(_fRadius, _fRadius, 1.f);
+	info.vWorldScale = Vec3(_fRadius * 2 , _fRadius * 2, 1.f);
 	info.vWorldRot = Vec3(0.f, 0.f, 0.f);
 
 	info.matWorld = XMMatrixScaling(info.vWorldScale.x, info.vWorldScale.y, info.vWorldScale.z)
