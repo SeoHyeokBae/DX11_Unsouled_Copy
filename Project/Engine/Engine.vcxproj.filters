@@ -157,6 +157,9 @@
     <Filter Include="06. Asset\FSM\State">
       <UniqueIdentifier>{5b393c7e-f3aa-4285-80dd-dcebd4570d62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Manager\FontMgr">
+      <UniqueIdentifier>{d361dc0c-2bfc-461f-85c0-7399e7c12d56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -321,6 +324,9 @@
     <ClInclude Include="CState.h">
       <Filter>06. Asset\FSM\State</Filter>
     </ClInclude>
+    <ClInclude Include="CFontMgr.h">
+      <Filter>04. Manager\FontMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -472,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="CState.cpp">
       <Filter>06. Asset\FSM\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CFontMgr.cpp">
+      <Filter>04. Manager\FontMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
