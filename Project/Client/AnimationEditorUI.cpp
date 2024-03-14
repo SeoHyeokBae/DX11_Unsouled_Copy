@@ -73,8 +73,10 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
 		tAnimFrm frm = {};
-		frm.vLeftTop = m_vecRect[m_CanvasIdx].Min;
-		frm.vSlice = m_vecRect[m_CanvasIdx].GetSize();
+		frm.vLeftTop = Vec2(m_vecRect[m_CanvasIdx].Min.x/ m_CurAtlas.Get()->GetWidth(), 
+							m_vecRect[m_CanvasIdx].Min.y/m_CurAtlas.Get()->GetHeight());
+		frm.vSlice = Vec2(m_vecRect[m_CanvasIdx].GetSize().x / m_CurAtlas.Get()->GetWidth(), 
+						  m_vecRect[m_CanvasIdx].GetSize().y / m_CurAtlas.Get()->GetHeight());
 		m_vecAnim.push_back(frm);
 		m_AnimIdx = m_vecAnim.size() - 1;
 	}
@@ -160,11 +162,9 @@ void AnimationEditorUI::render_update()
 		ImVec2 displayLT = ImVec2(m_vecAnim[m_AnimIdx].vLeftTop);
 		ImVec2 displayRB = ImVec2(m_vecAnim[m_AnimIdx].vLeftTop + m_vecAnim[m_AnimIdx].vSlice);
 		ImVec2 displaySize = ImVec2(m_vecAnim[m_AnimIdx].vSlice);
-		UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
-		UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
-		ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
-		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
+		ImVec2 uv0 = ImVec2(displayLT.x , displayLT.y);
+		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) , (displayLT.y + displaySize.y));
 
 		ImRect rec(PrevCanvasLT, PrevCanvasRB);
 		rec.Expand(-50.f);
@@ -295,11 +295,9 @@ void AnimationEditorUI::render_update()
 			ImVec2 displayLT = ImVec2(m_vecAnim[i].vLeftTop);
 			ImVec2 displayRB = ImVec2(m_vecAnim[i].vLeftTop + m_vecAnim[i].vSlice);
 			ImVec2 displaySize = ImVec2(m_vecAnim[i].vSlice);
-			UINT texturewidth = (m_CurAtlas.Get()->GetWidth());
-			UINT textureheight = (m_CurAtlas.Get()->GetHeight());
 
-			ImVec2 uv0 = ImVec2(displayLT.x / texturewidth, displayLT.y / textureheight);
-			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) / texturewidth, (displayLT.y + displaySize.y) / textureheight);
+			ImVec2 uv0 = ImVec2(displayLT.x , displayLT.y);
+			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x), (displayLT.y + displaySize.y));
 
 			// rect 선택
 			// ImVec2(100.f, 100.f) == 애니메이션 사이즈
