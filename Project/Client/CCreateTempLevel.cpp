@@ -20,9 +20,14 @@
 #include "CLevelSaveLoad.h"
 
 #include <Scripts/CMissileScript.h>
+#include <Scripts/CMonsterScript.h>
 
 #include <Engine/CAssetMgr.h>
 #include <Engine/CPrefab.h>
+#include <Engine/CFSM.h>
+
+#include "CIdleState.h"
+#include "CTraceState.h"
 
 void CCreateTempLevel::Init()
 {
@@ -45,6 +50,14 @@ void CCreateTempLevel::Init()
 
 
 	//pMissilePrefab->Save(L"prefab\\missile.pref");
+
+	// 烙矫 FSM 按眉 俊悸 窍唱 积己窍扁
+	Ptr<CFSM>	pFSM = new CFSM(true);
+
+	pFSM->AddState(L"IdleState", new CIdleState);
+	pFSM->AddState(L"TraceState", new CTraceState);
+
+	CAssetMgr::GetInst()->AddAsset<CFSM>(L"NormalMonsterFSM", pFSM.Get());
 	
 }
 
@@ -85,11 +98,6 @@ void CCreateTempLevel::CreateTempLevel()
 	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
 	pCS->SetTargetTexture(pTestTex);
 	pCS->Execute();
-
-	tPixel* pPixel = pTestTex->GetPixels();
-	tPixel pixel = pPixel[pTestTex->GetWidth() * 1 + 5];
-
-
 
 	// Camera Object 积己
 	// Main Camera Object 积己
@@ -186,30 +194,51 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pTempLevel->AddObject(pObj, L"Player", false);
 
-	pObj = pObj->Clone();
-	pObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 500.f));
+	//pObj = pObj->Clone();
+	//pObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 500.f));
 
-	//m_CurLevel->AddObject(pObj, L"Player", false);
+	// Monster Object 积己
+	pObj = new CGameObject;
+	pObj->SetName(L"Monster");
+
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
+	pObj->AddComponent(new CCollider2D);
+	pObj->AddComponent(new CStateMachine);
+	pObj->AddComponent(new CMonsterScript);
+
+	pObj->Transform()->SetRelativePos(Vec3(500.f, 0.f, 500.f));
+	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+	pObj->Collider2D()->SetAbsolute(true);
+	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
+	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+
+	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
+
+	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
+
+	pTempLevel->AddObject(pObj, L"Monster", false);
 
 	// Particle Object
-	CGameObject* pParticleObj = new CGameObject;
-	pParticleObj->SetName(L"Particle");
+	//CGameObject* pParticleObj = new CGameObject;
+	//pParticleObj->SetName(L"Particle");
 
-	pParticleObj->AddComponent(new CTransform);
-	pParticleObj->AddComponent(new CParticleSystem);
+	//pParticleObj->AddComponent(new CTransform);
+	//pParticleObj->AddComponent(new CParticleSystem);
 
-	pParticleObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
-	pTempLevel->AddObject(pParticleObj, L"Default", false);
+	//pParticleObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+	//pTempLevel->AddObject(pParticleObj, L"Default", false);
 
-	pParticleObj = pParticleObj->Clone();
-	pParticleObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 200.f));
-	//m_CurLevel->AddObject(pParticleObj, L"Default", false);
+	//pParticleObj = pParticleObj->Clone();
+	//pParticleObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 200.f));
+	////m_CurLevel->AddObject(pParticleObj, L"Default", false);
 
-	pObj->AddChild(pParticleObj);
-	pTempLevel->AddObject(pObj, L"Default", false);
+	//pObj->AddChild(pParticleObj);
+	//pTempLevel->AddObject(pObj, L"Default", false);
 
-	CGameObject* pCloneObj = pObj->Clone();
-	pTempLevel->AddObject(pCloneObj, L"Default", false);
 
 	// UI object 积己
 	pObj = new CGameObject;

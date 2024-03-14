@@ -145,6 +145,18 @@
     <Filter Include="06. Asset\Perfab">
       <UniqueIdentifier>{bba71d71-08d7-4f97-b0a7-1f46e1cd0245}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08. Component\09. StateMachine">
+      <UniqueIdentifier>{5d1cc39e-8882-476c-8906-21c214e99f7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\BlackBoard">
+      <UniqueIdentifier>{033b0a74-e694-49c2-8858-6671b72c8f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\FSM">
+      <UniqueIdentifier>{6d42a4c4-57b7-41d6-8a83-1094f09eebd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\FSM\State">
+      <UniqueIdentifier>{5b393c7e-f3aa-4285-80dd-dcebd4570d62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -297,6 +309,18 @@
     <ClInclude Include="CSound.h">
       <Filter>06. Asset\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="CStateMachine.h">
+      <Filter>08. Component\09. StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlackboard.h">
+      <Filter>Module\BlackBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="CFSM.h">
+      <Filter>06. Asset\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="CState.h">
+      <Filter>06. Asset\FSM\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -436,6 +460,18 @@
     </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>06. Asset\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CStateMachine.cpp">
+      <Filter>08. Component\09. StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlackboard.cpp">
+      <Filter>Module\BlackBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="CFSM.cpp">
+      <Filter>06. Asset\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="CState.cpp">
+      <Filter>06. Asset\FSM\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

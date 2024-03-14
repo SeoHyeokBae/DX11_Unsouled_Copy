@@ -11,6 +11,7 @@
 #include "CMaterial.h"
 #include "CPrefab.h"
 #include "CSound.h"
+#include "CFSM.h"
 
 // std::is_same_v
 //template<typename T1, typename T2>
@@ -91,6 +92,8 @@ ASSET_TYPE GetAssetType()
         Type = ASSET_TYPE::PREFAB;
     if constexpr (std::is_same_v<CSound, T>)
         Type = ASSET_TYPE::SOUND;
+    if constexpr (std::is_same_v<CFSM, T>)
+        Type = ASSET_TYPE::FSM;
 
 	return Type;
 }

@@ -122,25 +122,28 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
    
     
     // Outline
-    float2 pixelSize = (float2(1.f, 1.f) / g_RenderResolution);
+    //float2 pixelSize = (float2(1.f, 1.f) / g_RenderResolution);
 
 
-    // uvÁÂÇ¥¿¡¼­ÀÇ ÇÈ¼¿ÀÇ Å©±â
-    float4 pixelUp = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y + pixelSize.y));
-    float4 pixelDown = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y - pixelSize.y));
-    float4 pixelRight = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + pixelSize.x, vScreenUV.y));
-    float4 pixelLeft = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - pixelSize.x, vScreenUV.y));
+    //// uvÁÂÇ¥¿¡¼­ÀÇ ÇÈ¼¿ÀÇ Å©±â
+    //float4 pixelUp = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y + pixelSize.y));
+    //float4 pixelDown = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x, vScreenUV.y - pixelSize.y));
+    //float4 pixelRight = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x + pixelSize.x, vScreenUV.y));
+    //float4 pixelLeft = g_postprocess.Sample(g_sam_0, float2(vScreenUV.x - pixelSize.x, vScreenUV.y));
                 		 
     
-    if (pixelUp.a != vColor.a ||
-        pixelDown.a != vColor.a ||
-        pixelRight.a != vColor.a ||
-        pixelLeft.a != vColor.a)
-    {
-        vColor.r += 1.0f;
-    }
+    //if (pixelUp.a != vColor.a ||
+    //    pixelDown.a != vColor.a ||
+    //    pixelRight.a != vColor.a ||
+    //    pixelLeft.a != vColor.a)
+    //{
+    //    vColor.r += 1.0f;
+    //}
     
-
+    
+    // Shadow
+    
+    
     return vColor;
 }
 

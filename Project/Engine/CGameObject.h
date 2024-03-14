@@ -9,6 +9,7 @@ class CScript;
 class CCamera;
 class CCollider2D;
 class CLight2D;
+class CStateMachine;
 
 class CGameObject :
     public CEntity
@@ -40,6 +41,7 @@ public:
     GET_COMPONENT(Transform, TRANSFORM);     // Transform()
     GET_COMPONENT(MeshRender, MESHRENDER);   // MeshRnder()
     GET_COMPONENT(Camera, CAMERA);           // Camera()
+    GET_COMPONENT(StateMachine, STATEMACHINE);
     GET_COMPONENT(Collider2D, COLLIDER2D);   // Collider2D()
     GET_COMPONENT(Animator2D, ANIMATOR2D);   // Animator2D()
     GET_COMPONENT(Light2D, LIGHT2D);       
