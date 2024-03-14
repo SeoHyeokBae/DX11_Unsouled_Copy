@@ -213,6 +213,9 @@ void CLevel::ChangeState(LEVEL_STATE _NextState)
 		// None, Stop -> Play
 		if (LEVEL_STATE::STOP == m_State || LEVEL_STATE::NONE == m_State)
 		{
+			// 레벨 스테이트 변경
+			m_State = _NextState;
+
 			begin();
 		}
 	}
@@ -221,12 +224,12 @@ void CLevel::ChangeState(LEVEL_STATE _NextState)
 	else if ((LEVEL_STATE::PLAY == m_State || LEVEL_STATE::NONE == m_State) &&
 		(LEVEL_STATE::STOP == _NextState || LEVEL_STATE::PAUSE == _NextState || LEVEL_STATE::NONE == _NextState))
 	{
+		// 레벨 스테이트 변경
+		m_State = _NextState;
+
 		CTimeMgr::GetInst()->LockDeltaTime(true);
 
 		// 에디터 카메라 모드
 		CRenderMgr::GetInst()->ActiveEditorMode(true);
 	}
-
-	// 레벨 스테이트 변경
-	m_State = _NextState;
 }

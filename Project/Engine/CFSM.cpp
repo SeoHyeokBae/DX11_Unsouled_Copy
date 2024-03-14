@@ -62,3 +62,15 @@ CFSM* CFSM::GetFSMIstance()
 
 	return pFSMInst;
 }
+
+void CFSM::ChangeState(const wstring& _strStateName)
+{
+	if (nullptr != m_CurState)
+		m_CurState->Exit();
+
+	m_CurState = FindState(_strStateName);
+
+	assert(m_CurState);
+
+	m_CurState->Enter();
+}

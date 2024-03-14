@@ -19,6 +19,8 @@ protected:
     void* GetBlackboardData(const wstring& _strKey);
     CFSM* GetFSM() { return m_FSM; }
 
+    void ChangeState(const wstring& _strStateName);
+
 public:
     CLONE_DISABLE(CState);
 

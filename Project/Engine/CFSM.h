@@ -32,6 +32,7 @@ public:
     CFSM* GetFSMIstance();
 
     CStateMachine* GetStateMachine() { return m_StateMachie; }
+    void ChangeState(const wstring& _strStateName);
 
 public:
     void finaltick();

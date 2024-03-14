@@ -28,7 +28,7 @@ void CIdleState::finaltick()
 	if (vDist.Length() <= DetectRange)
 	{
 		// 추적상태로 변경한다.
-		int a = 0;
+		ChangeState(L"TraceState");
 	}
 }
 
