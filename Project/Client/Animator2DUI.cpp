@@ -43,11 +43,6 @@ void Animator2DUI::render_update()
 			pListUI->AddString(vecAnimation);
 			pListUI->SetDbClickDelegate(this, (Delegate_1)&Animator2DUI::AnimSelect);
 			pListUI->Activate();
-
-			//pListUI->AddString(vecMeshName);
-			////pListUI->SetDbClickCallBack(MeshSelect);
-			//pListUI->SetDbClickDelegate(this, (Delegate_1)&MeshRenderUI::MeshSelect);
-			//pListUI->Activate();
 		}
 
 
@@ -55,7 +50,7 @@ void Animator2DUI::render_update()
 	{
 		// EditorUI
 		AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
-
+		Editor->SetGameObj(GetTargetObject());
 		Editor->Activate();
 	}
 }

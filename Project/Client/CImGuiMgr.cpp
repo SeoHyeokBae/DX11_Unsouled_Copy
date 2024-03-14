@@ -4,7 +4,7 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 #include <Engine/CGameObject.h>
-
+#include <Engine/CAnimator2D.h>
 #include <Engine/CPathMgr.h>
 
 #include "imgui.h"
@@ -179,15 +179,12 @@ void CImGuiMgr::dockspace()
         {
             if (ImGui::MenuItem("Animation Editor"))
             {
-                //ToDo
                 AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
-
                 Editor->Activate();
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Map Editor"))
             {
-                //ToDo
             }
             ImGui::Separator();
             ImGui::EndMenu();

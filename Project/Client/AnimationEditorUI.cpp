@@ -3,6 +3,7 @@
 
 #include <Engine/CPathMgr.h>
 #include <Engine/CAssetMgr.h>
+#include <Engine/CGameObject.h>
 #include <Engine/CAnimator2D.h>
 #include <Engine/CTimeMgr.h>
 #include <Engine/CAnim.h>
@@ -12,6 +13,7 @@
 AnimationEditorUI::AnimationEditorUI()
 	: UI("Animation Editor", "##AnimationEditor")
 	, m_CurAtlas(nullptr)
+	, m_TargetObj(nullptr)
 	, m_CanvasLeftTop(ImVec2(0.f,0.f))
 	, m_Scrolling(ImVec2(0.f,0.f))
 	, m_MousePos(ImVec2(0.f,0.f))
@@ -30,7 +32,6 @@ AnimationEditorUI::AnimationEditorUI()
 
 AnimationEditorUI::~AnimationEditorUI()
 {
-	
 }
 
 void AnimationEditorUI::render_update()
@@ -103,14 +104,8 @@ void AnimationEditorUI::render_update()
 		// anim 폴더에서 anim또는 animator 찾아와서 add
 		// animator로 anim 묶어서 저장 또는 anim 단위로 개별 저장
 		// 
-		//ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
 
-		//const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
-		//for (const auto& pair : mapAsset)
-		//	pListUI->AddString(string(pair.first.begin(), pair.first.end()));
 
-		//pListUI->SetDbClickDelegate(this, (Delegate_1)&AnimationEditorUI::SelectAtlas);
-		//pListUI->Activate();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Save Animation"))
@@ -321,6 +316,54 @@ void AnimationEditorUI::render_update()
 	}
 	ImGui::SetScrollX(ImGui::GetScrollX() - (15.f * io.MouseWheel));
 	ImGui::EndChild();
+
+	// 더미 Target Animation List
+	vector<string> vAnim;
+	ImVector<char*> sprite;
+	if (nullptr == m_TargetObj)
+	{
+		char ch[] = "Nothing";
+		sprite.push_back(ch);
+	}
+	else
+	{
+		if (0 == m_TargetObj->Animator2D()->GetAnimCount())
+		{
+			char ch[] = "Nothing";
+			sprite.push_back(ch);
+		}
+		else
+		{
+			m_TargetObj->Animator2D()->GetAnimName(vAnim);
+			for (size_t i = 0; i < vAnim.size(); i++)
+			{
+				char* ch = const_cast<char*>(vAnim[i].c_str());
+				sprite.push_back(ch);
+			}
+		}
+	}
+	static int sprite_idx = 0;
+	const char* combo_preview_value = sprite[sprite_idx];
+
+	ImGui::Text("Select Anim "); ImGui::SameLine();
+	if (ImGui::BeginCombo("##SelectSprite", combo_preview_value))
+	{
+		for (int n = 0; n < sprite.size(); n++)
+		{
+			const bool is_selected = (sprite_idx == n);
+			if (ImGui::Selectable(sprite[n], is_selected))
+			{
+				sprite_idx = n;
+				SelectSprite(sprite[sprite_idx]);
+			}
+
+			// 리스트 중 해당 항목이 클릭되면 하이라이트 걸어줌
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
 	ImGui::End();
 }
 
@@ -492,7 +535,22 @@ void AnimationEditorUI::SelectAtlas(DWORD_PTR _ptr)
 	m_CurAtlas = Tex;
 }
 
-void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canvasMousePos, 
+void AnimationEditorUI::SelectSprite(char* _anim)
+{
+	wstring str = ToWString(_anim);
+
+	if (L"Nothing" == str)
+		return;
+
+	// Anim을 선택했는데 없으면 assert
+	assert(m_TargetObj->Animator2D()->FindAnim(str));
+	CAnim* sprite = m_TargetObj->Animator2D()->FindAnim(str);
+	vector<tAnimFrm> animfrm = sprite->GetAnimFrm();
+	m_vecAnim.assign(animfrm.begin(), animfrm.end());
+	m_AnimIdx = m_vecAnim.size() - 1;
+}
+
+void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canvasMousePos,
 	const ImVec2& _LT, const ImVec2& _RB, ImVector<ImVec2>& _points, const float _idx, const float _wheel )
 {
 	if (!ImGui::IsWindowFocused())
