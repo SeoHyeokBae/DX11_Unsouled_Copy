@@ -44,8 +44,6 @@ void CPlayerScript::tick()
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
 
-
-
 	if (KEY_PRESSED(KEY::UP))
 		vPos.y += DT * m_Speed;
 	if (KEY_TAP(KEY::UP))
@@ -130,12 +128,16 @@ void CPlayerScript::tick()
 		Instantiate(m_Missile, Transform()->GetWorldPos(), 0);
 
 		//GamePlayStatic::Play2DSound(L"sound\\DM.wav", 1, 0.5f, false);
-		GamePlayStatic::Play2DBGM(L"sound\\DM.wav", 0.5f);
-
-		GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), true, 3);
-		GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
+		//GamePlayStatic::Play2DBGM(L"sound\\DM.wav", 0.5f);
 	}
 
+	// Paper Burn
+	//static float f = 0.f;
+	//f += DT * 0.3f;
+	//GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, f);
+	
+	// GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), true, 3);
+	//GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

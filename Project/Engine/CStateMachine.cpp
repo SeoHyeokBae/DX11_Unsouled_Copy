@@ -45,9 +45,11 @@ void* CStateMachine::GetBlackboardData(const wstring& _strKey)
 
 void CStateMachine::SaveToFile(FILE* _File)
 {
+	SaveAssetRef(m_FSM, _File);
 }
 
 void CStateMachine::LoadFromFile(FILE* _File)
 {
+	LoadAssetRef(m_FSM, _File);
 }
 

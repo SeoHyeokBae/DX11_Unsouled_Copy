@@ -29,7 +29,10 @@ void CMonsterScript::begin()
 			StateMachine()->AddBlackboardData(L"TargetObject", BB_DATA::OBJECT, pPlayer);
 		}
 
-		StateMachine()->GetFSM()->SetState(L"IdleState");
+		if (nullptr != StateMachine()->GetFSM())
+		{
+			StateMachine()->GetFSM()->SetState(L"IdleState");
+		}
 	}
 }
 

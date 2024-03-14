@@ -47,6 +47,7 @@ public:
     Ptr<CTexture> GetPostProcessTex() { return m_PostProcessTex; }
 
     void RegisterEditorCamera(CCamera* _Cam) { m_EditorCam = _Cam; }
+    void ClearCamera() { m_vecCam.clear(); }
 
     void ActiveEditorMode(bool _bActive)
     {

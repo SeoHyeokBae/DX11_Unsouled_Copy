@@ -16,6 +16,7 @@
 void CLevelSaveLoad::SaveLevel(CLevel* _Level, const wstring& _strLevelPath)
 {
 	assert(_Level);
+	assert(LEVEL_STATE::STOP == _Level->GetState() || LEVEL_STATE::NONE == _Level->GetState());
 
 	// Level 을 저장할 경로
 	wstring strLevelPath = CPathMgr::GetContentPath();
