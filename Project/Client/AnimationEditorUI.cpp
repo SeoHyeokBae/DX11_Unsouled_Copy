@@ -545,7 +545,7 @@ void AnimationEditorUI::SelectSprite(char* _anim)
 	CAnim* sprite = m_TargetObj->Animator2D()->FindAnim(str);
 	vector<tAnimFrm> animfrm = sprite->GetAnimFrm();
 	m_vecAnim.assign(animfrm.begin(), animfrm.end());
-	m_AnimIdx = m_vecAnim.size() - 1;
+	m_AnimIdx = 0;
 }
 
 void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canvasMousePos,

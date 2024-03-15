@@ -1,0 +1,10 @@
+LayerCheck
+
+MapEditor
+
+AnimationEditor
+-Save
+-Load
+-- 각 이미지 크기 preview에서 보정x
+-- animator로 전체 불러왔을때 m_CurAtals == nullptr
+
