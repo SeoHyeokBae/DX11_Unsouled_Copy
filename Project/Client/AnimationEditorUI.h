@@ -47,6 +47,10 @@ public:
     ImRect TrimAtlas(int _idx);
     void SmartSlice(ImVector<ImVec2>& _points);
 
+    void SaveAnim(const wstring& _str);
+    void LoadAnim(const wstring& _str);
+
+
 public:
     virtual void render_update() override;
     virtual void Deactivate() override;

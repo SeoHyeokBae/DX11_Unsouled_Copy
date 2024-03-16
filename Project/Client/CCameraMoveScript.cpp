@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CCameraMoveScript.h"
 
+#include "AnimationEditorUI.h"
+
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(-1)
 	,m_CamSpeed(500.f)
@@ -81,6 +83,11 @@ void CCameraMoveScript::MoveOrthographic()
 
 void CCameraMoveScript::MovePerspective()
 {
+	// Animation Editor 모드일때 이동불가
+	AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
+	if (Editor->IsActivate())
+		return;
+
 	Vec3 vPos = Transform()->GetRelativePos();
 
 	Vec3 vFront = Transform()->GetWorldDir(DIR_TYPE::FRONT);

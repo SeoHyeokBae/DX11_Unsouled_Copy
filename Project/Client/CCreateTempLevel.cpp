@@ -215,6 +215,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CCollider2D);
 	pObj->AddComponent(new CStateMachine);
 	pObj->AddComponent(new CMonsterScript);
+	pObj->AddComponent(new CAnimator2D);
 
 	pObj->Transform()->SetRelativePos(Vec3(500.f, 0.f, 500.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));

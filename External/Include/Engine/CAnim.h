@@ -44,9 +44,10 @@ public:
     static void Clear();
     void Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture> _Atlas, Vec2 _vLeftTop
         , Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _FrmCount, float _FPS);
-    void Create(CAnimator2D* _Animator, Ptr<CTexture> _Atlas );
+    void Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture> _Atlas, const vector<tAnimFrm> _FrmInfo, int _FrmCount);
 
     vector<tAnimFrm>& GetAnimFrm() { return m_vecFrm; }
+    Ptr<CTexture> GetAtalsTex() { return m_AtlasTex; }
 
     virtual void SaveToFile(FILE* _File) ;
     virtual void LoadFromFile(FILE* _File) ;

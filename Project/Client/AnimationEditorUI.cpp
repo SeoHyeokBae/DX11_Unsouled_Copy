@@ -102,38 +102,60 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Load Animation"))
 	{
-		// dummy gameobj 만들어서 animator component 생성후 anim load
-		// anim 폴더에서 anim또는 animator 찾아와서 add
-		// animator로 anim 묶어서 저장 또는 anim 단위로 개별 저장
-		// 
+		wchar_t szSelect[256] = {};
 
+		OPENFILENAME ofn = {};
 
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = nullptr;
+		ofn.lpstrFile = szSelect;
+		ofn.lpstrFile[0] = '\0';
+		ofn.nMaxFile = sizeof(szSelect);
+		ofn.lpstrFilter = L"ALL\0*.*\0Anim\0*.anim";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+
+		// 탐색창 초기 위치 지정
+		wstring strInitPath = CPathMgr::GetContentPath();
+		strInitPath += L"anim\\";
+		ofn.lpstrInitialDir = strInitPath.c_str();
+
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (GetOpenFileName(&ofn))
+		{
+			LoadAnim(CPathMgr::GetRelativePath(szSelect));
+		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Save Animation"))
 	{
-		assert(!(0 != m_vecAnim.size()));
-		//// 애니메이션 이름 저장
-		//SaveWString(GetName(), _File);
+		wchar_t szSelect[256] = {};
 
-		//// 모든 프레임 정보 저장
-		//size_t FrmSize = m_vecFrm.size();
-		//fwrite(&FrmSize, sizeof(size_t), 1, _File);
-		//fwrite(m_vecFrm.data(), sizeof(tAnimFrm), m_vecFrm.size(), _File);
+		OPENFILENAME ofn = {};
 
-		//// 애니메이션이 참조하던 텍스쳐 정보 저장
-		//SaveAssetRef(m_AtlasTex, _File);
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = nullptr;
+		ofn.lpstrFile = szSelect;
+		ofn.lpstrFile[0] = '\0';
+		ofn.nMaxFile = sizeof(szSelect);
+		ofn.lpstrFilter = L"ALL\0*.*\0Anim\0*.anim";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
 
-		//vector<tAnimFrm> vAnim;
-		//Vec2 bgsize = Vec2(0.f,0.f);
-		//for (size_t i = 0; i < m_vecAnimRect.size(); i++)
-		//{
-		//	if (bgsize.x < m_vecAnimRect[i].GetWidth()) bgsize.x = m_vecAnimRect[i].GetWidth();
-		//	if (bgsize.y < m_vecAnimRect[i].GetHeight()) bgsize.y = m_vecAnimRect[i].GetHeight();
-		//	tAnimFrm frm = {};
-		//	frm.vLeftTop = m_vecAnimRect[i].Min;
-		//	frm.vSlice = m_vecAnimRect[i].GetSize();
-		//}
+		// 탐색창 초기 위치 지정
+		wstring strInitPath = CPathMgr::GetContentPath();
+		strInitPath += L"anim\\";
+		ofn.lpstrInitialDir = strInitPath.c_str();
+
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (GetSaveFileName(&ofn))
+		{
+			SaveAnim(CPathMgr::GetRelativePath(szSelect));
+		}
 		//bgsize += 200.f;
 
 	}
@@ -281,7 +303,6 @@ void AnimationEditorUI::render_update()
 	}
 
 	// Anim 나열
-	//ImGui::Dummy(ImVec2(0.f, 500.f));
 	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar| ImGuiWindowFlags_NoScrollWithMouse);
 	if (nullptr != m_CurAtlas)
 	{
@@ -758,6 +779,51 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 		}
 	}
 
+}
+
+void AnimationEditorUI::SaveAnim(const wstring& _str)
+{
+	CAnim* pAnim = new CAnim;
+	pAnim->Create(_str, nullptr, m_CurAtlas, m_vecAnim, m_vecAnim.size());
+
+	// anim 을 저장할 경로
+	wstring strAnimPath = CPathMgr::GetContentPath();
+	strAnimPath += _str;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strAnimPath.c_str(), L"wb");
+
+	pAnim->SaveToFile(pFile);
+
+	fclose(pFile);
+
+	delete pAnim;
+}
+
+void AnimationEditorUI::LoadAnim(const wstring& _str)
+{
+	CAnim* pAnim = nullptr;
+
+	// anim 을 불러올 경로
+	wstring strAnimPath = CPathMgr::GetContentPath();
+	strAnimPath += _str;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strAnimPath.c_str(), L"rb");
+
+	// anim의 이름을 읽는다.
+	pAnim = new CAnim;
+	pAnim->LoadFromFile(pFile);
+
+	if (!m_vecAnim.empty())
+		m_vecAnim.clear();
+	m_AnimIdx = 0;
+
+	m_CurAtlas = pAnim->GetAtalsTex();
+	m_vecAnim = pAnim->GetAnimFrm();
+	fclose(pFile);
+
+	delete pAnim;
 }
 
 void AnimationEditorUI::Deactivate()
