@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CAnimator2D.h"
 
-#include "CAnim.h"
-
 CAnimator2D::CAnimator2D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR2D)
 {
@@ -67,6 +65,16 @@ void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _
 
 	pAnim = new CAnim;
 	pAnim->Create(_strKey, this, _AtlasTex, _LeftTop, _vSliceSize, _OffsetSize, _Background, _FrmCount, _FPS);
+	m_mapAnim.insert(make_pair(_strKey, pAnim));
+}
+
+void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnimFrm> _FrmInfo, int _FrmCount)
+{
+	CAnim* pAnim = FindAnim(_strKey);
+	assert(!pAnim);
+
+	pAnim = new CAnim;
+	pAnim->Create(_strKey, this, _AtlasTex, _FrmInfo, _FrmCount);
 	m_mapAnim.insert(make_pair(_strKey, pAnim));
 }
 

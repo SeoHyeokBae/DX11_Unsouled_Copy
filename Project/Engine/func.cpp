@@ -155,6 +155,12 @@ wstring ToWString(const string& _str)
 	return wstring(_str.begin(), _str.end());
 }
 
+void CharToWChar(const char* pstrSrc, wchar_t pwstrDest[])
+{
+	int nLen = (int)strlen(pstrSrc) + 1;
+	mbstowcs(pwstrDest, pstrSrc, nLen);
+}
+
 void SaveWString(const wstring& _str, FILE* _File)
 {
 	size_t len = _str.length();

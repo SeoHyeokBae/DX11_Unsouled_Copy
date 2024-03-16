@@ -36,6 +36,8 @@ AnimationEditorUI::~AnimationEditorUI()
 
 void AnimationEditorUI::render_update()
 {
+	static char spritename[256] = {}; // Anim Name 입력란
+
 	// botton 추가
 	if (ImGui::Button("Load Texture"))
 	{
@@ -131,20 +133,23 @@ void AnimationEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Save Animation"))
 	{
-		wchar_t szSelect[256] = {};
-
+		wchar_t szSelect[256] = { };
 		OPENFILENAME ofn = {};
+
+		char chName[256] = {};
+		strcpy_s(chName,spritename);
+		strncat_s(chName, ".anim", 6);
+		CharToWChar(chName, szSelect);
 
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = nullptr;
 		ofn.lpstrFile = szSelect;
-		ofn.lpstrFile[0] = '\0';
 		ofn.nMaxFile = sizeof(szSelect);
 		ofn.lpstrFilter = L"ALL\0*.*\0Anim\0*.anim";
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;
 		ofn.nMaxFileTitle = 0;
-
+		
 		// 탐색창 초기 위치 지정
 		wstring strInitPath = CPathMgr::GetContentPath();
 		strInitPath += L"anim\\";
@@ -202,11 +207,10 @@ void AnimationEditorUI::render_update()
 					 , ImVec2(PrevCanvasRB.x, PrevCanvasLT.y + Prevcanvas_sz.y/2), IM_COL32(255, 0, 0, 150));
 
 	//Anim 정보
-	static string spritename;
 	ImGui::SetCursorPosX(265.f);
 	ImGui::Text("Name"); 
 	ImGui::SetCursorPosX(265.f);
-	ImGui::InputText("##Sprite", (char*)spritename.c_str(), spritename.length()); 
+	ImGui::InputText("##Sprite", (char*)spritename, IM_ARRAYSIZE(spritename));
 	ImGui::SetCursorPosX(265.f); ImGui::Separator();
 
 	ImGui::SetCursorPos(ImVec2(265.f,110.f));
@@ -280,6 +284,15 @@ void AnimationEditorUI::render_update()
 	}
 	ImGui::SameLine();
 	ImGui::Text("Current Frame : %d", m_AnimIdx);
+
+	if (m_TargetObj)
+	{
+		ImGui::SameLine(); 
+		if (ImGui::Button("Apply"))
+		{
+			m_TargetObj->Animator2D()->Create(L"asdf", m_CurAtlas, m_vecAnim, m_vecAnim.size());
+		}
+	}
 	
 	if (bPlay)
 	{
@@ -353,11 +366,14 @@ void AnimationEditorUI::render_update()
 		}
 		else
 		{
+			char ch[] = "Select";
+			sprite.push_back(ch);
+
 			m_TargetObj->Animator2D()->GetAnimName(vAnim);
 			for (size_t i = 0; i < vAnim.size(); i++)
 			{
-				char* ch = const_cast<char*>(vAnim[i].c_str());
-				sprite.push_back(ch);
+				char* pCh = const_cast<char*>(vAnim[i].c_str());
+				sprite.push_back(pCh);
 			}
 		}
 	}
@@ -558,14 +574,17 @@ void AnimationEditorUI::SelectSprite(char* _anim)
 {
 	wstring str = ToWString(_anim);
 
-	if (L"Nothing" == str)
+	if (L"Nothing" == str || L"Select" == str)
 		return;
 
 	// Anim을 선택했는데 없으면 assert
 	assert(m_TargetObj->Animator2D()->FindAnim(str));
+
 	CAnim* sprite = m_TargetObj->Animator2D()->FindAnim(str);
 	vector<tAnimFrm> animfrm = sprite->GetAnimFrm();
-	m_vecAnim.assign(animfrm.begin(), animfrm.end());
+	m_CurAtlas = sprite->GetAtalsTex();
+	m_vecAnim = animfrm;
+	//m_vecAnim.assign(animfrm.begin(), animfrm.end());
 	m_AnimIdx = 0;
 }
 

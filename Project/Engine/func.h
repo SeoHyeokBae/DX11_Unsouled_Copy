@@ -26,6 +26,7 @@ namespace GamePlayStatic
 
 string ToString(const wstring& _str);
 wstring ToWString(const string& _str);   
+void CharToWChar(const char* pstrSrc, wchar_t pwstrDest[]);
 
 void SaveWString(const wstring& _str, FILE* _File);
 void LoadWString(wstring& _str, FILE* _File);

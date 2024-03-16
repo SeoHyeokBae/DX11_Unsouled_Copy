@@ -101,7 +101,6 @@ void CAnim::Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture>
 
 void CAnim::Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture> _Atlas, const vector<tAnimFrm> _FrmInfo, int _FrmCount)
 {
-	SetName(_strKey);
 	m_Animator = _Animator;
 	m_AtlasTex = _Atlas;
 	for (int i = 0; i < _FrmCount; ++i)

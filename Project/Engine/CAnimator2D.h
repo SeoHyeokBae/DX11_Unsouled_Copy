@@ -2,8 +2,8 @@
 #include "CComponent.h"
 
 #include "CTexture.h"
-
-class CAnim;
+#include "CAnim.h"
+//class CAnim;
 
 class CAnimator2D :
     public CComponent
@@ -29,7 +29,8 @@ public:
     // _LeftTop, _SliceSize, _Offset : Pixel Unit
     void Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _LeftTop,
         Vec2 _SliceSize, Vec2 _OffsetSize, Vec2 _Background, int _FrmCount, float _FPS);
-
+    void Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnimFrm> _FrmInfo, int _FrmCount);
+    
     CAnim* FindAnim(const wstring& _strAnimName);
     void Play(const wstring& _strAnimName, bool _bRepeat = true);
 
