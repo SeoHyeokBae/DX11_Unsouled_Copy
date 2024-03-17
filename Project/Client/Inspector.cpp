@@ -8,7 +8,7 @@
 #include "Collider2DUI.h"
 #include "Light2DUI.h"
 #include "Animator2DUI.h"
-
+#include "ScriptUI.h"
 #include "AssetUI.h"
 
 #include "CameraUI.h"
@@ -45,14 +45,44 @@ void Inspector::render_update()
 
 void Inspector::SetTargetObject(CGameObject* _Object)
 {
+	// Target 오브젝트 설정
 	m_TargetObject = _Object;
 
+	// 해당 오브젝트가 보유하고 있는 컴포넌트에 대응하는 컴포넌트UI 활성화
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrComUI[i])
 		{
 			m_arrComUI[i]->SetTargetObject(_Object);
 		}
+	}
+
+	// 해당 오브젝트가 보유하고 있는 Script 에 맞추어서 ScriptUI 를 활성화 시킨다.
+	if (nullptr == _Object)
+	{
+		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
+		{
+			m_vecScriptUI[i]->Deactivate();
+		}
+	}
+	else
+	{
+		if (m_vecScriptUI.size() < _Object->GetScripts().size())
+		{
+			ResizeScriptUI(_Object->GetScripts().size());
+		}
+
+		const vector<CScript*>& vecScripts = _Object->GetScripts();
+		for (size_t i = 0; i < vecScripts.size(); ++i)
+		{
+			m_vecScriptUI[i]->SetScript(vecScripts[i]);
+		}
+	}
+
+	// AssetUI 비활성화
+	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
+	{
+		m_arrAssetUI[i]->Deactivate();
 	}
 }
 

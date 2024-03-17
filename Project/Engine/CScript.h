@@ -7,18 +7,27 @@
 #include "CGameObject.h"
 #include "components.h"
 
+struct tScriptParam
+{
+    SCRIPT_PARAM    Type;
+    string          Desc;
+    void* pData;
+};
 
 class CScript :
     public CComponent
 {
 private:
-    const UINT    m_iScriptType;
+    const UINT              m_iScriptType;
+    vector<tScriptParam>    m_ScriptParam;
 
 public:
     UINT GetScriptType() { return m_iScriptType; }
+    const vector<tScriptParam>& GetScriptParam() { return m_ScriptParam; }
 
 protected:
     void Instantiate(Ptr<CPrefab> _Prefab, Vec3 _vWorldPos, int _LayerIdx);
+    void AddScriptParam(SCRIPT_PARAM _Param, const string& _Desc, void* _Data) { m_ScriptParam.push_back(tScriptParam{ _Param , _Desc, _Data }); }
 
 public:
     virtual void finaltick() final {} // script는 tick에서 동작 finaltick 은 상수버퍼

@@ -122,6 +122,9 @@
     <Filter Include="02. UI\3. Inspector\AssetUI\FSMUI">
       <UniqueIdentifier>{eb233184-c5a5-4a90-bb15-01b52e4b9f23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. UI\3. Inspector\ComponentUI\Script">
+      <UniqueIdentifier>{30cb6c7e-8dd3-4709-9ffc-976244c444ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -264,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="CIdleState.h">
       <Filter>04. State\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptUI.h">
+      <Filter>02. UI\3. Inspector\ComponentUI\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="CIdleState.cpp">
       <Filter>04. State\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptUI.cpp">
+      <Filter>02. UI\3. Inspector\ComponentUI\Script</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
