@@ -192,9 +192,12 @@ void AnimationEditorUI::render_update()
 
 		ImVec2 uv0 = ImVec2(displayLT.x , displayLT.y);
 		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) , (displayLT.y + displaySize.y));
+		
+		// UV -> 일반좌표계
+		ImVec2 imageLT = PrevCanvasLT + (Prevcanvas_sz / 2) - ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight()) / 2;
+		ImVec2 imageRB = imageLT + ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight());
+		ImRect rec(imageLT,imageRB);
 
-		ImRect rec(PrevCanvasLT, PrevCanvasRB);
-		rec.Expand(-50.f);
 		rec.Translate(m_vecAnim[m_AnimIdx].vOffset);
 		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.Min, rec.Max, uv0, uv1);
 		draw_list->PopClipRect();
@@ -290,7 +293,24 @@ void AnimationEditorUI::render_update()
 		ImGui::SameLine(); 
 		if (ImGui::Button("Apply"))
 		{
-			m_TargetObj->Animator2D()->Create(L"asdf", m_CurAtlas, m_vecAnim, m_vecAnim.size());
+			wchar_t wName[256] = { };
+			char chName[256] = {};
+			strcpy_s(chName, spritename);
+			CharToWChar(chName, wName);
+
+			// BackGround 세팅
+			ImVec2 MaxSZ = ImVec2(0.f, 0.f);
+			for (int i = 0; i < m_vecAnim.size(); i++)
+			{
+				ImVec2 Size = ImVec2(m_vecAnim[i].vSlice);
+				if (Size.x > MaxSZ.x) MaxSZ.x = Size.x;
+				if (Size.y > MaxSZ.y) MaxSZ.y = Size.y;
+				m_vecAnim[i].vBackground = Vec2(MaxSZ.x + 100.f / m_CurAtlas->GetWidth(),
+												MaxSZ.y + 100.f / m_CurAtlas->GetHeight());
+				m_vecAnim[i].Duration = 1.f / m_fps;
+			}
+
+			m_TargetObj->Animator2D()->Create(wName, m_CurAtlas, m_vecAnim, m_vecAnim.size());
 		}
 	}
 	
@@ -319,6 +339,7 @@ void AnimationEditorUI::render_update()
 	ImGui::BeginChild("child", ImVec2(ImGui::GetContentRegionAvail().x, 125.f), ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar| ImGuiWindowFlags_NoScrollWithMouse);
 	if (nullptr != m_CurAtlas)
 	{
+		ImVec2 MaxSZ = ImVec2(0.f, 0.f);
 		for (int i = 0; i < m_vecAnim.size(); i++)
 		{
 			ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -334,13 +355,16 @@ void AnimationEditorUI::render_update()
 			ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x), (displayLT.y + displaySize.y));
 
 			// rect 선택
-			// ImVec2(100.f, 100.f) == 애니메이션 사이즈
 			const ImRect select(window->DC.CursorPos, window->DC.CursorPos + ImVec2(100.f, 100.f) + padding * 2.0f);
 			if (select.Contains(io.MousePos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				m_AnimIdx = i;
 
 			if (i == m_AnimIdx) // 선택된 rect 테두리 색상
 				col = ImVec4(1, 0, 0, 1);
+
+			//ImVec2 imageLT = PrevCanvasLT + (Prevcanvas_sz / 2) - ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight()) / 2;
+			//ImVec2 imageRB = imageLT + ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight());
+			//ImRect rec(imageLT, imageRB);
 
 			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), col);
 			ImGui::SameLine();
@@ -812,6 +836,18 @@ void AnimationEditorUI::SaveAnim(const wstring& _str)
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strAnimPath.c_str(), L"wb");
 
+	// background 세팅
+	ImVec2 MaxSZ = ImVec2(0.f, 0.f);
+	for (int i = 0; i < m_vecAnim.size(); i++)
+	{
+		ImVec2 Size = ImVec2(m_vecAnim[i].vSlice);
+		if (Size.x > MaxSZ.x) MaxSZ.x = Size.x;
+		if (Size.y > MaxSZ.y) MaxSZ.y = Size.y;
+		m_vecAnim[i].vBackground = Vec2(MaxSZ.x + 100.f / m_CurAtlas->GetWidth(),
+			MaxSZ.y + 100.f / m_CurAtlas->GetHeight());
+		m_vecAnim[i].Duration = 1.f / m_fps;
+	}
+
 	pAnim->SaveToFile(pFile);
 
 	fclose(pFile);
@@ -840,6 +876,7 @@ void AnimationEditorUI::LoadAnim(const wstring& _str)
 
 	m_CurAtlas = pAnim->GetAtalsTex();
 	m_vecAnim = pAnim->GetAnimFrm();
+	m_fps = 1.f / m_vecAnim[0].Duration;
 	fclose(pFile);
 
 	delete pAnim;
