@@ -56,6 +56,11 @@ void CCameraMoveScript::tick()
 
 void CCameraMoveScript::MoveOrthographic()
 {
+	// Animation Editor 모드일때 이동불가
+	AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
+	if (Editor->IsActivate())
+		return;
+
 	Vec3 vPos = Transform()->GetRelativePos();
 
 	if (KEY_PRESSED(KEY::W))

@@ -27,9 +27,9 @@ void CEditorObjMgr::init()
 
 	pEditorCam->Camera()->LayerCheckAll();
 	pEditorCam->Camera()->LayerCheck(31, false);
-	pEditorCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-	pEditorCam->Camera()->SetFOV(XM_PI / 2.f);
-	pEditorCam->Camera()->SetFar(100000.f);
+	pEditorCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pEditorCam->Camera()->SetFOV(XM_PI / 2.f);
+	//pEditorCam->Camera()->SetFar(100000.f);
 
 	m_vecEditorObj.push_back(pEditorCam);
 

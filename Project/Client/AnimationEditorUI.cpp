@@ -72,6 +72,14 @@ void AnimationEditorUI::render_update()
 		m_bTrim = false;
 	}
 	ImGui::SameLine();
+	if (ImGui::Button("Grid Slice"))
+	{
+		// ToDo
+		//m_bSmartSlice = true;
+		//m_bSlice = false;
+		//m_bTrim = false;
+	}
+	ImGui::SameLine();
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
 		tAnimFrm frm = {};
