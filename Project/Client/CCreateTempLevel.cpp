@@ -152,7 +152,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CBackgroundScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 600.f));
-	pObj->Transform()->SetRelativeScale(Vec3(1280.f, 720.f, 1.f));
+	pObj->Transform()->SetRelativeScale(Vec3(203.f*2.5, 243.f*2.5, 1.f));
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl"));
