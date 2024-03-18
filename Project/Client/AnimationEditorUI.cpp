@@ -24,7 +24,8 @@ AnimationEditorUI::AnimationEditorUI()
 	, m_Wheelsz(1.f)
 	, m_bSlice(false)
 	, m_bTrim(false)
-	, m_bSmartSlice(false)
+	, m_bGrid(false)
+	, m_bSmart(false)
 	, m_FrmInfo{}
 {
 	Deactivate();
@@ -55,29 +56,33 @@ void AnimationEditorUI::render_update()
 	{
 		m_bSlice = true;
 		m_bTrim = false;
-		m_bSmartSlice = false;
+		m_bSmart = false;
+		m_bGrid = false;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Trim Slice"))
 	{
 		m_bTrim = true;
 		m_bSlice = false;
-		m_bSmartSlice = false;
+		m_bSmart = false;
+		m_bGrid = false;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Smart Slice"))
 	{
-		m_bSmartSlice = true;
+		m_bSmart = true;
 		m_bSlice = false;
 		m_bTrim = false;
+		m_bGrid = false;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Grid Slice"))
 	{
-		// ToDo
-		//m_bSmartSlice = true;
-		//m_bSlice = false;
-		//m_bTrim = false;
+		m_bGrid = true;
+		m_bSmart = false;
+		m_bSlice = false;
+		m_bTrim = false;
+
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Add Sprite to Animation"))
@@ -96,9 +101,8 @@ void AnimationEditorUI::render_update()
 	ImGui::Text("Mouse pos: (%g, %g)", m_MousePos.x, m_MousePos.y);
 	ImGui::Text("Center pos: (%g, %g)", m_CenterPos.x, m_CenterPos.y);
 	ImGui::Text("Mouse wheel: %.1f", m_Wheelsz);
+
 	DrawCanvas();
-
-
 	// animation make
 	ImGui::Begin("Sprite Animation");
 	if (ImGui::Button("New Animation"))
@@ -447,6 +451,29 @@ void AnimationEditorUI::DrawCanvas()
 	ImGui::Checkbox("Enable grid", &opt_enable_grid);
 	ImGui::SameLine();
 	ImGui::Checkbox("Enable context menu", &opt_enable_context_menu);
+
+	static BYTE grid_row = 1, grid_col = 1;
+	static UINT grid_width = 1, grid_height = 1;
+	if (m_bGrid && nullptr != m_CurAtlas)
+	{
+		ImGui::PushItemWidth(50);
+		ImGui::SameLine(350.f);
+		ImGui::Text("Row"); ImGui::SameLine();
+		ImGui::DragScalar("##Row", ImGuiDataType_U8, &grid_row);
+		ImGui::SameLine();
+		ImGui::Text("Col"); ImGui::SameLine();
+		ImGui::DragScalar("##Col", ImGuiDataType_U8, &grid_col);
+		ImGui::SameLine();
+		ImGui::Text("Width"); ImGui::SameLine();
+		ImGui::DragScalar("##width", ImGuiDataType_U32, &grid_width);
+		ImGui::SameLine();
+		ImGui::Text("Height"); ImGui::SameLine();
+		ImGui::DragScalar("##height", ImGuiDataType_U32, &grid_height);
+		ImGui::PopItemWidth();
+		if (grid_row == 0) grid_row = 1;
+		if (grid_col == 0) grid_col = 1;
+	}
+
 	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      
 	ImVec2 canvas_sz = ImGui::GetContentRegionAvail() ;  
 	if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
@@ -545,9 +572,14 @@ void AnimationEditorUI::DrawCanvas()
 			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
 	} 
 
-	if (m_bSmartSlice)
+	if (m_bSmart)
 	{
 		SmartSlice(points);
+	}
+
+	if (m_bGrid)
+	{
+		GridSlice(points,grid_row,grid_col,grid_width,grid_height);
 	}
 
 	// draw rect
@@ -635,13 +667,13 @@ void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canv
 	{
 		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
 		static bool grip_resize = false;
-		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			grip_resize = true;
 
 		if (grip_resize)
 		{
 			_points[_idx].x = _canvasMousePos.x / _wheel;
-			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			{
 				grip_resize = false;
 				m_vecRect[_idx / 2].Min.x = _points[_idx].x;
@@ -658,13 +690,13 @@ void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canv
 	{
 		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
 		static bool grip_resize = false;
-		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			grip_resize = true;
 
 		if (grip_resize)
 		{
 			_points[_idx + 1].x = _canvasMousePos.x / _wheel;
-			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			{
 				grip_resize = false;
 				m_vecRect[_idx / 2].Max.x = _points[_idx + 1].x;
@@ -680,13 +712,13 @@ void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canv
 	{
 		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
 		static bool grip_resize = false;
-		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			grip_resize = true;
 
 		if (grip_resize)
 		{
 			_points[_idx].y = _canvasMousePos.y / _wheel;
-			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			{
 				grip_resize = false;
 				m_vecRect[_idx / 2].Min.y = _points[_idx].y;
@@ -702,13 +734,13 @@ void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canv
 	{
 		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
 		static bool grip_resize = false;
-		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		if (!grip_resize && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			grip_resize = true;
 
 		if (grip_resize)
 		{
 			_points[_idx + 1].y = _canvasMousePos.y / _wheel;
-			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+			if (!ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl))
 			{
 				grip_resize = false;
 				m_vecRect[_idx / 2].Max.y = _points[_idx + 1].y;
@@ -716,6 +748,8 @@ void AnimationEditorUI::MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canv
 		}
 	}
 }
+
+
 
 ImRect AnimationEditorUI::TrimAtlas(int _idx)
 {
@@ -761,10 +795,33 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 
 	return rec;
 }
+void AnimationEditorUI::GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _col, UINT& _width, UINT& _height)
+{
+	if (nullptr == m_CurAtlas)
+		return;
 
+	if (!_points.empty() && !m_vecRect.empty())
+	{
+		_points.clear(); // 기존 points vector를 비워줌
+		m_vecRect.clear();
+	}
+
+	_width = m_CurAtlas->GetWidth() / _col;
+	_height = m_CurAtlas->GetHeight() / _row;
+
+	for (size_t i = 0; i < _row; i++)
+	{
+		for (size_t j = 0; j < _col; j++)
+		{
+			_points.push_back(ImVec2(_width * j, _height * i));
+			_points.push_back(ImVec2(_width * (j + 1), _height * (i + 1)));
+			m_vecRect.push_back(ImRect(ImVec2(_width * j, _height * i), ImVec2(_width * (j + 1), _height * (i + 1))));
+		}
+	}
+}
 void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 {
-	m_bSmartSlice = false;
+	m_bSmart = false;
 
 	if (nullptr == m_CurAtlas)
 		return;

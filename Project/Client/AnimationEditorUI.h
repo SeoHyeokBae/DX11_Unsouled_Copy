@@ -34,7 +34,8 @@ private:
 
     bool           m_bSlice;
     bool           m_bTrim;
-    bool           m_bSmartSlice;
+    bool           m_bGrid;
+    bool           m_bSmart;
 
 public:
     void DrawCanvas();
@@ -44,7 +45,9 @@ public:
     void SelectSprite(char* _str);
     void MouseGrip(const ImVec2& _ioMousePos, const ImVec2& _canvasMousePos, 
         const ImVec2& _LT, const ImVec2& _RB, ImVector<ImVec2>& _points, const float _idx, const float _wheel);
+   
     ImRect TrimAtlas(int _idx);
+    void GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _col, UINT& _width, UINT& _height);
     void SmartSlice(ImVector<ImVec2>& _points);
 
     void SaveAnim(const wstring& _str);
