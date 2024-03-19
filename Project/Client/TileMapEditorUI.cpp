@@ -197,8 +197,8 @@ void TileMapEditorUI::render_update()
 
 		ImGui::NewLine(); ImGui::Separator();
 
-		static float fwidth = m_CurSheet->GetWidth();
-		static float fheight = m_CurSheet->GetHeight();
+		float fwidth = m_CurSheet->GetWidth();
+		float fheight = m_CurSheet->GetHeight();
 
 		int count = 0;
 		for (size_t i = 0; i < fheight / PixelSize.y; i++)
@@ -213,7 +213,7 @@ void TileMapEditorUI::render_update()
 				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
 				{
 					m_Selected = ImRect(uvLT, uvRB);
-				}//SelectTile(uvLT, uvRB);
+				}
 
 				if (0 == count % 5)
 					continue;
@@ -236,6 +236,14 @@ void TileMapEditorUI::render_update()
 			ImVec2 LT = ImVec2(left_top.x + new_render_size.x * j, left_top.y + new_render_size.y * i);
 			ImVec2 RB = ImVec2(left_top.x + new_render_size.x * (j + 1), left_top.y + new_render_size.y * (i + 1));
 			draw_list->AddRect(LT, RB, IM_COL32(255, 255, 255, 255));
+
+			ImRect rect = ImRect(LT, RB);
+			if (rect.Contains(io.MousePos) && ImGui::IsWindowFocused() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			{
+				// 타일 체크
+				
+				//mouse_pos_in_canvas
+			}
 		}
 	}
 
