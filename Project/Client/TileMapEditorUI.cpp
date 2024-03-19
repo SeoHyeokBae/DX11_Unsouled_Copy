@@ -4,7 +4,8 @@
 
 TileMapEditorUI::TileMapEditorUI()
 	: UI("Tile Editor", "##TileEditor")
-	, m_CurAtlas(nullptr)
+	, m_CurSheet(nullptr)
+	, m_DrawMode(TILE_DRAW_MODE::NONE)
 {
 	Deactivate();
 }
@@ -20,6 +21,7 @@ void TileMapEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Exit"))
 	{
+		UI::Deactivate();
 	}
 	ImGui::Separator();
 
@@ -28,19 +30,64 @@ void TileMapEditorUI::render_update()
 	static float WheelSz = 1.f;
 	ImVec2 canvas_LT = ImGui::GetCursorScreenPos();
 	ImVec2 canvas_SZ = ImGui::GetContentRegionAvail();
-	if (canvas_SZ.x < 500.0f) canvas_SZ.x = 50.0f; 
+	if (canvas_SZ.x < 50.0f) canvas_SZ.x = 50.0f; 
 	if (canvas_SZ.y < 50.0f) canvas_SZ.y = 50.0f;
 	ImVec2 canvas_RB = ImVec2(canvas_LT.x + canvas_SZ.x, canvas_LT.y + canvas_SZ.y);
 	ImGuiIO& io = ImGui::GetIO();
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	draw_list->AddRectFilled(canvas_LT, canvas_RB, IM_COL32(50, 50, 50, 255));
 
+	// This will catch our interactions
+	ImGui::InvisibleButton("canvas", canvas_SZ, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
+	const bool is_hovered = ImGui::IsItemHovered(); // Hovered
+	const bool is_active = ImGui::IsItemActive();   // Held
+
+	static ImVec2 CenterPos = canvas_LT + canvas_SZ / 2.f;
+	CenterPos -= scrolling;
+	ImVec2 WheelOffset = CenterPos * WheelSz - CenterPos;
+	const ImVec2 origin(canvas_LT.x + scrolling.x - WheelOffset.x, canvas_LT.y + scrolling.y - WheelOffset.y);
+	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+
 
 	// Info
 	ImGui::Begin("Tile Info");
-	ImGui::Text("Tile Atlas"); ImGui::SameLine();
-	
+	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border);
+	static char tileMapName[256] = {};
+	ImGui::Text("Name"); ImGui::SameLine(79.f);
+	ImGui::InputText("##TileMap", (char*)tileMapName, IM_ARRAYSIZE(tileMapName));
+	static bool stepX = true;
+	static bool stepY = true;
+	const UINT UINT_Unit = 1;
+	static UINT FaceXtest = 0;
+	static UINT FaceYtest = 0;
+	ImGui::Text("Face X"); ImGui::SameLine(79.f);
+	ImGui::InputScalar("##FaceX", ImGuiDataType_U32, &FaceXtest, stepX ? &UINT_Unit : NULL, NULL);
+	ImGui::Text("Face Y"); ImGui::SameLine(79.f);
+	ImGui::InputScalar("##FaceY", ImGuiDataType_U32, &FaceYtest, stepY ? &UINT_Unit : NULL, NULL);
+
+
+	ImGui::Text("Tile Size"); ImGui::SameLine();
+	Vector2 test = Vector2(100.f, 100.f);	// ObjectSize
+	ImGui::DragFloat2("##Tile Render Size", test);
+
+	ImGui::Text("Mode  "); ImGui::SameLine();
+	static int DrawModeEnum = (UINT)m_DrawMode;
+	if (ImGui::RadioButton("None", &DrawModeEnum, 3))
+		m_DrawMode = TILE_DRAW_MODE::NONE;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Paint", &DrawModeEnum, 0))
+		m_DrawMode = TILE_DRAW_MODE::PAINT;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Fill", &DrawModeEnum, 1))
+		m_DrawMode = TILE_DRAW_MODE::FILL;
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Eraser", &DrawModeEnum, 2))
+		m_DrawMode = TILE_DRAW_MODE::ERASER;
+
+	ImGui::Separator();
+
 	// Select Atlas
+	ImGui::Text("Tile Sheet"); ImGui::SameLine();
 	static int Atlas_idx = -1;
 	const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
 	vector<string> atlas;
@@ -48,7 +95,7 @@ void TileMapEditorUI::render_update()
 	CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::TEXTURE, atlas);
 
 	const char* combo_preview = "Select";
-	if(-1 != Atlas_idx) combo_preview = atlas[Atlas_idx].c_str();
+	if (-1 != Atlas_idx) combo_preview = atlas[Atlas_idx].c_str();
 	if (ImGui::BeginCombo("##SelectTileAtlas", combo_preview))
 	{
 		for (int n = 0; n < atlas.size(); n++)
@@ -58,7 +105,7 @@ void TileMapEditorUI::render_update()
 			{
 				Atlas_idx = n;
 				Ptr<CTexture> Tex = CAssetMgr::GetInst()->FindAsset<CTexture>(ToWString(atlas[n]));
-				m_CurAtlas = Tex;
+				m_CurSheet = Tex;
 			}
 
 			// 리스트 중 해당 항목이 클릭되면 하이라이트 걸어줌
@@ -67,7 +114,45 @@ void TileMapEditorUI::render_update()
 		}
 		ImGui::EndCombo();
 	}
-	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border);
+	ImGui::Text("Pixel Size"); ImGui::SameLine();
+	static Vector2 PixelSize = Vector2(64.f, 64.f);	// ObjectSize
+	ImGui::DragFloat2("##Pixel Size", PixelSize);
+	if (1 > PixelSize.x) PixelSize.x = 1;
+	if (1 > PixelSize.y) PixelSize.y = 1;
+	ImGui::Separator();
+
+	// Tile 
+	if (nullptr != m_CurSheet)
+	{
+		ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
+		my_texture = m_CurSheet.Get()->GetSRV().Get();
+
+		static float fwidth = m_CurSheet->GetWidth();
+		static float fheight = m_CurSheet->GetHeight();
+		static float uv_width = PixelSize.x / fwidth;
+		static float uv_height = PixelSize.y / fheight;
+		static ImVec2 uv_size = ImVec2(uv_width, uv_height);
+
+		int count = 0;
+		for (size_t i = 0; i < fheight/ PixelSize.y; i++)
+		{
+			for (size_t j = 0; j < fwidth/PixelSize.x; j++)
+			{
+				count++;
+				ImVec2 uvLT = ImVec2(PixelSize.x * j / fwidth, PixelSize.y * i / fheight);
+				ImVec2 uvRB = ImVec2(PixelSize.x * (j + 1) / fwidth, PixelSize.y * (i + 1) / fheight);
+
+				ImGui::ImageButton((void*)my_texture.Get(), ImVec2(48.f,48.f), uvLT, uvRB);
+				if (0 == count % 5)
+					continue;
+				
+				ImGui::SameLine();
+			}
+		}
+	}
+
+
+
 	ImGui::EndChild();
 	ImGui::End();
 

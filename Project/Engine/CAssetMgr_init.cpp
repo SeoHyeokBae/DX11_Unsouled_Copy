@@ -325,11 +325,6 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"DistortionShader"));
 	AddAsset<CMaterial>(L"DistortionMtrl", pMtrl);
-
-	// Std2DMtrl2 (potato)
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
-	AddAsset<CMaterial>(L"Std2DMtrl2", pMtrl);
 }
 
 #include "CSetColorShader.h"

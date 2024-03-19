@@ -376,8 +376,8 @@ void AnimationEditorUI::render_update()
 			if (i == m_AnimIdx) // 선택된 rect 테두리 색상
 				col = ImVec4(1, 0, 0, 1);
 
-			//ImVec2 imageLT = PrevCanvasLT + (Prevcanvas_sz / 2) - ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight()) / 2;
-			//ImVec2 imageRB = imageLT + ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight());
+			//ImVec2 imageLT = PrevCanvasLT + (Prevcanvas_sz / 2) - ImVec2(displaySize.x * m_CurSheet->GetWidth(), displaySize.y * m_CurSheet->GetHeight()) / 2;
+			//ImVec2 imageRB = imageLT + ImVec2(displaySize.x * m_CurSheet->GetWidth(), displaySize.y * m_CurSheet->GetHeight());
 			//ImRect rec(imageLT, imageRB);
 
 			ImGui::Image(m_CurAtlas.Get()->GetSRV().Get(), ImVec2(100.f, 100.f), uv0, uv1, ImVec4(1, 1, 1, 1), col);
