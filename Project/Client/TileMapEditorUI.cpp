@@ -120,17 +120,17 @@ void TileMapEditorUI::render_update()
 	static bool stepX = true;
 	static bool stepY = true;
 	const UINT UINT_Unit = 1;
-	static UINT FaceXtest = 0;
-	static UINT FaceYtest = 0;
+	static UINT FaceX = 1;
+	static UINT FaceY = 1;
 	ImGui::Text("Face X"); ImGui::SameLine(79.f);
-	ImGui::InputScalar("##FaceX", ImGuiDataType_U32, &FaceXtest, stepX ? &UINT_Unit : NULL, NULL);
+	ImGui::InputScalar("##FaceX", ImGuiDataType_U32, &FaceX, stepX ? &UINT_Unit : NULL, NULL);
 	ImGui::Text("Face Y"); ImGui::SameLine(79.f);
-	ImGui::InputScalar("##FaceY", ImGuiDataType_U32, &FaceYtest, stepY ? &UINT_Unit : NULL, NULL);
+	ImGui::InputScalar("##FaceY", ImGuiDataType_U32, &FaceY, stepY ? &UINT_Unit : NULL, NULL);
 
 
 	ImGui::Text("Tile Size"); ImGui::SameLine();
-	static Vector2 Rendersizetest = Vector2(100.f, 100.f);	// ObjectSize
-	ImGui::DragFloat2("##Tile Render Size", Rendersizetest);
+	static Vector2 Rendersize = Vector2(64.f, 64.f);	// ObjectSize
+	ImGui::DragFloat2("##Tile Render Size", Rendersize);
 
 	ImGui::Text("Mode  "); ImGui::SameLine();
 	static int DrawModeEnum = (UINT)m_DrawMode;
@@ -224,11 +224,22 @@ void TileMapEditorUI::render_update()
 	}
 	ImGui::EndChild();
 	ImGui::End();
-	//FaceXtest , FaceYtest
+	//FaceX , FaceY
 	draw_list->PushClipRect(canvas_LT, canvas_RB, true);
 	ImVec2 left_top = canvas_LT + scrolling - WheelOffset;
-	ImVec2 right_bottom = left_top + Rendersizetest * WheelSz;
-	draw_list->AddRect(left_top, right_bottom, IM_COL32(255, 255, 255, 255));
+	ImVec2 new_render_size =  Rendersize * WheelSz;
+
+	for (size_t i = 0; i < FaceY; i++)
+	{
+		for (size_t j = 0; j < FaceX; j++)
+		{
+			ImVec2 LT = ImVec2(left_top.x + new_render_size.x * j, left_top.y + new_render_size.y * i);
+			ImVec2 RB = ImVec2(left_top.x + new_render_size.x * (j + 1), left_top.y + new_render_size.y * (i + 1));
+			draw_list->AddRect(LT, RB, IM_COL32(255, 255, 255, 255));
+		}
+	}
+
+
 	draw_list->PopClipRect();
 }
 
