@@ -511,7 +511,7 @@ void AnimationEditorUI::DrawCanvas()
 		float my_image_width = m_CurAtlas.Get()->GetWidth() * WheelSz;
 		float my_image_height = m_CurAtlas.Get()->GetHeight() * WheelSz;
 
-		ImVec2 left_top = m_CanvasLeftTop + ImVec2(scrolling.x, scrolling.y) - WheelOffset;
+		ImVec2 left_top = m_CanvasLeftTop + scrolling - WheelOffset;
 		ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height));
 
 		draw_list->AddImage((void*)my_texture.Get(), left_top, right_bottom);

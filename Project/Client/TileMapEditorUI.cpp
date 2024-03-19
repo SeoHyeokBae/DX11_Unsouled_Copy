@@ -6,6 +6,7 @@ TileMapEditorUI::TileMapEditorUI()
 	: UI("Tile Editor", "##TileEditor")
 	, m_CurSheet(nullptr)
 	, m_DrawMode(TILE_DRAW_MODE::NONE)
+	, m_Selected{}
 {
 	Deactivate();
 }
@@ -13,8 +14,12 @@ TileMapEditorUI::TileMapEditorUI()
 TileMapEditorUI::~TileMapEditorUI()
 {
 }
+
 void TileMapEditorUI::render_update()
 {
+	static ImVec2 scrolling(0.0f, 0.0f);
+	static float WheelSz = 1.f;
+
 	if (ImGui::Button("Create"))
 	{
 	}
@@ -23,11 +28,12 @@ void TileMapEditorUI::render_update()
 	{
 		UI::Deactivate();
 	}
+	ImGui::SameLine();
+	ImGui::Text("Mouse wheel: %.1f", WheelSz);
+
 	ImGui::Separator();
 
 	// Draw Canvas
-	static ImVec2 scrolling(0.0f, 0.0f);
-	static float WheelSz = 1.f;
 	ImVec2 canvas_LT = ImGui::GetCursorScreenPos();
 	ImVec2 canvas_SZ = ImGui::GetContentRegionAvail();
 	if (canvas_SZ.x < 50.0f) canvas_SZ.x = 50.0f; 
@@ -42,11 +48,67 @@ void TileMapEditorUI::render_update()
 	const bool is_hovered = ImGui::IsItemHovered(); // Hovered
 	const bool is_active = ImGui::IsItemActive();   // Held
 
-	static ImVec2 CenterPos = canvas_LT + canvas_SZ / 2.f;
+	ImVec2 CenterPos = canvas_SZ / 2.f;
 	CenterPos -= scrolling;
 	ImVec2 WheelOffset = CenterPos * WheelSz - CenterPos;
 	const ImVec2 origin(canvas_LT.x + scrolling.x - WheelOffset.x, canvas_LT.y + scrolling.y - WheelOffset.y);
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+
+	// 좌클릭시
+	if (ImGui::IsWindowFocused() && m_DrawMode != TILE_DRAW_MODE::NONE && is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	{
+		//cutting_rect = true;
+
+		UINT test = 0;
+		switch (test)
+		{
+		case (UINT)TILE_DRAW_MODE::PAINT:
+			break;
+		case (UINT)TILE_DRAW_MODE::FILL:
+			break;
+		case (UINT)TILE_DRAW_MODE::ERASER:
+			break;
+		case (UINT)TILE_DRAW_MODE::NONE:
+			break;
+		default:
+			break;
+		}
+	}
+	//if (cutting_rect)
+	//{
+	//	points.back() = mouse_pos_in_canvas / WheelSz;
+
+	//	if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+	//	{
+	//		cutting_rect = false;
+	//		ImRect rect(points[points.size() - 2], points.back());
+	//		if (rect.Min.x > rect.Max.x) ImSwap(rect.Min.x, rect.Max.x);
+	//		if (rect.Min.y > rect.Max.y) ImSwap(rect.Min.y, rect.Max.y);
+	//		m_vecRect.push_back(rect);
+	//		m_bSlice = false;
+	//	}
+	//}
+
+	// 오른쪽 마우스 드래그
+	//static bool opt_enable_context_menu = true;
+	//const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
+	if (ImGui::IsWindowFocused() && is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right)/*, opt_enable_context_menu*/)
+	{
+		scrolling.x += io.MouseDelta.x;
+		scrolling.y += io.MouseDelta.y;
+	}
+
+	// 마우스 휠
+	if (ImGui::IsWindowFocused() && (io.MouseWheel > 0.f || io.MouseWheel))
+	{
+		ImRect InCanvas(canvas_LT, canvas_RB);
+		if (InCanvas.Contains(io.MousePos))
+		{
+			WheelSz += 0.075f * io.MouseWheel;
+			if (WheelSz <= 0.f) WheelSz = 0.f;
+		}
+	}
+
 
 
 	// Info
@@ -67,8 +129,8 @@ void TileMapEditorUI::render_update()
 
 
 	ImGui::Text("Tile Size"); ImGui::SameLine();
-	Vector2 test = Vector2(100.f, 100.f);	// ObjectSize
-	ImGui::DragFloat2("##Tile Render Size", test);
+	static Vector2 Rendersizetest = Vector2(100.f, 100.f);	// ObjectSize
+	ImGui::DragFloat2("##Tile Render Size", Rendersizetest);
 
 	ImGui::Text("Mode  "); ImGui::SameLine();
 	static int DrawModeEnum = (UINT)m_DrawMode;
@@ -121,40 +183,58 @@ void TileMapEditorUI::render_update()
 	if (1 > PixelSize.y) PixelSize.y = 1;
 	ImGui::Separator();
 
+	ImGui::Text("Current Tile");ImGui::NewLine();
+
+	//if (DrawModeEnum == (UINT)TILE_DRAW_MODE::NONE || DrawModeEnum == (UINT)TILE_DRAW_MODE::ERASER)
+		//ImGui::Dummy(Vec2(50.f, 50.f));
+
 	// Tile 
 	if (nullptr != m_CurSheet)
 	{
 		ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
 		my_texture = m_CurSheet.Get()->GetSRV().Get();
+		ImGui::Image((void*)my_texture.Get(), ImVec2(48.f, 48.f), m_Selected.Min, m_Selected.Max);
+
+		ImGui::NewLine(); ImGui::Separator();
 
 		static float fwidth = m_CurSheet->GetWidth();
 		static float fheight = m_CurSheet->GetHeight();
-		static float uv_width = PixelSize.x / fwidth;
-		static float uv_height = PixelSize.y / fheight;
-		static ImVec2 uv_size = ImVec2(uv_width, uv_height);
 
 		int count = 0;
-		for (size_t i = 0; i < fheight/ PixelSize.y; i++)
+		for (size_t i = 0; i < fheight / PixelSize.y; i++)
 		{
-			for (size_t j = 0; j < fwidth/PixelSize.x; j++)
+			for (size_t j = 0; j < fwidth / PixelSize.x; j++)
 			{
 				count++;
 				ImVec2 uvLT = ImVec2(PixelSize.x * j / fwidth, PixelSize.y * i / fheight);
 				ImVec2 uvRB = ImVec2(PixelSize.x * (j + 1) / fwidth, PixelSize.y * (i + 1) / fheight);
+				char _id[256] = {};
+				sprintf_s(_id, "_id%d", count);
+				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
+				{
+					m_Selected = ImRect(uvLT, uvRB);
+				}//SelectTile(uvLT, uvRB);
 
-				ImGui::ImageButton((void*)my_texture.Get(), ImVec2(48.f,48.f), uvLT, uvRB);
 				if (0 == count % 5)
 					continue;
-				
+
 				ImGui::SameLine();
 			}
 		}
 	}
-
-
-
 	ImGui::EndChild();
 	ImGui::End();
+	//FaceXtest , FaceYtest
+	draw_list->PushClipRect(canvas_LT, canvas_RB, true);
+	ImVec2 left_top = canvas_LT + scrolling - WheelOffset;
+	ImVec2 right_bottom = left_top + Rendersizetest * WheelSz;
+	draw_list->AddRect(left_top, right_bottom, IM_COL32(255, 255, 255, 255));
+	draw_list->PopClipRect();
+}
+
+void TileMapEditorUI::SelectTile(ImVec2 _uvLT, ImVec2 _uvRB)
+{
+
 
 }
 
