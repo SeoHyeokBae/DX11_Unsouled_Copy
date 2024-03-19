@@ -271,6 +271,9 @@
     <ClInclude Include="ScriptUI.h">
       <Filter>02. UI\3. Inspector\ComponentUI\Script</Filter>
     </ClInclude>
+    <ClInclude Include="TileMapEditorUI.h">
+      <Filter>02. UI\5. Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -418,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="ScriptUI.cpp">
       <Filter>02. UI\3. Inspector\ComponentUI\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapEditorUI.cpp">
+      <Filter>02. UI\5. Editor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

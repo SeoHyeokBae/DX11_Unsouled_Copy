@@ -19,6 +19,7 @@
 
 #include "ParamUI.h"
 #include "AnimationEditorUI.h"
+#include "TileMapEditorUI.h"
 
 CImGuiMgr::CImGuiMgr()
     : m_bDemoUI(true)
@@ -183,8 +184,10 @@ void CImGuiMgr::dockspace()
                 Editor->Activate();
             }
             ImGui::Separator();
-            if (ImGui::MenuItem("Map Editor"))
+            if (ImGui::MenuItem("TileMap Editor"))
             {
+                TileMapEditorUI* Editor = (TileMapEditorUI*)CImGuiMgr::GetInst()->FindUI("##TileEditor");
+                Editor->Activate();
             }
             ImGui::Separator();
             ImGui::EndMenu();
@@ -220,6 +223,10 @@ void CImGuiMgr::create_ui()
 
     // AnimationEditor
     pUI = new AnimationEditorUI;
+    AddUI(pUI->GetID(), pUI);
+
+    // TileMapEditor
+    pUI = new TileMapEditorUI;
     AddUI(pUI->GetID(), pUI);
 }
 

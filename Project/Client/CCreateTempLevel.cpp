@@ -151,7 +151,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CBackgroundScript);
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 600.f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 1500.f));
 	pObj->Transform()->SetRelativeScale(Vec3(203.f*2.5, 243.f*2.5, 1.f));
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
@@ -201,10 +201,16 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Animator2D()->Create(L"MOVE_LEFT", pAltasTex, Vec2(0.f, 650.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 	pObj->Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 
+	
 	pTempLevel->AddObject(pObj, L"Player", false);
-
-	//pObj = pObj->Clone();
-	//pObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 500.f));
+	CGameObject* pCObj = nullptr;
+	pCObj = pObj->Clone();
+	Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
+	vRot.z += XM_PI * 0.25f;
+	vRot.x += XM_PI * 0.25f;
+	pCObj->Transform()->SetRelativeRotation(vRot);
+	pCObj->Transform()->SetRelativePos(Vec3(0.f,0.f,250.f));
+	pObj->AddChild(pCObj);
 
 	// Monster Object »ý¼º
 	pObj = new CGameObject;

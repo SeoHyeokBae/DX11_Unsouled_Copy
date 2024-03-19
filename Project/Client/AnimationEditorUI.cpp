@@ -102,7 +102,9 @@ void AnimationEditorUI::render_update()
 	ImGui::Text("Center pos: (%g, %g)", m_CenterPos.x, m_CenterPos.y);
 	ImGui::Text("Mouse wheel: %.1f", m_Wheelsz);
 
+	// Atlas
 	DrawCanvas();
+
 	// animation make
 	ImGui::Begin("Sprite Animation");
 	if (ImGui::Button("New Animation"))
