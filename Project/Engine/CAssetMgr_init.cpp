@@ -291,8 +291,7 @@ void CAssetMgr::CreateDefaultMaterial()
 	// TestMtrl
 	//pMtrl = new CMaterial(true);
 	//pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
-	//pMtrl->SetTexParam(TEX_0, Load<CTexture>(L"texture\\Background.jpg", L"texture\\Background.jpg"));
-	//pMtrl->SetScalarParam(INT_0, 10);
+	//pMtrl->SetScalarParam(SCALAR_PARAM::INT_0, 10);
 	//pMtrl->Save(L"material\\testmtrl.mtrl");
 	//AddAsset<CMaterial>(L"TestMtrl", pMtrl);
 

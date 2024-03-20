@@ -57,6 +57,8 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         }
         else
         {
+
+           
             vColor = g_anim2d_tex.Sample(g_sam_1, vUV);
         }
         
@@ -101,6 +103,9 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     {
         discard;
     }
+    
+    if (g_int_0 == 1) // ±×¸²ÀÚ
+        vColor = (float4(0.f, 0.f, 0.f, 0.75f));
     
     return vColor;
 }

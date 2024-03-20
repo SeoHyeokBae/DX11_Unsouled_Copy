@@ -237,7 +237,7 @@ void MenuUI::Asset()
             int num = 0;
             while (true)
             {
-                swprintf_s(szPath, L"Material//New Material_%d.mtrl", num);
+                swprintf_s(szPath, L"Material\\New Material_%d.mtrl", num);
                 if (!exists(FilePath + szPath))
                     break;
                 ++num;

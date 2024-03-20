@@ -21,6 +21,7 @@
 
 #include <Scripts/CMissileScript.h>
 #include <Scripts/CMonsterScript.h>
+#include <Scripts/CShadowScript.h>
 
 #include <Engine/CAssetMgr.h>
 #include <Engine/CPrefab.h>
@@ -170,7 +171,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CCollider2D);
 	pObj->AddComponent(new CAnimator2D);
-	pObj->AddComponent(new CPlayerScript);
+	//pObj->AddComponent(new CPlayerScript);
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
 
@@ -201,17 +202,27 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Animator2D()->Create(L"MOVE_LEFT", pAltasTex, Vec2(0.f, 650.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 	pObj->Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 
+	//pObj->AddComponent(new CShadowScript);
 	
-	pTempLevel->AddObject(pObj, L"Player", false);
 	CGameObject* pCObj = nullptr;
 	pCObj = pObj->Clone();
+
+	pObj->AddComponent(new CPlayerScript);
+
 	Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
 	vRot.y += XM_PI * -0.25f;
 	vRot.x += XM_PI * 0.3f;
 	pCObj->Transform()->SetRelativeRotation(vRot);
-	pCObj->Transform()->SetRelativePos(Vec3(0.f,-50.f,200.f));
+	pCObj->Transform()->SetRelativePos(Vec3(-25.f,-25.f,200.f));
+
+	CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
+
+	pCObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
+
+	pTempLevel->AddObject(pObj, L"Player", false);
 	pObj->AddChild(pCObj);
-	//pTempLevel->AddObject(pObj, L"PlayerShadow", false);
+	
+	//pTempLevel->AddObject(pCObj, L"Player", false);
 
 
 	// Monster Object »ý¼º
@@ -234,7 +245,7 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
+	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
 
 	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
 

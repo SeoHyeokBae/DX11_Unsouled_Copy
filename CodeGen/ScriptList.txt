@@ -2,3 +2,4 @@ CBackgroundScript
 CMissileScript
 CMonsterScript
 CPlayerScript
+CShadowScript
