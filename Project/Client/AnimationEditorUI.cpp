@@ -213,6 +213,7 @@ void AnimationEditorUI::render_update()
 		ImRect rec(imageLT,imageRB);
 
 		rec.Translate(m_vecAnim[m_AnimIdx].vOffset);
+		rec.Expand(100.f); // preview 내 이미지 사이즈
 		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.Min, rec.Max, uv0, uv1);
 		draw_list->PopClipRect();
 	}

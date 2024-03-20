@@ -3,6 +3,7 @@
 #include "imgui_internal.h"
 
 #include <Engine/CTexture.h>
+#include <Engine/CTileMap.h>
 
 enum class TILE_DRAW_MODE
 {
@@ -21,12 +22,15 @@ private:
     TILE_DRAW_MODE      m_DrawMode;
     ImRect              m_Selected;
     vector<ImRect>      m_vecTile;
+    vector<tTileInfo>   m_vecTileInfo;
+    bool                m_bChange;
 
 public:
     virtual void render_update() override;
     virtual void Deactivate() override;
 
-    void SelectTile(ImVec2 _uvLT, ImVec2 _uvRB);
+    void SetTileIndex(int _row, int _col, int _faceX);
+    void Clear(int _faceX, int faceY);
 public:
     TileMapEditorUI();
     ~TileMapEditorUI();

@@ -7,6 +7,7 @@ TileMapEditorUI::TileMapEditorUI()
 	, m_CurSheet(nullptr)
 	, m_DrawMode(TILE_DRAW_MODE::NONE)
 	, m_Selected{}
+	, m_bChange(false)
 {
 	Deactivate();
 }
@@ -109,8 +110,6 @@ void TileMapEditorUI::render_update()
 		}
 	}
 
-
-
 	// Info
 	ImGui::Begin("Tile Info");
 	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border);
@@ -122,10 +121,24 @@ void TileMapEditorUI::render_update()
 	const UINT UINT_Unit = 1;
 	static UINT FaceX = 1;
 	static UINT FaceY = 1;
+
+	UINT prvFaceX = FaceX;
+	UINT prvFaceY = FaceY;
+
 	ImGui::Text("Face X"); ImGui::SameLine(79.f);
 	ImGui::InputScalar("##FaceX", ImGuiDataType_U32, &FaceX, stepX ? &UINT_Unit : NULL, NULL);
 	ImGui::Text("Face Y"); ImGui::SameLine(79.f);
 	ImGui::InputScalar("##FaceY", ImGuiDataType_U32, &FaceY, stepY ? &UINT_Unit : NULL, NULL);
+
+	if (prvFaceX != FaceX || prvFaceY != FaceY)	
+		m_bChange = true;
+
+
+	if (m_bChange)
+	{
+		m_bChange = false;
+		Clear(FaceX, FaceY);
+	}
 
 
 	ImGui::Text("Tile Size"); ImGui::SameLine();
@@ -240,9 +253,13 @@ void TileMapEditorUI::render_update()
 			ImRect rect = ImRect(LT, RB);
 			if (rect.Contains(io.MousePos) && ImGui::IsWindowFocused() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			{
-				// 타일 체크
-				
-				//mouse_pos_in_canvas
+				SetTileIndex(i,j,FaceX);
+			}
+			UINT idx = i * FaceX + j;
+			if (m_vecTileInfo.size() !=0 && m_vecTileInfo[idx].bRender)
+			{
+				ImVec2 size = m_Selected.Max - m_Selected.Min;
+				draw_list->AddImage((void*)m_CurSheet.Get()->GetSRV().Get(), LT, RB, m_vecTileInfo[idx].vLeftTopUV, m_vecTileInfo[idx].vLeftTopUV+ size);
 			}
 		}
 	}
@@ -251,13 +268,29 @@ void TileMapEditorUI::render_update()
 	draw_list->PopClipRect();
 }
 
-void TileMapEditorUI::SelectTile(ImVec2 _uvLT, ImVec2 _uvRB)
+void TileMapEditorUI::SetTileIndex(int _row, int _col,int _faceX)
 {
+	ImVec2 uvlt = m_Selected.Min;
+	UINT idx = _row * _faceX + _col;
 
+	m_vecTileInfo[idx].vLeftTopUV = uvlt;
+	m_vecTileInfo[idx].bRender = 1;
+}
 
+void TileMapEditorUI::Clear(int _faceX, int faceY)
+{
+	if (0 != m_vecTileInfo.size())
+	{
+		m_vecTileInfo.clear();
+	}
+	vector<tTileInfo> vecTemp;
+	m_vecTileInfo.swap(vecTemp);
+	m_vecTileInfo.resize(_faceX * faceY);
 }
 
 void TileMapEditorUI::Deactivate()
 {
 	UI::Deactivate();
 }
+
+
