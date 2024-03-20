@@ -8,7 +8,7 @@ TileMapEditorUI::TileMapEditorUI()
 	, m_DrawMode(TILE_DRAW_MODE::NONE)
 	, m_Selected{}
 	, m_bChange(false)
-{
+{	 
 	Deactivate();
 }
 
@@ -55,45 +55,8 @@ void TileMapEditorUI::render_update()
 	const ImVec2 origin(canvas_LT.x + scrolling.x - WheelOffset.x, canvas_LT.y + scrolling.y - WheelOffset.y);
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
-	// 좌클릭시
-	if (ImGui::IsWindowFocused() && m_DrawMode != TILE_DRAW_MODE::NONE && is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-	{
-		//cutting_rect = true;
-
-		UINT test = 0;
-		switch (test)
-		{
-		case (UINT)TILE_DRAW_MODE::PAINT:
-			break;
-		case (UINT)TILE_DRAW_MODE::FILL:
-			break;
-		case (UINT)TILE_DRAW_MODE::ERASER:
-			break;
-		case (UINT)TILE_DRAW_MODE::NONE:
-			break;
-		default:
-			break;
-		}
-	}
-	//if (cutting_rect)
-	//{
-	//	points.back() = mouse_pos_in_canvas / WheelSz;
-
-	//	if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-	//	{
-	//		cutting_rect = false;
-	//		ImRect rect(points[points.size() - 2], points.back());
-	//		if (rect.Min.x > rect.Max.x) ImSwap(rect.Min.x, rect.Max.x);
-	//		if (rect.Min.y > rect.Max.y) ImSwap(rect.Min.y, rect.Max.y);
-	//		m_vecRect.push_back(rect);
-	//		m_bSlice = false;
-	//	}
-	//}
-
 	// 오른쪽 마우스 드래그
-	//static bool opt_enable_context_menu = true;
-	//const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
-	if (ImGui::IsWindowFocused() && is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right)/*, opt_enable_context_menu*/)
+	if (ImGui::IsWindowFocused() && is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right))
 	{
 		scrolling.x += io.MouseDelta.x;
 		scrolling.y += io.MouseDelta.y;
@@ -253,7 +216,7 @@ void TileMapEditorUI::render_update()
 			draw_list->AddRect(LT, RB, IM_COL32(255, 255, 255, 255));
 
 			ImRect rect = ImRect(LT, RB);
-			if (rect.Contains(io.MousePos) && ImGui::IsWindowFocused() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			if (rect.Contains(io.MousePos) && ImGui::IsWindowFocused() && (ImGui::IsMouseClicked(ImGuiMouseButton_Left)|| ImGui::IsMouseDown(ImGuiMouseButton_Left)))
 			{
 				ClickEvent(FaceX, FaceY, i, j);
 			}
@@ -285,9 +248,9 @@ void TileMapEditorUI::ClickEvent(int _faceX, int _faceY, int _row, int _col)
 	}
 		break;
 	case TILE_DRAW_MODE::FILL:
-		for (size_t i = 0; i < _faceX; i++)
+		for (size_t i = 0; i < _faceY; i++)
 		{
-			for (size_t j = 0; j < _faceY; j++)
+			for (size_t j = 0; j < _faceX; j++)
 			{
 				UINT idx = i * _faceX + j;
 				if (!m_vecTileInfo[idx].bRender)
@@ -309,10 +272,7 @@ void TileMapEditorUI::ClickEvent(int _faceX, int _faceY, int _row, int _col)
 
 void TileMapEditorUI::Clear(int _faceX, int faceY)
 {
-	if (0 != m_vecTileInfo.size())
-	{
-		m_vecTileInfo.clear();
-	}
+	m_vecTileInfo.clear();
 	vector<tTileInfo> vecTemp;
 	m_vecTileInfo.swap(vecTemp);
 	m_vecTileInfo.resize(_faceX * faceY);
