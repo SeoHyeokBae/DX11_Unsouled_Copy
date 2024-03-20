@@ -223,6 +223,7 @@ void TileMapEditorUI::render_update()
 				ImVec2 uvRB = ImVec2(PixelSize.x * (j + 1) / fwidth, PixelSize.y * (i + 1) / fheight);
 				char _id[256] = {};
 				sprintf_s(_id, "_id%d", count);
+				
 				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
 				{
 					m_Selected = ImRect(uvLT, uvRB);
@@ -242,6 +243,7 @@ void TileMapEditorUI::render_update()
 	ImVec2 left_top = canvas_LT + scrolling - WheelOffset;
 	ImVec2 new_render_size =  Rendersize * WheelSz;
 
+	// ≈∏¿œ ∑ª¥ı∏µ
 	for (size_t i = 0; i < FaceY; i++)
 	{
 		for (size_t j = 0; j < FaceX; j++)
@@ -253,8 +255,9 @@ void TileMapEditorUI::render_update()
 			ImRect rect = ImRect(LT, RB);
 			if (rect.Contains(io.MousePos) && ImGui::IsWindowFocused() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			{
-				SetTileIndex(i,j,FaceX);
+				ClickEvent(FaceX, FaceY, i, j);
 			}
+
 			UINT idx = i * FaceX + j;
 			if (m_vecTileInfo.size() !=0 && m_vecTileInfo[idx].bRender)
 			{
@@ -263,18 +266,45 @@ void TileMapEditorUI::render_update()
 			}
 		}
 	}
-
-
 	draw_list->PopClipRect();
 }
 
-void TileMapEditorUI::SetTileIndex(int _row, int _col,int _faceX)
+void TileMapEditorUI::ClickEvent(int _faceX, int _faceY, int _row, int _col)
 {
-	ImVec2 uvlt = m_Selected.Min;
-	UINT idx = _row * _faceX + _col;
+	if (nullptr == m_CurSheet)
+		return;
 
-	m_vecTileInfo[idx].vLeftTopUV = uvlt;
-	m_vecTileInfo[idx].bRender = 1;
+	UINT idx = _row * _faceX + _col;
+	switch (m_DrawMode)
+	{
+	case TILE_DRAW_MODE::PAINT:
+	{
+		ImVec2 uvlt = m_Selected.Min;
+		m_vecTileInfo[idx].vLeftTopUV = uvlt;
+		m_vecTileInfo[idx].bRender = 1;
+	}
+		break;
+	case TILE_DRAW_MODE::FILL:
+		for (size_t i = 0; i < _faceX; i++)
+		{
+			for (size_t j = 0; j < _faceY; j++)
+			{
+				UINT idx = i * _faceX + j;
+				if (!m_vecTileInfo[idx].bRender)
+				{
+					ImVec2 uvlt = m_Selected.Min;
+					m_vecTileInfo[idx].vLeftTopUV = uvlt;
+					m_vecTileInfo[idx].bRender = true;
+				}
+			}
+		}
+		break;
+	case TILE_DRAW_MODE::ERASER:
+		m_vecTileInfo[idx] = {};
+		break;
+	case TILE_DRAW_MODE::NONE:
+		break;
+	}
 }
 
 void TileMapEditorUI::Clear(int _faceX, int faceY)
@@ -289,7 +319,7 @@ void TileMapEditorUI::Clear(int _faceX, int faceY)
 }
 
 void TileMapEditorUI::Deactivate()
-{
+{   
 	UI::Deactivate();
 }
 

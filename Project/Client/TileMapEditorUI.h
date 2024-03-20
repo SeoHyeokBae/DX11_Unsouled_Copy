@@ -29,8 +29,9 @@ public:
     virtual void render_update() override;
     virtual void Deactivate() override;
 
-    void SetTileIndex(int _row, int _col, int _faceX);
+    void ClickEvent(int _faceX, int _faceY, int _row, int _col);
     void Clear(int _faceX, int faceY);
+
 public:
     TileMapEditorUI();
     ~TileMapEditorUI();

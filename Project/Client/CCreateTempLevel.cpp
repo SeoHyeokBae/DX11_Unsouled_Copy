@@ -206,11 +206,13 @@ void CCreateTempLevel::CreateTempLevel()
 	CGameObject* pCObj = nullptr;
 	pCObj = pObj->Clone();
 	Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
-	vRot.z += XM_PI * 0.25f;
-	vRot.x += XM_PI * 0.25f;
+	vRot.y += XM_PI * -0.25f;
+	vRot.x += XM_PI * 0.3f;
 	pCObj->Transform()->SetRelativeRotation(vRot);
-	pCObj->Transform()->SetRelativePos(Vec3(0.f,0.f,250.f));
+	pCObj->Transform()->SetRelativePos(Vec3(0.f,-50.f,200.f));
 	pObj->AddChild(pCObj);
+	//pTempLevel->AddObject(pObj, L"PlayerShadow", false);
+
 
 	// Monster Object »ý¼º
 	pObj = new CGameObject;
