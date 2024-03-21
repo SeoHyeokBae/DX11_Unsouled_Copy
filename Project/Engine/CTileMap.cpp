@@ -12,7 +12,6 @@ CTileMap::CTileMap()
 	: CRenderComponent(COMPONENT_TYPE::TILEMAP)
 	, m_FaceX(2)
 	, m_FaceY(2)
-	, m_vTileRenderSize(Vec2(128.f, 128.f))
 	, m_TileInfoBuffer(nullptr)
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
@@ -27,7 +26,6 @@ CTileMap::CTileMap(const CTileMap& _OriginTileMap)
 	: CRenderComponent(_OriginTileMap)
 	, m_FaceX(_OriginTileMap.m_FaceX)
 	, m_FaceY(_OriginTileMap.m_FaceY)
-	, m_vTileRenderSize(_OriginTileMap.m_vTileRenderSize)
 	, m_TileAtlas(_OriginTileMap.m_TileAtlas)
 	, m_vTilePixelSize(_OriginTileMap.m_vTilePixelSize)
 	, m_vSliceSizeUV(_OriginTileMap.m_vSliceSizeUV)
@@ -53,7 +51,7 @@ CTileMap::~CTileMap()
 void CTileMap::finaltick()
 {
 	// (타일 개수 * 타일 사이즈) 로 사이즈를 변경처리한다.
-	Vec3 vTileMapSize = Vec3(m_FaceX * m_vTileRenderSize.x, m_FaceY * m_vTileRenderSize.y, 1.f);
+	Vec3 vTileMapSize = Vec3(m_FaceX * m_vTilePixelSize.x, m_FaceY * m_vTilePixelSize.y, 1.f);
 	Transform()->SetRelativeScale(vTileMapSize);
 }
 
@@ -137,8 +135,6 @@ void CTileMap::SaveToFile(FILE* _File)
 	// TileMap 정보 저장
 	fwrite(&m_FaceX, sizeof(UINT), 1, _File);
 	fwrite(&m_FaceY, sizeof(UINT), 1, _File);
-	fwrite(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
-	fwrite(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
 
 	SaveAssetRef(m_TileAtlas, _File);
 
@@ -158,8 +154,6 @@ void CTileMap::LoadFromFile(FILE* _File)
 	// TileMap 정보 저장
 	fread(&m_FaceX, sizeof(UINT), 1, _File);
 	fread(&m_FaceY, sizeof(UINT), 1, _File);
-	fread(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
-	fread(&m_vTileRenderSize, sizeof(Vec2), 1, _File);
 
 	LoadAssetRef(m_TileAtlas, _File);
 
@@ -171,6 +165,6 @@ void CTileMap::LoadFromFile(FILE* _File)
 
 	size_t InfoCount = 0;
 	fread(&InfoCount, sizeof(size_t), 1, _File);
-	m_vecTileInfo.reserve(InfoCount);
+	m_vecTileInfo.resize(InfoCount);
 	fread(m_vecTileInfo.data(), sizeof(tTileInfo), InfoCount, _File);
 }

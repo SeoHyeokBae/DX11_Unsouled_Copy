@@ -74,18 +74,19 @@ void CCreateTempLevel::CreateTempLevel()
 	//CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\temp.lv");
 	//CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
 	//return;
-
-	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"testAtlas", L"texture\\player_tilesheet.png");
-	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
 	
+	Ptr<CTexture> pAltasTex = nullptr;
+	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
+
 	// 초기 레벨 구성하기
 	CLevel* pTempLevel = new CLevel;
 	pTempLevel->GetLayer(0)->SetName(L"Default");
-	pTempLevel->GetLayer(1)->SetName(L"Background");
-	pTempLevel->GetLayer(2)->SetName(L"Tile");
-	pTempLevel->GetLayer(3)->SetName(L"Player");
-	pTempLevel->GetLayer(4)->SetName(L"Monster");
-	pTempLevel->GetLayer(5)->SetName(L"Light");
+	pTempLevel->GetLayer(1)->SetName(L"Tile_Property");
+	pTempLevel->GetLayer(2)->SetName(L"Tile_Collider");
+	pTempLevel->GetLayer(10)->SetName(L"Background");
+	pTempLevel->GetLayer(11)->SetName(L"Player");
+	pTempLevel->GetLayer(12)->SetName(L"Monster");
+	pTempLevel->GetLayer(13)->SetName(L"Light");
 	pTempLevel->GetLayer(31)->SetName(L"UI");
 
 
@@ -210,8 +211,9 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CPlayerScript);
 
 	Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
-	vRot.y += XM_PI * -0.25f;
 	vRot.x += XM_PI * 0.3f;
+	vRot.y += XM_PI * -0.15f;
+	vRot.z += XM_PI * 0.05f;
 	pCObj->Transform()->SetRelativeRotation(vRot);
 	pCObj->Transform()->SetRelativePos(Vec3(-25.f,-25.f,200.f));
 

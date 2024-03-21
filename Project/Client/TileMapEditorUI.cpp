@@ -1,6 +1,12 @@
 #include "pch.h"
 #include "TileMapEditorUI.h"
 
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+#include <Engine/CTransform.h>
+#include <Engine/CTileMap.h>
+#include <Engine/CMeshRender.h>
+#include <Engine/CTaskMgr.h>
 
 TileMapEditorUI::TileMapEditorUI()
 	: UI("Tile Editor", "##TileEditor")
@@ -20,9 +26,45 @@ void TileMapEditorUI::render_update()
 {
 	static ImVec2 scrolling(0.0f, 0.0f);
 	static float WheelSz = 1.f;
+	static char tileMapName[256] = {};
+	static UINT SelectedIdx = 0;
+	static UINT FaceX = 1;
+	static UINT FaceY = 1;
+	static Vector2 PixelSize = Vector2(16.f, 16.f);	// sheet 타일 사이즈
+	static Vector2 Rendersize = Vector2(16.f, 16.f);	// Object 그려질 사이즈
 
+
+	if (ImGui::Button("Save"))
+	{
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load"))
+	{
+	}
+	ImGui::SameLine();
 	if (ImGui::Button("Create"))
 	{
+		CLevel* curlevel = CLevelMgr::GetInst()->GetCurrentLevel();
+		CGameObject* tileObj = new CGameObject;
+		tileObj->SetName(ToWString(tileMapName));
+		tileObj->AddComponent(new CTransform);
+		tileObj->AddComponent(new CTileMap);
+		tileObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+		tileObj->TileMap()->SetFace(FaceX, FaceY);
+		tileObj->TileMap()->SetTileAtlas(m_CurSheet, PixelSize);
+		tileObj->TileMap()->SetTileInfoVec(m_vecTileInfo);
+		//for (size_t i = 0; i < FaceY; i++)
+		//{
+		//	for (size_t j = 0; j < FaceX; j++)
+		//	{
+		//		UINT idx = i * FaceX + j;
+		//		if (m_vecTileInfo[idx].bRender)
+		//		{
+		//			tileObj->TileMap()->SetTileIndex(i, j, SelectedIdx);
+		//		}
+		//	}
+		//}
+		GamePlayStatic::SpawnGameObject(tileObj, 1);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Exit"))
@@ -76,14 +118,11 @@ void TileMapEditorUI::render_update()
 	// Info
 	ImGui::Begin("Tile Info");
 	ImGui::BeginChild("child", ImGui::GetContentRegionAvail(), ImGuiChildFlags_Border);
-	static char tileMapName[256] = {};
 	ImGui::Text("Name"); ImGui::SameLine(79.f);
 	ImGui::InputText("##TileMap", (char*)tileMapName, IM_ARRAYSIZE(tileMapName));
 	static bool stepX = true;
 	static bool stepY = true;
 	const UINT UINT_Unit = 1;
-	static UINT FaceX = 1;
-	static UINT FaceY = 1;
 
 	UINT prvFaceX = FaceX;
 	UINT prvFaceY = FaceY;
@@ -103,9 +142,7 @@ void TileMapEditorUI::render_update()
 		Clear(FaceX, FaceY);
 	}
 
-
 	ImGui::Text("Tile Size"); ImGui::SameLine();
-	static Vector2 Rendersize = Vector2(64.f, 64.f);	// ObjectSize
 	ImGui::DragFloat2("##Tile Render Size", Rendersize);
 
 	ImGui::Text("Mode  "); ImGui::SameLine();
@@ -153,7 +190,6 @@ void TileMapEditorUI::render_update()
 		ImGui::EndCombo();
 	}
 	ImGui::Text("Pixel Size"); ImGui::SameLine();
-	static Vector2 PixelSize = Vector2(64.f, 64.f);	// ObjectSize
 	ImGui::DragFloat2("##Pixel Size", PixelSize);
 	if (1 > PixelSize.x) PixelSize.x = 1;
 	if (1 > PixelSize.y) PixelSize.y = 1;
@@ -189,6 +225,7 @@ void TileMapEditorUI::render_update()
 				
 				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
 				{
+					SelectedIdx = i * (fwidth / PixelSize.x) + j;
 					m_Selected = ImRect(uvLT, uvRB);
 				}
 

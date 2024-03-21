@@ -17,7 +17,6 @@ class CTileMap :
 private:
     UINT                  m_FaceX;                 // 가로 타일 개수
     UINT                  m_FaceY;                 // 세로 타일 개수
-    Vec2                  m_vTileRenderSize;       // 타일 1칸 사이즈
                          
     Ptr<CTexture>         m_TileAtlas;
     Vec2                  m_vTilePixelSize;
@@ -40,6 +39,7 @@ public:
     UINT GetFaceY() { return m_FaceY; }
 
     void SetTileIndex(UINT _Row, UINT _Col, UINT _ImgIdx);
+    void SetTileInfoVec(vector<tTileInfo>& _info) { m_vecTileInfo = _info; }
 
 public:
     virtual void finaltick() override;

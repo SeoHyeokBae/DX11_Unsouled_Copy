@@ -44,4 +44,9 @@ void TextureUI::render_update()
     ImVec4 tint_col = use_text_color_for_tint ? ImGui::GetStyleColorVec4(ImGuiCol_Text) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // No tint
     ImVec4 border_col = ImGui::GetStyleColorVec4(ImGuiCol_Border);
     ImGui::Image(pTex->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+
+    if (ImGui::Button("Add Texture List##AddTextureBtn"))
+    {
+       
+    }
 }
