@@ -103,12 +103,13 @@ void CAnim::Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture>
 {
 	m_Animator = _Animator;
 	m_AtlasTex = _Atlas;
-	for (int i = 0; i < _FrmCount; ++i)
-	{
-		tAnimFrm frm = {};
-		frm = _FrmInfo[i];
-		m_vecFrm.push_back(frm);
-	}
+	m_vecFrm = _FrmInfo;
+	//for (int i = 0; i < _FrmCount; ++i)
+	//{
+	//	tAnimFrm frm = {};
+	//	frm = _FrmInfo[i];
+	//	m_vecFrm.push_back(frm);
+	//}
 }
 
 

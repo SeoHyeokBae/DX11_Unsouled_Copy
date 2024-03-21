@@ -212,7 +212,7 @@ void AnimationEditorUI::render_update()
 		ImVec2 imageRB = imageLT + ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight());
 		ImRect rec(imageLT,imageRB);
 
-		rec.Translate(m_vecAnim[m_AnimIdx].vOffset);
+		rec.Translate(m_vecAnim[m_AnimIdx].vOffset * ImVec2(m_CurAtlas->GetWidth(), m_CurAtlas->GetHeight()));
 		rec.Expand(100.f); // preview 내 이미지 사이즈
 		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.Min, rec.Max, uv0, uv1);
 		draw_list->PopClipRect();
@@ -244,17 +244,19 @@ void AnimationEditorUI::render_update()
 
 	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
 	ImVec2 offset = ImVec2(0.f, 0.f);
-	if(0 != m_vecAnim.size()) offset = ImVec2(m_vecAnim[m_AnimIdx].vOffset);
-	ImGui::Text("Offset : X = %0.f, Y = %0.f", offset.x, offset.y);
+	if(0 != m_vecAnim.size()) offset = ImVec2(m_vecAnim[m_AnimIdx].vOffset)* ImVec2(m_CurAtlas->GetWidth(), m_CurAtlas->GetHeight());
+	ImGui::Text("Offset : X = %0.1f, Y = %0.1f", offset.x, offset.y);
 
 	ImGui::SetCursorPos(ImVec2(335.f,212.f));
-	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { m_vecAnim[m_AnimIdx].vOffset.y--; }
+	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { offset.y -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / m_CurAtlas->GetHeight(); }
 	ImGui::SetCursorPosX(313.f);
-	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { m_vecAnim[m_AnimIdx].vOffset.x--; }
+	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { offset.x -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.x = offset.x / m_CurAtlas->GetWidth();}
 	ImGui::SameLine(); ImGui::SetCursorPosX(357.f);
-	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { m_vecAnim[m_AnimIdx].vOffset.x++; }
+	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { offset.x += 0.5f; m_vecAnim[m_AnimIdx].vOffset.x = offset.x / m_CurAtlas->GetWidth();}
 	ImGui::SetCursorPosX(335.f);
-	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { m_vecAnim[m_AnimIdx].vOffset.y++; }
+	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { offset.y += 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / m_CurAtlas->GetHeight();}
+
+	//if (0 != m_vecAnim.size()) m_vecAnim[m_AnimIdx].vOffset = offset / ImVec2(m_CurAtlas->GetWidth(), m_CurAtlas->GetHeight());
 	ImGui::SetCursorPos(ImVec2(265.f,300.f)); ImGui::Separator();
 
 	ImGui::Text("Frame Length"); ImGui::SameLine();
@@ -895,7 +897,6 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 void AnimationEditorUI::SaveAnim(const wstring& _str)
 {
 	CAnim* pAnim = new CAnim;
-	pAnim->Create(_str, nullptr, m_CurAtlas, m_vecAnim, m_vecAnim.size());
 
 	// anim 을 저장할 경로
 	wstring strAnimPath = CPathMgr::GetContentPath();
@@ -915,6 +916,7 @@ void AnimationEditorUI::SaveAnim(const wstring& _str)
 			MaxSZ.y + 100.f / m_CurAtlas->GetHeight());
 		m_vecAnim[i].Duration = 1.f / m_fps;
 	}
+	pAnim->Create(_str, nullptr, m_CurAtlas, m_vecAnim, m_vecAnim.size());
 
 	pAnim->SaveToFile(pFile);
 

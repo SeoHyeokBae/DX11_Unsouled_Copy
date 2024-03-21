@@ -28,7 +28,6 @@ void TileMapEditorUI::render_update()
 	static ImVec2 scrolling(0.0f, 0.0f);
 	static float WheelSz = 1.f;
 	static char tileMapName[256] = {};
-	static UINT SelectedIdx = 0;
 	static UINT FaceX = 1;
 	static UINT FaceY = 1;
 	static Vector2 PixelSize = Vector2(16.f, 16.f);	// sheet 타일 사이즈
@@ -131,7 +130,6 @@ void TileMapEditorUI::render_update()
 			Clear(FaceX, FaceY); // 타일 X * Y 그리드
 
 			m_CurSheet = pTile->GetTileAtlas();
-			combo_preview = (char*)m_CurSheet->GetName().c_str();
 			m_vecTileInfo = pTile->GetInfoVec();
 
 			fclose(pFile);
@@ -312,7 +310,6 @@ void TileMapEditorUI::render_update()
 				
 				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
 				{
-					SelectedIdx = i * (fwidth / PixelSize.x) + j;
 					m_Selected = ImRect(uvLT, uvRB);
 				}
 
