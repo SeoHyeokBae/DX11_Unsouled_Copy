@@ -21,7 +21,6 @@ private:
     Ptr<CTexture>       m_CurSheet;
     TILE_DRAW_MODE      m_DrawMode;
     ImRect              m_Selected;
-    vector<ImRect>      m_vecTile;
     vector<tTileInfo>   m_vecTileInfo;
     bool                m_bChange;
 

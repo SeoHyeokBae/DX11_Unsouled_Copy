@@ -15,6 +15,7 @@ TileMapEditorUI::TileMapEditorUI()
 	, m_Selected{}
 	, m_bChange(false)
 {	 
+	Clear(1,1);
 	Deactivate();
 }
 
@@ -32,14 +33,111 @@ void TileMapEditorUI::render_update()
 	static UINT FaceY = 1;
 	static Vector2 PixelSize = Vector2(16.f, 16.f);	// sheet 타일 사이즈
 	static Vector2 Rendersize = Vector2(16.f, 16.f);	// Object 그려질 사이즈
+	const char* combo_preview = "Select"; // combobox
 
 
 	if (ImGui::Button("Save"))
 	{
-	}
+		wchar_t szSelect[256] = { };
+		OPENFILENAME ofn = {};
+
+		char chName[256] = {};
+		strcpy_s(chName, tileMapName);
+		strncat_s(chName, ".tile", 6);
+		CharToWChar(chName, szSelect);
+
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = nullptr;
+		ofn.lpstrFile = szSelect;
+		ofn.nMaxFile = sizeof(szSelect);
+		ofn.lpstrFilter = L"ALL\0*.*\0Tile\0*.tile";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+
+		// 탐색창 초기 위치 지정
+		wstring strInitPath = CPathMgr::GetContentPath();
+		strInitPath += L"tile\\";
+		ofn.lpstrInitialDir = strInitPath.c_str();
+
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (GetSaveFileName(&ofn))
+		{
+			CTileMap* pTile = new CTileMap;
+			pTile->SetFace(FaceX, FaceY);
+			pTile->SetTileAtlas(m_CurSheet, PixelSize);
+			pTile->SetTileInfoVec(m_vecTileInfo);
+
+			// tile 을 저장할 경로
+			wstring strTilePath = CPathMgr::GetContentPath();
+			strTilePath += szSelect;
+
+			FILE* pFile = nullptr;
+			_wfopen_s(&pFile, CPathMgr::GetRelativePath(strTilePath).c_str(), L"wb");
+
+			pTile->SaveToFile(pFile);
+			
+			fclose(pFile);
+			delete pTile;
+		}
+	}	
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
+		wchar_t szSelect[256] = {};
+
+		OPENFILENAME ofn = {};
+
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = nullptr;
+		ofn.lpstrFile = szSelect;
+		ofn.lpstrFile[0] = '\0';
+		ofn.nMaxFile = sizeof(szSelect);
+		ofn.lpstrFilter = L"ALL\0*.*\0Tile\0*.tile";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+
+		// 탐색창 초기 위치 지정
+		wstring strInitPath = CPathMgr::GetContentPath();
+		strInitPath += L"tile\\";
+		ofn.lpstrInitialDir = strInitPath.c_str();
+
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (GetOpenFileName(&ofn))
+		{
+			// 이름 불러오기
+			string name = ToString(CPathMgr::GetRelativePath(szSelect));
+			name = name.substr(5); // "tile\\" 제거후 이름만 저장
+			name.erase(name.end() - 5, name.end());
+			strcpy(tileMapName, name.c_str());
+
+			CTileMap* pTile = nullptr;
+
+			// tile 을 불러올 경로
+			wstring strTilePath = CPathMgr::GetContentPath();
+			strTilePath += szSelect;
+
+			FILE* pFile = nullptr;
+			_wfopen_s(&pFile, CPathMgr::GetRelativePath(strTilePath).c_str(), L"rb");
+
+			pTile = new CTileMap;
+			pTile->LoadFromFile(pFile);
+
+			FaceX = pTile->GetFaceX();
+			FaceY = pTile->GetFaceY();
+			Clear(FaceX, FaceY); // 타일 X * Y 그리드
+
+			m_CurSheet = pTile->GetTileAtlas();
+			combo_preview = (char*)m_CurSheet->GetName().c_str();
+			m_vecTileInfo = pTile->GetInfoVec();
+
+			fclose(pFile);
+			delete pTile;
+		}
+
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Create"))
@@ -53,17 +151,7 @@ void TileMapEditorUI::render_update()
 		tileObj->TileMap()->SetFace(FaceX, FaceY);
 		tileObj->TileMap()->SetTileAtlas(m_CurSheet, PixelSize);
 		tileObj->TileMap()->SetTileInfoVec(m_vecTileInfo);
-		//for (size_t i = 0; i < FaceY; i++)
-		//{
-		//	for (size_t j = 0; j < FaceX; j++)
-		//	{
-		//		UINT idx = i * FaceX + j;
-		//		if (m_vecTileInfo[idx].bRender)
-		//		{
-		//			tileObj->TileMap()->SetTileIndex(i, j, SelectedIdx);
-		//		}
-		//	}
-		//}
+		
 		GamePlayStatic::SpawnGameObject(tileObj, 1);
 	}
 	ImGui::SameLine();
@@ -169,7 +257,6 @@ void TileMapEditorUI::render_update()
 
 	CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::TEXTURE, atlas);
 
-	const char* combo_preview = "Select";
 	if (-1 != Atlas_idx) combo_preview = atlas[Atlas_idx].c_str();
 	if (ImGui::BeginCombo("##SelectTileAtlas", combo_preview))
 	{
@@ -261,8 +348,8 @@ void TileMapEditorUI::render_update()
 			UINT idx = i * FaceX + j;
 			if (m_vecTileInfo.size() !=0 && m_vecTileInfo[idx].bRender)
 			{
-				ImVec2 size = m_Selected.Max - m_Selected.Min;
-				draw_list->AddImage((void*)m_CurSheet.Get()->GetSRV().Get(), LT, RB, m_vecTileInfo[idx].vLeftTopUV, m_vecTileInfo[idx].vLeftTopUV+ size);
+				ImVec2 size = ImVec2(PixelSize.x / m_CurSheet->GetWidth(), PixelSize.y / m_CurSheet->GetHeight());
+				draw_list->AddImage((void*)m_CurSheet.Get()->GetSRV().Get(), LT, RB, m_vecTileInfo[idx].vLeftTopUV, m_vecTileInfo[idx].vLeftTopUV + size);
 			}
 		}
 	}
