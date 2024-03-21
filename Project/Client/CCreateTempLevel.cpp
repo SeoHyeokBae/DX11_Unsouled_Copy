@@ -216,8 +216,9 @@ void CCreateTempLevel::CreateTempLevel()
 	pCObj->Transform()->SetRelativePos(Vec3(-25.f,-25.f,200.f));
 
 	CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
-
 	pCObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
+	//pCObj->Animator2D()->Play(L"MOVE_LEFT")
+
 
 	pTempLevel->AddObject(pObj, L"Player", false);
 	pObj->AddChild(pCObj);

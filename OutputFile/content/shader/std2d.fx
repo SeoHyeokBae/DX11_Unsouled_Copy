@@ -104,7 +104,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         discard;
     }
     
-    if (g_int_0 == 1) // 그림자
+    if (g_int_0 == 10) // 그림자
         vColor = (float4(0.f, 0.f, 0.f, 0.75f));
     
     return vColor;
