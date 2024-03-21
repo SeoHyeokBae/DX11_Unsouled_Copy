@@ -18,6 +18,8 @@
 #include "CImGuiMgr.h"
 #include "Inspector.h"
 #include "CLevelSaveLoad.h"
+#include "AnimationEditorUI.h"
+#include "TileMapEditorUI.h"
 
 
 
@@ -43,6 +45,8 @@ void MenuUI::render()
 void MenuUI::render_update()
 {
     File();
+
+    Edit();
 
     Level();
 
@@ -118,6 +122,26 @@ void MenuUI::File()
             }
         }
 
+        ImGui::EndMenu();
+    }
+}
+
+void MenuUI::Edit()
+{
+    if (ImGui::BeginMenu("Edit"))
+    {
+        if (ImGui::MenuItem("Animation Editor"))
+        {
+            AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
+            Editor->Activate();
+        }
+        ImGui::Separator();
+        if (ImGui::MenuItem("TileMap Editor"))
+        {
+            TileMapEditorUI* Editor = (TileMapEditorUI*)CImGuiMgr::GetInst()->FindUI("##TileEditor");
+            Editor->Activate();
+        }
+        ImGui::Separator();
         ImGui::EndMenu();
     }
 }

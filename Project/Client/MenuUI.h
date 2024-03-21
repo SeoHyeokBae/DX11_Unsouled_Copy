@@ -10,6 +10,7 @@ public:
 
 private:
     void File();
+    void Edit();
     void Level();
     void GameObject();
     void Asset();

@@ -104,8 +104,8 @@ void CImGuiMgr::tick()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
     
-    if (m_Open)
-        dockspace();
+    //if (m_Open)
+    //    dockspace();
     
     if (m_bDemoUI)
     {
@@ -164,36 +164,8 @@ void CImGuiMgr::dockspace()
 
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu("Options"))
-        {
-            if (ImGui::MenuItem("Close", NULL, false, &m_Open != NULL))
-                m_Open = false;
-
-            ImGui::Separator();
-            ImGui::EndMenu();
-
-        }
-        if (ImGui::BeginMenu("Scene"))
-        {
-            // ToDo
-            ImGui::EndMenu();
-        }
         if (ImGui::BeginMenu("Tool"))
-        {
-            if (ImGui::MenuItem("Animation Editor"))
-            {
-                AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
-                Editor->Activate();
-            }
-            ImGui::Separator();
-            if (ImGui::MenuItem("TileMap Editor"))
-            {
-                TileMapEditorUI* Editor = (TileMapEditorUI*)CImGuiMgr::GetInst()->FindUI("##TileEditor");
-                Editor->Activate();
-            }
-            ImGui::Separator();
-            ImGui::EndMenu();
-        }
+         ImGui::EndMenu();
         ImGui::EndMainMenuBar();
     }
 }

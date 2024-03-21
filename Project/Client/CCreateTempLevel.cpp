@@ -153,13 +153,13 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CBackgroundScript);
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 1500.f));
-	pObj->Transform()->SetRelativeScale(Vec3(203.f*2.5, 243.f*2.5, 1.f));
+	pObj->Transform()->SetRelativePos(Vec3(111.f, 1321.f, 1500.f));
+	pObj->Transform()->SetRelativeScale(Vec3(832.f, 2960.f, 1.f));
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl"));
 
-	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png");
+	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex);
 
 	pTempLevel->AddObject(pObj, L"Background", false);
