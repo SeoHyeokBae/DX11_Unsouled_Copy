@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CCameraPlayScript.h"
+#include <Engine/CLevelMgr.h>
 
 CGameObject* CCameraPlayScript::m_Target = nullptr;
 
@@ -138,4 +139,14 @@ void CCameraPlayScript::MovePerspective()
 		vRot.x += vDrag.y * DT_ENGINE * XM_PI * 4.f;
 		Transform()->SetRelativeRotation(vRot);
 	}
+}
+
+void CCameraPlayScript::SaveToFile(FILE* _File)
+{
+
+}
+
+void CCameraPlayScript::LoadFromFile(FILE* _File)
+{
+
 }

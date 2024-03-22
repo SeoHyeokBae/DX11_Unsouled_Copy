@@ -57,6 +57,9 @@ float4 PS_TileMap(VS_OUT _in) : SV_Target
         
         vUV = g_TileInfo[bufferidx].vLeftTopUV + (vSliceUV * vUV);
         vColor = TileAtlas.Sample(g_sam_0, vUV);
+        
+        if (vColor.a < 0.01f)
+            discard;    
     }
     
     return vColor;

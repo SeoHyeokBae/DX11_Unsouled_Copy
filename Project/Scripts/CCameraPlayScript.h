@@ -17,10 +17,10 @@ public:
 public:
     void MoveOrthographic();
     void MovePerspective();
-    virtual void SaveToFile(FILE* _File) override {};
-    virtual void LoadFromFile(FILE* _File) override {};
-    CLONE(CCameraPlayScript);
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
 
+    CLONE(CCameraPlayScript);
 public:
     CCameraPlayScript();
     ~CCameraPlayScript();
