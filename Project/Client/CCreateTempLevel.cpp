@@ -180,12 +180,13 @@ void CCreateTempLevel::CreateTempLevel()
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 500.f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObj->Collider2D()->SetVisible(true);
 
 	pObj->AddComponent(new CLight2D);
 	pObj->Light2D()->SetLightType(LIGHT_TYPE::POINT);
@@ -207,10 +208,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Animator2D()->Create(L"MOVE_LEFT", pAltasTex, Vec2(0.f, 650.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 	pObj->Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 
-	//CCameraPlayScript* camplay = (CCameraPlayScript*)pCamObj->GetScript<CCameraPlayScript>();
-	//camplay->SetTarget(pObj);
 
-	pCamObj->GetScript<CCameraPlayScript>()->SetTarget(pObj);
+	//pCamObj->GetScript<CCameraPlayScript>()->SetTarget(pObj);
 
 	CGameObject* pCObj = nullptr;
 	pCObj = pObj->Clone();
@@ -252,6 +251,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObj->Collider2D()->SetVisible(true);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
@@ -296,7 +296,7 @@ void CCreateTempLevel::CreateTempLevel()
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
 
 	// 충돌 설정
-	CCollisionMgr::GetInst()->LayerCheck(3, 4);
+	CCollisionMgr::GetInst()->LayerCheck(11,12 );
 	CCollisionMgr::GetInst()->LayerCheck(4, 4);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
