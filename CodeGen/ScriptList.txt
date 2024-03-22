@@ -1,4 +1,5 @@
 CBackgroundScript
+CCameraPlayScript
 CMissileScript
 CMonsterScript
 CPlayerScript

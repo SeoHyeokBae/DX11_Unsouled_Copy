@@ -192,6 +192,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CBackgroundScript.h" />
+    <ClInclude Include="CCameraPlayScript.h" />
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
@@ -202,6 +203,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBackgroundScript.cpp" />
+    <ClCompile Include="CCameraPlayScript.cpp" />
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />

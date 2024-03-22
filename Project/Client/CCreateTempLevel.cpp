@@ -19,6 +19,7 @@
 
 #include "CLevelSaveLoad.h"
 
+#include <Scripts/CCameraPlayScript.h>
 #include <Scripts/CMissileScript.h>
 #include <Scripts/CMonsterScript.h>
 #include <Scripts/CShadowScript.h>
@@ -107,29 +108,32 @@ void CCreateTempLevel::CreateTempLevel()
 	pCamObj->SetName(L"MainCamera");
 	pCamObj->AddComponent(new CTransform);
 	pCamObj->AddComponent(new CCamera);
+	pCamObj->AddComponent(new CCameraPlayScript);
 
 	pCamObj->Transform()->SetRelativePos(Vec3(0.5f, 0.f, 0.f));
 	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 
 	pCamObj->Camera()->SetCameraPriority(0);
+	pCamObj->Camera()->SetScale(0.42f);
+
 	pCamObj->Camera()->LayerCheckAll();
 	pCamObj->Camera()->LayerCheck(31, false);
 
 	pTempLevel->AddObject(pCamObj, 0);
 
 	// UI카메라 생성
-	pCamObj = new CGameObject;
-	pCamObj->SetName(L"UICamera");
-	pCamObj->AddComponent(new CTransform);
-	pCamObj->AddComponent(new CCamera);
+	CGameObject* pCamUIObj = new CGameObject;
+	pCamUIObj->SetName(L"UICamera");
+	pCamUIObj->AddComponent(new CTransform);
+	pCamUIObj->AddComponent(new CCamera);
 
-	pCamObj->Transform()->SetRelativePos(Vec3(0.5f, 0.f, 0.f));
-	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
+	pCamUIObj->Transform()->SetRelativePos(Vec3(0.5f, 0.f, 0.f));
+	pCamUIObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 
-	pCamObj->Camera()->SetCameraPriority(1);
-	pCamObj->Camera()->LayerCheck(31, true);
+	pCamUIObj->Camera()->SetCameraPriority(1);
+	pCamUIObj->Camera()->LayerCheck(31, true);
 
-	pTempLevel->AddObject(pCamObj, 0);
+	pTempLevel->AddObject(pCamUIObj, 0);
 
 
 	// 광원 추가
@@ -203,8 +207,11 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Animator2D()->Create(L"MOVE_LEFT", pAltasTex, Vec2(0.f, 650.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 	pObj->Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
 
-	//pObj->AddComponent(new CShadowScript);
-	
+	//CCameraPlayScript* camplay = (CCameraPlayScript*)pCamObj->GetScript<CCameraPlayScript>();
+	//camplay->SetTarget(pObj);
+
+	pCamObj->GetScript<CCameraPlayScript>()->SetTarget(pObj);
+
 	CGameObject* pCObj = nullptr;
 	pCObj = pObj->Clone();
 

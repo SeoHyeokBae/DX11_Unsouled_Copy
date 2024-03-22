@@ -36,6 +36,9 @@
     <ClInclude Include="CShadowScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CCameraPlayScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -60,6 +63,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CShadowScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraPlayScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

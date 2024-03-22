@@ -52,8 +52,8 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         if (vUV.x < g_vLeftTop.x || (g_vLeftTop.x + g_vSliceSize.x) < vUV.x
             || vUV.y < g_vLeftTop.y || (g_vLeftTop.y + g_vSliceSize.y) < vUV.y)
         {
-            vColor = float4(1.f, 1.f, 0.f, 1.f);
-            //discard;
+            //vColor = float4(1.f, 1.f, 0.f, 1.f);
+            discard;
         }
         else
         {
