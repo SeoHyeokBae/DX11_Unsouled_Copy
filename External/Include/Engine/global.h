@@ -6,6 +6,7 @@
 #include <locale.h>
 #include <Windows.h>
 #include <typeinfo>
+#include <iostream>
 
 #include <string>
 

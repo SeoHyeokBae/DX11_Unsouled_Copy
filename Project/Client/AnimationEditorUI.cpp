@@ -88,10 +88,10 @@ void AnimationEditorUI::render_update()
 	if (ImGui::Button("Add Sprite to Animation"))
 	{
 		tAnimFrm frm = {};
-		frm.vLeftTop = Vec2(m_vecRect[m_CanvasIdx].Min.x/ m_CurAtlas.Get()->GetWidth(), 
-							m_vecRect[m_CanvasIdx].Min.y/m_CurAtlas.Get()->GetHeight());
-		frm.vSlice = Vec2(m_vecRect[m_CanvasIdx].GetSize().x / m_CurAtlas.Get()->GetWidth(), 
-						  m_vecRect[m_CanvasIdx].GetSize().y / m_CurAtlas.Get()->GetHeight());
+		frm.vLeftTop = Vec2(m_vecRect[m_CanvasIdx].Min.x/ (float)m_CurAtlas.Get()->GetWidth(),
+							m_vecRect[m_CanvasIdx].Min.y/ (float)m_CurAtlas.Get()->GetHeight());
+		frm.vSlice = Vec2(m_vecRect[m_CanvasIdx].GetSize().x / (float)m_CurAtlas.Get()->GetWidth(),
+						  m_vecRect[m_CanvasIdx].GetSize().y / (float)m_CurAtlas.Get()->GetHeight());
 		m_vecAnim.push_back(frm);
 		m_AnimIdx = m_vecAnim.size() - 1;
 	}
@@ -179,12 +179,19 @@ void AnimationEditorUI::render_update()
 
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Save Animator"))
+	static vector<wstring> Meta;
+	static vector<Vec2> vOffsetMeta;
+	if (ImGui::Button("Load Meta"))
 	{
-		// todo
-		// sprite 아래 애니메이션 여러개 목록 띄워줌
-		// 현재 선택된 애니메이션을 sprite로 보여줌
-		// 저장시 애니메이션 묶어서 애니메이터로 save
+		OpenFileDialog(Meta);
+
+		for (size_t i = 0; i < Meta.size(); i++)
+		{
+			Vec2 offset = LoadMeta(Meta[i]);
+			offset /= Vec2((float)m_CurAtlas->GetWidth(), (float)m_CurAtlas->GetHeight());
+			m_vecAnim[i].vOffset = offset;
+		}
+
 	}
 
 	// preview
@@ -208,12 +215,14 @@ void AnimationEditorUI::render_update()
 		ImVec2 uv1 = ImVec2((displayLT.x + displaySize.x) , (displayLT.y + displaySize.y));
 		
 		// UV -> 일반좌표계
-		ImVec2 imageLT = PrevCanvasLT + (Prevcanvas_sz / 2) - ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight()) / 2;
-		ImVec2 imageRB = imageLT + ImVec2(displaySize.x * m_CurAtlas->GetWidth(), displaySize.y * m_CurAtlas->GetHeight());
+		ImVec2 imageLT = PrevCanvasLT + (Prevcanvas_sz / 2) - ImVec2(displaySize.x * (float)m_CurAtlas->GetWidth(), displaySize.y * (float)m_CurAtlas->GetHeight()) / 2;
+		ImVec2 imageRB = imageLT + ImVec2(displaySize.x * (float)m_CurAtlas->GetWidth(), displaySize.y * (float)m_CurAtlas->GetHeight());
 		ImRect rec(imageLT,imageRB);
 
-		rec.Translate(m_vecAnim[m_AnimIdx].vOffset * ImVec2(m_CurAtlas->GetWidth(), m_CurAtlas->GetHeight()));
-		rec.Expand(100.f); // preview 내 이미지 사이즈
+		ImRect prvrec = rec;
+		//rec.Expand(100.f); // preview 내 이미지 사이즈
+		//ImVec2 ratio = rec.Max / prvrec.Max;
+		rec.Translate(m_vecAnim[m_AnimIdx].vOffset * ImVec2((float)m_CurAtlas->GetWidth(), (float)m_CurAtlas->GetHeight()) /** ratio*/);
 		draw_list->AddImage(m_CurAtlas.Get()->GetSRV().Get(), rec.Min, rec.Max, uv0, uv1);
 		draw_list->PopClipRect();
 	}
@@ -244,17 +253,17 @@ void AnimationEditorUI::render_update()
 
 	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
 	ImVec2 offset = ImVec2(0.f, 0.f);
-	if(0 != m_vecAnim.size()) offset = ImVec2(m_vecAnim[m_AnimIdx].vOffset)* ImVec2(m_CurAtlas->GetWidth(), m_CurAtlas->GetHeight());
+	if(0 != m_vecAnim.size()) offset = ImVec2(m_vecAnim[m_AnimIdx].vOffset)* ImVec2((float)m_CurAtlas->GetWidth(), (float)m_CurAtlas->GetHeight());
 	ImGui::Text("Offset : X = %0.1f, Y = %0.1f", offset.x, offset.y);
 
 	ImGui::SetCursorPos(ImVec2(335.f,212.f));
-	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { offset.y -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / m_CurAtlas->GetHeight(); }
+	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { offset.y -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / (float)m_CurAtlas->GetHeight(); }
 	ImGui::SetCursorPosX(313.f);
-	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { offset.x -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.x = offset.x / m_CurAtlas->GetWidth();}
+	if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { offset.x -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.x = offset.x / (float)m_CurAtlas->GetWidth();}
 	ImGui::SameLine(); ImGui::SetCursorPosX(357.f);
-	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { offset.x += 0.5f; m_vecAnim[m_AnimIdx].vOffset.x = offset.x / m_CurAtlas->GetWidth();}
+	if (ImGui::ArrowButton("##Right", ImGuiDir_Right)) { offset.x += 0.5f; m_vecAnim[m_AnimIdx].vOffset.x = offset.x / (float)m_CurAtlas->GetWidth();}
 	ImGui::SetCursorPosX(335.f);
-	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { offset.y += 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / m_CurAtlas->GetHeight();}
+	if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { offset.y += 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / (float)m_CurAtlas->GetHeight();}
 
 	//if (0 != m_vecAnim.size()) m_vecAnim[m_AnimIdx].vOffset = offset / ImVec2(m_CurAtlas->GetWidth(), m_CurAtlas->GetHeight());
 	ImGui::SetCursorPos(ImVec2(265.f,300.f)); ImGui::Separator();
@@ -322,8 +331,8 @@ void AnimationEditorUI::render_update()
 				ImVec2 Size = ImVec2(m_vecAnim[i].vSlice);
 				if (Size.x > MaxSZ.x) MaxSZ.x = Size.x;
 				if (Size.y > MaxSZ.y) MaxSZ.y = Size.y;
-				m_vecAnim[i].vBackground = Vec2(MaxSZ.x + 100.f / m_CurAtlas->GetWidth(),
-												MaxSZ.y + 100.f / m_CurAtlas->GetHeight());
+				m_vecAnim[i].vBackground = Vec2(MaxSZ.x + 100.f / (float)m_CurAtlas->GetWidth(),
+												MaxSZ.y + 100.f / (float)m_CurAtlas->GetHeight());
 				m_vecAnim[i].Duration = 1.f / m_fps;
 			}
 
@@ -511,8 +520,8 @@ void AnimationEditorUI::DrawCanvas()
 		ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
 
 		my_texture = m_CurAtlas.Get()->GetSRV().Get();
-		float my_image_width = m_CurAtlas.Get()->GetWidth() * WheelSz;
-		float my_image_height = m_CurAtlas.Get()->GetHeight() * WheelSz;
+		float my_image_width = (float)m_CurAtlas.Get()->GetWidth() * WheelSz;
+		float my_image_height = (float)m_CurAtlas.Get()->GetHeight() * WheelSz;
 
 		ImVec2 left_top = m_CanvasLeftTop + scrolling - WheelOffset;
 		ImVec2 right_bottom = (left_top + ImVec2(my_image_width, my_image_height));
@@ -912,7 +921,7 @@ void AnimationEditorUI::SaveAnim(const wstring& _str)
 		ImVec2 Size = ImVec2(m_vecAnim[i].vSlice);
 		if (Size.x > MaxSZ.x) MaxSZ.x = Size.x;
 		if (Size.y > MaxSZ.y) MaxSZ.y = Size.y;
-		m_vecAnim[i].vBackground = Vec2(MaxSZ.x + 100.f / m_CurAtlas->GetWidth(),
+		m_vecAnim[i].vBackground = Vec2(MaxSZ.x + 100.f / (float)m_CurAtlas->GetWidth(),
 			MaxSZ.y + 100.f / m_CurAtlas->GetHeight());
 		m_vecAnim[i].Duration = 1.f / m_fps;
 	}

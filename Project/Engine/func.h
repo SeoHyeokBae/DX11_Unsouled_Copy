@@ -102,3 +102,7 @@ void Delete_Map(map<T1, T2>& _map)
 	}
 	_map.clear();
 }
+
+void OpenFileDialog(vector<wstring>& _FilesName);
+
+Vec2 LoadMeta(const wstring& _strMetaRelativePath);
