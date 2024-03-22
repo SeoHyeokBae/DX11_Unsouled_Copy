@@ -30,7 +30,7 @@ void CEditorObjMgr::init()
 	pEditorCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	//pEditorCam->Camera()->SetFOV(XM_PI / 2.f);
 	//pEditorCam->Camera()->SetFar(100000.f);
-	pEditorCam->Camera()->SetScale(0.42f);
+	pEditorCam->Camera()->SetScale(0.3f);
 
 	m_vecEditorObj.push_back(pEditorCam);
 

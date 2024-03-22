@@ -114,7 +114,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 
 	pCamObj->Camera()->SetCameraPriority(0);
-	pCamObj->Camera()->SetScale(0.42f);
+	pCamObj->Camera()->SetScale(0.3f);
 
 	pCamObj->Camera()->LayerCheckAll();
 	pCamObj->Camera()->LayerCheck(31, false);
