@@ -6,11 +6,12 @@ class CStructuredBuffer;
 enum class eTileType
 {
     COLLIDER,
+    CLIFF,
     WATER,
     UPSTAIR,
     DOWNSTAIR,
-    CLIFF,
     NONE,
+    END,
 };
 
 struct tTileInfo

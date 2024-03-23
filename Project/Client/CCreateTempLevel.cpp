@@ -82,12 +82,12 @@ void CCreateTempLevel::CreateTempLevel()
 	// 초기 레벨 구성하기
 	CLevel* pTempLevel = new CLevel;
 	pTempLevel->GetLayer(0)->SetName(L"Default");
-	pTempLevel->GetLayer(1)->SetName(L"Tile_Property");
-	pTempLevel->GetLayer(2)->SetName(L"Tile_Collider");
+	pTempLevel->GetLayer(1)->SetName(L"Player");
+	pTempLevel->GetLayer(2)->SetName(L"Monster");
+	pTempLevel->GetLayer(3)->SetName(L"Light");
+	pTempLevel->GetLayer(11)->SetName(L"Tile_Property");
+	pTempLevel->GetLayer(12)->SetName(L"Tile_Collider");
 	pTempLevel->GetLayer(10)->SetName(L"Background");
-	pTempLevel->GetLayer(11)->SetName(L"Player");
-	pTempLevel->GetLayer(12)->SetName(L"Monster");
-	pTempLevel->GetLayer(13)->SetName(L"Light");
 	pTempLevel->GetLayer(31)->SetName(L"UI");
 
 
@@ -180,7 +180,7 @@ void CCreateTempLevel::CreateTempLevel()
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
@@ -296,8 +296,8 @@ void CCreateTempLevel::CreateTempLevel()
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
 
 	// 충돌 설정
-	CCollisionMgr::GetInst()->LayerCheck(11,12 );
-	CCollisionMgr::GetInst()->LayerCheck(4, 4);
+	CCollisionMgr::GetInst()->LayerCheck(1,2);
+	CCollisionMgr::GetInst()->LayerCheck(2,2);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
 

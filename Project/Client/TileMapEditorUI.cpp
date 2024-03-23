@@ -8,6 +8,17 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CTaskMgr.h>
 
+// Type 변경시 수정필요
+static string TYPE_STRING[(UINT)eTileType::END]
+{
+	"COLLIDER",
+	"CLIFF",
+	"WATER",
+	"UPSTAIR",
+	"DOWNSTAIR",
+	"NONE",
+};
+
 TileMapEditorUI::TileMapEditorUI()
 	: UI("Tile Editor", "##TileEditor")
 	, m_CurSheet(nullptr)
@@ -34,6 +45,8 @@ void TileMapEditorUI::render_update()
 	static Vector2 Rendersize = Vector2(16.f, 16.f);	// Object 그려질 사이즈
 	const char* combo_preview = "Select"; // combobox
 	const char* idx_preview = "Select"; // combobox
+
+
 
 	if (ImGui::Button("Save"))
 	{
@@ -318,29 +331,20 @@ void TileMapEditorUI::render_update()
 
 		ImGui::SameLine();
 		// Sheet 선택후 -> 속성 선택
-		vector<string> type =
-		{
-				"COLLIDER",
-				"WATER",
-				"UPSTAIR",
-				"DOWNSTAIR",
-				"CLIFF",
-				"NONE",
-		};
 		const char* typeidx_preview = "<< Select";
 
 		int type_idx = -1;
 		if (-1 != Sheet_idx) 
 		{
 			type_idx = (UINT)m_vecType[Sheet_idx];
-			typeidx_preview = type[type_idx].c_str();
+			typeidx_preview = TYPE_STRING[type_idx].c_str();
 		}
 		if (ImGui::BeginCombo("##SelectTileType", typeidx_preview))
 		{
-			for (int n = 0; n < type.size(); n++)
+			for (int n = 0; n < (UINT)eTileType::END; n++)
 			{
 				const bool is_selected = (type_idx == n);
-				if (ImGui::Selectable(type[n].c_str(), is_selected))
+				if (ImGui::Selectable(TYPE_STRING[n].c_str(), is_selected))
 				{
 					type_idx = n;
 					m_vecType[Sheet_idx] = (eTileType)type_idx;
@@ -389,7 +393,7 @@ void TileMapEditorUI::render_update()
 				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
 				{
 					m_Selected.vLeftTopUV = uvLT;
-					m_Selected.eType = m_vecType[i * j];
+					m_Selected.eType = m_vecType[i * col + j ];
 				}
 
 				if (0 == count % 5)

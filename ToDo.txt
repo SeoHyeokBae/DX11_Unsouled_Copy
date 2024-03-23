@@ -8,3 +8,21 @@ AnimationEditor
 -- 각 이미지 크기 preview에서 보정x
 -- animator로 전체 불러왔을때 m_CurAtals == nullptr
 
+
+Level Save/Load
+Mtrl save/load
+layer Check
+
+
+당장 할것
+
+Object  Z-Sort
+
+- y값에 따른 Z축 변화를줌
+    -> Render 순서가 바뀌는 결과
+ (그림자 z축 관통 범위 고려)
+- 그림자 script로 생성
+
+
+- TileMap 깔아서 Player 속성값에따른 state 변화
+- 
