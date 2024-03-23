@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "TileMapEditorUI.h"
 
 #include <Engine/CLevelMgr.h>
@@ -30,9 +30,10 @@ void TileMapEditorUI::render_update()
 	static char tileMapName[256] = {};
 	static UINT FaceX = 1;
 	static UINT FaceY = 1;
-	static Vector2 PixelSize = Vector2(16.f, 16.f);	// sheet ≈∏¿œ ªÁ¿Ã¡Ó
-	static Vector2 Rendersize = Vector2(16.f, 16.f);	// Object ±◊∑¡¡˙ ªÁ¿Ã¡Ó
+	static Vector2 PixelSize = Vector2(16.f, 16.f);	// sheet ÌÉÄÏùº ÏÇ¨Ïù¥Ï¶à
+	static Vector2 Rendersize = Vector2(16.f, 16.f);	// Object Í∑∏Î†§Ïßà ÏÇ¨Ïù¥Ï¶à
 	const char* combo_preview = "Select"; // combobox
+	const char* idx_preview = "Select"; // combobox
 
 
 	if (ImGui::Button("Save"))
@@ -54,7 +55,7 @@ void TileMapEditorUI::render_update()
 		ofn.lpstrFileTitle = NULL;
 		ofn.nMaxFileTitle = 0;
 
-		// ≈Ωªˆ√¢ √ ±‚ ¿ßƒ° ¡ˆ¡§
+		// ÌÉêÏÉâÏ∞Ω Ï¥àÍ∏∞ ÏúÑÏπò ÏßÄÏ†ï
 		wstring strInitPath = CPathMgr::GetContentPath();
 		strInitPath += L"tile\\";
 		ofn.lpstrInitialDir = strInitPath.c_str();
@@ -68,7 +69,7 @@ void TileMapEditorUI::render_update()
 			pTile->SetTileAtlas(m_CurSheet, PixelSize);
 			pTile->SetTileInfoVec(m_vecTileInfo);
 
-			// tile ¿ª ¿˙¿Â«“ ∞Ê∑Œ
+			// tile ÏùÑ Ï†ÄÏû•Ìï† Í≤ΩÎ°ú
 			wstring strTilePath = CPathMgr::GetContentPath();
 			strTilePath += szSelect;
 
@@ -98,7 +99,7 @@ void TileMapEditorUI::render_update()
 		ofn.lpstrFileTitle = NULL;
 		ofn.nMaxFileTitle = 0;
 
-		// ≈Ωªˆ√¢ √ ±‚ ¿ßƒ° ¡ˆ¡§
+		// ÌÉêÏÉâÏ∞Ω Ï¥àÍ∏∞ ÏúÑÏπò ÏßÄÏ†ï
 		wstring strInitPath = CPathMgr::GetContentPath();
 		strInitPath += L"tile\\";
 		ofn.lpstrInitialDir = strInitPath.c_str();
@@ -107,15 +108,15 @@ void TileMapEditorUI::render_update()
 
 		if (GetOpenFileName(&ofn))
 		{
-			// ¿Ã∏ß ∫“∑Øø¿±‚
+			// Ïù¥Î¶Ñ Î∂àÎü¨Ïò§Í∏∞
 			string name = ToString(CPathMgr::GetRelativePath(szSelect));
-			name = name.substr(5); // "tile\\" ¡¶∞≈»ƒ ¿Ã∏ß∏∏ ¿˙¿Â
+			name = name.substr(5); // "tile\\" Ï†úÍ±∞ÌõÑ Ïù¥Î¶ÑÎßå Ï†ÄÏû•
 			name.erase(name.end() - 5, name.end());
 			strcpy(tileMapName, name.c_str());
 
 			CTileMap* pTile = nullptr;
 
-			// tile ¿ª ∫“∑Øø√ ∞Ê∑Œ
+			// tile ÏùÑ Î∂àÎü¨Ïò¨ Í≤ΩÎ°ú
 			wstring strTilePath = CPathMgr::GetContentPath();
 			strTilePath += szSelect;
 
@@ -127,7 +128,7 @@ void TileMapEditorUI::render_update()
 
 			FaceX = pTile->GetFaceX();
 			FaceY = pTile->GetFaceY();
-			Clear(FaceX, FaceY); // ≈∏¿œ X * Y ±◊∏ÆµÂ
+			Clear(FaceX, FaceY); // ÌÉÄÏùº X * Y Í∑∏Î¶¨Îìú
 
 			m_CurSheet = pTile->GetTileAtlas();
 			m_vecTileInfo = pTile->GetInfoVec();
@@ -183,14 +184,14 @@ void TileMapEditorUI::render_update()
 	const ImVec2 origin(canvas_LT.x + scrolling.x - WheelOffset.x, canvas_LT.y + scrolling.y - WheelOffset.y);
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
-	// ø¿∏•¬  ∏∂øÏΩ∫ µÂ∑°±◊
+	// Ïò§Î•∏Ï™Ω ÎßàÏö∞Ïä§ ÎìúÎûòÍ∑∏
 	if (ImGui::IsWindowFocused() && is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right))
 	{
 		scrolling.x += io.MouseDelta.x;
 		scrolling.y += io.MouseDelta.y;
 	}
 
-	// ∏∂øÏΩ∫ »Ÿ
+	// ÎßàÏö∞Ïä§ Ìú†
 	if (ImGui::IsWindowFocused() && (io.MouseWheel > 0.f || io.MouseWheel))
 	{
 		ImRect InCanvas(canvas_LT, canvas_RB);
@@ -266,9 +267,14 @@ void TileMapEditorUI::render_update()
 				Atlas_idx = n;
 				Ptr<CTexture> Tex = CAssetMgr::GetInst()->FindAsset<CTexture>(ToWString(atlas[n]));
 				m_CurSheet = Tex;
+
+				int row = m_CurSheet->GetHeight() / PixelSize.y;
+				int col = m_CurSheet->GetWidth() / PixelSize.x;
+
+				ChangeSheet(row, col);
 			}
 
-			// ∏ÆΩ∫∆Æ ¡ﬂ «ÿ¥Á «◊∏Ò¿Ã ≈¨∏Øµ«∏È «œ¿Ã∂Û¿Ã∆Æ ∞…æÓ¡‹
+			// Î¶¨Ïä§Ìä∏ Ï§ë Ìï¥Îãπ Ìï≠Î™©Ïù¥ ÌÅ¥Î¶≠ÎêòÎ©¥ ÌïòÏù¥ÎùºÏù¥Ìä∏ Í±∏Ïñ¥Ï§å
 			if (is_selected)
 				ImGui::SetItemDefaultFocus();
 		}
@@ -278,8 +284,74 @@ void TileMapEditorUI::render_update()
 	ImGui::DragFloat2("##Pixel Size", PixelSize);
 	if (1 > PixelSize.x) PixelSize.x = 1;
 	if (1 > PixelSize.y) PixelSize.y = 1;
-	ImGui::Separator();
 
+	// ÏãúÌä∏ Î≤àÌò∏ÏÑ†ÌÉù
+	if (nullptr != m_CurSheet)
+	{
+		ImGui::Text("Set Type"); ImGui::SameLine(86.f);
+		ImGui::PushItemWidth(108);
+		static int Sheet_idx = -1;
+		vector<string> sheetidx;
+		sheetidx.resize(m_vecType.size());
+		for (size_t i = 0; i < sheetidx.size(); i++)
+		{
+			sheetidx[i] = std::to_string(i);;
+		}
+
+		if (-1 != Sheet_idx) idx_preview = sheetidx[Sheet_idx].c_str();
+		if (ImGui::BeginCombo("##SelectSheetTile", idx_preview))
+		{
+			for (int n = 0; n < sheetidx.size(); n++)
+			{
+				const bool is_selected = (Sheet_idx == n);
+				if (ImGui::Selectable(sheetidx[n].c_str(), is_selected))
+				{
+					Sheet_idx = n;
+				}
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::SameLine();
+		// Sheet ÏÑ†ÌÉùÌõÑ -> ÏÜçÏÑ± ÏÑ†ÌÉù
+		vector<string> type =
+		{
+				"COLLIDER",
+				"WATER",
+				"UPSTAIR",
+				"DOWNSTAIR",
+				"CLIFF",
+				"NONE",
+		};
+		const char* typeidx_preview = "<< Select";
+
+		int type_idx = -1;
+		if (-1 != Sheet_idx) 
+		{
+			type_idx = (UINT)m_vecType[Sheet_idx];
+			typeidx_preview = type[type_idx].c_str();
+		}
+		if (ImGui::BeginCombo("##SelectTileType", typeidx_preview))
+		{
+			for (int n = 0; n < type.size(); n++)
+			{
+				const bool is_selected = (type_idx == n);
+				if (ImGui::Selectable(type[n].c_str(), is_selected))
+				{
+					type_idx = n;
+					m_vecType[Sheet_idx] = (eTileType)type_idx;
+				}
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::PopItemWidth();
+	}
+	
+	ImGui::Separator();
 	ImGui::Text("Current Tile");ImGui::NewLine();
 
 	//if (DrawModeEnum == (UINT)TILE_DRAW_MODE::NONE || DrawModeEnum == (UINT)TILE_DRAW_MODE::ERASER)
@@ -296,11 +368,13 @@ void TileMapEditorUI::render_update()
 
 		float fwidth = m_CurSheet->GetWidth();
 		float fheight = m_CurSheet->GetHeight();
+		int row = fheight / PixelSize.y;
+		int col = fwidth / PixelSize.x;
 
 		int count = 0;
-		for (size_t i = 0; i < fheight / PixelSize.y; i++)
+		for (size_t i = 0; i < row; i++)
 		{
-			for (size_t j = 0; j < fwidth / PixelSize.x; j++)
+			for (size_t j = 0; j < col; j++)
 			{
 				count++;
 				ImVec2 uvLT = ImVec2(PixelSize.x * j / fwidth, PixelSize.y * i / fheight);
@@ -327,7 +401,7 @@ void TileMapEditorUI::render_update()
 	ImVec2 left_top = canvas_LT + scrolling - WheelOffset;
 	ImVec2 new_render_size =  Rendersize * WheelSz;
 
-	// ≈∏¿œ ∑ª¥ı∏µ
+	// ÌÉÄÏùº Î†åÎçîÎßÅ
 	for (size_t i = 0; i < FaceY; i++)
 	{
 		for (size_t j = 0; j < FaceX; j++)
@@ -397,6 +471,15 @@ void TileMapEditorUI::Clear(int _faceX, int faceY)
 	vector<tTileInfo> vecTemp;
 	m_vecTileInfo.swap(vecTemp);
 	m_vecTileInfo.resize(_faceX * faceY);
+}
+
+// Sheet Î≥ÄÍ≤Ω Ïãú ÏÜçÏÑ± Ï¥àÍ∏∞Ìôî
+void TileMapEditorUI::ChangeSheet(int _row, int _col)
+{
+	m_vecType.clear();
+	vector<eTileType> vecTemp;
+	m_vecType.swap(vecTemp);
+	m_vecType.resize(_row * _col, eTileType::NONE);
 }
 
 void TileMapEditorUI::Deactivate()

@@ -3,11 +3,21 @@
 
 class CStructuredBuffer;
 
+enum class eTileType
+{
+    COLLIDER,
+    WATER,
+    UPSTAIR,
+    DOWNSTAIR,
+    CLIFF,
+    NONE,
+};
+
 struct tTileInfo
 {
-    Vec2 vLeftTopUV;
-    int  bRender;
-    int  padding;
+    Vec2        vLeftTopUV;
+    int         bRender;
+    eTileType   eType;
 };
 
 

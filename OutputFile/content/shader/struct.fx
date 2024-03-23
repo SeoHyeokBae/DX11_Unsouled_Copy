@@ -25,7 +25,7 @@ struct tTileInfo
 {
     float2 vLeftTopUV;
     int bRender;
-    int padding;
+    int eType;
 };
 
 struct tParticle

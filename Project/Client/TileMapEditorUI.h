@@ -22,6 +22,7 @@ private:
     TILE_DRAW_MODE      m_DrawMode;
     ImRect              m_Selected;
     vector<tTileInfo>   m_vecTileInfo;
+    vector<eTileType>   m_vecType;
     bool                m_bChange;
 
 public:
@@ -30,6 +31,7 @@ public:
 
     void ClickEvent(int _faceX, int _faceY, int _row, int _col);
     void Clear(int _faceX, int faceY);
+    void ChangeSheet(int _row, int _col);
 
 public:
     TileMapEditorUI();
