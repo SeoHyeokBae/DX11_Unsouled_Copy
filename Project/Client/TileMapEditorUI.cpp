@@ -35,7 +35,6 @@ void TileMapEditorUI::render_update()
 	const char* combo_preview = "Select"; // combobox
 	const char* idx_preview = "Select"; // combobox
 
-
 	if (ImGui::Button("Save"))
 	{
 		wchar_t szSelect[256] = { };
@@ -129,9 +128,12 @@ void TileMapEditorUI::render_update()
 			FaceX = pTile->GetFaceX();
 			FaceY = pTile->GetFaceY();
 			Clear(FaceX, FaceY); // 타일 X * Y 그리드
-
 			m_CurSheet = pTile->GetTileAtlas();
 			m_vecTileInfo = pTile->GetInfoVec();
+			PixelSize = pTile->GetTilePixelSize();
+
+			ChangeSheet(m_CurSheet->GetWidth() / PixelSize.x, m_CurSheet->GetHeight() / PixelSize.y);
+			//Rendersize = pTile->GetTilePixelSize();
 
 			fclose(pFile);
 			delete pTile;
@@ -362,7 +364,9 @@ void TileMapEditorUI::render_update()
 	{
 		ComPtr<ID3D11ShaderResourceView> my_texture = NULL;
 		my_texture = m_CurSheet.Get()->GetSRV().Get();
-		ImGui::Image((void*)my_texture.Get(), ImVec2(48.f, 48.f), m_Selected.Min, m_Selected.Max);
+		
+		ImVec2 uvSize = PixelSize / ImVec2(m_CurSheet->GetWidth(), m_CurSheet->GetHeight());
+		ImGui::Image((void*)my_texture.Get(), ImVec2(48.f, 48.f), m_Selected.vLeftTopUV, m_Selected.vLeftTopUV + uvSize);
 
 		ImGui::NewLine(); ImGui::Separator();
 
@@ -384,7 +388,8 @@ void TileMapEditorUI::render_update()
 				
 				if (ImGui::ImageButton(_id, (void*)my_texture.Get(), ImVec2(48.f, 48.f), uvLT, uvRB))
 				{
-					m_Selected = ImRect(uvLT, uvRB);
+					m_Selected.vLeftTopUV = uvLT;
+					m_Selected.eType = m_vecType[i * j];
 				}
 
 				if (0 == count % 5)
@@ -437,9 +442,9 @@ void TileMapEditorUI::ClickEvent(int _faceX, int _faceY, int _row, int _col)
 	{
 	case TILE_DRAW_MODE::PAINT:
 	{
-		ImVec2 uvlt = m_Selected.Min;
-		m_vecTileInfo[idx].vLeftTopUV = uvlt;
-		m_vecTileInfo[idx].bRender = 1;
+		m_vecTileInfo[idx].vLeftTopUV = m_Selected.vLeftTopUV;
+		m_vecTileInfo[idx].eType = m_Selected.eType;
+		m_vecTileInfo[idx].bRender = true;
 	}
 		break;
 	case TILE_DRAW_MODE::FILL:
@@ -450,8 +455,8 @@ void TileMapEditorUI::ClickEvent(int _faceX, int _faceY, int _row, int _col)
 				UINT idx = i * _faceX + j;
 				if (!m_vecTileInfo[idx].bRender)
 				{
-					ImVec2 uvlt = m_Selected.Min;
-					m_vecTileInfo[idx].vLeftTopUV = uvlt;
+					m_vecTileInfo[idx].vLeftTopUV = m_Selected.vLeftTopUV;
+					m_vecTileInfo[idx].eType = m_Selected.eType;
 					m_vecTileInfo[idx].bRender = true;
 				}
 			}

@@ -47,6 +47,7 @@ public:
     void SetFace(UINT _FaceX, UINT _FaceY);
     UINT GetFaceX() { return m_FaceX; }
     UINT GetFaceY() { return m_FaceY; }
+    Vec2 GetTilePixelSize() { return m_vTilePixelSize; }
     vector<tTileInfo> GetInfoVec() { return m_vecTileInfo; }
 
     void SetTileIndex(UINT _Row, UINT _Col, UINT _ImgIdx);

@@ -20,8 +20,8 @@ class TileMapEditorUI
 private:
     Ptr<CTexture>       m_CurSheet;
     TILE_DRAW_MODE      m_DrawMode;
-    ImRect              m_Selected;
-    vector<tTileInfo>   m_vecTileInfo;
+    tTileInfo           m_Selected;
+    vector<tTileInfo>   m_vecTileInfo; // ≈∏¿œ
     vector<eTileType>   m_vecType;
     bool                m_bChange;
 
