@@ -37,26 +37,24 @@ void CColTileScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj
 
 	if (len_x < scale_x && len_y < scale_y) // col 사각형 안에 들어올시
 	{
-		Vec3 vDir = GetOwner()->Transform()->GetWorldDir(DIR_TYPE::RIGHT);
-		Vec2 vec = vOtherPos - vPos;
-		vec.Normalize();
-		float fAngle = acos(vDir.XY().Dot(vec)) * (180.f/ XM_PI); // 양수만 나옴
-
-		if (fAngle <= 45.f) // 우측
+		if (scale_x - len_x < scale_y - len_y)  // 좌우
 		{
-			playerPos.x += (scale_x - len_x) + 1.f;
+			if (vOtherPos.x > vPos.x)			// Right
+			{
+				playerPos.x += (scale_x - len_x) + 1.f;
+			}
+			else								// Left
+			{
+				playerPos.x -= (scale_x - len_x) + 1.f;
+			}
 		}
-		else if (fAngle >= 135.f)                 // 좌측
+		else // 상하
 		{
-			playerPos.x -= (scale_x - len_x) + 1.f;
-		}
-		else if (fAngle < 135.f && fAngle > 45)
-		{
-			if (vOtherPos.y > vPos.y) //위
+			if (vOtherPos.y > vPos.y)			// Up
 			{
 				playerPos.y += (scale_y - len_y) + 1.f;
 			}
-			else // 아래
+			else								// Down
 			{
 				playerPos.y -= (scale_y - len_y) + 1.f;
 			}
