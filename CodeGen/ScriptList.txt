@@ -1,6 +1,8 @@
 CBackgroundScript
 CCameraPlayScript
+CColTileScript
 CMissileScript
 CMonsterScript
 CPlayerScript
 CShadowScript
+CTileTypeMgrScript

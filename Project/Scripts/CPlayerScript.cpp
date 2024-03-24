@@ -8,6 +8,8 @@
 #include <Engine/CMaterial.h>
 #include <Engine/CRenderComponent.h>
 
+//#include <Engine/CTileMap.h>
+
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	,m_Speed(100.f)
@@ -143,11 +145,19 @@ void CPlayerScript::tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
-	Ptr<CMaterial> pMtrl = GetRenderComponent()->GetDynamicMaterial();
+
 }
 
 void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+	if (_OtherObj->TileMap())
+	{
+		Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY();
+		Vec2 TileObjHalfSize = _OtherObj->Transform()->GetRelativeScale().XY() / 2 ;
+		Vec2 TileLT = _OtherObj->Transform()->GetRelativePos().XY() - TileObjHalfSize;
+
+
+	}
 }
 
 void CPlayerScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

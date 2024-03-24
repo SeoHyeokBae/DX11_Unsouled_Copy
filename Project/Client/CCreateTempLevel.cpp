@@ -23,6 +23,7 @@
 #include <Scripts/CMissileScript.h>
 #include <Scripts/CMonsterScript.h>
 #include <Scripts/CShadowScript.h>
+#include <Scripts/CColTileScript.h>
 
 #include <Engine/CAssetMgr.h>
 #include <Engine/CPrefab.h>
@@ -232,6 +233,19 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddChild(pCObj);
 	
 	//pTempLevel->AddObject(pCObj, L"Player", false);
+
+	pObj = new CGameObject;
+	pObj->SetName(L"Collider");
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CCollider2D);
+	pObj->AddComponent(new CColTileScript);
+	pObj->Transform()->SetRelativePos(Vec3(-300.f, 0.f, 500.f));
+	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+	pObj->Collider2D()->SetAbsolute(true);
+	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
+	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObj->Collider2D()->SetVisible(true);
+	pTempLevel->AddObject(pObj, L"Monster", false);
 
 
 	// Monster Object »ý¼º

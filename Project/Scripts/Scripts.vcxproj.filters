@@ -10,6 +10,15 @@
     <Filter Include="ScriptMgr">
       <UniqueIdentifier>{534ca7b9-36a9-435d-8b56-61f960e227f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\2. Monster">
+      <UniqueIdentifier>{5c1a8de1-74ff-4998-9d49-2125ee187431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\1. Player">
+      <UniqueIdentifier>{8765640d-2538-45bb-86ed-1c0865e96c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\3. TileType">
+      <UniqueIdentifier>{712cb27e-a8d9-4452-8d0e-4cbecd428f7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -24,20 +33,26 @@
     <ClInclude Include="CMissileScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterScript.h">
-      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CShadowScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CCameraPlayScript.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Scripts\1. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterScript.h">
+      <Filter>Scripts\2. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CColTileScript.h">
+      <Filter>Scripts\3. TileType</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileTypeMgrScript.h">
+      <Filter>Scripts\3. TileType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,20 +68,26 @@
     <ClCompile Include="CMissileScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterScript.cpp">
-      <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CShadowScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CCameraPlayScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Scripts\1. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterScript.cpp">
+      <Filter>Scripts\2. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CColTileScript.cpp">
+      <Filter>Scripts\3. TileType</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileTypeMgrScript.cpp">
+      <Filter>Scripts\3. TileType</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

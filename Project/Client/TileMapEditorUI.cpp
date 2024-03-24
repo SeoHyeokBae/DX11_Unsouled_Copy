@@ -8,7 +8,9 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CTaskMgr.h>
 
-// Type 변경시 수정필요
+#include <Scripts/CColTileScript.h>
+
+// enum eTileType 변경시 수정필요
 static string TYPE_STRING[(UINT)eTileType::END]
 {
 	"COLLIDER",
@@ -41,8 +43,8 @@ void TileMapEditorUI::render_update()
 	static char tileMapName[256] = {};
 	static UINT FaceX = 1;
 	static UINT FaceY = 1;
-	static Vector2 PixelSize = Vector2(16.f, 16.f);	// sheet 타일 사이즈
-	static Vector2 Rendersize = Vector2(16.f, 16.f);	// Object 그려질 사이즈
+	static Vector2 PixelSize = Vector2(32.f, 32.f);	// sheet 타일 사이즈
+	static Vector2 Rendersize = Vector2(32.f, 32.f);	// Object 그려질 사이즈
 	const char* combo_preview = "Select"; // combobox
 	const char* idx_preview = "Select"; // combobox
 
@@ -156,6 +158,27 @@ void TileMapEditorUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("Create"))
 	{
+		//CLevel* curlevel = CLevelMgr::GetInst()->GetCurrentLevel();
+		//CGameObject* tileObj = new CGameObject;
+		//tileObj->SetName(ToWString(tileMapName));
+		//tileObj->AddComponent(new CTransform);
+		//tileObj->AddComponent(new CTileMap);
+		//tileObj->AddComponent(new CCollider2D);
+		//tileObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+		//tileObj->TileMap()->SetFace(FaceX, FaceY);
+		//tileObj->TileMap()->SetTileAtlas(m_CurSheet, PixelSize);
+		//tileObj->TileMap()->SetTileInfoVec(m_vecTileInfo);
+		//Vec2 colsize = Rendersize * Vec2(FaceX, FaceY);
+		//tileObj->Collider2D()->SetAbsolute(true);
+		//tileObj->Collider2D()->SetOffsetScale(colsize);
+		//tileObj->Collider2D()->SetVisible(true);
+		//// 충돌용) 속성 Script 생성 필요
+		//tileObj->AddComponent(new CColTileScript);
+
+		//
+		//GamePlayStatic::SpawnGameObject(tileObj, 1);
+				
+		
 		CLevel* curlevel = CLevelMgr::GetInst()->GetCurrentLevel();
 		CGameObject* tileObj = new CGameObject;
 		tileObj->SetName(ToWString(tileMapName));
@@ -165,7 +188,29 @@ void TileMapEditorUI::render_update()
 		tileObj->TileMap()->SetFace(FaceX, FaceY);
 		tileObj->TileMap()->SetTileAtlas(m_CurSheet, PixelSize);
 		tileObj->TileMap()->SetTileInfoVec(m_vecTileInfo);
-		
+		Vec2 colsize = Rendersize * Vec2(FaceX-1, FaceY-1);
+		//tileObj->AddComponent(new CCollider2D);
+		//tileObj->Collider2D()->SetAbsolute(true);
+		//tileObj->Collider2D()->SetOffsetScale(colsize);
+		//tileObj->Collider2D()->SetVisible(true);
+		// 충돌용) 속성 Script 생성 필요
+		//tileObj->AddComponent(new CColTileScript);
+		for (size_t i = 0; i < FaceY; i++)
+		{
+			for (size_t j = 0; j < FaceX; j++)
+			{
+				CGameObject* tileColObj = new CGameObject;
+				tileColObj->AddComponent(new CTransform);
+				tileColObj->AddComponent(new CCollider2D);
+				tileColObj->Collider2D()->SetAbsolute(true);
+				Vec2 lt = tileObj->Transform()->GetRelativePos().XY() - colsize / Vec2(2.f,2.f);
+				tileColObj->Transform()->SetRelativePos(Vec3(lt.x + Rendersize.x * j, lt.y + Rendersize.y * i, 0.f));
+				tileColObj->Collider2D()->SetOffsetScale(Vec2(32.f, 32.f));
+				tileColObj->Collider2D()->SetVisible(true);
+				GamePlayStatic::SpawnGameObject(tileColObj, 0);
+			}
+		}
+
 		GamePlayStatic::SpawnGameObject(tileObj, 1);
 	}
 	ImGui::SameLine();

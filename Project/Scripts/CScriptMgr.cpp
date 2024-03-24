@@ -3,19 +3,23 @@
 
 #include "CBackgroundScript.h"
 #include "CCameraPlayScript.h"
+#include "CColTileScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
 #include "CPlayerScript.h"
 #include "CShadowScript.h"
+#include "CTileTypeMgrScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CBackgroundScript");
 	_vec.push_back(L"CCameraPlayScript");
+	_vec.push_back(L"CColTileScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CShadowScript");
+	_vec.push_back(L"CTileTypeMgrScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -24,6 +28,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBackgroundScript;
 	if (L"CCameraPlayScript" == _strScriptName)
 		return new CCameraPlayScript;
+	if (L"CColTileScript" == _strScriptName)
+		return new CColTileScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
@@ -32,6 +38,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CShadowScript" == _strScriptName)
 		return new CShadowScript;
+	if (L"CTileTypeMgrScript" == _strScriptName)
+		return new CTileTypeMgrScript;
 	return nullptr;
 }
 
@@ -45,6 +53,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::CAMERAPLAYSCRIPT:
 		return new CCameraPlayScript;
 		break;
+	case (UINT)SCRIPT_TYPE::COLTILESCRIPT:
+		return new CColTileScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
 		break;
@@ -56,6 +67,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SHADOWSCRIPT:
 		return new CShadowScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TILETYPEMGRSCRIPT:
+		return new CTileTypeMgrScript;
 		break;
 	}
 	return nullptr;
@@ -73,6 +87,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CCameraPlayScript";
 		break;
 
+	case SCRIPT_TYPE::COLTILESCRIPT:
+		return L"CColTileScript";
+		break;
+
 	case SCRIPT_TYPE::MISSILESCRIPT:
 		return L"CMissileScript";
 		break;
@@ -87,6 +105,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SHADOWSCRIPT:
 		return L"CShadowScript";
+		break;
+
+	case SCRIPT_TYPE::TILETYPEMGRSCRIPT:
+		return L"CTileTypeMgrScript";
 		break;
 
 	}

@@ -7,12 +7,14 @@
 #include "CMesh.h"
 
 #include "CTransform.h"
+#include "CKeyMgr.h"
 
 CTileMap::CTileMap()
 	: CRenderComponent(COMPONENT_TYPE::TILEMAP)
 	, m_FaceX(2)
 	, m_FaceY(2)
 	, m_TileInfoBuffer(nullptr)
+	, m_bRender(false)
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TileMapMtrl"));
@@ -53,6 +55,11 @@ void CTileMap::finaltick()
 	// (타일 개수 * 타일 사이즈) 로 사이즈를 변경처리한다.
 	Vec3 vTileMapSize = Vec3(m_FaceX * m_vTilePixelSize.x, m_FaceY * m_vTilePixelSize.y, 1.f);
 	Transform()->SetRelativeScale(vTileMapSize);
+
+	if (KEY_TAP(KEY::T))
+	{
+		m_bRender ? m_bRender = false : m_bRender = true;
+	}
 }
 
 
@@ -80,10 +87,11 @@ void CTileMap::render()
 
 	Transform()->UpdateData();
 
-	GetMesh()->render();
+	if (m_bRender)
+	{
+		GetMesh()->render();
+	}
 }
-
-
 
 void CTileMap::UpdateData()
 {

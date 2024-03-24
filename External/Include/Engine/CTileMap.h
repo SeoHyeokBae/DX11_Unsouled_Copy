@@ -3,7 +3,7 @@
 
 class CStructuredBuffer;
 
-enum class eTileType
+enum class eTileType // 충돌 처리 순서로 스크립트 추가 
 {
     COLLIDER,
     CLIFF,
@@ -32,7 +32,7 @@ private:
     Ptr<CTexture>         m_TileAtlas;
     Vec2                  m_vTilePixelSize;
     Vec2                  m_vSliceSizeUV;
-                         
+    
     UINT                  m_MaxCol;
     UINT                  m_MaxRow;
                          
@@ -40,6 +40,8 @@ private:
 
     vector<tTileInfo>     m_vecTileInfo;
     CStructuredBuffer*    m_TileInfoBuffer;
+
+    bool                  m_bRender;
 
 public:
     void SetTileAtlas(Ptr<CTexture> _Atlas, Vec2 _TilePixelSize);
