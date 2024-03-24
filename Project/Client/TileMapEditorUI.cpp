@@ -9,6 +9,7 @@
 #include <Engine/CTaskMgr.h>
 
 #include <Scripts/CColTileScript.h>
+#include <Scripts/CTypeTileScript.h>
 
 // enum eTileType 변경시 수정필요
 static string TYPE_STRING[(UINT)eTileType::END]
@@ -176,6 +177,9 @@ void TileMapEditorUI::render_update()
 		tileObj->Collider2D()->SetOffsetScale(colsize);
 		tileObj->Collider2D()->SetVisible(true);
 		// 충돌용) 속성 Script 생성 필요
+
+		if(!m_bCollider)
+			tileObj->AddComponent(new CTypeTileScript);
 
 		GamePlayStatic::SpawnGameObject(tileObj, IsNotCollider); // 11 레이어 기본타일, 12레이어 콜라이더 타일
 	}

@@ -5,4 +5,4 @@ CMissileScript
 CMonsterScript
 CPlayerScript
 CShadowScript
-CTileTypeMgrScript
+CTypeTileScript

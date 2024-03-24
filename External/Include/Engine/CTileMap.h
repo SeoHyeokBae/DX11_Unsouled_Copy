@@ -52,6 +52,7 @@ public:
     UINT GetFaceY() { return m_FaceY; }
     Vec2 GetTilePixelSize() { return m_vTilePixelSize; }
     vector<tTileInfo> GetInfoVec() { return m_vecTileInfo; }
+    eTileType GetTileType(UINT _idx) { return m_vecTileInfo[_idx].eType; }
 
     void SetTileIndex(UINT _Row, UINT _Col, UINT _ImgIdx);
     void SetTileInfoVec(vector<tTileInfo>& _info) { m_vecTileInfo = _info; }

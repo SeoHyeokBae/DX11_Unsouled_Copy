@@ -8,7 +8,7 @@
 #include "CMonsterScript.h"
 #include "CPlayerScript.h"
 #include "CShadowScript.h"
-#include "CTileTypeMgrScript.h"
+#include "CTypeTileScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -19,7 +19,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CShadowScript");
-	_vec.push_back(L"CTileTypeMgrScript");
+	_vec.push_back(L"CTypeTileScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -38,8 +38,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CShadowScript" == _strScriptName)
 		return new CShadowScript;
-	if (L"CTileTypeMgrScript" == _strScriptName)
-		return new CTileTypeMgrScript;
+	if (L"CTypeTileScript" == _strScriptName)
+		return new CTypeTileScript;
 	return nullptr;
 }
 
@@ -68,8 +68,8 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::SHADOWSCRIPT:
 		return new CShadowScript;
 		break;
-	case (UINT)SCRIPT_TYPE::TILETYPEMGRSCRIPT:
-		return new CTileTypeMgrScript;
+	case (UINT)SCRIPT_TYPE::TYPETILESCRIPT:
+		return new CTypeTileScript;
 		break;
 	}
 	return nullptr;
@@ -107,8 +107,8 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CShadowScript";
 		break;
 
-	case SCRIPT_TYPE::TILETYPEMGRSCRIPT:
-		return L"CTileTypeMgrScript";
+	case SCRIPT_TYPE::TYPETILESCRIPT:
+		return L"CTypeTileScript";
 		break;
 
 	}

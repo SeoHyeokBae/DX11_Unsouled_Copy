@@ -185,8 +185,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
-	pObj->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
-	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObj->Collider2D()->SetOffsetScale(Vec2(25.f, 10.f));
+	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, -60.f));
 	pObj->Collider2D()->SetVisible(true);
 
 	pObj->AddComponent(new CLight2D);
@@ -312,6 +312,7 @@ void CCreateTempLevel::CreateTempLevel()
 	// 충돌 설정
 	CCollisionMgr::GetInst()->LayerCheck(1,2);
 	CCollisionMgr::GetInst()->LayerCheck(2,2);
+	CCollisionMgr::GetInst()->LayerCheck(1,11);
 	CCollisionMgr::GetInst()->LayerCheck(1,12);
 	CCollisionMgr::GetInst()->LayerCheck(2,12);
 

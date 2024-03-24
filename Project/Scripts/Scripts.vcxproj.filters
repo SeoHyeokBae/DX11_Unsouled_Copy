@@ -51,7 +51,7 @@
     <ClInclude Include="CColTileScript.h">
       <Filter>Scripts\3. TileType</Filter>
     </ClInclude>
-    <ClInclude Include="CTileTypeMgrScript.h">
+    <ClInclude Include="CTypeTileScript.h">
       <Filter>Scripts\3. TileType</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClCompile Include="CColTileScript.cpp">
       <Filter>Scripts\3. TileType</Filter>
     </ClCompile>
-    <ClCompile Include="CTileTypeMgrScript.cpp">
+    <ClCompile Include="CTypeTileScript.cpp">
       <Filter>Scripts\3. TileType</Filter>
     </ClCompile>
   </ItemGroup>
