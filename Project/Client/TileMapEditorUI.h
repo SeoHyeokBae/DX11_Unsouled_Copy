@@ -24,6 +24,7 @@ private:
     vector<tTileInfo>   m_vecTileInfo; // ≈∏¿œ
     vector<eTileType>   m_vecType;
     bool                m_bChange;
+    bool                m_bCollider;
 
 public:
     virtual void render_update() override;

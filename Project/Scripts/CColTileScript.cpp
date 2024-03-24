@@ -48,7 +48,7 @@ void CColTileScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj
 				playerPos.x -= (scale_x - len_x) + 1.f;
 			}
 		}
-		else // 상하
+		else									// 상하
 		{
 			if (vOtherPos.y > vPos.y)			// Up
 			{

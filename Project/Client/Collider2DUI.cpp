@@ -2,12 +2,13 @@
 #include "Collider2DUI.h"
 
 #include <Engine/CCollider2D.h>
+#include <Scripts/CColTileScript.h>
 
 
 Collider2DUI::Collider2DUI()
 	: ComponentUI("Collider2D", "##Collider2D", COMPONENT_TYPE::COLLIDER2D)
 {
-	SetSize(ImVec2(0.f, 120.f));
+	SetSize(ImVec2(0.f, 150.f));
 	SetComponentTitle("Collider2D");
 }
 
@@ -70,6 +71,16 @@ void Collider2DUI::render_update()
 	bool bAbsolute = GetTargetObject()->Collider2D()->IsAbsolute();
 	ImGui::Text("Scale Absolute"); ImGui::SameLine(); ImGui::Checkbox("##ColliderAbsolute", &bAbsolute);
 	GetTargetObject()->Collider2D()->SetAbsolute(bAbsolute);
+
+	// Create Collider Script
+	ImGui::Text("             ");
+	ImGui::SameLine();
+	if (GetTargetObject()->GetLayerIdx() == 12 /*Tile_Collider*/
+		&&nullptr == GetTargetObject()->GetScript<CColTileScript>() 
+		&& ImGui::Button("Add Collider Script"))
+	{
+		GetTargetObject()->AddComponent(new CColTileScript);
+	}
 
 }
 

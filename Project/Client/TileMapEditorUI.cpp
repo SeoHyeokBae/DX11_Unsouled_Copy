@@ -27,6 +27,8 @@ TileMapEditorUI::TileMapEditorUI()
 	, m_DrawMode(TILE_DRAW_MODE::NONE)
 	, m_Selected{}
 	, m_bChange(false)
+	, m_bCollider(false)
+	
 {	 
 	Clear(1,1);
 	Deactivate();
@@ -47,8 +49,9 @@ void TileMapEditorUI::render_update()
 	static Vector2 Rendersize = Vector2(32.f, 32.f);	// Object 그려질 사이즈
 	const char* combo_preview = "Select"; // combobox
 	const char* idx_preview = "Select"; // combobox
-
-
+	static int IsNotCollider = 11; // col일시 12 Create시 영향
+	
+	m_bCollider ? IsNotCollider = 12 : IsNotCollider = 11;
 
 	if (ImGui::Button("Save"))
 	{
@@ -173,10 +176,8 @@ void TileMapEditorUI::render_update()
 		tileObj->Collider2D()->SetOffsetScale(colsize);
 		tileObj->Collider2D()->SetVisible(true);
 		// 충돌용) 속성 Script 생성 필요
-		tileObj->AddComponent(new CColTileScript);
 
-		
-		GamePlayStatic::SpawnGameObject(tileObj, 12);
+		GamePlayStatic::SpawnGameObject(tileObj, IsNotCollider); // 11 레이어 기본타일, 12레이어 콜라이더 타일
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Exit"))
@@ -381,7 +382,10 @@ void TileMapEditorUI::render_update()
 		
 		ImVec2 uvSize = PixelSize / ImVec2(m_CurSheet->GetWidth(), m_CurSheet->GetHeight());
 		ImGui::Image((void*)my_texture.Get(), ImVec2(48.f, 48.f), m_Selected.vLeftTopUV, m_Selected.vLeftTopUV + uvSize);
-
+		ImGui::SameLine(100.f);
+		ImGui::Text("IsCollider");
+		ImGui::SameLine();
+		ImGui::Checkbox("##IsCollider", &m_bCollider);
 		ImGui::NewLine(); ImGui::Separator();
 
 		float fwidth = m_CurSheet->GetWidth();
@@ -413,6 +417,7 @@ void TileMapEditorUI::render_update()
 			}
 		}
 	}
+
 	ImGui::EndChild();
 	ImGui::End();
 	//FaceX , FaceY
