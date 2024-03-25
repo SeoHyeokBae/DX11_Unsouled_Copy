@@ -38,7 +38,7 @@ void CCameraMoveScript::tick()
 		MovePerspective();
 	}
 
-	if (KEY_PRESSED(KEY::_1))
+	if (KEY_PRESSED(KEY::BRAL))
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 			Camera()->SetScale(Camera()->GetScale() + DT_ENGINE * 0.2f);
@@ -46,7 +46,7 @@ void CCameraMoveScript::tick()
 			Camera()->SetFOV(Camera()->GetFOV() + DT_ENGINE * 2.f);
 	}
 
-	if (KEY_PRESSED(KEY::_2))
+	if (KEY_PRESSED(KEY::BRAR))
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 			Camera()->SetScale(Camera()->GetScale() - DT_ENGINE * 0.2f);

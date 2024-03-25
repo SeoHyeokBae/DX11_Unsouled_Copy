@@ -177,7 +177,6 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	AddAsset(L"Std2DShader", pShader.Get());
 
-
 	// =================================
 	// EffectShader
 	// =================================
@@ -193,7 +192,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 
 	AddAsset(L"EffectShader", pShader.Get());
-
+	
 	// =============
 	// TileMapShader
 	// =============
@@ -304,6 +303,11 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"BackgroundMtrl", pMtrl);
+
+	// BackgroundMtrl юс╫ц
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
+	AddAsset<CMaterial>(L"another", pMtrl);
 
 	// TileMapMtrl
 	pMtrl = new CMaterial(true);

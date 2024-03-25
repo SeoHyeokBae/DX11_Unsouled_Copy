@@ -31,9 +31,10 @@ void CShadowScript::begin()
 	m_Obj->AddComponent(new CAnimator2D);
 
 	m_Obj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	//m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
-	m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
+	m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+	//CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
+	//m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
+	//m_Obj->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, 10);
 	
 	m_Obj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 	m_Obj->Transform()->SetRelativePos(GetOwner()->Transform()->GetRelativePos());
@@ -53,8 +54,8 @@ void CShadowScript::tick()
 {
 	m_Obj->Transform()->SetRelativePos(GetOwner()->Transform()->GetRelativePos());
 	m_Obj->Transform()->SetRelativePos(Vec3(GetOwner()->Transform()->GetRelativePos().x -12.5f
-																	, GetOwner()->Transform()->GetRelativePos().y -12.5f
-																	, GetOwner()->Transform()->GetRelativePos().z));
+																	, GetOwner()->Transform()->GetRelativePos().y - 12.5f
+																	, GetOwner()->Transform()->GetRelativePos().z + 50.f));
 
 }
 

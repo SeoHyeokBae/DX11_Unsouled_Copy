@@ -29,7 +29,7 @@ void MaterialUI::render_update()
 
     ImGui::Text("Material");
     ImGui::SameLine();
-    ImGui::InputText("##TexName", (char*)strPath.c_str(), strPath.length(), ImGuiInputTextFlags_ReadOnly);
+    ImGui::InputText("##TexName", (char*)strPath.c_str(), strPath.length());
 
     Ptr<CGraphicsShader> pShader = pMtrl->GetShader();
     string strShaderName;

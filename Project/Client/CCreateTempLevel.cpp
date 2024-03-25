@@ -171,6 +171,10 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pTempLevel->AddObject(pObj, L"Background", false);
 
+
+
+
+
 	// Player Object 생성
 	pObj = new CGameObject;
 	pObj->SetName(L"Player");
@@ -201,31 +205,11 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\port.png"));
 
-	//pCamObj->GetScript<CCameraPlayScript>()->SetTarget(pObj);
-
-	//CGameObject* pCObj = nullptr;
-	//pCObj = pObj->Clone();
-
 	pObj->AddComponent(new CPlayerScript);
 
-	//Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
-	//vRot.x += XM_PI * 0.3f;
-	//vRot.y += XM_PI * -0.15f;
-	//vRot.z += XM_PI * 0.05f;
-	//pCObj->Transform()->SetRelativeRotation(vRot);
-	//pCObj->Transform()->SetRelativePos(Vec3(-25.f,-25.f,200.f));
-
-	//CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
-	//pCObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
-	//pCObj->Animator2D()->Play(L"MOVE_LEFT")
-
-
 	pTempLevel->AddObject(pObj, L"Player", false);
-	//pObj->AddChild(pCObj);
-	
-	//pTempLevel->AddObject(pCObj, L"Player", false);
 
-	// Monster Object 생성
+	//Monster Object 생성
 	pObj = new CGameObject;
 	pObj->SetName(L"Monster");
 
@@ -245,44 +229,12 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetVisible(true);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"another"));
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
 
 	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
 
 	pTempLevel->AddObject(pObj, L"Monster", false);
-
-	// Particle Object
-	CGameObject* pParticleObj = new CGameObject;
-	pParticleObj->SetName(L"Particle");
-
-	pParticleObj->AddComponent(new CTransform);
-	pParticleObj->AddComponent(new CParticleSystem);
-
-	pParticleObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
-	pTempLevel->AddObject(pParticleObj, L"Default", false);
-
-	pParticleObj = pParticleObj->Clone();
-	pParticleObj->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 200.f));
-	pTempLevel->AddObject(pParticleObj, L"Default", false);
-
-
-	// UI object 생성
-	pObj = new CGameObject;
-	pObj->SetName(L"UI");
-
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CMeshRender);
-
-	pObj->Transform()->SetRelativePos(Vec3(-590, 310.f, 500.f));
-	pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
-
-
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-
-	pTempLevel->AddObject(pObj, L"UI", false);
-
 
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
 

@@ -91,8 +91,7 @@ void CPlayerScript::tick()
 		vRot.z += DT * XM_PI;
 	}
 
-	Transform()->SetRelativePos(vPos);
-	Transform()->SetRelativeRotation(vRot);
+
 
 
 
@@ -141,6 +140,21 @@ void CPlayerScript::tick()
 	
 	// GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), true, 3);
 	//GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
+
+
+	float limity = 5000.f;
+	float limitz = 1500.f;
+	if (0 <= GetOwner()->Transform()->GetRelativePos().y)
+		vPos.z = (1.f / limity) * 1500;
+	if (4 == GetOwner()->GetLayerIdx())
+	{
+		vPos.z = (vPos.y / limity) * 1500 + 50.f;
+	}
+	else
+		vPos.z = (vPos.y / limity) * 1500;
+
+	Transform()->SetRelativePos(vPos);
+	Transform()->SetRelativeRotation(vRot);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

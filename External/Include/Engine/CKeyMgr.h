@@ -17,7 +17,7 @@ enum KEY
 	LEFT, RIGHT, UP, DOWN,
 
 	LBTN, RBTN,
-
+	BRAL, BRAR,
 	KEY_END,
 };
 

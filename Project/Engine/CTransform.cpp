@@ -17,23 +17,6 @@ CTransform::~CTransform()
 
 void CTransform::finaltick()
 {
-	// 0 ~ 1500
-	float limity = 5000.f;
-	float limitz = 1500.f;
-	if (nullptr == GetOwner()->Camera()) // 카메라는 z정렬안받음
-	{
-		if (0 <= m_vRelativePos.y)
-			m_vRelativePos.z = (1.f / limity) * 1500;
-		if (4 == GetOwner()->GetLayerIdx())
-		{
-			m_vRelativePos.z = (m_vRelativePos.y / limity) * 1500 + 50.f;
-		}
-		else
-			m_vRelativePos.z = (m_vRelativePos.y / limity) * 1500;
-	}
-
-
-
 	m_matWorld = XMMatrixIdentity();	// 단위 행렬로 초기화 
 
 	// XMMatrix...(..) 4행 원소를 넣어 주는 것을 함수로
