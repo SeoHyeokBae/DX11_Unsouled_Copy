@@ -2,6 +2,7 @@
 #include "CCameraMoveScript.h"
 
 #include "AnimationEditorUI.h"
+#include "TileMapEditorUI.h"
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(-1)
@@ -59,6 +60,10 @@ void CCameraMoveScript::MoveOrthographic()
 	// Animation Editor 모드일때 이동불가
 	AnimationEditorUI* Editor = (AnimationEditorUI*)CImGuiMgr::GetInst()->FindUI("##AnimationEditor");
 	if (Editor->IsActivate())
+		return;
+
+	TileMapEditorUI* Editor2 = (TileMapEditorUI*)CImGuiMgr::GetInst()->FindUI("##TileEditor");
+	if (Editor2->IsActivate())
 		return;
 
 	Vec3 vPos = Transform()->GetRelativePos();

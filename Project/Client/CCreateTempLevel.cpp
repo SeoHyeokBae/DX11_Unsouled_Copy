@@ -199,17 +199,6 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\port.png"));
 
-	pObj->Animator2D()->Create(L"IDLE_UP", pAltasTex, Vec2(0.f, 260.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 1, 10);
-	pObj->Animator2D()->Create(L"IDLE_DOWN", pAltasTex, Vec2(0.f, 0.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
-	pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
-	pObj->Animator2D()->Create(L"IDLE_RIGHT", pAltasTex, Vec2(0.f, 390.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
-
-	pObj->Animator2D()->Create(L"MOVE_UP", pAltasTex, Vec2(0.f, 780.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
-	pObj->Animator2D()->Create(L"MOVE_DOWN", pAltasTex, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
-	pObj->Animator2D()->Create(L"MOVE_LEFT", pAltasTex, Vec2(0.f, 650.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
-	pObj->Animator2D()->Create(L"MOVE_RIGHT", pAltasTex, Vec2(0.f, 910.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 10, 20);
-
-
 	//pCamObj->GetScript<CCameraPlayScript>()->SetTarget(pObj);
 
 	CGameObject* pCObj = nullptr;
@@ -233,20 +222,6 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddChild(pCObj);
 	
 	//pTempLevel->AddObject(pCObj, L"Player", false);
-
-	//pObj = new CGameObject;
-	//pObj->SetName(L"Collider");
-	//pObj->AddComponent(new CTransform);
-	//pObj->AddComponent(new CCollider2D);
-	//pObj->AddComponent(new CColTileScript);
-	//pObj->Transform()->SetRelativePos(Vec3(-300.f, 0.f, 500.f));
-	//pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
-	//pObj->Collider2D()->SetAbsolute(true);
-	//pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
-	//pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-	//pObj->Collider2D()->SetVisible(true);
-	//pTempLevel->AddObject(pObj, L"Monster", false);
-
 
 	// Monster Object »ý¼º
 	pObj = new CGameObject;

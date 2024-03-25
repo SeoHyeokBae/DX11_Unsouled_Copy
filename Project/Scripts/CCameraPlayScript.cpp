@@ -2,6 +2,8 @@
 #include "CCameraPlayScript.h"
 #include <Engine/CLevelMgr.h>
 
+#include "../Client/TileMapEditorUI.h"
+
 CGameObject* CCameraPlayScript::m_Target = nullptr;
 
 CCameraPlayScript::CCameraPlayScript()
@@ -64,6 +66,10 @@ void CCameraPlayScript::tick()
 
 void CCameraPlayScript::MoveOrthographic()
 {
+	TileMapEditorUI* Editor = (TileMapEditorUI*)CImGuiMgr::GetInst()->FindUI("##TileEditor");
+	if (Editor->IsActivate())
+		return;
+
 
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();

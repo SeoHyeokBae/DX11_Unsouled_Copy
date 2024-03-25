@@ -61,6 +61,8 @@ void CTypeTileScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CC
 
 	// 해당 idx 타입 대입
 	eTileType type = GetOwner()->TileMap()->GetTileType(idx);
+	// 위 type으로 obj state 변화 부여
+	// TODO
 }
 
 void CTypeTileScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
