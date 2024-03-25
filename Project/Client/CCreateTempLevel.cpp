@@ -86,6 +86,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pTempLevel->GetLayer(1)->SetName(L"Player");
 	pTempLevel->GetLayer(2)->SetName(L"Monster");
 	pTempLevel->GetLayer(3)->SetName(L"Light");
+	pTempLevel->GetLayer(4)->SetName(L"Shadow");
+
 	pTempLevel->GetLayer(11)->SetName(L"Tile_Property");
 	pTempLevel->GetLayer(12)->SetName(L"Tile_Collider");
 	pTempLevel->GetLayer(10)->SetName(L"Background");
@@ -177,12 +179,12 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CCollider2D);
 	pObj->AddComponent(new CAnimator2D);
-	//pObj->AddComponent(new CPlayerScript);
+	pObj->AddComponent(new CShadowScript);
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
-	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 50.f, 0.f));
+	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(25.f, 10.f));
@@ -201,25 +203,25 @@ void CCreateTempLevel::CreateTempLevel()
 
 	//pCamObj->GetScript<CCameraPlayScript>()->SetTarget(pObj);
 
-	CGameObject* pCObj = nullptr;
-	pCObj = pObj->Clone();
+	//CGameObject* pCObj = nullptr;
+	//pCObj = pObj->Clone();
 
 	pObj->AddComponent(new CPlayerScript);
 
-	Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
-	vRot.x += XM_PI * 0.3f;
-	vRot.y += XM_PI * -0.15f;
-	vRot.z += XM_PI * 0.05f;
-	pCObj->Transform()->SetRelativeRotation(vRot);
-	pCObj->Transform()->SetRelativePos(Vec3(-25.f,-25.f,200.f));
+	//Vec3 vRot = pCObj->Transform()->GetRelativeRotation();
+	//vRot.x += XM_PI * 0.3f;
+	//vRot.y += XM_PI * -0.15f;
+	//vRot.z += XM_PI * 0.05f;
+	//pCObj->Transform()->SetRelativeRotation(vRot);
+	//pCObj->Transform()->SetRelativePos(Vec3(-25.f,-25.f,200.f));
 
-	CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
-	pCObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
+	//CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
+	//pCObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
 	//pCObj->Animator2D()->Play(L"MOVE_LEFT")
 
 
 	pTempLevel->AddObject(pObj, L"Player", false);
-	pObj->AddChild(pCObj);
+	//pObj->AddChild(pCObj);
 	
 	//pTempLevel->AddObject(pCObj, L"Player", false);
 
@@ -234,8 +236,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMonsterScript);
 	pObj->AddComponent(new CAnimator2D);
 
-	pObj->Transform()->SetRelativePos(Vec3(500.f, 0.f, 500.f));
-	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
+	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
