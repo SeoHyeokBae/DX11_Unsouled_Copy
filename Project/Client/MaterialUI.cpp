@@ -8,6 +8,9 @@
 
 #include "ParamUI.h"
 
+// SAVE 시 PARAM 하드코딩 수정 필요
+// PARAM 도 선택후 넣기 가능하게
+
 MaterialUI::MaterialUI()
 	: AssetUI("Material", "##Material", ASSET_TYPE::MATERIAL)
 {
@@ -65,7 +68,7 @@ void MaterialUI::render_update()
     {
         wchar_t szPath[255] = {};
         wstring FilePath = CPathMgr::GetContentPath();
-        CMaterial* pMtrl = new CMaterial;
+        CMaterial* mtrl = new CMaterial;
         if ('\0' == sName[0])
         {
             int num = 0;
@@ -76,8 +79,8 @@ void MaterialUI::render_update()
                     break;
                 ++num;
             }
-            pMtrl->SetName(szPath);
-            pMtrl->Save(szPath);
+            mtrl->SetName(szPath);
+            mtrl->Save(szPath);
         }
         else
         {
@@ -85,12 +88,15 @@ void MaterialUI::render_update()
             FilePath += L"Material\\";
             FilePath += ToWString(str) + L".mtrl";
 
-            pMtrl->SetName(CPathMgr::GetRelativePath(FilePath));
-            pMtrl->Save(CPathMgr::GetRelativePath(FilePath));
+            mtrl->SetName(CPathMgr::GetRelativePath(FilePath));
+            mtrl->SetTexParam(TEX_PARAM::TEX_0, pMtrl->GetTexParam(TEX_PARAM::TEX_0));
+            mtrl->SetScalarParam(SCALAR_PARAM::INT_0, pMtrl->GetScalarParam(SCALAR_PARAM::INT_0));
+            mtrl->SetShader(pMtrl->GetShader());
+            mtrl->Save(CPathMgr::GetRelativePath(FilePath));
             sName[0] = {0};
         }
 
-         GamePlayStatic::AddAsset(pMtrl);
+         GamePlayStatic::AddAsset(mtrl);
     }
     ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
     ImGui::Text("Material Parameter");

@@ -1,5 +1,19 @@
 #pragma once
 #include "UI.h"
+
+enum class eCOMPONENT
+{
+       Transform,
+       MeshRender,
+       Collider2D,
+       Movement,
+       Animator2D,
+       Light2D,
+       TileMap,
+       StateMachine,
+       End,
+};
+
 class MenuUI :
     public UI
 {

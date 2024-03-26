@@ -36,9 +36,9 @@ void MeshRenderUI::render_update()
 
 	string meshname, mtrlname;
 
-	if (nullptr == pMesh)
+	if (nullptr != pMesh)
 		meshname = ToString(pMesh->GetKey().c_str());
-	if (nullptr == pMtrl)
+	if (nullptr != pMtrl)
 		mtrlname = ToString(pMtrl->GetKey().c_str());
 
 	ImGui::Text("Mesh    ");

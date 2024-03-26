@@ -12,7 +12,7 @@ private:
 	bool			m_bActive;
 	bool			m_bModal;
 
-	UI* m_Parent;
+	UI*				m_Parent;
 	vector<UI*>		m_vecChildUI;
 
 

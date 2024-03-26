@@ -83,6 +83,7 @@ enum class COMPONENT_TYPE
 	SCRIPT,
 };
 
+
 // 상수버퍼 종류
 enum class CB_TYPE
 {

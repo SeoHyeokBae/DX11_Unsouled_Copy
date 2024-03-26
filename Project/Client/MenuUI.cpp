@@ -203,51 +203,109 @@ void MenuUI::Level()
     }
 }
 
+const char* COMPONENT_TYPE_STRING[] =
+{
+   "Transform",
+   "MeshRender",
+   "Collider2D",
+   "Movement",
+   "Animator2D",
+   "Light2D",
+   "TileMap",
+   "StateMachine"
+};
+
 void MenuUI::GameObject()
 {
-    if (ImGui::BeginMenu("GameObject"))
-    {
-        if (ImGui::MenuItem("Create Empty Object", ""))
-        {
-            CGameObject* pNewObj = new CGameObject;
-            pNewObj->SetName(L"New GameObject");
-            pNewObj->AddComponent(new CTransform);
-            GamePlayStatic::SpawnGameObject(pNewObj, 0);
-        }
-        ImGui::Separator();
+	if (ImGui::BeginMenu("GameObject"))
+	{
+		if (ImGui::MenuItem("Create Empty Object", ""))
+		{
+			CGameObject* pNewObj = new CGameObject;
+			pNewObj->SetName(L"New GameObject");
+			pNewObj->AddComponent(new CTransform);
+			GamePlayStatic::SpawnGameObject(pNewObj, 0);
+		}
+		ImGui::Separator();
 
-        if (ImGui::BeginMenu("Component", ""))
-        {
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+		if (ImGui::BeginMenu("Component", ""))
+		{
+			for (size_t i = 0; i < IM_ARRAYSIZE(COMPONENT_TYPE_STRING); i++)
+			{
+				if (ImGui::MenuItem(COMPONENT_TYPE_STRING[i]))
+				{
+					Inspector* inspector = (Inspector*)CImGuiMgr::GetInst()->FindUI("##Inspector");
+					if (nullptr != inspector->GetTargetObject())
+					{
+						UINT type = i;
 
-            ImGui::EndMenu();
-        }
+						switch (type)
+						{
+						case (UINT)eCOMPONENT::Transform:
+							if (!inspector->GetTargetObject()->Transform())
+								inspector->GetTargetObject()->AddComponent(new CTransform);
+							break;
+						case (UINT)eCOMPONENT::MeshRender:
+							if (!inspector->GetTargetObject()->MeshRender())
+								inspector->GetTargetObject()->AddComponent(new CMeshRender);
+							break;
+						case (UINT)eCOMPONENT::Collider2D:
+							if (!inspector->GetTargetObject()->Collider2D())
+								inspector->GetTargetObject()->AddComponent(new CCollider2D);
+							break;
+						case (UINT)eCOMPONENT::Movement:
+							if (!inspector->GetTargetObject()->Movement())
+								inspector->GetTargetObject()->AddComponent(new CMovement);
+							break;
+						case (UINT)eCOMPONENT::Animator2D:
+							if (!inspector->GetTargetObject()->Animator2D())
+								inspector->GetTargetObject()->AddComponent(new CAnimator2D);
+							break;
+						case (UINT)eCOMPONENT::Light2D:
+							if (!inspector->GetTargetObject()->Light2D())
+								inspector->GetTargetObject()->AddComponent(new CLight2D);
+							break;
+						case (UINT)eCOMPONENT::TileMap:
+							if (!inspector->GetTargetObject()->TileMap())
+								inspector->GetTargetObject()->AddComponent(new CTileMap);
+							break;
+						case (UINT)eCOMPONENT::StateMachine:
+							if (!inspector->GetTargetObject()->StateMachine())
+								inspector->GetTargetObject()->AddComponent(new CStateMachine);
+							break;
+						default:
+							break;
+						}
+					}
+				}
+			}
+			ImGui::EndMenu();
+		}
 
-        if (ImGui::BeginMenu("Script", ""))
-        {
-            vector<wstring> vecScriptName;
-            CScriptMgr::GetScriptInfo(vecScriptName);
+		if (ImGui::BeginMenu("Script", ""))
+		{
+			vector<wstring> vecScriptName;
+			CScriptMgr::GetScriptInfo(vecScriptName);
 
-            for (size_t i = 0; i < vecScriptName.size(); ++i)
-            {
-                if (ImGui::MenuItem(ToString(vecScriptName[i]).c_str()))
-                {
-                    Inspector* inspector = (Inspector*)CImGuiMgr::GetInst()->FindUI("##Inspector");
-                    if (nullptr != inspector->GetTargetObject())
-                    {
-                        inspector->GetTargetObject()->AddComponent(CScriptMgr::GetScript(vecScriptName[i]));
-                    }
-                }
-            }
+			for (size_t i = 0; i < vecScriptName.size(); ++i)
+			{
+				if (ImGui::MenuItem(ToString(vecScriptName[i]).c_str()))
+				{
+					Inspector* inspector = (Inspector*)CImGuiMgr::GetInst()->FindUI("##Inspector");
+					if (nullptr != inspector->GetTargetObject())
+					{
+						inspector->GetTargetObject()->AddComponent(CScriptMgr::GetScript(vecScriptName[i]));
+					}
+				}
+			}
 
-            ImGui::EndMenu();
-        }
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenu();
+	}
 
-        ImGui::EndMenu();
-    }
 }
+
 
 void MenuUI::Asset()
 {

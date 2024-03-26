@@ -170,6 +170,10 @@ void CCreateTempLevel::CreateTempLevel()
 	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
 	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex);
 
+	//Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
+	//Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
+
+
 	pTempLevel->AddObject(pObj, L"Background", false);
 
 

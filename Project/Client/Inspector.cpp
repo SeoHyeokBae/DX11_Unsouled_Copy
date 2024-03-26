@@ -2,6 +2,9 @@
 #include "Inspector.h"
 
 #include <Engine/CTransform.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+#include <Engine/CLayer.h>
 
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
@@ -40,6 +43,43 @@ void Inspector::render_update()
 	{
 		string strName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
 		ImGui::Text(strName.c_str());
+		ImGui::Separator();
+		ImGui::Text("Current Level : ");
+		ImGui::SameLine();
+		string levelName = ToString(CLevelMgr::GetInst()->GetCurrentLevel()->GetName());
+		ImGui::Text(levelName.c_str());
+		ImGui::Text("Layer Idx  ");
+		ImGui::SameLine();
+
+		vector<string> layers;
+		CLevelMgr::GetInst()->GetCurrentLevel()->GetLayerName(layers);
+
+		int cur_idx = GetTargetObject()->GetLayerIdx();
+		const char* preview_value = layers[cur_idx].c_str();
+		
+		if (ImGui::BeginCombo("##ObjLayer", preview_value))
+		{
+			for (int n = 0; n < layers.size(); n++)
+			{
+				if ("\0" == layers[n])
+					continue;
+
+				const bool is_selected = (cur_idx == n);
+				if (ImGui::Selectable(layers[n].c_str(), is_selected))
+				{
+					cur_idx = n;
+					CLayer* layer = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(GetTargetObject()->GetLayerIdx());
+					layer->DetachGameObject(GetTargetObject());
+					layer = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(cur_idx);
+					layer->AddObject(GetTargetObject(), false);
+				}
+
+				// 리스트 중 해당 항목이 클릭되면 하이라이트 걸어줌
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
 	}
 }
 
