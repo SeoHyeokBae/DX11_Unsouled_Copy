@@ -25,12 +25,6 @@ private:
     // 마찰 크기
     float   m_FrictionScale;
 
-    // 중력 기능 On / Off
-    bool    m_UseGravity;
-
-    // 적용되고 있는 중력 방향 및 배율
-    Vec2    m_GravityForce;
-
     // 땅위인지 아닌지
     bool    m_Ground;
 
@@ -99,26 +93,6 @@ public:
     float GetFrictionScale()
     {
         return m_FrictionScale;
-    }
-
-    void UseGravity(bool _Use)
-    {
-        m_UseGravity = _Use;
-    }
-
-    bool IsUseGravity()
-    {
-        return m_UseGravity;
-    }
-
-    void SetGravity(Vec2 _vGravity)
-    {
-        m_GravityForce = _vGravity;
-    }
-
-    Vec2 GetGravityDir()
-    {
-        //return Vec2(m_GravityForce).Normalize();
     }
 
     bool IsGround()

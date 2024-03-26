@@ -51,6 +51,8 @@ void CPlayerScript::tick()
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
 
+	//if (KEY_PRESSED(KEY::UP))
+	//	m_Movement->AddForce(Vec2(0.f, 400.f));
 	if (KEY_PRESSED(KEY::UP))
 		vPos.y += DT * m_Speed;
 	if (KEY_TAP(KEY::UP))
@@ -58,6 +60,8 @@ void CPlayerScript::tick()
 	if (KEY_RELEASED(UP))
 		Animator2D()->Play(L"IDLE_UP");
 
+	//if (KEY_PRESSED(KEY::DOWN))
+	//	m_Movement->AddForce(Vec2(0.f, -400.f));
 	if (KEY_PRESSED(KEY::DOWN))
 		vPos.y -= DT * m_Speed;
 	if (KEY_TAP(KEY::DOWN))
@@ -65,15 +69,19 @@ void CPlayerScript::tick()
 	if (KEY_RELEASED(DOWN))
 		Animator2D()->Play(L"IDLE_DOWN");
 
+	//if (KEY_PRESSED(KEY::LEFT))
+	//	m_Movement->AddForce(Vec2(-400.f, 0.f));//vPos.x -= DT * m_Speed;
 	if (KEY_PRESSED(KEY::LEFT))
-		m_Movement->AddForce(Vec2(-300.f, 0.f));//vPos.x -= DT * m_Speed;
+		vPos.x -= DT * m_Speed;
 	if (KEY_TAP(KEY::LEFT))
 		Animator2D()->Play(L"MOVE_LEFT");
 	if (KEY_RELEASED(LEFT))
 		Animator2D()->Play(L"IDLE_LEFT");
 
+	//if (KEY_PRESSED(KEY::RIGHT))
+	//	m_Movement->AddForce(Vec2(400.f, 0.f)); //vPos.x += DT * m_Speed;
 	if (KEY_PRESSED(KEY::RIGHT))
-		m_Movement->AddForce(Vec2(300.f, 0.f)); //vPos.x += DT * m_Speed;
+		vPos.x += DT * m_Speed;
 	if (KEY_TAP(KEY::RIGHT))
 		Animator2D()->Play(L"MOVE_RIGHT");
 	if (KEY_RELEASED(RIGHT))
@@ -154,8 +162,8 @@ void CPlayerScript::tick()
 	else
 		vPos.z = (vPos.y / limity) * 1500;
 
-	//Transform()->SetRelativePos(vPos);
-	//Transform()->SetRelativeRotation(vRot);
+	Transform()->SetRelativePos(vPos);
+	Transform()->SetRelativeRotation(vRot);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

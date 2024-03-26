@@ -197,12 +197,10 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetVisible(true);
 
 	pObj->Movement()->SetMass(1.f);
-	pObj->Movement()->SetInitSpeed(100.f);
+	pObj->Movement()->SetInitSpeed(200.f);
 	pObj->Movement()->SetMaxSpeed(200.f);
-	pObj->Movement()->SetFrictionScale(1000.f);
+	pObj->Movement()->SetFrictionScale(10000.f);
 
-	pObj->Movement()->UseGravity(false);
-	pObj->Movement()->SetGravity(Vec2(0.f, 980.f));
 	pObj->Movement()->SetGround(true);
 
 	pObj->AddComponent(new CLight2D);

@@ -4,6 +4,7 @@
 #include "CTimeMgr.h"
 #include "CTransform.h"
 
+// 대각선 이동 수정필요
 
 CMovement::CMovement()
 	: CComponent(COMPONENT_TYPE::MOVEMENT)
@@ -11,8 +12,7 @@ CMovement::CMovement()
 	, m_InitSpeed(0.f)
 	, m_MaxSpeed(0.f)
 	, m_FrictionScale(0.f)
-	, m_UseGravity(0.f)
-	, m_Ground(false)
+	, m_Ground(true)
 {
 }
 
@@ -23,12 +23,6 @@ CMovement::~CMovement()
 void CMovement::finaltick()
 {
 	m_Accel = m_Force / m_Mass;
-
-	// 중력옵션 사용하는 경우
-	if (m_UseGravity && !m_Ground)
-	{
-		m_Accel += m_GravityForce;
-	}
 
 	// 정지에 가까운 상태일 경우
 	if (m_Velocity.Length() < 0.1f)
@@ -50,25 +44,83 @@ void CMovement::finaltick()
 	{
 		m_Velocity.x = (m_Velocity.x / abs(m_Velocity.x)) * m_MaxSpeed;
 	}
+	if (fabs(m_Velocity.y) > m_MaxSpeed)
+	{
+		m_Velocity.y = (m_Velocity.y / abs(m_Velocity.y)) * m_MaxSpeed;
+	}
 
 	// 물체에 적용되고있는 힘이 없으면 마찰력을 적용시킨다.
-	if (m_Force.IsZero() && m_Velocity.x != 0.f && m_Ground)
+	//if (m_Force.IsZero() && m_Velocity.x != 0.f && m_Ground)
+	//{
+	//	float fFriction = -m_Velocity.x;
+	//	fFriction /= abs(fFriction);
+
+	//	fFriction *= m_FrictionScale;
+
+	//	float fFrictionAccel = (fFriction / m_Mass) * DT;
+	//	if (abs(m_Velocity.x) < abs(fFrictionAccel))
+	//	{
+	//		m_Velocity = Vec2(0.f, m_Velocity.y);
+	//	}
+	//	else
+	//	{
+	//		m_Velocity.x += fFrictionAccel;
+	//	}
+	//}
+	//if (m_Force.IsZero() && m_Velocity.y != 0.f && m_Ground)
+	//{
+	//	float fFriction = -m_Velocity.y;
+	//	fFriction /= abs(fFriction);
+
+	//	fFriction *= m_FrictionScale;
+
+	//	float fFrictionAccel = (fFriction / m_Mass) * DT;
+	//	if (abs(m_Velocity.y) < abs(fFrictionAccel))
+	//	{
+	//		m_Velocity = Vec2(m_Velocity.x,0.f);
+	//	}
+	//	else
+	//	{
+	//		m_Velocity.y += fFrictionAccel;
+	//	}
+	//}
+	//if ((m_Force.x == 0 || m_Force.y == 0) && (m_Velocity.x != 0.f || m_Velocity.y != 0.f) && m_Ground)
+	if (((m_Force.x == 0 && m_Velocity.x != 0.f) || (m_Force.y == 0 && m_Velocity.y != 0.f)) && m_Ground)
 	{
-		float fFriction = -m_Velocity.x;
-		fFriction /= abs(fFriction);
+		Vec2 fFriction = -m_Velocity;
+		if (fFriction.x == 0)
+		{
+			fFriction /= Vec2(1.f, abs(fFriction.y));
+		}
+		else if (fFriction.y == 0)
+		{
+			fFriction /= Vec2(abs(fFriction.x), 1.f);
+		}
+		else
+			fFriction /= Vec2(abs(fFriction.x), abs(fFriction.y));
 
 		fFriction *= m_FrictionScale;
 
-		float fFrictionAccel = (fFriction / m_Mass) * DT;
-		if (abs(m_Velocity.x) < abs(fFrictionAccel))
+		Vec2 fFrictionAccel = (fFriction / m_Mass) * DT;
+		if (abs(m_Velocity.x) < abs(fFrictionAccel.x))
 		{
 			m_Velocity = Vec2(0.f, m_Velocity.y);
 		}
 		else
 		{
-			m_Velocity.x += fFrictionAccel;
+			m_Velocity.x += fFrictionAccel.x;
+		}
+
+		if (abs(m_Velocity.y) < abs(fFrictionAccel.y))
+		{
+			m_Velocity = Vec2(m_Velocity.x, 0.f);
+		}
+		else
+		{
+			m_Velocity.y += fFrictionAccel.y;
 		}
 	}
+
 	Vec3 vObjPos = Transform()->GetRelativePos();
 	vObjPos = Vec3(vObjPos.x + m_Velocity.x * DT, vObjPos.y + m_Velocity.y * DT, vObjPos.z);
 	GetOwner()->Transform()->SetRelativePos(vObjPos);
