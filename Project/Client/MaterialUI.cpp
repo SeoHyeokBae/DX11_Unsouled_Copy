@@ -26,10 +26,13 @@ void MaterialUI::render_update()
     // 해당 텍스쳐 이미지 출력
     Ptr<CMaterial> pMtrl = (CMaterial*)GetAsset().Get();
     string strPath = string(pMtrl->GetRelativePath().begin(), pMtrl->GetRelativePath().end());
+    static char sName[256] = {};
 
-    ImGui::Text("Material");
+    ImGui::Text((char*)strPath.c_str());
+    ImGui::Separator();
+    ImGui::Text("NewName ");
     ImGui::SameLine();
-    ImGui::InputText("##TexName", (char*)strPath.c_str(), strPath.length());
+    ImGui::InputText("##InputTexName", (char*)sName, IM_ARRAYSIZE(sName));
 
     Ptr<CGraphicsShader> pShader = pMtrl->GetShader();
     string strShaderName;
@@ -40,7 +43,55 @@ void MaterialUI::render_update()
     ImGui::Text("Shader  ");
     ImGui::SameLine();
     ImGui::InputText("##ShaderName", (char*)strShaderName.c_str(), strShaderName.length(), ImGuiInputTextFlags_ReadOnly);
+    // Shader Drop 체크
+    if (ImGui::BeginDragDropTarget())
+    {
+        const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
 
+        if (payload)
+        {
+            DWORD_PTR data = *((DWORD_PTR*)payload->Data);
+            CAsset* pAsset = (CAsset*)data;
+            if (ASSET_TYPE::GRAPHICS_SHADER == pAsset->GetType())
+            {
+                pMtrl->SetShader((CGraphicsShader*)pAsset);
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    ImGui::Separator();
+    if (ImGui::Button("Save"))
+    {
+        wchar_t szPath[255] = {};
+        wstring FilePath = CPathMgr::GetContentPath();
+        CMaterial* pMtrl = new CMaterial(false);
+        if ('\0' == sName[0])
+        {
+            int num = 0;
+            while (true)
+            {
+                swprintf_s(szPath, L"Material\\New_Edit_Material_%d.mtrl", num);
+                if (!exists(FilePath + szPath))
+                    break;
+                ++num;
+            }
+            pMtrl->SetName(szPath);
+            pMtrl->Save(szPath);
+        }
+        else
+        {
+            string str = (string)sName;
+            FilePath += L"Material\\";
+            FilePath += ToWString(str) + L".mtrl";
+
+            pMtrl->SetName(CPathMgr::GetRelativePath(FilePath));
+            pMtrl->Save(CPathMgr::GetRelativePath(FilePath));
+            sName[0] = {0};
+        }
+
+         GamePlayStatic::AddAsset(pMtrl);
+    }
     ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
     ImGui::Text("Material Parameter");
     ImGui::Spacing(); ImGui::Spacing();
@@ -98,6 +149,8 @@ void MaterialUI::render_update()
         }
         pMtrl->SetTexParam(vecTexParam[i].Type, pTex);
     }
+
+
 }
 
 void MaterialUI::SelectTexture(DWORD_PTR _dwData)

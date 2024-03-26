@@ -131,8 +131,18 @@ void CMovement::finaltick()
 
 void CMovement::SaveToFile(FILE* _File)
 {
+	 fwrite(&m_Mass, sizeof(float), 1, _File);
+	 fwrite(&m_InitSpeed, sizeof(float), 1, _File);
+	 fwrite(&m_MaxSpeed, sizeof(float), 1, _File);
+	 fwrite(&m_FrictionScale, sizeof(float), 1, _File);
+	 fwrite(&m_Ground, sizeof(bool), 1, _File);
 }
 
 void CMovement::LoadFromFile(FILE* _File)
 {
+	fread(&m_Mass, sizeof(float), 1, _File);
+	fread(&m_InitSpeed, sizeof(float), 1, _File);
+	fread(&m_MaxSpeed, sizeof(float), 1, _File);
+	fread(&m_FrictionScale, sizeof(float), 1, _File);
+	fread(&m_Ground, sizeof(bool), 1, _File);
 }

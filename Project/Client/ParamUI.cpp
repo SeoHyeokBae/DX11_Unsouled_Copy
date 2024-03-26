@@ -122,7 +122,7 @@ bool ParamUI::Param_TEXTURE(Ptr<CTexture>& _Texture, const string& _Desc, UI* _I
 		if (ImGui::Button(szID, ImVec2(20, 20)))
 		{
 			// ¸®½ºÆ® UI
-			ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("##List");
+			ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("Select##List");
 
 			vector<string> vecTexName;
 			CAssetMgr::GetInst()->GetAssetName(ASSET_TYPE::TEXTURE, vecTexName);
