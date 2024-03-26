@@ -86,6 +86,7 @@ void Inspector::CreateAssetUI()
 	AddChildUI(m_arrAssetUI[(UINT)ASSET_TYPE::FSM]);
 }
 
+
 void Inspector::ResizeScriptUI(UINT _Size)
 {
 	int AddSize = _Size - m_vecScriptUI.size();

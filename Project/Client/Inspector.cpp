@@ -44,13 +44,12 @@ void Inspector::render_update()
 		string strName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
 		ImGui::Text(strName.c_str());
 		ImGui::Separator();
-		ImGui::Text("Current Level : ");
-		ImGui::SameLine();
 		string levelName = ToString(CLevelMgr::GetInst()->GetCurrentLevel()->GetName());
 		ImGui::Text(levelName.c_str());
-		ImGui::Text("Layer Idx  ");
+		ImGui::Text("Layer Idx");
 		ImGui::SameLine();
 
+		// 레이어 선택
 		vector<string> layers;
 		CLevelMgr::GetInst()->GetCurrentLevel()->GetLayerName(layers);
 
@@ -80,6 +79,14 @@ void Inspector::render_update()
 			}
 			ImGui::EndCombo();
 		}
+		ImGui::Text("         ");
+		ImGui::SameLine();
+		if (ImGui::TreeNode("Layer Conflict Check"))
+		{
+			CreateLayerCheck();
+			ImGui::TreePop();
+		}
+
 	}
 }
 
@@ -145,3 +152,65 @@ void Inspector::SetTargetAsset(Ptr<CAsset> _Asset)
 	}
 }
 
+
+void Inspector::CreateLayerCheck()
+{
+	vector<string> layers;
+	CLevelMgr::GetInst()->GetCurrentLevel()->GetLayerName(layers);
+
+	vector<string> newlayers;
+	for (int n = 0; n < layers.size(); n++)
+	{
+		if ("\0" == layers[n])
+			continue;
+		newlayers.push_back(layers[n]);
+	}
+
+	const int columns_count = LAYER_MAX;
+	const int rows_count = LAYER_MAX;
+
+	static ImGuiTableFlags table_flags 
+		= ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInnerH | ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable  | ImGuiTableFlags_HighlightHoveredColumn;
+	
+	static bool bools[columns_count * rows_count];
+	vector<int> input;
+	if (ImGui::BeginTable("Layer Check", columns_count, table_flags, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * newlayers.size())))
+	{
+		ImGui::TableSetupColumn("Layer", ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoReorder);
+		for (int n = 1; n < columns_count; n++)
+		{ 
+			if ("\0" == layers[n])
+				continue;
+
+			input.push_back(n);
+			char col[50] = {};
+			sprintf_s(col, "%d", n);
+			ImGui::TableSetupColumn(col, ImGuiTableColumnFlags_AngledHeader | ImGuiTableColumnFlags_WidthFixed , 20.f);
+		}
+		ImGui::TableSetupScrollFreeze(1, 1);
+
+		ImGui::TableAngledHeadersRow(); // Draw angled headers for all columns with the ImGuiTableColumnFlags_AngledHeader flag.
+		ImGui::TableHeadersRow();       // Draw remaining headers and allow access to context-menu and other functions.
+		for (int row = 1; row < rows_count; row++)
+		{
+			if ("\0" == layers[row])
+				continue;
+
+			ImGui::PushID(row);
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text(layers[row].c_str());
+			int count = 0;
+			for (int column = 1; column <= input.size(); column++)
+				if (ImGui::TableSetColumnIndex(column))
+				{
+					ImGui::PushID(column);
+					ImGui::Checkbox("", &bools[row * columns_count + input[column-1]]);
+					ImGui::PopID();
+				}
+			ImGui::PopID();
+		}
+		ImGui::EndTable();
+	}
+}

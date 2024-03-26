@@ -42,6 +42,7 @@ private:
     void CreateChildUI();
     void CreateComponentUI();
     void CreateAssetUI();
+    void CreateLayerCheck();
     void ResizeScriptUI(UINT _Size);
 
 public:
