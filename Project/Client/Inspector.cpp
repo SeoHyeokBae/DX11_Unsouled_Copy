@@ -5,6 +5,7 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 #include <Engine/CLayer.h>
+#include <Engine/CCollisionMgr.h>
 
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
@@ -79,8 +80,6 @@ void Inspector::render_update()
 			}
 			ImGui::EndCombo();
 		}
-		ImGui::Text("         ");
-		ImGui::SameLine();
 		if (ImGui::TreeNode("Layer Conflict Check"))
 		{
 			CreateLayerCheck();
@@ -155,62 +154,74 @@ void Inspector::SetTargetAsset(Ptr<CAsset> _Asset)
 
 void Inspector::CreateLayerCheck()
 {
+	ImGui::PushItemWidth(150);
 	vector<string> layers;
 	CLevelMgr::GetInst()->GetCurrentLevel()->GetLayerName(layers);
+	const char* combo_preview = "Select";
+	static const char* left_value = combo_preview;
+	static const char* right_value = combo_preview;
 
-	vector<string> newlayers;
-	for (int n = 0; n < layers.size(); n++)
+
+	static int left_idx = -1;
+
+	if (-1 == left_idx)
+		left_value = combo_preview;
+	else
+		left_value = layers[left_idx].c_str();
+
+	if (ImGui::BeginCombo("##LeftLayer", left_value))
 	{
-		if ("\0" == layers[n])
-			continue;
-		newlayers.push_back(layers[n]);
-	}
-
-	const int columns_count = LAYER_MAX;
-	const int rows_count = LAYER_MAX;
-
-	static ImGuiTableFlags table_flags 
-		= ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInnerH | ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable  | ImGuiTableFlags_HighlightHoveredColumn;
-	
-	static bool bools[columns_count * rows_count];
-	vector<int> input;
-	if (ImGui::BeginTable("Layer Check", columns_count, table_flags, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * newlayers.size())))
-	{
-		ImGui::TableSetupColumn("Layer", ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoReorder);
-		for (int n = 1; n < columns_count; n++)
-		{ 
+		for (int n = 0; n < layers.size(); n++)
+		{
 			if ("\0" == layers[n])
 				continue;
 
-			input.push_back(n);
-			char col[50] = {};
-			sprintf_s(col, "%d", n);
-			ImGui::TableSetupColumn(col, ImGuiTableColumnFlags_AngledHeader | ImGuiTableColumnFlags_WidthFixed , 20.f);
-		}
-		ImGui::TableSetupScrollFreeze(1, 1);
+			const bool is_selected = (left_idx == n);
+			if (ImGui::Selectable(layers[n].c_str(), is_selected))
+			{
+				left_idx = n;
+			}
 
-		ImGui::TableAngledHeadersRow(); // Draw angled headers for all columns with the ImGuiTableColumnFlags_AngledHeader flag.
-		ImGui::TableHeadersRow();       // Draw remaining headers and allow access to context-menu and other functions.
-		for (int row = 1; row < rows_count; row++)
-		{
-			if ("\0" == layers[row])
-				continue;
-
-			ImGui::PushID(row);
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text(layers[row].c_str());
-			int count = 0;
-			for (int column = 1; column <= input.size(); column++)
-				if (ImGui::TableSetColumnIndex(column))
-				{
-					ImGui::PushID(column);
-					ImGui::Checkbox("", &bools[row * columns_count + input[column-1]]);
-					ImGui::PopID();
-				}
-			ImGui::PopID();
+			// 리스트 중 해당 항목이 클릭되면 하이라이트 걸어줌
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
 		}
-		ImGui::EndTable();
+		ImGui::EndCombo();
 	}
+
+		ImGui::SameLine();
+		static int right_idx = -1;
+
+		if (-1 == right_idx)
+			right_value = combo_preview;
+		else
+			right_value = layers[right_idx].c_str();
+
+		if (ImGui::BeginCombo("##RightLayer", right_value))
+		{
+			for (int n = 0; n < layers.size(); n++)
+			{
+				if ("\0" == layers[n])
+					continue;
+
+				const bool is_selected = (right_idx == n);
+				if (ImGui::Selectable(layers[n].c_str(), is_selected))
+				{
+					right_idx = n;
+				}
+
+				// 리스트 중 해당 항목이 클릭되면 하이라이트 걸어줌
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Apply"))
+		{
+			CCollisionMgr::GetInst()->LayerCheck(left_idx, right_idx);
+			left_idx = -1;
+			right_idx = -1;
+		}
 }

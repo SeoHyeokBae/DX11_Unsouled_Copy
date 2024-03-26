@@ -252,11 +252,11 @@ void CCreateTempLevel::CreateTempLevel()
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
 
 	// 충돌 설정
-	CCollisionMgr::GetInst()->LayerCheck(2,3);
-	CCollisionMgr::GetInst()->LayerCheck(3,3);
-	CCollisionMgr::GetInst()->LayerCheck(2,11);
-	CCollisionMgr::GetInst()->LayerCheck(2,12);
-	CCollisionMgr::GetInst()->LayerCheck(3,12);
+	//CCollisionMgr::GetInst()->LayerCheck(2,3);
+	//CCollisionMgr::GetInst()->LayerCheck(3,3);
+	//CCollisionMgr::GetInst()->LayerCheck(2,11);
+	//CCollisionMgr::GetInst()->LayerCheck(2,12);
+	//CCollisionMgr::GetInst()->LayerCheck(3,12);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
 
