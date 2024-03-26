@@ -191,7 +191,7 @@ void CImGuiMgr::create_ui()
     pUI = new ListUI;           
     AddUI(pUI->GetID(), pUI);  
 
-    // List
+    // Menu
     pUI = new MenuUI;
     AddUI(pUI->GetID(), pUI);
 

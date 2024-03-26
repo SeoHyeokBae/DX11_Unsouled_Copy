@@ -153,10 +153,11 @@ void CLevel::GetLayerName(vector<string>& _Out)
 	for (UINT i = 0; i < LAYER_MAX; ++i)
 	{
 		string Name = ToString(m_arrLayer[i]->GetName());
-		if ("\0" != Name)
-		{
-			_Out.push_back(Name);
-		}
+		_Out.push_back(Name);
+		//if ("\0" != Name)
+		//{
+		//	_Out.push_back(Name);
+		//}
 	}
 }
 

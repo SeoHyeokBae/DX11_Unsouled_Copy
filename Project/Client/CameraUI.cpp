@@ -9,7 +9,7 @@
 CameraUI::CameraUI()
 	: ComponentUI("Camera","##Camera", COMPONENT_TYPE::CAMERA)
 {
-	SetSize(ImVec2(0.f, 150.f));
+	SetSize(ImVec2(0.f, 450.f));
 	SetComponentTitle("Camera");
 
 }
@@ -78,30 +78,36 @@ void CameraUI::render_update()
 
 
 	// Layer 선택시 해당 레이어만 렌더
-	m_strVec.push_back("All Layers");
-	CLevelMgr::GetInst()->GetCurrentLevel()->GetLayerName(m_strVec);
+	//m_strVec.push_back("All Layers");
+	vector<string> layers;
+	CLevelMgr::GetInst()->GetCurrentLevel()->GetLayerName(layers);
 
-	static int Layer_current_idx = 0;
-	const char* combo_preview_value2 = m_strVec[Layer_current_idx].c_str();
-
-	ImGui::Text("Layer      ");
-	ImGui::SameLine();
-	if (ImGui::BeginCombo("##LayerCombo", combo_preview_value2))
+	if (ImGui::TreeNode("Layers"))
 	{
-		for (int n = 0; n < m_strVec.size(); n++)
+		UINT check = GetTargetObject()->Camera()->GetLayerCheck();
+		vector<bool> selection;
+		for (size_t i = 0; i < layers.size(); i++)
 		{
-			const bool is_selected = (Layer_current_idx == n);
-			if (ImGui::Selectable(m_strVec[n].c_str(), is_selected))
-			{
-				Layer_current_idx = n;
-				SelectLayer(m_strVec[Layer_current_idx]);
-			}
+			selection.push_back(check & (1 << i));
 		}
-		ImGui::EndCombo();
-	}
-	m_strVec.clear();
 
-		// ImGui::Text("Camera Idx  ");		// camera idx
+		for (size_t i = 0; i < layers.size(); i++)
+		{
+			if ("\0" == layers[i])
+				continue;
+
+			if (ImGui::Selectable(layers[i].c_str(), selection[i], ImGuiSelectableFlags_AllowDoubleClick))
+				if (ImGui::IsMouseDoubleClicked(0))
+				{
+					selection[i] = !selection[i];
+					GetTargetObject()->Camera()->LayerCheck(ToWString(layers[i]), selection[i]);
+				}
+		}
+		ImGui::TreePop();
+
+		selection.clear();
+		layers.clear();
+	}
 }
 
 void CameraUI::SelectType(const string _str)

@@ -60,6 +60,8 @@ public:
 	void LayerCheckAll() { m_LayerCheck = 0xffffffff; }
 	void LayerCheckOff() { m_LayerCheck = 0x00000000; }
 
+	UINT GetLayerCheck() { return m_LayerCheck; }
+
 public:
 	virtual void begin() override;
 	virtual void finaltick() override;

@@ -65,7 +65,7 @@ void MaterialUI::render_update()
     {
         wchar_t szPath[255] = {};
         wstring FilePath = CPathMgr::GetContentPath();
-        CMaterial* pMtrl = new CMaterial(false);
+        CMaterial* pMtrl = new CMaterial;
         if ('\0' == sName[0])
         {
             int num = 0;

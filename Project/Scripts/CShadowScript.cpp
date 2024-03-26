@@ -52,7 +52,7 @@ void CShadowScript::begin()
 
 	m_Obj->Transform()->SetRelativeRotation(vRot);
 
-	GamePlayStatic::SpawnGameObject(m_Obj, 4);
+	GamePlayStatic::SpawnGameObject(m_Obj, 5);
 	GetOwner()->SetShadow(m_Obj);
 }
 
