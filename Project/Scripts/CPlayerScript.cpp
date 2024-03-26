@@ -8,6 +8,8 @@
 #include <Engine/CMaterial.h>
 #include <Engine/CRenderComponent.h>
 
+#include <Engine/CMovement.h>
+
 //#include <Engine/CTileMap.h>
 
 CPlayerScript::CPlayerScript()
@@ -40,6 +42,8 @@ void CPlayerScript::begin()
 
 	//m_Missile = CAssetMgr::GetInst()->FindAsset<CPrefab>(L"MissilePrefab");
 	//m_Missile = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\missile.pref", L"prefab\\missile.pref");
+
+	m_Movement = GetOwner()->Movement();
 }
 
 void CPlayerScript::tick()
@@ -62,14 +66,14 @@ void CPlayerScript::tick()
 		Animator2D()->Play(L"IDLE_DOWN");
 
 	if (KEY_PRESSED(KEY::LEFT))
-		vPos.x -= DT * m_Speed;
+		m_Movement->AddForce(Vec2(-300.f, 0.f));//vPos.x -= DT * m_Speed;
 	if (KEY_TAP(KEY::LEFT))
 		Animator2D()->Play(L"MOVE_LEFT");
 	if (KEY_RELEASED(LEFT))
 		Animator2D()->Play(L"IDLE_LEFT");
 
 	if (KEY_PRESSED(KEY::RIGHT))
-		vPos.x += DT * m_Speed;
+		m_Movement->AddForce(Vec2(300.f, 0.f)); //vPos.x += DT * m_Speed;
 	if (KEY_TAP(KEY::RIGHT))
 		Animator2D()->Play(L"MOVE_RIGHT");
 	if (KEY_RELEASED(RIGHT))
@@ -90,9 +94,6 @@ void CPlayerScript::tick()
 	{
 		vRot.z += DT * XM_PI;
 	}
-
-
-
 
 
 	if (nullptr != Light2D())
@@ -153,8 +154,8 @@ void CPlayerScript::tick()
 	else
 		vPos.z = (vPos.y / limity) * 1500;
 
-	Transform()->SetRelativePos(vPos);
-	Transform()->SetRelativeRotation(vRot);
+	//Transform()->SetRelativePos(vPos);
+	//Transform()->SetRelativeRotation(vRot);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

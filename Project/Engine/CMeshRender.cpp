@@ -55,4 +55,6 @@ void CMeshRender::render()
 	UpdateData();
 
 	GetMesh()->render();
+
+	Animator2D()->Clear();
 }

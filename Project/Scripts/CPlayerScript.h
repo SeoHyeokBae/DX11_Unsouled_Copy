@@ -8,6 +8,9 @@ private:
     Ptr<CPrefab>    m_Missile;
     float           m_Speed;
 
+    class CMovement* m_Movement;
+
+
 public:
     virtual void tick() override;
     virtual void begin() override;

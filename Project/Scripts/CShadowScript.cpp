@@ -14,8 +14,6 @@ CShadowScript::CShadowScript()
 	, m_Obj(nullptr)
 
 {
-
-
 }
 
 CShadowScript::~CShadowScript()
@@ -31,13 +29,21 @@ void CShadowScript::begin()
 	m_Obj->AddComponent(new CAnimator2D);
 
 	m_Obj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	//CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
-	//m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
-	//m_Obj->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, 10);
+	//m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+	CAssetMgr::GetInst()->Load<CMaterial>(L"TestMtrl", L"material\\testmtrl.mtrl");
+	m_Obj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TestMtrl"));
+	m_Obj->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, 10);
 	
 	m_Obj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 	m_Obj->Transform()->SetRelativePos(GetOwner()->Transform()->GetRelativePos());
+
+	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"texture\\link.png", L"texture\\link.png");
+	m_Obj->Animator2D()->Create(L"IDLE_UP", pAltasTex, Vec2(0.f, 260.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 1, 10);
+	m_Obj->Animator2D()->Create(L"IDLE_DOWN", pAltasTex, Vec2(0.f, 0.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
+	m_Obj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
+	m_Obj->Animator2D()->Create(L"IDLE_RIGHT", pAltasTex, Vec2(0.f, 390.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
+	m_Obj->Animator2D()->Play(L"IDLE_DOWN");
+
 
 	Vec3 vRot = m_Obj->Transform()->GetRelativeRotation();
 	vRot.y += XM_PI * -0.25f;
@@ -47,7 +53,7 @@ void CShadowScript::begin()
 	m_Obj->Transform()->SetRelativeRotation(vRot);
 
 	GamePlayStatic::SpawnGameObject(m_Obj, 4);
-
+	GetOwner()->SetShadow(m_Obj);
 }
 
 void CShadowScript::tick()

@@ -19,8 +19,6 @@ public:
     CAnim* GetCurAnim() { return m_CurAnim; }
     const wstring& GetCurKey() { return m_CurKey; }
     int GetAnimCount() { return m_mapAnim.size(); }
-    map<wstring, CAnim*> GetAnim() { return m_mapAnim; }
-    void SetAnim(const map<wstring, CAnim*>& _anim) { m_mapAnim = _anim; }
 
 public:
     virtual void finaltick() override;

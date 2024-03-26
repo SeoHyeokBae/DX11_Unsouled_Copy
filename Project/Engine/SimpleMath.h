@@ -159,6 +159,13 @@ namespace DirectX
             // Vector operations
             bool InBounds(const Vector2& Bounds) const;
 
+            bool IsZero()
+            {
+                if (x == 0.f && y == 0.f)
+                    return true;
+                return false;
+            }
+
             float Length() const;
             float LengthSquared() const;
 
@@ -231,6 +238,8 @@ namespace DirectX
         Vector2 operator* (const Vector2& V, float S);
         Vector2 operator/ (const Vector2& V1, const Vector2& V2);
         Vector2 operator* (float S, const Vector2& V);
+
+
 
         //------------------------------------------------------------------------------
         // 3D vector

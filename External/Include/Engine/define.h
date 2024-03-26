@@ -57,6 +57,8 @@ enum class COMPONENT_TYPE
 	COLLIDER2D, // 2차원 충돌체
 	COLLIDER3D, // 3차원 충돌체
 
+	MOVEMENT,
+
 	ANIMATOR2D, // 스프라이트 Animation
 	ANIMATOR3D, // Bone Skinning Animation
 

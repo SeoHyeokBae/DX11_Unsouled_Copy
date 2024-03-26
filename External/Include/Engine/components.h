@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CTransform.h"
+#include "CMovement.h"
 #include "CMeshRender.h"
 #include "CCamera.h"
 #include "CStateMachine.h"

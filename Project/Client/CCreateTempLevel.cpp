@@ -184,6 +184,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CCollider2D);
 	pObj->AddComponent(new CAnimator2D);
 	pObj->AddComponent(new CShadowScript);
+	pObj->AddComponent(new CMovement);
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
 
@@ -194,6 +195,15 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetOffsetScale(Vec2(25.f, 10.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, -60.f));
 	pObj->Collider2D()->SetVisible(true);
+
+	pObj->Movement()->SetMass(1.f);
+	pObj->Movement()->SetInitSpeed(100.f);
+	pObj->Movement()->SetMaxSpeed(200.f);
+	pObj->Movement()->SetFrictionScale(1000.f);
+
+	pObj->Movement()->UseGravity(false);
+	pObj->Movement()->SetGravity(Vec2(0.f, 980.f));
+	pObj->Movement()->SetGround(true);
 
 	pObj->AddComponent(new CLight2D);
 	pObj->Light2D()->SetLightType(LIGHT_TYPE::POINT);

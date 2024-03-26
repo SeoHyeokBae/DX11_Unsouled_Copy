@@ -22,6 +22,7 @@ private:
     vector<CGameObject*>    m_vecChild;
 
     CGameObject*            m_Parent;
+    CGameObject*            m_Shadow;
 
     int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
 
@@ -46,10 +47,13 @@ public:
     GET_COMPONENT(Animator2D, ANIMATOR2D);   // Animator2D()
     GET_COMPONENT(Light2D, LIGHT2D);       
     GET_COMPONENT(TileMap, TILEMAP);       
+    GET_COMPONENT(Movement, MOVEMENT);       
 
     int GetLayerIdx() { return m_iLayerIdx; }
 
     CGameObject* GetParent() { return m_Parent; }
+    CGameObject* GetShadow() { return m_Shadow; }
+    void SetShadow(CGameObject* _shadow) { m_Shadow = _shadow; }
     vector<CGameObject*>& GetChild() { return m_vecChild; }
 
     const vector<CScript*>& GetScripts() { return m_vecScript; }

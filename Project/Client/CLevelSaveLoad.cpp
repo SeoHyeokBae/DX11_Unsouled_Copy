@@ -179,6 +179,9 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 		case COMPONENT_TYPE::COLLIDER2D:
 			pComponent = new CCollider2D;
 			break;
+		case COMPONENT_TYPE::MOVEMENT:
+			pComponent = new CMovement;
+			break;
 		case COMPONENT_TYPE::ANIMATOR2D:
 			pComponent = new CAnimator2D;
 			break;
