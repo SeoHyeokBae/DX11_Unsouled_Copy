@@ -56,9 +56,6 @@ void Inspector::render_update()
 		ImGui::SameLine();
 		ImGui::InputText("##InputTexName", (char*)sName, IM_ARRAYSIZE(sName));
 
-		string levelName = ToString(CLevelMgr::GetInst()->GetCurrentLevel()->GetName());
-		ImGui::Text(levelName.c_str());
-
 		ImGui::Text("Layer Idx");
 		ImGui::SameLine();
 
