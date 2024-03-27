@@ -45,6 +45,8 @@ private:
 
 	bool			m_bCreateObject;
 	bool			m_bDeleteObject;
+	bool			m_bFixObject;
+
 	bool			m_bAssetChange;
 
 	int				m_DeleteFrameCount;
@@ -54,7 +56,8 @@ public:
 
 	void AddTask(const tTask& _Task) { m_vecTask.push_back(_Task); }
 
-	bool GetObjectEvent() { return m_bCreateObject || m_bDeleteObject; }
+	void IsFixObject(bool _fix) { m_bFixObject = _fix; } // 에디터용
+	bool GetObjectEvent() { return m_bCreateObject || m_bDeleteObject || m_bFixObject; }
 	bool GetAssetEvent() { return m_bAssetChange; }
 
 private:

@@ -276,6 +276,8 @@ void MenuUI::GameObject()
 						default:
 							break;
 						}
+
+                        CTaskMgr::GetInst()->IsFixObject(true);
 					}
 				}
 			}

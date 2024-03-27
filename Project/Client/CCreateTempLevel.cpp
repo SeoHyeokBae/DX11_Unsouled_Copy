@@ -48,12 +48,12 @@ void CCreateTempLevel::Init()
 	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 
-	//Ptr<CPrefab> pMissilePrefab = new CPrefab(pObj);
+	//Ptr<CPrefab> pMissilePrefab = new CPrefab(pObj,false);
 	//CAssetMgr::GetInst()->AddAsset<CPrefab>(L"MissilePrefab", pMissilePrefab.Get());
 
 
 	//pMissilePrefab->Save(L"prefab\\missile.pref");
-
+	
 	// 임시 FSM 객체 에셋 하나 생성하기
 	Ptr<CFSM>	pFSM = new CFSM(true);
 
@@ -250,13 +250,12 @@ void CCreateTempLevel::CreateTempLevel()
 	pTempLevel->AddObject(pObj, L"Monster", false);
 
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
-
 	// 충돌 설정
-	//CCollisionMgr::GetInst()->LayerCheck(2,3);
-	//CCollisionMgr::GetInst()->LayerCheck(3,3);
-	//CCollisionMgr::GetInst()->LayerCheck(2,11);
-	//CCollisionMgr::GetInst()->LayerCheck(2,12);
-	//CCollisionMgr::GetInst()->LayerCheck(3,12);
+	CCollisionMgr::GetInst()->LayerCheck(2,3);
+	CCollisionMgr::GetInst()->LayerCheck(3,3);
+	CCollisionMgr::GetInst()->LayerCheck(2,11);
+	CCollisionMgr::GetInst()->LayerCheck(2,12);
+	CCollisionMgr::GetInst()->LayerCheck(3,12);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
 

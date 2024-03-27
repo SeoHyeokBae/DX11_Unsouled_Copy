@@ -6,6 +6,7 @@
 #include <Engine/CLevel.h>
 #include <Engine/CLayer.h>
 #include <Engine/CCollisionMgr.h>
+#include <Engine/CTaskMgr.h>
 
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
@@ -45,8 +46,19 @@ void Inspector::render_update()
 		string strName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
 		ImGui::Text(strName.c_str());
 		ImGui::Separator();
+		static char sName[256] = {};
+		if (ImGui::Button("New Name"))
+		{
+			m_TargetObject->SetName(ToWString((string)sName));
+			sName[0] = { 0 };
+			CTaskMgr::GetInst()->IsFixObject(true);
+		}
+		ImGui::SameLine();
+		ImGui::InputText("##InputTexName", (char*)sName, IM_ARRAYSIZE(sName));
+
 		string levelName = ToString(CLevelMgr::GetInst()->GetCurrentLevel()->GetName());
 		ImGui::Text(levelName.c_str());
+
 		ImGui::Text("Layer Idx");
 		ImGui::SameLine();
 

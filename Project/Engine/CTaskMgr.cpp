@@ -12,6 +12,8 @@
 CTaskMgr::CTaskMgr()
 	: m_bCreateObject(false)
 	, m_bDeleteObject(false)
+	, m_bFixObject(false)
+
 {
 
 }
@@ -39,10 +41,10 @@ void CTaskMgr::tick()
 
 			m_bCreateObject = true;
 
-			/*if (LEVEL_STATE::PLAY == pCurLevel->GetState())
+			if (LEVEL_STATE::PLAY == pCurLevel->GetState())
 			{
 				Object->begin();
-			}*/
+			}
 		}
 		break;
 		case TASK_TYPE::DELETE_OBJECT:
@@ -140,5 +142,6 @@ void CTaskMgr::Clear()
 		m_bDeleteObject = false;
 	}
 
+	m_bFixObject = false;
 	m_bAssetChange = false;
 }
