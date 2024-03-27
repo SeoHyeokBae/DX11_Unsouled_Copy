@@ -251,10 +251,12 @@ void AnimationEditorUI::render_update()
 	ImGui::SetCursorPosX(265.f); ImGui::Separator();
 	ImGui::PopItemWidth();
 
-	ImGui::SetCursorPos(ImVec2(265.f, 180.f));
+	ImGui::SetCursorPos(ImVec2(265.f, 160.f));
 	ImVec2 offset = ImVec2(0.f, 0.f);
 	if(0 != m_vecAnim.size()) offset = ImVec2(m_vecAnim[m_AnimIdx].vOffset)* ImVec2((float)m_CurAtlas->GetWidth(), (float)m_CurAtlas->GetHeight());
-	ImGui::Text("Offset : X = %0.1f, Y = %0.1f", offset.x, offset.y);
+	ImGui::Text("Offset : X = %0.5f", offset.x);
+	ImGui::SetCursorPos(ImVec2(265.f, 178.f));
+	ImGui::Text("Offset : Y = %0.5f", offset.y);
 
 	ImGui::SetCursorPos(ImVec2(335.f,212.f));
 	if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { offset.y -= 0.5f; m_vecAnim[m_AnimIdx].vOffset.y = offset.y / (float)m_CurAtlas->GetHeight(); }
@@ -467,7 +469,7 @@ void AnimationEditorUI::DrawCanvas()
 	ImGui::Checkbox("Enable context menu", &opt_enable_context_menu);
 
 	static BYTE grid_row = 1, grid_col = 1;
-	static UINT grid_width = 1, grid_height = 1;
+	static float grid_width = 1, grid_height = 1;
 	if (m_bGrid && nullptr != m_CurAtlas)
 	{
 		ImGui::PushItemWidth(50);
@@ -479,10 +481,10 @@ void AnimationEditorUI::DrawCanvas()
 		ImGui::DragScalar("##Col", ImGuiDataType_U8, &grid_col);
 		ImGui::SameLine();
 		ImGui::Text("Width"); ImGui::SameLine();
-		ImGui::DragScalar("##width", ImGuiDataType_U32, &grid_width);
+		ImGui::DragScalar("##width", ImGuiDataType_Float, &grid_width);
 		ImGui::SameLine();
 		ImGui::Text("Height"); ImGui::SameLine();
-		ImGui::DragScalar("##height", ImGuiDataType_U32, &grid_height);
+		ImGui::DragScalar("##height", ImGuiDataType_Float, &grid_height);
 		ImGui::PopItemWidth();
 		if (grid_row == 0) grid_row = 1;
 		if (grid_col == 0) grid_col = 1;
@@ -809,7 +811,7 @@ ImRect AnimationEditorUI::TrimAtlas(int _idx)
 
 	return rec;
 }
-void AnimationEditorUI::GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _col, UINT& _width, UINT& _height)
+void AnimationEditorUI::GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _col, float& _width, float& _height)
 {
 	if (nullptr == m_CurAtlas)
 		return;
@@ -820,8 +822,8 @@ void AnimationEditorUI::GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _
 		m_vecRect.clear();
 	}
 
-	_width = m_CurAtlas->GetWidth() / _col;
-	_height = m_CurAtlas->GetHeight() / _row;
+	_width = (float)m_CurAtlas->GetWidth() / _col;
+	_height = (float)m_CurAtlas->GetHeight() / _row;
 
 	for (size_t i = 0; i < _row; i++)
 	{
@@ -906,6 +908,8 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 void AnimationEditorUI::SaveAnim(const wstring& _str)
 {
 	CAnim* pAnim = new CAnim;
+
+	pAnim->SetName(_str);
 
 	// anim 을 저장할 경로
 	wstring strAnimPath = CPathMgr::GetContentPath();

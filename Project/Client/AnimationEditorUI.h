@@ -47,7 +47,7 @@ public:
         const ImVec2& _LT, const ImVec2& _RB, ImVector<ImVec2>& _points, const float _idx, const float _wheel);
    
     ImRect TrimAtlas(int _idx);
-    void GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _col, UINT& _width, UINT& _height);
+    void GridSlice(ImVector<ImVec2>& _points, BYTE& _row, BYTE& _col, float& _width, float& _height);
     void SmartSlice(ImVector<ImVec2>& _points);
 
     void SaveAnim(const wstring& _str);

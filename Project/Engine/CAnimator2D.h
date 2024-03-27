@@ -30,7 +30,8 @@ public:
     void Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _LeftTop,
         Vec2 _SliceSize, Vec2 _OffsetSize, Vec2 _Background, int _FrmCount, float _FPS);
     void Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnimFrm> _FrmInfo, int _FrmCount);
-    
+    void AddAnim(const wstring& _strKey, const wstring& _strPath);
+
     CAnim* FindAnim(const wstring& _strAnimName);
     void Play(const wstring& _strAnimName, bool _bRepeat = true);
 

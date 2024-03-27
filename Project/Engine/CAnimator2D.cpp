@@ -78,6 +78,27 @@ void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const 
 	m_mapAnim.insert(make_pair(_strKey, pAnim));
 }
 
+void CAnimator2D::AddAnim(const wstring& _strKey, const wstring& _strPath)
+{
+	CAnim* pAnim = FindAnim(_strKey);
+	assert(!pAnim);
+
+	// anim 을 불러올 경로
+	wstring strAnimPath = CPathMgr::GetContentPath();
+	strAnimPath += _strPath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strAnimPath.c_str(), L"rb");
+
+	// anim의 이름을 읽는다.
+	pAnim = new CAnim;
+	pAnim->LoadFromFile(pFile);
+
+	fclose(pFile);
+
+	m_mapAnim.insert(make_pair(_strKey, pAnim));
+}
+
 CAnim* CAnimator2D::FindAnim(const wstring& _strKey)
 {
 	map<wstring, CAnim*>::iterator iter = m_mapAnim.find(_strKey);
