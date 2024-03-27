@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CCameraPlayScript.h"
 #include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 
 #include "../Client/TileMapEditorUI.h"
 
@@ -18,6 +19,11 @@ CCameraPlayScript::~CCameraPlayScript()
 
 void CCameraPlayScript::tick()
 {
+	if (KEY_TAP(KEY::_0))
+	{
+		nullptr == m_Target ? m_Target = CLevelMgr::GetInst()->GetCurrentLevel()->FindObjectByName(L"Player") : m_Target = nullptr;
+	}
+
 	if (nullptr != m_Target)
 	{
 		Vec3 vPos = m_Target->Transform()->GetRelativePos();
@@ -25,7 +31,7 @@ void CCameraPlayScript::tick()
 	}
 
 
-	if (KEY_TAP(KEY::P))
+	if (KEY_TAP(KEY::ADD))
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 			Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);

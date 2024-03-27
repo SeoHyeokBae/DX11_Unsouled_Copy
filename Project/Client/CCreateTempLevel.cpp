@@ -97,14 +97,14 @@ void CCreateTempLevel::CreateTempLevel()
 
 	// ComputeShader 테스트
 	// 사용할 텍스쳐 생성
-	Ptr<CTexture> pTestTex = CAssetMgr::GetInst()->CreateTexture(L"TestTex"
-		, 1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM
-		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+	//Ptr<CTexture> pTestTex = CAssetMgr::GetInst()->CreateTexture(L"TestTex"
+	//	, 1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM
+	//	, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 
-	Ptr<CSetColorShader> pCS = (CSetColorShader*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"SetColorShader").Get();
-	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
-	pCS->SetTargetTexture(pTestTex);
-	pCS->Execute();
+	//Ptr<CSetColorShader> pCS = (CSetColorShader*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"SetColorShader").Get();
+	//pCS->SetColor(Vec3(1.f, 0.f, 0.f));
+	//pCS->SetTargetTexture(pTestTex);
+	//pCS->Execute();
 
 	// Camera Object 생성
 	// Main Camera Object 생성
@@ -148,40 +148,36 @@ void CCreateTempLevel::CreateTempLevel()
 	pLight->AddComponent(new CLight2D);
 
 	pLight->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	pLight->Light2D()->SetAmbient(Vec3(0.3f, 0.3f, 0.3f));
+	pLight->Light2D()->SetAmbient(Vec3(0.7f, 0.7f, 0.7f));
 	//pLight->Light2D()->SetRadius(400.f);
 	//pLight->Light2D()->SetAngle(60.f);
 	pTempLevel->AddObject(pLight, L"Light");
 
 	// Backgruond Object 생성
 	CGameObject* pObj = new CGameObject;
-	pObj->SetName(L"Background");
+	//pObj->SetName(L"Background");
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CMeshRender);
-	pObj->AddComponent(new CBackgroundScript);
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CMeshRender);
+	//pObj->AddComponent(new CBackgroundScript);
 
-	pObj->Transform()->SetRelativePos(Vec3(111.f, 1321.f, 1500.f));
-	pObj->Transform()->SetRelativeScale(Vec3(832.f, 2960.f, 1.f));
+	//pObj->Transform()->SetRelativePos(Vec3(111.f, 1321.f, 1500.f));
+	//pObj->Transform()->SetRelativeScale(Vec3(832.f, 2960.f, 1.f));
 
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl"));
-
-	Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex);
+	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl"));
 
 	//Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
-	//Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\intro_floor.png");
+	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex);
 
-
-	pTempLevel->AddObject(pObj, L"Background", false);
+	//pTempLevel->AddObject(pObj, L"Background", false);
 
 
 
 
 
 	// Player Object 생성
-	pObj = new CGameObject;
+	//pObj = new CGameObject;
 	pObj->SetName(L"Player");
 
 	pObj->AddComponent(new CTransform);
@@ -216,38 +212,38 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\port.png"));
+	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\port.png"));
 
 	pObj->AddComponent(new CPlayerScript);
 
 	pTempLevel->AddObject(pObj, L"Player", false);
 
 	//Monster Object 생성
-	pObj = new CGameObject;
-	pObj->SetName(L"Monster");
+	//pObj = new CGameObject;
+	//pObj->SetName(L"Monster");
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CMeshRender);
-	pObj->AddComponent(new CCollider2D);
-	pObj->AddComponent(new CStateMachine);
-	pObj->AddComponent(new CMonsterScript);
-	pObj->AddComponent(new CAnimator2D);
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CMeshRender);
+	//pObj->AddComponent(new CCollider2D);
+	//pObj->AddComponent(new CStateMachine);
+	//pObj->AddComponent(new CMonsterScript);
+	//pObj->AddComponent(new CAnimator2D);
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
-	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
+	//pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
+	//pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
-	pObj->Collider2D()->SetAbsolute(true);
-	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
-	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetAbsolute(true);
+	//pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
+	//pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	//pObj->Collider2D()->SetVisible(true);
 
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"another"));
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
+	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"another"));
+	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
 
-	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
+	//pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
 
-	pTempLevel->AddObject(pObj, L"Monster", false);
+	//pTempLevel->AddObject(pObj, L"Monster", false);
 
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
 	// 충돌 설정

@@ -16,7 +16,7 @@ CCameraMoveScript::~CCameraMoveScript()
 
 void CCameraMoveScript::tick()
 {
-	if (KEY_TAP(KEY::P))
+	if (KEY_TAP(KEY::ADD))
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
 			Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);

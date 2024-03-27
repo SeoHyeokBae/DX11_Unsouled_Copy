@@ -18,6 +18,8 @@ enum KEY
 
 	LBTN, RBTN,
 	BRAL, BRAR,
+	ADD,
+
 	KEY_END,
 };
 

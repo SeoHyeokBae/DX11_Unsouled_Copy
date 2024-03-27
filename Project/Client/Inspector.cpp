@@ -232,5 +232,6 @@ void Inspector::CreateLayerCheck()
 			CCollisionMgr::GetInst()->LayerCheck(left_idx, right_idx);
 			left_idx = -1;
 			right_idx = -1;
+			CTaskMgr::GetInst()->IsFixObject(true);
 		}
 }
