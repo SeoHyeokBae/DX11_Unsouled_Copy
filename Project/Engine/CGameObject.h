@@ -26,6 +26,7 @@ private:
 
     int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
 
+    bool                    m_bShadow;
     bool                    m_bDead;
 
 public:
@@ -74,6 +75,8 @@ public:
     int DisconnectWithLayer();
 
     void AddChild(CGameObject* _Child);
+    void SelfShadow(bool _bool) { m_bShadow = _bool; }
+    bool IsShadow() { return m_bShadow; }
     bool IsDead() { return m_bDead; }
 
     void Destroy();

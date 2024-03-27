@@ -125,6 +125,9 @@
     <Filter Include="02. UI\3. Inspector\ComponentUI\Script">
       <UniqueIdentifier>{30cb6c7e-8dd3-4709-9ffc-976244c444ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. State\StminaoutState">
+      <UniqueIdentifier>{da6db934-f2ed-4985-beef-b72baf335330}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

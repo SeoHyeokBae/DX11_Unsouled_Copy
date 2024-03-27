@@ -908,8 +908,11 @@ void AnimationEditorUI::SmartSlice(ImVector<ImVec2>& _points)
 void AnimationEditorUI::SaveAnim(const wstring& _str)
 {
 	CAnim* pAnim = new CAnim;
+	wstring path = L"anim\\";
+	wstring ext = L".anim";
+	wstring fileName = _str.substr(path.length(), (_str.length() - path.length() - ext.length()));
 
-	pAnim->SetName(_str);
+	pAnim->SetName(fileName);
 
 	// anim 을 저장할 경로
 	wstring strAnimPath = CPathMgr::GetContentPath();

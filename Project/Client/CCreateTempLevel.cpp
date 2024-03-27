@@ -114,7 +114,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pCamObj->AddComponent(new CCamera);
 	pCamObj->AddComponent(new CCameraPlayScript);
 
-	pCamObj->Transform()->SetRelativePos(Vec3(0.5f, 0.f, 0.f));
+	pCamObj->Transform()->SetRelativePos(Vec3(-70.f, 100.f, 0.f));
 	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 
 	pCamObj->Camera()->SetCameraPriority(0);
@@ -190,11 +190,11 @@ void CCreateTempLevel::CreateTempLevel()
 
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 50.f, 0.f));
-	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
+	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(25.f, 10.f));
-	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, -60.f));
+	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObj->Collider2D()->SetVisible(true);
 
 	pObj->Movement()->SetMass(1.f);
@@ -212,7 +212,7 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\port.png"));
+	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Chehulis.png"));
 
 	pObj->AddComponent(new CPlayerScript);
 

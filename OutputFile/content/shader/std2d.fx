@@ -76,6 +76,9 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         }
     }
     
+    if (g_int_0 == 10) // 그림자
+        vColor *= float4(0.f, 0.f, 0.f, 0.6f);
+    
      // 광원 처리
     // 광원의 타입별 처리
     // 광원이 여러개일 때 처리
@@ -93,14 +96,12 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         discard;
     
     //Paper Burn
-    float x = g_NoiseTex.Sample(g_sam_0, _in.vUV).x;
-    if (0 > x - g_float_1)
-    {
-        discard;
-    }
-    
-    if (g_int_0 == 10) // 그림자
-        vColor = (float4(0.f, 0.f, 0.f, 0.75f));
+    //float x = g_NoiseTex.Sample(g_sam_0, _in.vUV).x;
+    //if (0 > x - g_float_1)
+    //{
+    //    discard;
+    //}
+
     
     return vColor;
 }
@@ -144,7 +145,9 @@ float4 PS_Std2D_Effect(VS_OUT _in) : SV_Target
             }
         }
     }
-        
+    
+
+    
     // 광원 처리
     // 광원의 타입별 처리
     // 광원이 여러개일 때 처리
@@ -157,6 +160,9 @@ float4 PS_Std2D_Effect(VS_OUT _in) : SV_Target
     }
     
     vColor.rgb *= (LightColor.vColor.rgb + LightColor.vAmbient.rgb);
+    
+    //if (g_int_0 == 10) // 그림자
+    //    vColor = float4(0.f, 0.f, 0.f, 1.f);
     
     return vColor;
 }

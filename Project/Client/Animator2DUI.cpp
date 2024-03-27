@@ -32,7 +32,7 @@ void Animator2DUI::render_update()
 	ImGui::Text("Current Animation ");
 	ImGui::SameLine();
 	//ImGui::InputText("##Current Animation", (char*)animname.c_str(), animname.length(), ImGuiInputTextFlags_ReadOnly);
-	if (nullptr != GetTargetObject()->Animator2D()->GetCurAnim()) // 임시조치
+	if (nullptr != GetTargetObject()->Animator2D()->GetCurAnim() && !GetTargetObject()->IsShadow()) // 임시조치
 		if (ImGui::Button((char*)animname.c_str(), ImVec2(ImGui::GetContentRegionAvail().x - 20.f, 20)))
 		{
 			// 리스트 UI
@@ -62,4 +62,5 @@ void Animator2DUI::AnimSelect(DWORD_PTR _ptr)
 
 	CAnim* pAnim = GetTargetObject()->Animator2D()->FindAnim(strAnimName);
 	GetTargetObject()->Animator2D()->SetCurAnim(pAnim);
+	GetTargetObject()->Animator2D()->Play(pAnim->GetName(), true);
 }
