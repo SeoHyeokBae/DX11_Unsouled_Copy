@@ -8,7 +8,7 @@ class CShadowScript :
     public CScript
 {
 private:
-	CGameObject* m_Obj;
+	CGameObject* m_ShadowObj;
 
 public:
 	virtual void begin() override;

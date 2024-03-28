@@ -3,7 +3,6 @@
 
 #include "CTexture.h"
 #include "CAnim.h"
-//class CAnim;
 
 class CAnimator2D :
     public CComponent
@@ -16,6 +15,7 @@ private:
 
 public:
     void SetCurAnim(CAnim* _anim) { m_CurAnim = _anim; }
+
     CAnim* GetCurAnim() { return m_CurAnim; }
     const wstring& GetCurKey() { return m_CurKey; }
     int GetAnimCount() { return m_mapAnim.size(); }

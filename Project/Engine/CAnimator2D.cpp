@@ -119,13 +119,15 @@ void CAnimator2D::Play(const wstring& _strAnimName, bool _bRepeat)
 
 	m_CurAnim = pAnim;
 
-	if (GetOwner()->GetShadow())
-	{
-		GetOwner()->GetShadow()->Animator2D()->SetCurAnim(pAnim);
-	}
-
 	m_CurKey = _strAnimName;
 	m_CurAnim->Reset();
+
+	// Shadow 局聪皋捞记 贸府
+	CGameObject* pShadow = GetOwner()->GetShadow();
+	if (pShadow)
+	{
+		pShadow->Animator2D()->Play(_strAnimName, _bRepeat);
+	}
 }
 
 void CAnimator2D::GetAnimName(vector<string>& _Out)

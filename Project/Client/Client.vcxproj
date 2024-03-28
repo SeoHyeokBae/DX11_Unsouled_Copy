@@ -188,6 +188,7 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="Content.h" />
+    <ClInclude Include="CStaminaOutState.h" />
     <ClInclude Include="CTraceState.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FSMUI.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="Content.cpp" />
+    <ClCompile Include="CStaminaOutState.cpp" />
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="FSMUI.cpp" />
     <ClCompile Include="GraphicsShaderUI.cpp" />

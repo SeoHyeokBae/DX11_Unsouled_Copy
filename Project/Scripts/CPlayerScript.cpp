@@ -35,6 +35,9 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Down_Right", L"anim\\StaminaOut_Walking_Down_Right.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Down_Stand", L"anim\\StaminaOut_Walking_Down_Stand.anim");
 
+	// Shadow 에 애니메이션 등록
+	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
+
 	Animator2D()->Play(L"StaminaOut_Stand_Down");
 
 	GetRenderComponent()->GetDynamicMaterial();
@@ -43,6 +46,8 @@ void CPlayerScript::begin()
 	m_Missile = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\missile.pref", L"prefab\\missile.pref");
 
 	m_Movement = GetOwner()->Movement();
+
+
 }
 
 void CPlayerScript::tick()

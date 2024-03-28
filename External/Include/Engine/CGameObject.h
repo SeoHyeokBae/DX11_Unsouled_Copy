@@ -22,7 +22,6 @@ private:
     vector<CGameObject*>    m_vecChild;
 
     CGameObject*            m_Parent;
-    CGameObject*            m_Shadow;
 
     int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
 
@@ -53,9 +52,18 @@ public:
     int GetLayerIdx() { return m_iLayerIdx; }
 
     CGameObject* GetParent() { return m_Parent; }
-    CGameObject* GetShadow() { return m_Shadow; }
-    void SetShadow(CGameObject* _shadow) { m_Shadow = _shadow; }
     vector<CGameObject*>& GetChild() { return m_vecChild; }
+
+    CGameObject* GetShadow() 
+    {
+        for (size_t i = 0; i < m_vecChild.size(); i++)
+        {
+            if (m_vecChild[i]->GetName() == L"Shadow")
+                return m_vecChild[i];
+        }
+
+        return nullptr;
+    }
 
     const vector<CScript*>& GetScripts() { return m_vecScript; }
     CRenderComponent* GetRenderComopnent() { return m_RenderCom; }

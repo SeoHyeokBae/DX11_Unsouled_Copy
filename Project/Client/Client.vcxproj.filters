@@ -277,6 +277,9 @@
     <ClInclude Include="TileMapEditorUI.h">
       <Filter>02. UI\5. Editor</Filter>
     </ClInclude>
+    <ClInclude Include="CStaminaOutState.h">
+      <Filter>04. State\StminaoutState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -427,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="TileMapEditorUI.cpp">
       <Filter>02. UI\5. Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CStaminaOutState.cpp">
+      <Filter>04. State\StminaoutState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
