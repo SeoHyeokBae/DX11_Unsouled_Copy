@@ -8,7 +8,7 @@ class CState :
     public CEntity
 {
 private:
-    CFSM* m_FSM;
+    CFSM*           m_FSM;
 
 public:
     virtual void finaltick() = 0;

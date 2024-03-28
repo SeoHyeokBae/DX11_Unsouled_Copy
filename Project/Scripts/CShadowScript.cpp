@@ -6,19 +6,18 @@
 #include <Engine/CGameObject.h>
 
 // TODO 
-// 발끝 지점 찾기
 // 자유롭게 각도 조절 가능하게
 
 // 블렌드 스테이트, 도메인쉐이더 = Mtrl이  Effect Shader (Graphic Shader)보유
 // But Owner의 애니메이션을 복사할때 애니메이션 StdShader 로 그려지므로 
-// StdShader 코드에서 생상 조절
-// 부모Script에서 Animator 등록 해줘야
+// but StdShader 코드에서 생상 조절
+//  => 부모Script에서 Animator 복사등록 -> 얕은 복사인가 ?
 
 CShadowScript::CShadowScript()
 	: CScript(SHADOWSCRIPT)
 	, m_ShadowObj(nullptr)
 
-{
+{ 
 }
 
 CShadowScript::~CShadowScript()
@@ -55,11 +54,6 @@ void CShadowScript::tick()
 {
 	// Owner에서 애니메이션 보유x
 	assert(m_ShadowObj->Animator2D());
-
-	//m_Obj->Transform()->SetRelativePos(GetOwner()->Transform()->GetRelativePos());
-	//m_Obj->Transform()->SetRelativePos(Vec3(GetOwner()->Transform()->GetRelativePos().x
-	//																, GetOwner()->Transform()->GetRelativePos().y
-	//																, GetOwner()->Transform()->GetRelativePos().z + 50.f));
 
 }
 

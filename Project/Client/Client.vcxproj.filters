@@ -125,7 +125,10 @@
     <Filter Include="02. UI\3. Inspector\ComponentUI\Script">
       <UniqueIdentifier>{30cb6c7e-8dd3-4709-9ffc-976244c444ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. State\StminaoutState">
+    <Filter Include="04. State\Player">
+      <UniqueIdentifier>{639b1a4c-e695-4d0c-9583-c29c2a8fb0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Player\StaminaOutState">
       <UniqueIdentifier>{da6db934-f2ed-4985-beef-b72baf335330}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -278,7 +281,7 @@
       <Filter>02. UI\5. Editor</Filter>
     </ClInclude>
     <ClInclude Include="CStaminaOutState.h">
-      <Filter>04. State\StminaoutState</Filter>
+      <Filter>04. State\Player\StaminaOutState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -432,7 +435,7 @@
       <Filter>02. UI\5. Editor</Filter>
     </ClCompile>
     <ClCompile Include="CStaminaOutState.cpp">
-      <Filter>04. State\StminaoutState</Filter>
+      <Filter>04. State\Player\StaminaOutState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

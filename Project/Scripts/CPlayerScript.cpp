@@ -25,10 +25,12 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
+
+	// 나중에 load 또는 prefab
 	Animator2D()->AddAnim(L"StaminaOut_Stand_Up", L"anim\\StaminaOut_Stand_Up.anim");
-	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Stand", L"anim\\StaminaOut_Walking_Up_Stand.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Left", L"anim\\StaminaOut_Walking_Up_Left.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Right", L"anim\\StaminaOut_Walking_Up_Right.anim");
+	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Stand", L"anim\\StaminaOut_Walking_Up_Stand.anim");
 
 	Animator2D()->AddAnim(L"StaminaOut_Stand_Down", L"anim\\StaminaOut_Stand_Down.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Down_Left", L"anim\\StaminaOut_Walking_Down_Left.anim");
@@ -47,7 +49,16 @@ void CPlayerScript::begin()
 
 	m_Movement = GetOwner()->Movement();
 
+	// StateMachine 새팅
+	if (StateMachine())
+	{
+		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
 
+		if (nullptr != StateMachine()->GetFSM())
+		{
+			StateMachine()->GetFSM()->SetState(L"CStaminaOutState");
+		}
+	}
 }
 
 void CPlayerScript::tick()
@@ -57,85 +68,16 @@ void CPlayerScript::tick()
 
 	//if (KEY_PRESSED(KEY::UP))
 	//	m_Movement->AddForce(Vec2(0.f, 400.f));
-	if (KEY_PRESSED(KEY::UP))
-		vPos.y += DT * m_Speed;
-	if (KEY_TAP(KEY::UP))
-		Animator2D()->Play(L"MOVE_UP");
-	if (KEY_RELEASED(UP))
-		Animator2D()->Play(L"IDLE_UP");
 
 	//if (KEY_PRESSED(KEY::DOWN))
 	//	m_Movement->AddForce(Vec2(0.f, -400.f));
-	if (KEY_PRESSED(KEY::DOWN))
-		vPos.y -= DT * m_Speed;
-	if (KEY_TAP(KEY::DOWN))
-		Animator2D()->Play(L"MOVE_DOWN");
-	if (KEY_RELEASED(DOWN))
-		Animator2D()->Play(L"IDLE_DOWN");
 
 	//if (KEY_PRESSED(KEY::LEFT))
 	//	m_Movement->AddForce(Vec2(-400.f, 0.f));//vPos.x -= DT * m_Speed;
-	if (KEY_PRESSED(KEY::LEFT))
-		vPos.x -= DT * m_Speed;
-	if (KEY_TAP(KEY::LEFT))
-		Animator2D()->Play(L"MOVE_LEFT");
-	if (KEY_RELEASED(LEFT))
-		Animator2D()->Play(L"IDLE_LEFT");
 
 	//if (KEY_PRESSED(KEY::RIGHT))
 	//	m_Movement->AddForce(Vec2(400.f, 0.f)); //vPos.x += DT * m_Speed;
-	if (KEY_PRESSED(KEY::RIGHT))
-		vPos.x += DT * m_Speed;
-	if (KEY_TAP(KEY::RIGHT))
-		Animator2D()->Play(L"MOVE_RIGHT");
-	if (KEY_RELEASED(RIGHT))
-		Animator2D()->Play(L"IDLE_RIGHT");
 
-	// Rotation
-	if (KEY_PRESSED(KEY::X))
-	{
-		vRot.x += DT * XM_PI;
-	}
-
-	if (KEY_PRESSED(KEY::Y))
-	{
-		vRot.y += DT * XM_PI;
-	}
-
-	if (KEY_PRESSED(KEY::Z))
-	{
-		vRot.z += DT * XM_PI;
-	}
-
-
-	if (nullptr != Light2D())
-	{
-		float fFlashAngle = Light2D()->GetAngle();
-		float fRadius = Light2D()->GetRadius();
-
-		if (KEY_PRESSED(KEY::F))
-		{
-			fFlashAngle += DT * 50.f;
-		}
-
-		if (KEY_PRESSED(KEY::G))
-		{
-			fFlashAngle -= DT * 50.f;
-		}
-
-		if (KEY_PRESSED(KEY::Q))
-		{
-			fRadius += DT * 100.f;
-		}
-
-		if (KEY_PRESSED(KEY::E))
-		{
-			fRadius -= DT * 100.f;
-		}
-
-		Light2D()->SetAngle(fFlashAngle);
-		Light2D()->SetRadius(fRadius);
-	}
 
 
 	if (KEY_TAP(KEY::SPACE))

@@ -2,7 +2,7 @@
 #include "CState.h"
 
 #include "CStateMachine.h"
-
+#include "CGameObject.h"
 
 CState::CState()
 	: m_FSM(nullptr)
@@ -22,4 +22,5 @@ void CState::ChangeState(const wstring& _strStateName)
 {
 	assert(m_FSM);
 	m_FSM->ChangeState(_strStateName);
+
 }
