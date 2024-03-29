@@ -9,7 +9,6 @@
 #include <Engine/CRenderComponent.h>
 
 #include <Engine/CMovement.h>
-
 //#include <Engine/CTileMap.h>
 
 CPlayerScript::CPlayerScript()
@@ -25,7 +24,6 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-
 	// 나중에 load 또는 prefab
 	Animator2D()->AddAnim(L"StaminaOut_Stand_Up", L"anim\\StaminaOut_Stand_Up.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Left", L"anim\\StaminaOut_Walking_Up_Left.anim");
@@ -40,9 +38,6 @@ void CPlayerScript::begin()
 	// Shadow 에 애니메이션 등록
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
-	Animator2D()->Play(L"StaminaOut_Stand_Down");
-
-	GetRenderComponent()->GetDynamicMaterial();
 
 	m_Missile = CAssetMgr::GetInst()->FindAsset<CPrefab>(L"MissilePrefab");
 	m_Missile = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\missile.pref", L"prefab\\missile.pref");
@@ -57,8 +52,12 @@ void CPlayerScript::begin()
 		if (nullptr != StateMachine()->GetFSM())
 		{
 			StateMachine()->GetFSM()->SetState(L"CStaminaOutState");
+			Animator2D()->Play(L"StaminaOut_Stand_Down");
 		}
 	}
+
+
+	GetRenderComponent()->GetDynamicMaterial();
 }
 
 void CPlayerScript::tick()

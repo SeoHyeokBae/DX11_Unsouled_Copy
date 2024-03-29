@@ -18,11 +18,9 @@ CStaminaOutState::~CStaminaOutState()
 
 void CStaminaOutState::finaltick()
 {
+	float Speed = 20.f;
 	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
-	float Speed = *((float*)GetBlackboardData(L"Speed"));
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
-
-
 
 	if (KEY_PRESSED(KEY::W))
 	{
