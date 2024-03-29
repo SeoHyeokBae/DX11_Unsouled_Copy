@@ -1,15 +1,25 @@
 #pragma once
 #include <Engine/CScript.h>
 
+enum class eDIR
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    NONE,
+};
+
 class CPlayerScript :
     public CScript
 {
 private:
     Ptr<CPrefab>    m_Missile;
     float           m_Speed;
+    eDIR            m_Dir;
 
-    class CMovement* m_Movement;
-
+public:
+    eDIR GetDir() { return m_Dir; }
 
 public:
     virtual void tick() override;

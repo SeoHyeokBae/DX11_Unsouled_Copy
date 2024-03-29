@@ -18,6 +18,7 @@ public:
 protected:
     void* GetBlackboardData(const wstring& _strKey);
     CFSM* GetFSM() { return m_FSM; }
+    void SetFSM(CFSM* _fsm) { m_FSM = _fsm; }
 
     void ChangeState(const wstring& _strStateName);
 

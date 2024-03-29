@@ -14,7 +14,7 @@ enum class BB_DATA
 struct tBlackboardData
 {
     BB_DATA     Type;
-    void* pData;
+    void*       pData;
 };
 
 class CBlackboard :

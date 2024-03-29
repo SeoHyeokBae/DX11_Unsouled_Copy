@@ -78,5 +78,6 @@ void CFSM::ChangeState(const wstring& _strStateName)
 
 	assert(m_CurState);
 
+	m_CurState->SetFSM(this);
 	m_CurState->Enter();
 }

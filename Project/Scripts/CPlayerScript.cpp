@@ -9,11 +9,13 @@
 #include <Engine/CRenderComponent.h>
 
 #include <Engine/CMovement.h>
+#include <Engine/CStateMachine.h>
 //#include <Engine/CTileMap.h>
 
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
-	,m_Speed(100.f)
+	, m_Speed(100.f)
+	, m_Dir(eDIR::NONE)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }
@@ -51,8 +53,6 @@ void CPlayerScript::begin()
 	m_Missile = CAssetMgr::GetInst()->FindAsset<CPrefab>(L"MissilePrefab");
 	m_Missile = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\missile.pref", L"prefab\\missile.pref");
 
-	m_Movement = GetOwner()->Movement();
-
 	// StateMachine »õÆÃ
 	if (StateMachine())
 	{
@@ -60,8 +60,8 @@ void CPlayerScript::begin()
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
-			StateMachine()->GetFSM()->SetState(L"RunningState");
-			Animator2D()->Play(L"StaminaOut_Stand_Down");
+			StateMachine()->GetFSM()->SetState(L"StandState");
+			Animator2D()->Play(L"Stand_Down");
 		}
 	}
 
@@ -75,35 +75,146 @@ void CPlayerScript::tick()
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
 
-	//if (KEY_PRESSED(KEY::UP))
-	//	m_Movement->AddForce(Vec2(0.f, 400.f));
-
-	//if (KEY_PRESSED(KEY::DOWN))
-	//	m_Movement->AddForce(Vec2(0.f, -400.f));
-
-	//if (KEY_PRESSED(KEY::LEFT))
-	//	m_Movement->AddForce(Vec2(-400.f, 0.f));//vPos.x -= DT * m_Speed;
-
-	//if (KEY_PRESSED(KEY::RIGHT))
-	//	m_Movement->AddForce(Vec2(400.f, 0.f)); //vPos.x += DT * m_Speed;
-
-
-
-	if (KEY_TAP(KEY::SPACE))
+	if (KEY_PRESSED(KEY::W))
 	{
-		Instantiate(m_Missile, Transform()->GetWorldPos(), 0);
-
-		//GamePlayStatic::Play2DSound(L"sound\\DM.wav", 1, 0.5f, false);
-		//GamePlayStatic::Play2DBGM(L"sound\\DM.wav", 0.5f);
+		vPos.y += DT * m_Speed;
+	}
+	if (KEY_TAP(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
+	{
+		m_Dir = eDIR::UP;
+		StateMachine()->GetFSM()->ChangeState(L"RunningState");
+	}
+	if (KEY_RELEASED(KEY::W))
+	{
+		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
+		{
+			//anim->Play(L"Stand_Up");
+			m_Dir = eDIR::UP;
+		}
 	}
 
-	// Paper Burn
-	//static float f = 0.f;
-	//f += DT * 0.3f;
-	//GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, f);
-	
-	// GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), true, 3);
-	//GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
+	if (KEY_PRESSED(KEY::S))
+	{
+		vPos.y -= DT * m_Speed;
+
+	}
+	if (KEY_TAP(KEY::S) && KEY_NONE(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
+	{
+		m_Dir = eDIR::DOWN;
+		StateMachine()->GetFSM()->ChangeState(L"RunningState");
+	}
+	if (KEY_RELEASED(KEY::S))
+	{
+		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
+		{
+			//anim->Play(L"Stand_Down");
+			m_Dir = eDIR::DOWN;
+
+		}
+	}
+
+	if (KEY_PRESSED(KEY::A))
+	{
+		vPos.x -= DT * m_Speed;
+		if (KEY_TAP(KEY::W))
+		{
+			m_Dir = eDIR::UP;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+
+		if (KEY_TAP(KEY::S))
+		{
+			m_Dir = eDIR::DOWN;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+
+		if (KEY_TAP(KEY::D))
+		{
+			//anim->Play(L"Stand_Left");
+			m_Dir = eDIR::LEFT;
+
+		}
+
+		if (KEY_RELEASED(KEY::D))
+		{
+			m_Dir = eDIR::LEFT;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+
+		if (KEY_RELEASED(KEY::W) || KEY_RELEASED(KEY::S))
+		{
+			m_Dir = eDIR::LEFT;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+	}
+	if (KEY_TAP(KEY::A) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
+	{
+		m_Dir = eDIR::LEFT;
+		StateMachine()->GetFSM()->ChangeState(L"RunningState");
+	}
+	if (KEY_RELEASED(KEY::A))
+	{
+		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S))
+		{
+			//anim->Play(L"Stand_Left");
+			m_Dir = eDIR::LEFT;
+
+		}
+	}
+
+	if (KEY_PRESSED(KEY::D))
+	{
+		vPos.x += DT * m_Speed;
+
+		if (KEY_TAP(KEY::W))
+		{
+			m_Dir = eDIR::UP;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+
+		if (KEY_TAP(KEY::S))
+		{
+			m_Dir = eDIR::DOWN;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+
+		if (KEY_TAP(KEY::A))
+		{
+			//anim->Play(L"Stand_Right");
+			m_Dir = eDIR::RIGHT;
+
+		}
+
+		if (KEY_RELEASED(KEY::A))
+		{
+			m_Dir = eDIR::RIGHT;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+
+		if (KEY_RELEASED(KEY::W) || KEY_RELEASED(KEY::S))
+		{
+			m_Dir = eDIR::RIGHT;
+			StateMachine()->GetFSM()->ChangeState(L"RunningState");
+		}
+	}
+	if (KEY_TAP(KEY::D) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
+	{
+		m_Dir = eDIR::RIGHT;
+		StateMachine()->GetFSM()->ChangeState(L"RunningState");
+	}
+	if (KEY_RELEASED(KEY::D))
+	{
+		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
+		{
+			//anim->Play(L"Stand_Right");
+			m_Dir = eDIR::RIGHT;
+		}
+	}
+
+	if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
+	{
+		StateMachine()->GetFSM()->ChangeState(L"StandState");
+	}
 
 
 	float limity = 5000.f;

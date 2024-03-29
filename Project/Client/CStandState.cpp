@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CStandState.h"
 
+#include <Scripts/CPlayerScript.h>
 #include <Engine/components.h>
 #include <Engine/CKeyMgr.h>
 #include <Engine/CTimeMgr.h>
@@ -23,14 +24,30 @@ void CStandState::finaltick()
 
 void CStandState::Enter()
 {
+	eDIR dir = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->GetDir();
+	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
+
+	switch (dir)
+	{
+	case eDIR::UP:
+		anim->Play(L"Stand_Up");
+		break;
+	case eDIR::DOWN:
+		anim->Play(L"Stand_Down");
+		break;
+	case eDIR::LEFT:
+		anim->Play(L"Stand_Left");
+		break;
+	case eDIR::RIGHT:
+		anim->Play(L"Stand_Right");
+		break;
+	case eDIR::NONE:
+		break;
+	default:
+		break;
+	}
 }
 
 void CStandState::Exit()
 {
-	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
-
-	if (KEY_TAP(KEY::W)) anim->Play(L"Running_Up");
-	if (KEY_TAP(KEY::S)) anim->Play(L"Running_Down");
-	if (KEY_TAP(KEY::A)) anim->Play(L"Running_Left");
-	if (KEY_TAP(KEY::D)) anim->Play(L"Running_Right2");
 }

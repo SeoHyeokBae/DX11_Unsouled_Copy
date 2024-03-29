@@ -14,7 +14,7 @@ enum class BB_DATA
 struct tBlackboardData
 {
     BB_DATA     Type;
-    void* pData;
+    void*       pData;
 };
 
 class CBlackboard :
@@ -25,6 +25,7 @@ private:
 
 public:
     void AddBlackboardData(const wstring& _strKey, BB_DATA _Type, void* _Data);
+    void SetBlackBoardData(const wstring& _strKey,  void* _Data);
     void* GetBlackboardData(const wstring& _strKey);
 
 

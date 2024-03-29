@@ -54,15 +54,6 @@ public:
 	KEY_STATE GetKeyState(KEY _Key) { return m_vecKeyData[_Key].eState; }
 	Vec2 GetMousePos() { return m_vMousePos; }
 	Vec2 GetMouseDrag() { return m_vMouseDrag; }
-	bool IsAnyKeyPressed()
-	{
-		for (size_t i = 0; i < m_vecKeyData.size(); i++)
-		{
-			if (NONE != m_vecKeyData[i].eState)
-				return true;
-		}
-		return false;
-	}
 
 public:
 	void init();
