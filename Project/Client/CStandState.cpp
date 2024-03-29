@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "CStandState.h"
 
-#include <Scripts/CPlayerScript.h>
 #include <Engine/components.h>
 #include <Engine/CKeyMgr.h>
 #include <Engine/CTimeMgr.h>
 
 CStandState::CStandState()
+	:m_Dir(eDIR::NONE)
 {
 }
 
@@ -24,7 +24,7 @@ void CStandState::finaltick()
 
 void CStandState::Enter()
 {
-	eDIR dir = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->GetDir();
+	eDIR dir = *((eDIR*)GetBlackboardData(L"Dir"));
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	switch (dir)
@@ -50,4 +50,25 @@ void CStandState::Enter()
 
 void CStandState::Exit()
 {
+	m_Dir = eDIR::NONE;
+
+	if (!KEY_NONE(KEY::D))
+	{
+		m_Dir = eDIR::RIGHT;
+	}
+	if (!KEY_NONE(KEY::S))
+	{
+		m_Dir = eDIR::DOWN;
+	}
+	if (!KEY_NONE(KEY::A))
+	{
+		m_Dir = eDIR::LEFT;
+	}
+	if (!KEY_NONE(KEY::W))
+	{
+		m_Dir = eDIR::UP;
+	}
+	
+	SetBlackboardData(L"Dir", &m_Dir);
+
 }

@@ -1,9 +1,11 @@
 #pragma once
 #include <Engine\CState.h>
+
 class CStandState :
     public CState
 {
 private:
+    eDIR m_Dir;
 
 public:
     virtual void finaltick() override;

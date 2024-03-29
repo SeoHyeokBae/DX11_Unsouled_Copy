@@ -1,15 +1,6 @@
 #pragma once
 #include <Engine/CScript.h>
 
-enum class eDIR
-{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    NONE,
-};
-
 class CPlayerScript :
     public CScript
 {

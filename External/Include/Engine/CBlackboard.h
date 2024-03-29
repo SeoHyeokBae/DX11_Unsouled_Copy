@@ -25,6 +25,7 @@ private:
 
 public:
     void AddBlackboardData(const wstring& _strKey, BB_DATA _Type, void* _Data);
+    void SetBlackBoardData(const wstring& _strKey,  void* _Data);
     void* GetBlackboardData(const wstring& _strKey);
 
 

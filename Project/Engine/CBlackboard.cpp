@@ -28,7 +28,7 @@ void CBlackboard::SetBlackBoardData(const wstring& _strKey, void* _Data)
 {
 	map<wstring, tBlackboardData>::iterator iter = m_mapBBData.find(_strKey);
 
-	assert(iter == m_mapBBData.end());
+	assert(iter != m_mapBBData.end());
 
 	iter->second.pData = _Data;
 }

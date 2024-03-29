@@ -18,6 +18,11 @@ void* CState::GetBlackboardData(const wstring& _strKey)
 	CStateMachine* pSM = m_FSM->GetStateMachine();
 	return pSM->GetBlackboardData(_strKey);
 }
+void CState::SetBlackboardData(const wstring& _strKey, void* _pData)
+{
+	CStateMachine* pSM = m_FSM->GetStateMachine();
+	pSM->SetBlackboardData(_strKey, _pData);
+}
 void CState::ChangeState(const wstring& _strStateName)
 {
 	assert(m_FSM);

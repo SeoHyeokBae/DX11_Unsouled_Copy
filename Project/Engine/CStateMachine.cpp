@@ -38,6 +38,11 @@ void CStateMachine::AddBlackboardData(const wstring& _strKey, BB_DATA _Type, voi
 	m_Blackboard.AddBlackboardData(_strKey, _Type, _pData);
 }
 
+void CStateMachine::SetBlackboardData(const wstring& _strKey, void* _pData)
+{
+	m_Blackboard.SetBlackBoardData(_strKey, _pData);
+}
+
 void* CStateMachine::GetBlackboardData(const wstring& _strKey)
 {
 	return m_Blackboard.GetBlackboardData(_strKey);

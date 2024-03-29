@@ -33,6 +33,15 @@ enum class DIR_TYPE
 	FRONT,
 };
 
+enum class eDIR // OBJ πÊ«‚
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	NONE,
+};
+
 enum class ASSET_TYPE
 {
 	MESH,
