@@ -7,6 +7,7 @@
 
 CRunningState::CRunningState()
 	:m_Dir(eDIR::NONE)
+	, m_Anim(nullptr)
 {
 }
 
@@ -18,7 +19,6 @@ void CRunningState::finaltick()
 {
 	float Speed = *((float*)GetBlackboardData(L"Speed"));
 	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
-	CAnimator2D* pAnim = GetFSM()->GetStateMachine()->Animator2D();
 
 	if (KEY_PRESSED(KEY::W))
 	{
@@ -33,7 +33,7 @@ void CRunningState::finaltick()
 	{
 		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
 		{
-			pAnim->Play(L"Stand_Up");
+			m_Anim->Play(L"Stand_Up");
 			m_Dir = eDIR::UP;
 		}
 	}
@@ -52,7 +52,7 @@ void CRunningState::finaltick()
 	{
 		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
 		{
-			pAnim->Play(L"Stand_Down");
+			m_Anim->Play(L"Stand_Down");
 			m_Dir = eDIR::DOWN;
 
 		}
@@ -75,7 +75,7 @@ void CRunningState::finaltick()
 
 		if (KEY_TAP(KEY::D))
 		{
-			pAnim->Play(L"Stand_Left");
+			m_Anim->Play(L"Stand_Left");
 			m_Dir = eDIR::LEFT;
 
 		}
@@ -101,7 +101,7 @@ void CRunningState::finaltick()
 	{
 		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S))
 		{
-			pAnim->Play(L"Stand_Left");
+			m_Anim->Play(L"Stand_Left");
 			m_Dir = eDIR::LEFT;
 
 		}
@@ -125,7 +125,7 @@ void CRunningState::finaltick()
 
 		if (KEY_TAP(KEY::A))
 		{
-			pAnim->Play(L"Stand_Right");
+			m_Anim->Play(L"Stand_Right");
 			m_Dir = eDIR::RIGHT;
 
 		}
@@ -151,7 +151,7 @@ void CRunningState::finaltick()
 	{
 		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
 		{
-			pAnim->Play(L"Stand_Right");
+			m_Anim->Play(L"Stand_Right");
 			m_Dir = eDIR::RIGHT;
 		}
 	}
@@ -167,21 +167,21 @@ void CRunningState::finaltick()
 void CRunningState::Enter()
 {
 	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
-	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
+	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	switch (m_Dir)
 	{	
 	case eDIR::UP:
-		anim->Play(L"Running_Up");
+		m_Anim->Play(L"Running_Up");
 		break;
 	case eDIR::DOWN:
-		anim->Play(L"Running_Down");
+		m_Anim->Play(L"Running_Down");
 		break;
 	case eDIR::LEFT:
-		anim->Play(L"Running_Left");
+		m_Anim->Play(L"Running_Left");
 		break;
 	case eDIR::RIGHT:
-		anim->Play(L"Running_Right2");
+		m_Anim->Play(L"Running_Right2");
 		break;
 	case eDIR::NONE:
 		break;

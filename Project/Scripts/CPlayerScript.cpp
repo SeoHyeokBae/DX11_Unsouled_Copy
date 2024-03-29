@@ -46,6 +46,15 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"Stand_Left", L"anim\\Stand_Left.anim");
 	Animator2D()->AddAnim(L"Stand_Right", L"anim\\Stand_Right.anim");
 
+	Animator2D()->AddAnim(L"Absorb_Stand_Down", L"anim\\Absorb_Stand_Down.anim");
+	Animator2D()->AddAnim(L"Absorb_Stand_Left", L"anim\\Absorb_Stand_Left.anim");
+	Animator2D()->AddAnim(L"Absorb_Stand_Right", L"anim\\Absorb_Stand_Right.anim");
+	Animator2D()->AddAnim(L"Absorb_Stand_Up", L"anim\\Absorb_Stand_Up.anim");
+	Animator2D()->AddAnim(L"Absorb_Walking_Down", L"anim\\Absorb_Walking_Down.anim");
+	Animator2D()->AddAnim(L"Absorb_Walking_Left", L"anim\\Absorb_Walking_Left.anim");
+	Animator2D()->AddAnim(L"Absorb_Walking_Right", L"anim\\Absorb_Walking_Right.anim");
+	Animator2D()->AddAnim(L"Absorb_Walking_Up", L"anim\\Absorb_Walking_Up.anim");
+
 	// Shadow 에 애니메이션 등록
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
@@ -75,6 +84,12 @@ void CPlayerScript::tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
+
+
+	if (KEY_TAP(KEY::F))
+	{
+		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
+	}
 
 
 	float limity = 5000.f;
