@@ -23,13 +23,13 @@ void CRunningState::finaltick()
 	{
 		vPos.y += DT * Speed;
 	}
-	if (KEY_TAP(KEY::W) && KEY_CHECK(KEY::A, NONE) && KEY_CHECK(KEY::S, NONE) && KEY_CHECK(KEY::D, NONE))
+	if (KEY_TAP(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
 	{
 		anim->Play(L"Running_Up");
 	}
 	if (KEY_RELEASED(KEY::W))
 	{
-		if (KEY_CHECK(KEY::D, NONE) && KEY_CHECK(KEY::A, NONE))
+		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
 			anim->Play(L"Stand_Up");
 	}
 
@@ -39,13 +39,13 @@ void CRunningState::finaltick()
 		vPos.y -= DT * Speed;
 
 	}
-	if (KEY_TAP(KEY::S) && KEY_CHECK(KEY::W, NONE) && KEY_CHECK(KEY::A, NONE) && KEY_CHECK(KEY::D, NONE))
+	if (KEY_TAP(KEY::S) && KEY_NONE(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
 	{
 		anim->Play(L"Running_Down");
 	}
 	if (KEY_RELEASED(KEY::S))
 	{
-		if (KEY_CHECK(KEY::D, NONE) && KEY_CHECK(KEY::A, NONE))
+		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
 			anim->Play(L"Stand_Down");
 	}
 
@@ -78,13 +78,13 @@ void CRunningState::finaltick()
 			anim->Play(L"Running_Left");
 		}
 	}
-	if (KEY_TAP(KEY::A) && KEY_CHECK(KEY::W, NONE) && KEY_CHECK(KEY::S, NONE) && KEY_CHECK(KEY::D, NONE))
+	if (KEY_TAP(KEY::A) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
 	{
 		anim->Play(L"Running_Left");
 	}
 	if (KEY_RELEASED(KEY::A))
 	{
-		if (KEY_CHECK(KEY::W, NONE) && KEY_CHECK(KEY::S, NONE))
+		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S))
 			anim->Play(L"Stand_Left");
 	}
 
@@ -117,14 +117,19 @@ void CRunningState::finaltick()
 			anim->Play(L"Running_Right2");
 		}
 	}
-	if (KEY_TAP(KEY::D) && KEY_CHECK(KEY::W, NONE) && KEY_CHECK(KEY::S, NONE) && KEY_CHECK(KEY::A, NONE))
+	if (KEY_TAP(KEY::D) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
 	{
 		anim->Play(L"Running_Right2");
 	}
 	if (KEY_RELEASED(KEY::D))
 	{
-		if (KEY_CHECK(KEY::W, NONE) && KEY_CHECK(KEY::S, NONE) && KEY_CHECK(KEY::S, RELEASED))
+		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
 			anim->Play(L"Stand_Right");
+	}
+
+	if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
+	{
+		ChangeState(L"StandState");
 	}
 
 	GetFSM()->GetStateMachine()->Transform()->SetRelativePos(vPos);

@@ -7,8 +7,6 @@
 
 
 CStaminaOutState::CStaminaOutState()
-	: m_bUP(true)
-	, m_bRight(true)
 {
 }
 

@@ -190,6 +190,7 @@
     <ClInclude Include="Content.h" />
     <ClInclude Include="CRunningState.h" />
     <ClInclude Include="CStaminaOutState.h" />
+    <ClInclude Include="CStandState.h" />
     <ClInclude Include="CTraceState.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FSMUI.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="CRunningState.cpp" />
     <ClCompile Include="CStaminaOutState.cpp" />
+    <ClCompile Include="CStandState.cpp" />
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="FSMUI.cpp" />
     <ClCompile Include="GraphicsShaderUI.cpp" />

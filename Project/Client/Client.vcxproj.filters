@@ -283,6 +283,9 @@
     <ClInclude Include="CStaminaOutState.h">
       <Filter>04. State\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CStandState.h">
+      <Filter>04. State\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -438,6 +441,9 @@
       <Filter>04. State\Player</Filter>
     </ClCompile>
     <ClCompile Include="CStaminaOutState.cpp">
+      <Filter>04. State\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CStandState.cpp">
       <Filter>04. State\Player</Filter>
     </ClCompile>
   </ItemGroup>

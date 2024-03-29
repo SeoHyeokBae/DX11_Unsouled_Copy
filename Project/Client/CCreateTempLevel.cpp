@@ -33,6 +33,8 @@
 #include "CTraceState.h"
 #include "CStaminaOutState.h"
 #include "CRunningState.h"
+#include "CStandState.h"
+
 
 void CCreateTempLevel::Init()
 {
@@ -67,6 +69,7 @@ void CCreateTempLevel::Init()
 	pFSM = new CFSM(true);
 	pFSM->AddState(L"StaminaOutState", new CStaminaOutState);
 	pFSM->AddState(L"RunningState", new CRunningState);
+	pFSM->AddState(L"StandState", new CStandState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"PlayerFSM", pFSM.Get());
 }
 

@@ -65,6 +65,7 @@ void CPlayerScript::begin()
 		}
 	}
 
+	
 
 	GetRenderComponent()->GetDynamicMaterial();
 }
