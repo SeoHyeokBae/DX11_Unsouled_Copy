@@ -32,6 +32,7 @@
 #include "CIdleState.h"
 #include "CTraceState.h"
 #include "CStaminaOutState.h"
+#include "CRunningState.h"
 
 void CCreateTempLevel::Init()
 {
@@ -64,7 +65,8 @@ void CCreateTempLevel::Init()
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"NormalMonsterFSM", pFSM.Get());
 	
 	pFSM = new CFSM(true);
-	pFSM->AddState(L"CStaminaOutState", new CStaminaOutState);
+	pFSM->AddState(L"StaminaOutState", new CStaminaOutState);
+	pFSM->AddState(L"RunningState", new CRunningState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"PlayerFSM", pFSM.Get());
 }
 

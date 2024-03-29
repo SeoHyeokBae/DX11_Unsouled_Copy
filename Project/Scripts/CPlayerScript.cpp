@@ -29,11 +29,20 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Left", L"anim\\StaminaOut_Walking_Up_Left.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Right", L"anim\\StaminaOut_Walking_Up_Right.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Up_Stand", L"anim\\StaminaOut_Walking_Up_Stand.anim");
-
 	Animator2D()->AddAnim(L"StaminaOut_Stand_Down", L"anim\\StaminaOut_Stand_Down.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Down_Left", L"anim\\StaminaOut_Walking_Down_Left.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Down_Right", L"anim\\StaminaOut_Walking_Down_Right.anim");
 	Animator2D()->AddAnim(L"StaminaOut_Walking_Down_Stand", L"anim\\StaminaOut_Walking_Down_Stand.anim");
+
+	Animator2D()->AddAnim(L"Running_Down", L"anim\\Running_Down.anim");
+	Animator2D()->AddAnim(L"Running_Up", L"anim\\Running_Up.anim");
+	Animator2D()->AddAnim(L"Running_Left", L"anim\\Running_Left.anim");
+	Animator2D()->AddAnim(L"Running_Right2", L"anim\\Running_Right2.anim");
+
+	Animator2D()->AddAnim(L"Stand_Down", L"anim\\Stand_Down.anim");
+	Animator2D()->AddAnim(L"Stand_Up", L"anim\\Stand_Up.anim");
+	Animator2D()->AddAnim(L"Stand_Left", L"anim\\Stand_Left.anim");
+	Animator2D()->AddAnim(L"Stand_Right", L"anim\\Stand_Right.anim");
 
 	// Shadow 에 애니메이션 등록
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
@@ -51,7 +60,7 @@ void CPlayerScript::begin()
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
-			StateMachine()->GetFSM()->SetState(L"CStaminaOutState");
+			StateMachine()->GetFSM()->SetState(L"RunningState");
 			Animator2D()->Play(L"StaminaOut_Stand_Down");
 		}
 	}
