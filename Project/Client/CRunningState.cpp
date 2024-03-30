@@ -165,7 +165,7 @@ void CRunningState::finaltick()
 
 void CRunningState::Enter()
 {
-	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	switch (m_Dir)
@@ -191,6 +191,6 @@ void CRunningState::Enter()
 
 void CRunningState::Exit()
 {
-	SetBlackboardData(L"Dir", &m_Dir);
+	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }
 

@@ -28,6 +28,8 @@ private:
     bool                    m_bShadow;
     bool                    m_bDead;
 
+    eDIR                    m_Dir;
+
 public:
     void begin();
     void tick();
@@ -90,6 +92,9 @@ public:
     void Destroy();
 
     bool IsAncestor(CGameObject* _Other);
+
+    eDIR GetDir() { return m_Dir; }
+    void SetDir(eDIR _dir) { m_Dir = _dir; }
 
     CLONE(CGameObject);
 public:

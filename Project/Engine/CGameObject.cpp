@@ -20,6 +20,7 @@ CGameObject::CGameObject()
 	, m_iLayerIdx(-1) // 어떠한 레벨(레이어) 소속되어 있지 않다
 	, m_bShadow(false)
 	, m_bDead(false)
+	, m_Dir(eDIR::NONE)
 {
 }
 

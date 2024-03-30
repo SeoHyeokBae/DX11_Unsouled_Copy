@@ -58,7 +58,7 @@ void CAttackState::Enter()
 
 	m_Combo++;
 	m_fTiming = 0.f;
-	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	if (1 == m_Combo)
@@ -135,6 +135,6 @@ void CAttackState::Exit()
 {
 	m_bStart = false;
 	SetBlackboardData(L"Chain", &m_bStart);
-	SetBlackboardData(L"Dir", &m_Dir);
+	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }
 

@@ -23,7 +23,7 @@ void CStandState::finaltick()
 
 void CStandState::Enter()
 {
-	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	switch (m_Dir)
@@ -68,6 +68,5 @@ void CStandState::Exit()
 		m_Dir = eDIR::UP;
 	}
 	
-	SetBlackboardData(L"Dir", &m_Dir);
-
+	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }

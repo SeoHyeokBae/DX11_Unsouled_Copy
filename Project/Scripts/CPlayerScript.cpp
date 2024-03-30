@@ -15,7 +15,6 @@
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	, m_Speed(100.f)
-	, m_Dir(eDIR::NONE)
 	, m_Chain(0)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
@@ -82,7 +81,6 @@ void CPlayerScript::begin()
 	if (StateMachine())
 	{
 		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
-		StateMachine()->AddBlackboardData(L"Dir", BB_DATA::INT,  &m_Dir);
 		StateMachine()->AddBlackboardData(L"Chain", BB_DATA::INT,  &m_Chain);
 
 		if (nullptr != StateMachine()->GetFSM())

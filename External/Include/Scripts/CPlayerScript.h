@@ -6,14 +6,12 @@ class CPlayerScript :
 {
 private:
     Ptr<CPrefab>    m_Missile;
-    eDIR            m_Dir;
     wstring         m_CurState;
 
     float           m_Speed;
     int             m_Chain;
 
 public:
-    eDIR GetDir() { return m_Dir; }
 
 public:
     virtual void tick() override;

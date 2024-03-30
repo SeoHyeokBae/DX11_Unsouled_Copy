@@ -159,7 +159,7 @@ void CAbsorbState::finaltick()
 
 void CAbsorbState::Enter()
 {
-	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	switch (m_Dir)
@@ -185,7 +185,7 @@ void CAbsorbState::Enter()
 
 void CAbsorbState::Exit()
 {
-	SetBlackboardData(L"Dir", &m_Dir);
+	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }
 
 
