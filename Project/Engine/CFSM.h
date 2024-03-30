@@ -30,7 +30,7 @@ public:
         }
     }
     CFSM* GetFSMIstance();
-
+    const wstring& GetCurStateName() { return m_CurState->GetName(); }
     CStateMachine* GetStateMachine() { return m_StateMachie; }
     void ChangeState(const wstring& _strStateName);
 

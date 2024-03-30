@@ -7,7 +7,6 @@ class CRunningState :
     public CState
 {
 private:
-    eDIR m_Dir;
     CAnimator2D* m_Anim;
 
 public:

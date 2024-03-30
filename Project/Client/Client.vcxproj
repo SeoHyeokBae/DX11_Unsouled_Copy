@@ -177,6 +177,7 @@
     <ClInclude Include="AssetUI.h" />
     <ClInclude Include="CAbsorbState.h" />
     <ClInclude Include="CameraUI.h" />
+    <ClInclude Include="CAttackState.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CCreateTempLevel.h" />
     <ClInclude Include="CEditorObjMgr.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="AssetUI.cpp" />
     <ClCompile Include="CAbsorbState.cpp" />
     <ClCompile Include="CameraUI.cpp" />
+    <ClCompile Include="CAttackState.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CCreateTempLevel.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />

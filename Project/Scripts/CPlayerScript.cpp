@@ -47,13 +47,28 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"Stand_Right", L"anim\\Stand_Right.anim");
 
 	Animator2D()->AddAnim(L"Absorb_Stand_Down", L"anim\\Absorb_Stand_Down.anim");
+	Animator2D()->AddAnim(L"Absorb_Stand_Up", L"anim\\Absorb_Stand_Up.anim");
 	Animator2D()->AddAnim(L"Absorb_Stand_Left", L"anim\\Absorb_Stand_Left.anim");
 	Animator2D()->AddAnim(L"Absorb_Stand_Right", L"anim\\Absorb_Stand_Right.anim");
-	Animator2D()->AddAnim(L"Absorb_Stand_Up", L"anim\\Absorb_Stand_Up.anim");
 	Animator2D()->AddAnim(L"Absorb_Walking_Down", L"anim\\Absorb_Walking_Down.anim");
+	Animator2D()->AddAnim(L"Absorb_Walking_Up", L"anim\\Absorb_Walking_Up.anim");
 	Animator2D()->AddAnim(L"Absorb_Walking_Left", L"anim\\Absorb_Walking_Left.anim");
 	Animator2D()->AddAnim(L"Absorb_Walking_Right", L"anim\\Absorb_Walking_Right.anim");
-	Animator2D()->AddAnim(L"Absorb_Walking_Up", L"anim\\Absorb_Walking_Up.anim");
+
+	Animator2D()->AddAnim(L"BAttack01_Down", L"anim\\BAttack01_Down.anim");
+	Animator2D()->AddAnim(L"BAttack01_Up", L"anim\\BAttack01_Up.anim");
+	Animator2D()->AddAnim(L"BAttack01_Left", L"anim\\BAttack01_Left.anim");
+	Animator2D()->AddAnim(L"BAttack01_Right", L"anim\\BAttack01_Right.anim");
+
+	Animator2D()->AddAnim(L"BAttack02_Down", L"anim\\BAttack02_Down.anim");
+	Animator2D()->AddAnim(L"BAttack02_Up", L"anim\\BAttack02_Up.anim");
+	Animator2D()->AddAnim(L"BAttack02_Left", L"anim\\BAttack02_Left.anim");
+	Animator2D()->AddAnim(L"BAttack02_Right", L"anim\\BAttack02_Right.anim");
+
+	Animator2D()->AddAnim(L"BAttack03_Down", L"anim\\BAttack03_Down.anim");
+	Animator2D()->AddAnim(L"BAttack03_Up", L"anim\\BAttack03_Up.anim");
+	Animator2D()->AddAnim(L"BAttack03_Left", L"anim\\BAttack03_Left.anim");
+	Animator2D()->AddAnim(L"BAttack03_Right", L"anim\\BAttack03_Right.anim");
 
 	// Shadow 에 애니메이션 등록
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
@@ -82,24 +97,31 @@ void CPlayerScript::begin()
 
 void CPlayerScript::tick()
 {
+	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
+
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
 
+	if (KEY_TAP(KEY::LBTN) && m_CurState != L"AttackState")
+	{
+		StateMachine()->GetFSM()->ChangeState(L"AttackState");
+	}
 
-	if (KEY_TAP(KEY::F))
+	if (KEY_TAP(KEY::F) && m_CurState != L"AbsorbState")
 	{
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
 
 
+
+	// y위치에 따른 z축 정렬
 	float limity = 5000.f;
 	float limitz = 1500.f;
-	if (0 <= GetOwner()->Transform()->GetRelativePos().y)
+	if (0 <= vPos.y)
 		vPos.z = (1.f / limity) * 1500;
+
 	if (4 == GetOwner()->GetLayerIdx())
-	{
 		vPos.z = (vPos.y / limity) * 1500 + 50.f;
-	}
 	else
 		vPos.z = (vPos.y / limity) * 1500;
 

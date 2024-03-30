@@ -6,8 +6,7 @@
 #include <Engine/CTimeMgr.h>
 
 CRunningState::CRunningState()
-	:m_Dir(eDIR::NONE)
-	, m_Anim(nullptr)
+	:m_Anim(nullptr)
 {
 }
 

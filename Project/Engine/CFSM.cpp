@@ -37,6 +37,7 @@ void CFSM::AddState(const wstring& _StateName, CState* _State)
 {
 	assert(!(FindState(_StateName)));
 
+	_State->SetName(_StateName);
 	_State->m_FSM = this;
 
 	m_mapState.insert(make_pair(_StateName, _State));

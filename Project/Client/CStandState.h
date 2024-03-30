@@ -5,7 +5,6 @@ class CStandState :
     public CState
 {
 private:
-    eDIR m_Dir;
 
 public:
     virtual void finaltick() override;

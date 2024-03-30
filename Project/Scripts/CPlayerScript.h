@@ -8,6 +8,7 @@ private:
     Ptr<CPrefab>    m_Missile;
     float           m_Speed;
     eDIR            m_Dir;
+    wstring         m_CurState;
 
 public:
     eDIR GetDir() { return m_Dir; }

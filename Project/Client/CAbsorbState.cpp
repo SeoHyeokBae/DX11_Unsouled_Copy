@@ -6,8 +6,7 @@
 #include <Engine/CTimeMgr.h>
 
 CAbsorbState::CAbsorbState()
-	:m_Dir(eDIR::NONE)
-	, m_Anim(nullptr)
+	:m_Anim(nullptr)
 {
 }
 
@@ -40,13 +39,7 @@ void CAbsorbState::finaltick()
 			m_Anim->Play(L"Absorb_Walking_Left");
 		}
 
-		if (KEY_RELEASED(KEY::A))
-		{
-			m_Dir = eDIR::UP;
-			m_Anim->Play(L"Absorb_Walking_Up");
-		}
-
-		if (KEY_RELEASED(KEY::D))
+		if (KEY_RELEASED(KEY::A) || KEY_RELEASED(KEY::D))
 		{
 			m_Dir = eDIR::UP;
 			m_Anim->Play(L"Absorb_Walking_Up");
@@ -82,13 +75,7 @@ void CAbsorbState::finaltick()
 			m_Anim->Play(L"Absorb_Walking_Left");
 		}
 
-		if (KEY_RELEASED(KEY::D))
-		{
-			m_Dir = eDIR::DOWN;
-			m_Anim->Play(L"Absorb_Walking_Down");
-		}
-
-		if (KEY_RELEASED(KEY::A))
+		if (KEY_RELEASED(KEY::D) || KEY_RELEASED(KEY::A))
 		{
 			m_Dir = eDIR::DOWN;
 			m_Anim->Play(L"Absorb_Walking_Down");
@@ -172,22 +159,22 @@ void CAbsorbState::finaltick()
 
 void CAbsorbState::Enter()
 {
-	eDIR dir = *((eDIR*)GetBlackboardData(L"Dir"));
+	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
-	switch (dir)
+	switch (m_Dir)
 	{
 	case eDIR::UP:
-		m_Anim->Play(L"Absorb_Walking_Up");
+		KEY_PRESSED(KEY::W) ? m_Anim->Play(L"Absorb_Walking_Up") : m_Anim->Play(L"Absorb_Stand_Up");
 		break;
 	case eDIR::DOWN:
-		m_Anim->Play(L"Absorb_Walking_Down");
+		KEY_PRESSED(KEY::S) ? m_Anim->Play(L"Absorb_Walking_Down") : m_Anim->Play(L"Absorb_Stand_Down");
 		break;
 	case eDIR::LEFT:
-		m_Anim->Play(L"Absorb_Walking_Left");
+		KEY_PRESSED(KEY::A) ? m_Anim->Play(L"Absorb_Walking_Left") : m_Anim->Play(L"Absorb_Stand_Left");
 		break;
 	case eDIR::RIGHT:
-		m_Anim->Play(L"Absorb_Walking_Right");
+		KEY_PRESSED(KEY::D) ? m_Anim->Play(L"Absorb_Walking_Right") : m_Anim->Play(L"Absorb_Stand_Right");
 		break;
 	case eDIR::NONE:
 		break;

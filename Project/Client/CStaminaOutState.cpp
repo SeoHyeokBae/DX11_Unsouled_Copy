@@ -141,6 +141,7 @@ void CStaminaOutState::finaltick()
 
 void CStaminaOutState::Enter()
 {
+
 }
 
 void CStaminaOutState::Exit()

@@ -10,6 +10,9 @@ class CState :
 private:
     CFSM*           m_FSM;
 
+protected:
+    eDIR            m_Dir;
+
 public:
     virtual void finaltick() = 0;
     virtual void Enter() = 0;

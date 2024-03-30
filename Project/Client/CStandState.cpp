@@ -6,7 +6,6 @@
 #include <Engine/CTimeMgr.h>
 
 CStandState::CStandState()
-	:m_Dir(eDIR::NONE)
 {
 }
 
@@ -24,10 +23,10 @@ void CStandState::finaltick()
 
 void CStandState::Enter()
 {
-	eDIR dir = *((eDIR*)GetBlackboardData(L"Dir"));
+	m_Dir = *((eDIR*)GetBlackboardData(L"Dir"));
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
 
-	switch (dir)
+	switch (m_Dir)
 	{
 	case eDIR::UP:
 		anim->Play(L"Stand_Up");
@@ -50,7 +49,7 @@ void CStandState::Enter()
 
 void CStandState::Exit()
 {
-	m_Dir = eDIR::NONE;
+	//m_Dir = eDIR::NONE;
 
 	if (!KEY_NONE(KEY::D))
 	{

@@ -35,6 +35,7 @@
 #include "CRunningState.h"
 #include "CStandState.h"
 #include "CAbsorbState.h"
+#include "CAttackState.h"
 
 
 
@@ -73,6 +74,7 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"RunningState", new CRunningState);
 	pFSM->AddState(L"StandState", new CStandState);
 	pFSM->AddState(L"AbsorbState", new CAbsorbState);
+	pFSM->AddState(L"AttackState", new CAttackState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"PlayerFSM", pFSM.Get());
 }
 
