@@ -101,7 +101,11 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     //{
     //    discard;
     //}
-
+    
+    if (g_float_1 == 1.f)
+    {
+        vColor.rg += 1.f;
+    }
     
     return vColor;
 }

@@ -16,6 +16,7 @@ CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	, m_Speed(100.f)
 	, m_Dir(eDIR::NONE)
+	, m_Chain(0)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }
@@ -82,6 +83,7 @@ void CPlayerScript::begin()
 	{
 		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
 		StateMachine()->AddBlackboardData(L"Dir", BB_DATA::INT,  &m_Dir);
+		StateMachine()->AddBlackboardData(L"Chain", BB_DATA::INT,  &m_Chain);
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
@@ -112,10 +114,16 @@ void CPlayerScript::tick()
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
 
-	// 리커버리 타이밍에 캐릭터 노란색 깜빡임
-	//GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, f);
-
-
+	m_Chain = *((int*)StateMachine()->GetBlackboardData(L"Chain"));
+	//리커버리 타이밍에 캐릭터 노란색 깜빡임
+	if (m_Chain)
+	{
+		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, 1.f);
+	}
+	else
+	{
+		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, 0.f);
+	}
 
 
 	// y위치에 따른 z축 정렬

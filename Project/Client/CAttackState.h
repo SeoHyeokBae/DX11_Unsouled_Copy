@@ -15,6 +15,7 @@ private:
     bool             m_bStart;
 
 public:
+    bool IsStart() { return m_bStart; }
     bool IsChain() { return m_bChain; }
 
 public:

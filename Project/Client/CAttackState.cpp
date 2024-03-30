@@ -26,10 +26,13 @@ void CAttackState::finaltick()
 {
 	// 애니메이션 종료되면 체인시스템 시작
 	m_Anim->GetCurAnim()->IsFinish() ? m_bStart = true : m_bStart = false;
+	SetBlackboardData(L"Chain", &m_bStart);
 	
 	// 타이밍 시간 증가
-	if(m_bStart)
+	if (m_bStart)
+	{
 		m_fTiming += DT;
+	}
 
 	// 체인 타이밍
 	if (m_fTiming >= 0.02f && m_fTiming <= 0.07f)
@@ -40,7 +43,6 @@ void CAttackState::finaltick()
 	{
 		ChangeState(L"AttackState");
 	}
-
 
 	if (RECOVERYTIME <= m_fTiming && KEY_NONE(KEY::LBTN))
 	{
@@ -132,6 +134,7 @@ void CAttackState::Enter()
 void CAttackState::Exit()
 {
 	m_bStart = false;
+	SetBlackboardData(L"Chain", &m_bStart);
 	SetBlackboardData(L"Dir", &m_Dir);
 }
 
