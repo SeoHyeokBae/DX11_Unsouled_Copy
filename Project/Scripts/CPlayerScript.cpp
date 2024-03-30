@@ -112,6 +112,10 @@ void CPlayerScript::tick()
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
 
+	// 리커버리 타이밍에 캐릭터 노란색 깜빡임
+	//GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, f);
+
+
 
 
 	// y위치에 따른 z축 정렬

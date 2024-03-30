@@ -15,6 +15,8 @@
 #define DT_ENGINE	CTimeMgr::GetInst()->GetEngineDeltaTime()
 #define DTd_ENGINE	CTimeMgr::GetInst()->GetEngineDeltaTime_d()
 
+#define RECOVERYTIME 0.13f
+
 #define KEY_TAP(Key) KEY_CHECK(Key, TAP)
 #define KEY_PRESSED(Key) KEY_CHECK(Key, PRESSED)
 #define KEY_RELEASED(Key) KEY_CHECK(Key, RELEASED)
