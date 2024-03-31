@@ -45,7 +45,15 @@ void CAttackState::finaltick()
 	// 체인 시스템 시작 && 타이밍이 < 리커버리타임 && 공격버튼
 	if (m_bStart && RECOVERYTIME > m_fTiming && !KEY_NONE(KEY::LBTN))
 	{
-		vVelocity.x = -450.f;
+		if (KEY_TAP(KEY::W) || KEY_PRESSED(KEY::W)) m_Dir = eDIR::UP;
+		if (KEY_TAP(KEY::A) || KEY_PRESSED(KEY::A)) m_Dir = eDIR::LEFT;
+		if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWN;
+		if (KEY_TAP(KEY::D) || KEY_PRESSED(KEY::D)) m_Dir = eDIR::RIGHT;
+
+		//if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
+		//else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;
+		//else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
+		//else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 		ChangeState(L"AttackState");
 	}
 
@@ -54,51 +62,6 @@ void CAttackState::finaltick()
 		m_Combo = 0;
 		m_fTiming = 0.f;
 		ChangeState(L"StandState");
-	}
-
-
-
-	if (KEY_PRESSED(KEY::W))
-	{
-	}
-	if (KEY_TAP(KEY::W))
-	{
-	}
-	if (KEY_RELEASED(KEY::W))
-	{
-	}
-
-
-	if (KEY_PRESSED(KEY::A))
-	{
-	}
-	if (KEY_TAP(KEY::A) && KEY_NONE(KEY::D))
-	{
-	}
-	if (KEY_RELEASED(KEY::A))
-	{
-	}
-
-	if (KEY_PRESSED(KEY::S))
-	{
-	}
-	if (KEY_TAP(KEY::S))
-	{
-	}
-	if (KEY_RELEASED(KEY::S))
-	{
-	}
-
-	if (KEY_PRESSED(KEY::D))
-	{
-		//vPos.x += DT * 200.f;
-		//vVelocity.x = 300.f;
-	}
-	if (KEY_TAP(KEY::D) && KEY_NONE(KEY::A))
-	{
-	}
-	if (KEY_RELEASED(KEY::D))
-	{
 	}
 
 	GetFSM()->GetStateMachine()->Transform()->SetRelativePos(vPos);
@@ -114,83 +77,68 @@ void CAttackState::Enter()
 	m_fTiming = 0.f;
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
-	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
+	Vec2 vForce = Vec2(0.f,0.f);
 
-	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::LEFT;
-	if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWN;
-	if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::RIGHT;
-	if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UP;
+	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
+	else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;
+	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
+	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
 
-	if (1 == m_Combo)
+	switch (m_Dir)
 	{
-		switch (m_Dir)
-		{
-		case eDIR::UP:
-			m_Anim->Play(L"BAttack01_Up", false);
-			break;
-		case eDIR::DOWN:
-			m_Anim->Play(L"BAttack01_Down", false);
-			break;
-		case eDIR::LEFT:
-			m_Anim->Play(L"BAttack01_Left", false);
-			break;
-		case eDIR::RIGHT:
-			m_Anim->Play(L"BAttack01_Right", false);
-			break;
-		case eDIR::NONE:
-			break;
-		default:
-			break;
-		}
+	case eDIR::UP:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Up", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Up", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Up", false);
+		vForce.x = 900.f;
+		break;
+	case eDIR::DOWN:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Down", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Down", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Down", false);
+		vForce.y = -900.f;
+		break;
+	case eDIR::LEFT:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Left", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Left", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Left", false);
+		vForce.x = -900.f;
+		break;
+	case eDIR::RIGHT:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Right", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Right", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Right", false);
+		vForce.x = 900.f;
+		break;
+	case eDIR::UPLEFT:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Left", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Left", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Left", false);
+		vForce.x = -900.f; vForce.y = 900.f;
+		break;
+	case eDIR::UPRIGHT:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Up", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Up", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Up", false);
+		vForce.x = 900.f; vForce.y = 900.f;
+		break;
+	case eDIR::DOWNLEFT:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Down", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Down", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Down", false);
+		vForce.x = -900.f; vForce.y = -900.f;
+		break;
+	case eDIR::DOWNRIGHT:
+		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Right", false);
+		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Right", false);
+		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Right", false);
+		vForce.x = 900.f; vForce.y = -900.f;
+		break;
 	}
-	else if (2 == m_Combo)
-	{
-		switch (m_Dir)
-		{
-		case eDIR::UP:
-			m_Anim->Play(L"BAttack02_Up", false);
-			break;
-		case eDIR::DOWN:
-			m_Anim->Play(L"BAttack02_Down", false);
-			break;
-		case eDIR::LEFT:
-			m_Anim->Play(L"BAttack02_Left", false);
-			break;
-		case eDIR::RIGHT:
-			m_Anim->Play(L"BAttack02_Right", false);
-			break;
-		case eDIR::NONE:
-			break;
-		default:
-			break;
-		}
-	}
-	else if (3 == m_Combo)
-	{
-		switch (m_Dir)
-		{
-		case eDIR::UP:
-			m_Anim->Play(L"BAttack03_Up", false);
-			break;
-		case eDIR::DOWN:
-			m_Anim->Play(L"BAttack03_Down", false);
-			break;
-		case eDIR::LEFT:
-			m_Anim->Play(L"BAttack03_Left", false);
-			break;
-		case eDIR::RIGHT:
-			m_Anim->Play(L"BAttack03_Right", false);
-			break;
-		case eDIR::NONE:
-			break;
-		default:
-			break;
-		}
-	}
-	vVelocity.x = -450.f;
-	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
+
+	GetFSM()->GetStateMachine()->Movement()->AddForce(vForce);
 }
 
 void CAttackState::Exit()

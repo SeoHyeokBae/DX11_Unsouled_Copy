@@ -168,7 +168,7 @@ float4 PS_Std2D_AftImg(VS_OUT _in) : SV_Target
     if (g_btex_1)
     {
         float2 vBackgroundLeftTop = g_vec2_0 + (g_vec2_2 / 2.f) - (g_vec2_1 / 2.f);
-        //vBackgroundLeftTop -= g_vOffset;
+        vBackgroundLeftTop -= g_vec2_3;
         float2 vUV = vBackgroundLeftTop + (g_vec2_1 * _in.vUV);
         
         if (vUV.x < g_vec2_0.x || (g_vec2_0.x + g_vec2_2.x) < vUV.x

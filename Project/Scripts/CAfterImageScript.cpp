@@ -99,6 +99,7 @@ void CAfterImageScript::Init()
 		Vec2 vLT = m_vFrm[i].AnimFrm.vLeftTop;
 		Vec2 vBg = m_vFrm[i].AnimFrm.vBackground;
 		Vec2 vSize = m_vFrm[i].AnimFrm.vSlice;
+		Vec2 vOffset = m_vFrm[i].AnimFrm.vOffset;
 
 		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
 
@@ -107,6 +108,7 @@ void CAfterImageScript::Init()
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, vLT); //UV
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, vBg); //Bg
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, vSize); //Size
+		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_3, vOffset); //offset
 		m_vSprite[i].first = true; // 정보입력완료
 	}
 
@@ -125,6 +127,7 @@ void CAfterImageScript::Clear()
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, zero); //UV
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, zero); //Bg
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, zero); //Size
+		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_3, zero); //Offset
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, col); //색상
 	}
 

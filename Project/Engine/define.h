@@ -41,6 +41,12 @@ enum class eDIR // OBJ πÊ«‚
 	DOWN,
 	LEFT,
 	RIGHT,
+
+	UPLEFT,
+	UPRIGHT,
+	DOWNLEFT,
+	DOWNRIGHT,
+
 	NONE,
 };
 

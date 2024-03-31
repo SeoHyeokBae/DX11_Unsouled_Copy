@@ -200,7 +200,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_AftImg");
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
@@ -209,6 +209,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->AddScalarParam(SCALAR_PARAM::VEC2_0, "Vec2 Param 1");
 	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, "Vec2 Param 2");
 	pShader->AddScalarParam(SCALAR_PARAM::VEC2_2, "Vec2 Param 3");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_3, "Vec2 Param 4");
 	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Vec4 Parame 1");
 
 	AddAsset(L"AfterImageShader", pShader.Get());
