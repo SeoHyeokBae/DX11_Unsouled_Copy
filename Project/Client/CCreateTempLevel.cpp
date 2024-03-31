@@ -24,6 +24,8 @@
 #include <Scripts/CMonsterScript.h>
 #include <Scripts/CShadowScript.h>
 #include <Scripts/CColTileScript.h>
+#include <Scripts/CAfterImageScript.h>
+
 
 #include <Engine/CAssetMgr.h>
 #include <Engine/CPrefab.h>
@@ -201,6 +203,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CShadowScript);
 	pObj->AddComponent(new CMovement);
 	pObj->AddComponent(new CStateMachine);
+	pObj->AddComponent(new CAfterImageScript);
+
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 50.f, 0.f));
@@ -213,8 +217,8 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->Movement()->SetMass(1.f);
 	pObj->Movement()->SetInitSpeed(200.f);
-	pObj->Movement()->SetMaxSpeed(200.f);
-	pObj->Movement()->SetFrictionScale(10000.f);
+	pObj->Movement()->SetMaxSpeed(600.f);
+	pObj->Movement()->SetFrictionScale(5000.f);
 
 	pObj->Movement()->SetGround(true);
 

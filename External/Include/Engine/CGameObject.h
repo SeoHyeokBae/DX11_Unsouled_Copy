@@ -26,6 +26,7 @@ private:
     int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
 
     bool                    m_bShadow;
+    bool                    m_bAfterAct;
     bool                    m_bDead;
 
     eDIR                    m_Dir;
@@ -85,8 +86,7 @@ public:
     int DisconnectWithLayer();
 
     void AddChild(CGameObject* _Child);
-    void SelfShadow(bool _bool) { m_bShadow = _bool; }
-    bool IsShadow() { return m_bShadow; }
+
     bool IsDead() { return m_bDead; }
 
     void Destroy();
@@ -96,6 +96,12 @@ public:
     eDIR GetDir() { return m_Dir; }
     void SetDir(eDIR _dir) { m_Dir = _dir; }
 
+    void SelfShadow(bool _bool) { m_bShadow = _bool; }
+    bool IsShadow() { return m_bShadow; }
+    bool IsAfterImgAct() { return m_bAfterAct; }
+    void SetAfterImgAct(bool _active) { m_bAfterAct = _active; }
+
+    void CreateAfterImg();
     CLONE(CGameObject);
 public:
     CGameObject();

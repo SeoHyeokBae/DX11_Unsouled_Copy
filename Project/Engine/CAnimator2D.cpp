@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CAnimator2D.h"
 
+
 CAnimator2D::CAnimator2D()
 	: CComponent(COMPONENT_TYPE::ANIMATOR2D)
 {
@@ -116,11 +117,11 @@ void CAnimator2D::Play(const wstring& _strAnimName, bool _bRepeat)
 		return;
 
 	m_bRepeat = _bRepeat;
-
 	m_CurAnim = pAnim;
 
 	m_CurKey = _strAnimName;
 	m_CurAnim->Reset();
+
 
 	// Shadow 局聪皋捞记 贸府
 	CGameObject* pShadow = GetOwner()->GetShadow();

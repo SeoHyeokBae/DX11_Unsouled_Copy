@@ -31,6 +31,7 @@ void CShadowScript::begin()
 	m_ShadowObj->AddComponent(new CTransform);
 	m_ShadowObj->AddComponent(new CMeshRender);
 	m_ShadowObj->SelfShadow(true);
+	
 	m_ShadowObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	CAssetMgr::GetInst()->Load<CMaterial>(L"Shadow", L"material\\Shadow.mtrl");
 	m_ShadowObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Shadow"));

@@ -8,7 +8,7 @@
 // 애니메이션 끝나고 -> 
 // 채인 타이밍 / 리커버리 타임 설정
 // + Anim 종료후 시간 지정 0.? 초 단위
-
+// 
 CAttackState::CAttackState()
 	: m_Anim(nullptr)
 	, m_Combo(0)
@@ -45,6 +45,7 @@ void CAttackState::finaltick()
 	// 체인 시스템 시작 && 타이밍이 < 리커버리타임 && 공격버튼
 	if (m_bStart && RECOVERYTIME > m_fTiming && !KEY_NONE(KEY::LBTN))
 	{
+		vVelocity.x = -450.f;
 		ChangeState(L"AttackState");
 	}
 
@@ -113,11 +114,14 @@ void CAttackState::Enter()
 	m_fTiming = 0.f;
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
+	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
 
 	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::LEFT;
 	if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWN;
 	if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::RIGHT;
 	if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UP;
+
+	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
 
 	if (1 == m_Combo)
 	{
@@ -185,8 +189,8 @@ void CAttackState::Enter()
 			break;
 		}
 	}
-
-
+	vVelocity.x = -450.f;
+	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
 }
 
 void CAttackState::Exit()

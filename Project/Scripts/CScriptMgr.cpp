@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
+#include "CAfterImageScript.h"
 #include "CBackgroundScript.h"
 #include "CCameraPlayScript.h"
 #include "CColTileScript.h"
@@ -12,6 +13,7 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CAfterImageScript");
 	_vec.push_back(L"CBackgroundScript");
 	_vec.push_back(L"CCameraPlayScript");
 	_vec.push_back(L"CColTileScript");
@@ -24,6 +26,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CAfterImageScript" == _strScriptName)
+		return new CAfterImageScript;
 	if (L"CBackgroundScript" == _strScriptName)
 		return new CBackgroundScript;
 	if (L"CCameraPlayScript" == _strScriptName)
@@ -47,6 +51,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::AFTERIMAGESCRIPT:
+		return new CAfterImageScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return new CBackgroundScript;
 		break;
@@ -79,6 +86,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::AFTERIMAGESCRIPT:
+		return L"CAfterImageScript";
+		break;
+
 	case SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return L"CBackgroundScript";
 		break;

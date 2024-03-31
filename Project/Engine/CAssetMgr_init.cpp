@@ -182,7 +182,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	// =================================
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
-	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_Effect");
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
@@ -190,8 +190,28 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
-
 	AddAsset(L"EffectShader", pShader.Get());
+
+	// =================================
+	// AfterImageShader
+	// =================================
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_AftImg");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	pShader->AddTexParam(TEX_PARAM::TEX_1, "Output Texture 1");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_0, "Vec2 Param 1");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, "Vec2 Param 2");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_2, "Vec2 Param 3");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Vec4 Parame 1");
+
+	AddAsset(L"AfterImageShader", pShader.Get());
 	
 	// =============
 	// TileMapShader
@@ -289,10 +309,14 @@ void CAssetMgr::CreateDefaultMaterial()
 
 	// TestMtrl
 	//pMtrl = new CMaterial(true);
-	//pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
-	//pMtrl->SetScalarParam(SCALAR_PARAM::INT_0, 10);
-	//pMtrl->Save(L"material\\testmtrl.mtrl");
-	//AddAsset<CMaterial>(L"TestMtrl", pMtrl);
+	//pMtrl->SetShader(FindAsset<CGraphicsShader>(L"AfterImageShader"));
+	//for (size_t i = 0; i < 50; i++)
+	//{
+	//	wchar_t number[128] = {};
+	//	swprintf_s(number, L"material\\AfterImage\\AfterImage%d.mtrl", i);
+	//    pMtrl->Save(number);
+	//}
+	//AddAsset<CMaterial>(L"AfterImage", pMtrl);
 
 	// DebugShapeMtrl
 	pMtrl = new CMaterial(true);

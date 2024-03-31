@@ -11,6 +11,7 @@
 #include <Engine/CMovement.h>
 #include <Engine/CStateMachine.h>
 //#include <Engine/CTileMap.h>
+#include "CAfterImageScript.h"
 
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
@@ -18,6 +19,7 @@ CPlayerScript::CPlayerScript()
 	, m_Chain(0)
 	, m_fBlinkTime(0.f)
 	, m_bYellow(false)
+	, m_AftTime(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }
@@ -97,12 +99,28 @@ void CPlayerScript::begin()
 	GetRenderComponent()->GetDynamicMaterial();
 }
 
+
+
 void CPlayerScript::tick()
 {
-	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
-
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRotation();
+
+
+	// 잔상 효과 이미지 정보 저장
+	if (GetOwner()->IsAfterImgAct())
+	{
+		CreateAftImg();
+
+		if (Animator2D()->GetCurAnim()->IsFinish())
+		{
+			//GetOwner()->SetAfterImgAct(false);
+		}
+	}
+
+	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
+
+
 
 	if (KEY_TAP(KEY::LBTN) && m_CurState != L"AttackState")
 	{
@@ -178,6 +196,34 @@ void CPlayerScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, C
 {
 }
 
+void CPlayerScript::CreateAftImg()
+{
+	Vec3 vPos = Transform()->GetRelativePos();
+	m_AftTime += DT;
+	if (m_AftTime > 0.01f)
+	{
+		// 잔상 스크립트 없음
+		assert(GetOwner()->GetScript<CAfterImageScript>());
+
+		m_AftTime = 0.0f;
+		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
+		if (idx >= 50)
+			return;
+
+		int animidx = Animator2D()->GetCurAnim()->GetCurFrmIdx();
+		if (animidx == 0)
+		{
+			return;
+		}
+		tAnimFrm frm = Animator2D()->GetCurAnim()->GetCurFrmInfo(animidx);
+		Ptr<CTexture> tex = Animator2D()->GetCurAnim()->GetAtalsTex();
+
+		GetOwner()->GetScript<CAfterImageScript>()->CreateAfterImg(tex, vPos, frm);
+
+		idx++;
+		GetOwner()->GetScript<CAfterImageScript>()->SetCurIdx(idx);
+	}
+}
 
 void CPlayerScript::SaveToFile(FILE* _File)
 {

@@ -5,7 +5,7 @@
 
 #include "CDevice.h"
 #include "CConstBuffer.h"
-
+#include "CAnimator2D.h"
 //#include "CPathMgr.h"
 
 CAnim::CAnim()

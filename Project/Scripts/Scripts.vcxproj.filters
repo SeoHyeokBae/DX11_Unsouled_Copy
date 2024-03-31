@@ -54,6 +54,9 @@
     <ClInclude Include="CTypeTileScript.h">
       <Filter>Scripts\3. TileType</Filter>
     </ClInclude>
+    <ClInclude Include="CAfterImageScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="CTypeTileScript.cpp">
       <Filter>Scripts\3. TileType</Filter>
+    </ClCompile>
+    <ClCompile Include="CAfterImageScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

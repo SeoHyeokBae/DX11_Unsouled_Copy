@@ -13,10 +13,12 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <queue>
 
 using std::vector;
 using std::list;
 using std::map;
+using std::queue;
 using std::make_pair;
 
 using std::wstring;

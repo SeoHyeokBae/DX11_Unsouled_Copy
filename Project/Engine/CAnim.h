@@ -46,8 +46,11 @@ public:
         , Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _FrmCount, float _FPS);
     void Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture> _Atlas, const vector<tAnimFrm> _FrmInfo, int _FrmCount);
 
+    int GetCurFrmIdx() { return m_CurFrmIdx; }
+    tAnimFrm GetCurFrmInfo(int _idx) { return m_vecFrm[_idx]; }
     vector<tAnimFrm>& GetAnimFrm() { return m_vecFrm; }
     Ptr<CTexture> GetAtalsTex() { return m_AtlasTex; }
+
 
     virtual void SaveToFile(FILE* _File) ;
     virtual void LoadFromFile(FILE* _File) ;

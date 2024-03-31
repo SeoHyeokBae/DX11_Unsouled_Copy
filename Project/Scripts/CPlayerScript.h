@@ -10,12 +10,14 @@ private:
 
     float           m_Speed;
 
+    float           m_AftTime;
     // Chain ½Ã ±ôºýÀÓ
     int             m_Chain;
     float           m_fBlinkTime;
     bool            m_bYellow;
 
 public:
+    void CreateAftImg();
 
 public:
     virtual void tick() override;
