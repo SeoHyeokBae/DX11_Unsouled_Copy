@@ -234,31 +234,31 @@ void CCreateTempLevel::CreateTempLevel()
 	pTempLevel->AddObject(pObj, L"Player", false);
 
 	//Monster Object 생성
-	pObj = new CGameObject;
-	pObj->SetName(L"Monster");
+	//pObj = new CGameObject;
+	//pObj->SetName(L"Monster");
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CMeshRender);
-	pObj->AddComponent(new CCollider2D);
-	pObj->AddComponent(new CStateMachine);
-	pObj->AddComponent(new CMonsterScript);
-	pObj->AddComponent(new CAnimator2D);
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CMeshRender);
+	//pObj->AddComponent(new CCollider2D);
+	//pObj->AddComponent(new CStateMachine);
+	//pObj->AddComponent(new CMonsterScript);
+	//pObj->AddComponent(new CAnimator2D);
 
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
-	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
+	//pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
+	//pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
-	pObj->Collider2D()->SetAbsolute(true);
-	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
-	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetAbsolute(true);
+	//pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
+	//pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	//pObj->Collider2D()->SetVisible(true);
 
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"another"));
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
+	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"another"));
+	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
 
-	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
+	//pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
 
-	pTempLevel->AddObject(pObj, L"Monster", false);
+	//pTempLevel->AddObject(pObj, L"Monster", false);
 
 	// Camera LayerCheck 와 충돌설정에서 LayerCheck 시 m_CurLevel == nullptr 이므로 Idx번호로 
 	// 충돌 설정

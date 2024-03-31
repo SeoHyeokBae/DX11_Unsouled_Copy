@@ -9,7 +9,11 @@ private:
     wstring         m_CurState;
 
     float           m_Speed;
+
+    // Chain ½Ã ±ôºýÀÓ
     int             m_Chain;
+    float           m_fBlinkTime;
+    bool            m_bYellow;
 
 public:
 

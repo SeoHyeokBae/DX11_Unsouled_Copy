@@ -16,6 +16,8 @@ CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	, m_Speed(100.f)
 	, m_Chain(0)
+	, m_fBlinkTime(0.f)
+	, m_bYellow(false)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }
@@ -112,17 +114,33 @@ void CPlayerScript::tick()
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
 
+
+	// 채인발동시 깜빡임
 	m_Chain = *((int*)StateMachine()->GetBlackboardData(L"Chain"));
-	//리커버리 타이밍에 캐릭터 노란색 깜빡임
 	if (m_Chain)
 	{
-		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, 1.f);
+		m_fBlinkTime += DT;
+		if (m_fBlinkTime >= 0.03f) // interval
+		{
+			if (!m_bYellow)
+			{
+				m_bYellow = true;
+				GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 1);
+			}
+			else
+			{
+				m_bYellow = false;
+				GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 0);
+			}
+
+			m_fBlinkTime = 0.f;
+		}
 	}
 	else
 	{
-		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, 0.f);
+		m_bYellow = false;
+		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 0);
 	}
-
 
 	// y위치에 따른 z축 정렬
 	float limity = 5000.f;

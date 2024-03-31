@@ -24,6 +24,10 @@ CAttackState::~CAttackState()
 
 void CAttackState::finaltick()
 {
+	float Speed = 20.f;
+	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
+	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
+
 	// 애니메이션 종료되면 체인시스템 시작
 	m_Anim->GetCurAnim()->IsFinish() ? m_bStart = true : m_bStart = false;
 	SetBlackboardData(L"Chain", &m_bStart);
@@ -50,6 +54,55 @@ void CAttackState::finaltick()
 		m_fTiming = 0.f;
 		ChangeState(L"StandState");
 	}
+
+
+
+	if (KEY_PRESSED(KEY::W))
+	{
+	}
+	if (KEY_TAP(KEY::W))
+	{
+	}
+	if (KEY_RELEASED(KEY::W))
+	{
+	}
+
+
+	if (KEY_PRESSED(KEY::A))
+	{
+	}
+	if (KEY_TAP(KEY::A) && KEY_NONE(KEY::D))
+	{
+	}
+	if (KEY_RELEASED(KEY::A))
+	{
+	}
+
+	if (KEY_PRESSED(KEY::S))
+	{
+	}
+	if (KEY_TAP(KEY::S))
+	{
+	}
+	if (KEY_RELEASED(KEY::S))
+	{
+	}
+
+	if (KEY_PRESSED(KEY::D))
+	{
+		//vPos.x += DT * 200.f;
+		//vVelocity.x = 300.f;
+	}
+	if (KEY_TAP(KEY::D) && KEY_NONE(KEY::A))
+	{
+	}
+	if (KEY_RELEASED(KEY::D))
+	{
+	}
+
+	GetFSM()->GetStateMachine()->Transform()->SetRelativePos(vPos);
+	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
+
 }
 
 void CAttackState::Enter()
@@ -60,6 +113,11 @@ void CAttackState::Enter()
 	m_fTiming = 0.f;
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
+
+	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::LEFT;
+	if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWN;
+	if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::RIGHT;
+	if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UP;
 
 	if (1 == m_Combo)
 	{
