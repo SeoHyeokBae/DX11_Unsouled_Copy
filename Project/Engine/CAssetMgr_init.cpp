@@ -310,7 +310,7 @@ void CAssetMgr::CreateDefaultMaterial()
 	// TestMtrl
 	//pMtrl = new CMaterial(true);
 	//pMtrl->SetShader(FindAsset<CGraphicsShader>(L"AfterImageShader"));
-	//for (size_t i = 0; i < 50; i++)
+	//for (int i = 0; i < 50; i++)
 	//{
 	//	wchar_t number[128] = {};
 	//	swprintf_s(number, L"material\\AfterImage\\AfterImage%d.mtrl", i);

@@ -218,7 +218,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Movement()->SetMass(1.f);
 	pObj->Movement()->SetInitSpeed(200.f);
 	pObj->Movement()->SetMaxSpeed(600.f);
-	pObj->Movement()->SetFrictionScale(5000.f);
+	pObj->Movement()->SetFrictionScale(1000.f);
 
 	pObj->Movement()->SetGround(true);
 

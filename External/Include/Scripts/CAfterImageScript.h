@@ -27,6 +27,7 @@ public:
 	int GetCurIdx() { return m_CurIdx; }
 	void SetCurIdx(int _idx) { m_CurIdx = _idx; }
 
+	void Init();
 	void Update();
 
 	void CreateAfterImg(Ptr<CTexture> _tex, Vec3 _pos ,tAnimFrm _img)

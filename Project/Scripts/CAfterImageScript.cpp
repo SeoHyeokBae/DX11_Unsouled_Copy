@@ -60,39 +60,46 @@ void CAfterImageScript::tick()
 	Vec3 vOwnerPos = Transform()->GetRelativePos();
 	m_AfterImgObj->Transform()->SetRelativePos(-vOwnerPos);
 	
-	// 이미지 업데이트 
+	// 이미지 초기화 
 	if (GetOwner()->IsAfterImgAct())
 	{
-		Update();
+		Init();
+	}
+
+	Update();
+}
+
+void CAfterImageScript::Update()
+{
+	// 색상 업데이트 , 알파 감소
+	if (0 == m_vFrm.size())
+		return;
+
+	for (size_t i = 0; i < m_vFrm.size(); i++)
+	{
+		m_vFrm[i].fAlhpa -= m_FadeSpeed * DT;
+		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
+		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, vColor);
+	}
+
+	if (m_vFrm[0].fAlhpa < 0.f)
+	{
+		Clear();
 	}
 
 }
 
 
-void CAfterImageScript::Update()
+void CAfterImageScript::Init()
 {
 	for (size_t i = 0; i < m_vFrm.size(); i++)
 	{
-		// 색상 값만 Update
-		if (m_vSprite[i].first)
-		{
-			m_vFrm[i].fAlhpa -= m_FadeSpeed * DT ;
-			Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
-			m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, vColor); //색상
-
-			if (POOLCOUNT == m_vFrm.size() && m_vFrm[POOLCOUNT - 1].fAlhpa <= 0.f)
-			{
-				GetOwner()->SetAfterImgAct(false);
-				Clear();
-			}
-
-			return;
-		}
-
 		Vec3 vPos = m_vFrm[i].vPos;
 		Vec2 vLT = m_vFrm[i].AnimFrm.vLeftTop;
 		Vec2 vBg = m_vFrm[i].AnimFrm.vBackground;
 		Vec2 vSize = m_vFrm[i].AnimFrm.vSlice;
+
+		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
 
 		m_vSprite[i].second->Transform()->SetRelativePos(vPos);
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_pTexture);
@@ -104,16 +111,20 @@ void CAfterImageScript::Update()
 
 }
 
+
+
 void CAfterImageScript::Clear()
 {
 	for (size_t i = 0; i < POOLCOUNT; i++)
 	{
 		Vec2 zero = Vec2(0.f, 0.f);
+		Vec4 col = Vec4(0.f, 0.f, 0.f, 0.8);
 		m_vSprite[i].first = false;
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, nullptr);
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, zero); //UV
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, zero); //Bg
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, zero); //Size
+		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, col); //색상
 	}
 
 	m_vFrm.clear();

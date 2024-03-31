@@ -18,8 +18,7 @@ class CAfterImageScript :
 private:
 	CGameObject*								m_AfterImgObj;  // pool 관리 obj
 	vector< std::pair<bool, CGameObject*>>		m_vSprite;		// 잔상 obj, 정보입력되면 true
-	//vector< tAftInfo>							m_vFrm;			// 애니메이션 현재 프레임 정보
-	queue< tAftInfo>							m_qFrm;			// 애니메이션 현재 프레임 정보
+	vector< tAftInfo>							m_vFrm;			// 애니메이션 현재 프레임 정보
 	Ptr<CTexture>								m_pTexture;
 	int											m_CurIdx;
 	float										m_FadeSpeed;
@@ -28,6 +27,7 @@ public:
 	int GetCurIdx() { return m_CurIdx; }
 	void SetCurIdx(int _idx) { m_CurIdx = _idx; }
 
+	void Init();
 	void Update();
 
 	void CreateAfterImg(Ptr<CTexture> _tex, Vec3 _pos ,tAnimFrm _img)

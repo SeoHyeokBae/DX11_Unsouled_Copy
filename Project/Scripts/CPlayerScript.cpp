@@ -111,6 +111,11 @@ void CPlayerScript::tick()
 	if (GetOwner()->IsAfterImgAct())
 	{
 		CreateAftImg();
+
+		if (Animator2D()->GetCurAnim()->IsFinish())
+		{
+			GetOwner()->SetAfterImgAct(false);
+		}
 	}
 
 	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
@@ -195,12 +200,12 @@ void CPlayerScript::CreateAftImg()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 	m_AftTime += DT;
-	if (m_AftTime > 0.01f)
+	if (m_AftTime > 0.05f)
 	{
 		// 잔상 스크립트 없음
 		assert(GetOwner()->GetScript<CAfterImageScript>());
 
-		m_AftTime = 0.0f;
+		m_AftTime = 0.f;
 		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
 		if (idx >= 50)
 			return;
