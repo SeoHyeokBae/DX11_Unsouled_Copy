@@ -26,7 +26,7 @@ private:
     int                     m_iLayerIdx;    // 오브젝트가 소속되어있는 Layer의 Idx
 
     bool                    m_bShadow;
-    bool                    m_bAfterAct;
+    bool                    m_bAfterAct;    // 잔상여부 (스크립트필요)
     bool                    m_bDead;
 
     eDIR                    m_Dir;
@@ -101,7 +101,6 @@ public:
     bool IsAfterImgAct() { return m_bAfterAct; }
     void SetAfterImgAct(bool _active) { m_bAfterAct = _active; }
 
-    void CreateAfterImg();
     CLONE(CGameObject);
 public:
     CGameObject();

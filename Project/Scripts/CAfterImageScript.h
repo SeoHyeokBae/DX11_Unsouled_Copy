@@ -3,7 +3,7 @@
 //#include <Engine/CAnim.h>
 //#include <Engine\CTexture.h>
 
-#define IMGCOUNT 50
+#define POOLCOUNT 50
 
 struct tAftInfo
 {
@@ -16,15 +16,14 @@ class CAfterImageScript :
     public CScript
 {
 private:
-	CGameObject*			m_AfterImgObj;
+	CGameObject*								m_AfterImgObj;  // pool 관리 obj
+	vector< std::pair<bool, CGameObject*>>		m_vSprite;		// 잔상 obj, 정보입력되면 true
+	//vector< tAftInfo>							m_vFrm;			// 애니메이션 현재 프레임 정보
+	queue< tAftInfo>							m_qFrm;			// 애니메이션 현재 프레임 정보
+	Ptr<CTexture>								m_pTexture;
+	int											m_CurIdx;
+	float										m_FadeSpeed;
 
-	vector<CGameObject*>	m_vSprite;
-	vector<tAftInfo>		m_qFrm;
-	Ptr<CTexture>			m_pTexture;
-	int						m_CurIdx;
-	float					m_FadeSpeed;
-	float					m_Alpha;
-	vector<bool>	mbool;
 public:
 	int GetCurIdx() { return m_CurIdx; }
 	void SetCurIdx(int _idx) { m_CurIdx = _idx; }
@@ -39,7 +38,7 @@ public:
 		info.vPos = _pos;
 		info.fAlhpa = 0.8f;
 
-		m_qFrm.push_back(info);
+		m_vFrm.push_back(info);
 	}
 
 	void Clear();

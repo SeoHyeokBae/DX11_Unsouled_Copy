@@ -111,11 +111,6 @@ void CPlayerScript::tick()
 	if (GetOwner()->IsAfterImgAct())
 	{
 		CreateAftImg();
-
-		if (Animator2D()->GetCurAnim()->IsFinish())
-		{
-			//GetOwner()->SetAfterImgAct(false);
-		}
 	}
 
 	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
