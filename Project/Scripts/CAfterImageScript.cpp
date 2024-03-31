@@ -94,6 +94,7 @@ void CAfterImageScript::Init()
 {
 	for (size_t i = 0; i < m_vFrm.size(); i++)
 	{
+		Ptr<CTexture> pTex = m_vFrm[i].Atlas;
 		Vec3 vPos = m_vFrm[i].vPos;
 		Vec2 vLT = m_vFrm[i].AnimFrm.vLeftTop;
 		Vec2 vBg = m_vFrm[i].AnimFrm.vBackground;
@@ -102,7 +103,7 @@ void CAfterImageScript::Init()
 		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
 
 		m_vSprite[i].second->Transform()->SetRelativePos(vPos);
-		m_vSprite[i].second->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_pTexture);
+		m_vSprite[i].second->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, pTex);
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, vLT); //UV
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, vBg); //Bg
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, vSize); //Size
@@ -131,7 +132,6 @@ void CAfterImageScript::Clear()
 	vector<tAftInfo> temp;
 	m_vFrm.swap(temp);
 
-	m_pTexture = nullptr;
 	m_CurIdx = 0;
 }
 

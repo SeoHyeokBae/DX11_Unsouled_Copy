@@ -7,9 +7,10 @@
 
 struct tAftInfo
 {
-	tAnimFrm	AnimFrm;
-	Vec3		vPos;
-	float		fAlhpa;
+	Ptr<CTexture>	Atlas;
+	tAnimFrm		AnimFrm;
+	Vec3			vPos;
+	float			fAlhpa;
 };
 
 class CAfterImageScript :
@@ -34,6 +35,7 @@ public:
 	{
 		m_pTexture = _tex;
 		tAftInfo info = {};
+		info.Atlas = _tex;
 		info.AnimFrm = _img;
 		info.vPos = _pos;
 		info.fAlhpa = 0.8f;
