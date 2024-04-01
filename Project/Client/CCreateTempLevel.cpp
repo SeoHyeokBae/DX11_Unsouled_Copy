@@ -38,6 +38,7 @@
 #include "CStandState.h"
 #include "CAbsorbState.h"
 #include "CAttackState.h"
+#include "CDashState.h"
 
 
 
@@ -77,6 +78,7 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"StandState", new CStandState);
 	pFSM->AddState(L"AbsorbState", new CAbsorbState);
 	pFSM->AddState(L"AttackState", new CAttackState);
+	pFSM->AddState(L"DashState", new CDashState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"PlayerFSM", pFSM.Get());
 }
 
@@ -245,11 +247,12 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CCollider2D);
 	pObj->AddComponent(new CStateMachine);
-	pObj->AddComponent(new CMonsterScript);
 	pObj->AddComponent(new CAnimator2D);
+	pObj->AddComponent(new CShadowScript);
+	pObj->AddComponent(new CMonsterScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
-	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
+	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
@@ -257,8 +260,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetVisible(true);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"another"));
-	pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Fighter.bmp", L"texture\\Fighter.bmp"));
+	CAssetMgr::GetInst()->Load<CMaterial>(L"Zombie", L"material\\Zombie.mtrl");
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Zombie"));
 
 	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
 

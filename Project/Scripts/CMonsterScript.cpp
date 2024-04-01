@@ -7,7 +7,7 @@
 CMonsterScript::CMonsterScript()
 	: CScript(MONSTERSCRIPT)
 	, m_DetectRange(400.f)
-	, m_Speed(200.f)
+	, m_Speed(50.f)
 {
 }
 
@@ -17,12 +17,13 @@ CMonsterScript::~CMonsterScript()
 
 void CMonsterScript::begin()
 {
-	Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"texture\\link.png", L"texture\\link.png");
-	Animator2D()->Create(L"IDLE_UP", pAltasTex, Vec2(0.f, 260.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 1, 10);
-	Animator2D()->Create(L"IDLE_DOWN", pAltasTex, Vec2(0.f, 0.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
-	Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
-	Animator2D()->Create(L"IDLE_RIGHT", pAltasTex, Vec2(0.f, 390.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
-	Animator2D()->Play(L"IDLE_RIGHT");
+	Animator2D()->AddAnim(L"Zombie_Stand_Left", L"anim\\Zombie_Stand_Left.anim");
+	Animator2D()->AddAnim(L"Zombie_Stand_Right", L"anim\\Zombie_Stand_Right.anim");
+	Animator2D()->AddAnim(L"Zombie_Running_Left", L"anim\\Zombie_Running_Left.anim");
+	Animator2D()->AddAnim(L"Zombie_Running_Right", L"anim\\Zombie_Running_Right.anim");
+
+	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
+
 	if (StateMachine())
 	{
 		StateMachine()->AddBlackboardData(L"DetectRange", BB_DATA::FLOAT, &m_DetectRange);
@@ -38,6 +39,7 @@ void CMonsterScript::begin()
 		if (nullptr != StateMachine()->GetFSM())
 		{
 			StateMachine()->GetFSM()->SetState(L"IdleState");
+			Animator2D()->Play(L"Zombie_Stand_Right");
 		}
 	}
 }

@@ -74,6 +74,14 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"BAttack03_Left", L"anim\\BAttack03_Left.anim");
 	Animator2D()->AddAnim(L"BAttack03_Right", L"anim\\BAttack03_Right.anim");
 
+	Animator2D()->AddAnim(L"Dash_Down", L"anim\\Dash_Down.anim");
+	Animator2D()->AddAnim(L"Dash_DownRight", L"anim\\Dash_DownRight.anim");
+	Animator2D()->AddAnim(L"Dash_DownRight2", L"anim\\Dash_DownRight2.anim");
+	Animator2D()->AddAnim(L"Dash_Left", L"anim\\Dash_Left.anim");
+	Animator2D()->AddAnim(L"Dash_Right", L"anim\\Dash_Right.anim");
+	Animator2D()->AddAnim(L"Dash_Up", L"anim\\Dash_Up.anim");
+	Animator2D()->AddAnim(L"Dash_UpRight", L"anim\\Dash_UpRight.anim");
+
 	// Shadow 에 애니메이션 등록
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
@@ -125,6 +133,11 @@ void CPlayerScript::tick()
 	if (KEY_TAP(KEY::LBTN) && m_CurState != L"AttackState")
 	{
 		StateMachine()->GetFSM()->ChangeState(L"AttackState");
+	}
+
+	if (KEY_TAP(KEY::RBTN) && m_CurState != L"DashState")
+	{
+		StateMachine()->GetFSM()->ChangeState(L"DashState");
 	}
 
 	if (KEY_TAP(KEY::F) && m_CurState != L"AbsorbState")

@@ -127,10 +127,10 @@ enum class RS_TYPE
 // DepthStencil State Type
 enum class DS_TYPE
 {
-	LESS,				// 작은게 통과			깊이 기록 O
+	LESS,				// 작은게 통과				깊이 기록 O
 	LESS_EQUAL,			// 작거나 같으면 통과		깊이 기록 O
 
-	GRATER,				// 더 멀면 통과			깊이 기록 O
+	GRATER,				// 더 멀면 통과				깊이 기록 O
 	GRATER_EQUAL,		// 더 멀거나 같으면 통과	깊이 기록 O
 
 	NO_TEST,			// 깊이 테스트 X			깊이 기록 O

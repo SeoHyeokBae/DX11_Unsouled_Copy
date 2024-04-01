@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "CIdleState.h"
 
+#include <Engine/components.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CStateMachine.h>
-#include <Engine/CTransform.h>
+#include <Engine/CTimeMgr.h>
 
 CIdleState::CIdleState()
 {
@@ -34,7 +35,36 @@ void CIdleState::finaltick()
 
 void CIdleState::Enter()
 {
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
+	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
 
+	switch (m_Dir)
+	{
+	case eDIR::UP:
+		anim->Play(L"Zombie_Stand_Right", true);
+		break;
+	case eDIR::DOWN:
+		anim->Play(L"Zombie_Stand_Left", true);
+		break;
+	case eDIR::LEFT:
+		anim->Play(L"Zombie_Stand_Left", true);
+		break;
+	case eDIR::RIGHT:
+		anim->Play(L"Zombie_Stand_Right", true);
+		break;
+	case eDIR::UPLEFT:
+		anim->Play(L"Zombie_Stand_Left", true);
+		break;
+	case eDIR::UPRIGHT:
+		anim->Play(L"Zombie_Stand_Right", true);
+		break;
+	case eDIR::DOWNLEFT:
+		anim->Play(L"Zombie_Stand_Left", true);
+		break;
+	case eDIR::DOWNRIGHT:
+		anim->Play(L"Zombie_Stand_Right", true);
+		break;
+	}
 }
 
 void CIdleState::Exit()
