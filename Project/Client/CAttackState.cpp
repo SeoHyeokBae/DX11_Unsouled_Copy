@@ -45,15 +45,6 @@ void CAttackState::finaltick()
 	// 체인 시스템 시작 && 타이밍이 < 리커버리타임 && 공격버튼
 	if (m_bStart && RECOVERYTIME > m_fTiming && !KEY_NONE(KEY::LBTN))
 	{
-		if (KEY_TAP(KEY::W) || KEY_PRESSED(KEY::W)) m_Dir = eDIR::UP;
-		if (KEY_TAP(KEY::A) || KEY_PRESSED(KEY::A)) m_Dir = eDIR::LEFT;
-		if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWN;
-		if (KEY_TAP(KEY::D) || KEY_PRESSED(KEY::D)) m_Dir = eDIR::RIGHT;
-
-		//if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
-		//else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;
-		//else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
-		//else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 		ChangeState(L"AttackState");
 	}
 
@@ -92,7 +83,7 @@ void CAttackState::Enter()
 		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Up", false);
 		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Up", false);
 		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Up", false);
-		vForce.x = 900.f;
+		vForce.y = 900.f;
 		break;
 	case eDIR::DOWN:
 		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Down", false);
@@ -143,6 +134,16 @@ void CAttackState::Enter()
 
 void CAttackState::Exit()
 {
+	if ((KEY_TAP(KEY::W) || KEY_PRESSED(KEY::W)) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S)) m_Dir = eDIR::UP;
+	if ((KEY_TAP(KEY::A) || KEY_PRESSED(KEY::A)) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S)) m_Dir = eDIR::LEFT;
+	if ((KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S)) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D)) m_Dir = eDIR::DOWN;
+	if ((KEY_TAP(KEY::D) || KEY_PRESSED(KEY::D)) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S)) m_Dir = eDIR::RIGHT;
+
+	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
+	else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;
+	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
+	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
+	
 	m_bStart = false;
 	SetBlackboardData(L"Chain", &m_bStart);
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);

@@ -29,13 +29,13 @@ void CAbsorbState::finaltick()
 		vPos.y += DT * Speed;
 		if (KEY_TAP(KEY::D))
 		{
-			m_Dir = eDIR::RIGHT;
+			m_Dir = eDIR::UPRIGHT;
 			m_Anim->Play(L"Absorb_Walking_Right");
 		}
 
 		if (KEY_TAP(KEY::A))
 		{
-			m_Dir = eDIR::LEFT;
+			m_Dir = eDIR::UPLEFT;
 			m_Anim->Play(L"Absorb_Walking_Left");
 		}
 
@@ -65,13 +65,13 @@ void CAbsorbState::finaltick()
 		vPos.y -= DT * Speed;
 		if (KEY_TAP(KEY::D))
 		{
-			m_Dir = eDIR::RIGHT;
+			m_Dir = eDIR::DOWNRIGHT;
 			m_Anim->Play(L"Absorb_Walking_Right");
 		}
 
 		if (KEY_TAP(KEY::A))
 		{
-			m_Dir = eDIR::LEFT;
+			m_Dir = eDIR::DOWNLEFT;
 			m_Anim->Play(L"Absorb_Walking_Left");
 		}
 
@@ -176,9 +176,17 @@ void CAbsorbState::Enter()
 	case eDIR::RIGHT:
 		KEY_PRESSED(KEY::D) ? m_Anim->Play(L"Absorb_Walking_Right") : m_Anim->Play(L"Absorb_Stand_Right");
 		break;
-	case eDIR::NONE:
+	case eDIR::UPLEFT:
+		KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A) ? m_Anim->Play(L"Absorb_Walking_Up") : m_Anim->Play(L"Absorb_Stand_Up");
 		break;
-	default:
+	case eDIR::UPRIGHT:
+		KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::D) ? m_Anim->Play(L"Absorb_Walking_Up") : m_Anim->Play(L"Absorb_Stand_Up");
+		break;
+	case eDIR::DOWNLEFT:
+		KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S) ? m_Anim->Play(L"Absorb_Walking_Left") : m_Anim->Play(L"Absorb_Stand_Left");
+		break;
+	case eDIR::DOWNRIGHT:
+		KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::S) ? m_Anim->Play(L"Absorb_Walking_Right") : m_Anim->Play(L"Absorb_Stand_Right");
 		break;
 	}
 }

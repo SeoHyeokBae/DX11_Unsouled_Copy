@@ -62,21 +62,20 @@ void CRunningState::finaltick()
 		vPos.x -= DT * Speed;
 		if (KEY_TAP(KEY::W))
 		{
-			m_Dir = eDIR::UP;
+			m_Dir = eDIR::UPLEFT;
 			ChangeState(L"RunningState");
 		}
 
 		if (KEY_TAP(KEY::S))
 		{
-			m_Dir = eDIR::DOWN;
+			m_Dir = eDIR::DOWNLEFT;
 			ChangeState(L"RunningState");
 		}
 
 		if (KEY_TAP(KEY::D))
 		{
-			m_Anim->Play(L"Stand_Left");
 			m_Dir = eDIR::LEFT;
-
+			m_Anim->Play(L"Stand_Left");
 		}
 
 		if (KEY_RELEASED(KEY::D))
@@ -102,7 +101,6 @@ void CRunningState::finaltick()
 		{
 			m_Anim->Play(L"Stand_Left");
 			m_Dir = eDIR::LEFT;
-
 		}
 	}
 
@@ -112,13 +110,13 @@ void CRunningState::finaltick()
 
 		if (KEY_TAP(KEY::W))
 		{
-			m_Dir = eDIR::UP;
+			m_Dir = eDIR::UPRIGHT;
 			ChangeState(L"RunningState");
 		}
 
 		if (KEY_TAP(KEY::S))
 		{
-			m_Dir = eDIR::DOWN;
+			m_Dir = eDIR::DOWNRIGHT;
 			ChangeState(L"RunningState");
 		}
 
@@ -182,9 +180,17 @@ void CRunningState::Enter()
 	case eDIR::RIGHT:
 		m_Anim->Play(L"Running_Right2");
 		break;
-	case eDIR::NONE:
+	case eDIR::UPLEFT:
+		m_Anim->Play(L"Running_Up");
 		break;
-	default:
+	case eDIR::UPRIGHT:
+		m_Anim->Play(L"Running_Up");
+		break;
+	case eDIR::DOWNLEFT:
+		m_Anim->Play(L"Running_Down");
+		break;
+	case eDIR::DOWNRIGHT:
+		m_Anim->Play(L"Running_Down");
 		break;
 	}
 }

@@ -40,33 +40,33 @@ void CStandState::Enter()
 	case eDIR::RIGHT:
 		anim->Play(L"Stand_Right");
 		break;
-	case eDIR::NONE:
+	case eDIR::UPLEFT:
+		anim->Play(L"Stand_Up");
 		break;
-	default:
+	case eDIR::UPRIGHT:
+		anim->Play(L"Stand_Up");
+		break;
+	case eDIR::DOWNLEFT:
+		anim->Play(L"Stand_Down");
+		break;
+	case eDIR::DOWNRIGHT:
+		anim->Play(L"Stand_Down");
 		break;
 	}
 }
 
 void CStandState::Exit()
 {
-	//m_Dir = eDIR::NONE;
+	if ((KEY_TAP(KEY::W) || KEY_PRESSED(KEY::W)) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S)) m_Dir = eDIR::UP;
+	if ((KEY_TAP(KEY::A) || KEY_PRESSED(KEY::A)) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S)) m_Dir = eDIR::LEFT;
+	if ((KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S)) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D)) m_Dir = eDIR::DOWN;
+	if ((KEY_TAP(KEY::D) || KEY_PRESSED(KEY::D)) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S)) m_Dir = eDIR::RIGHT;
 
-	if (!KEY_NONE(KEY::D))
-	{
-		m_Dir = eDIR::RIGHT;
-	}
-	if (!KEY_NONE(KEY::S))
-	{
-		m_Dir = eDIR::DOWN;
-	}
-	if (!KEY_NONE(KEY::A))
-	{
-		m_Dir = eDIR::LEFT;
-	}
-	if (!KEY_NONE(KEY::W))
-	{
-		m_Dir = eDIR::UP;
-	}
+	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
+	else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;
+	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
+	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
+
 	
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }
