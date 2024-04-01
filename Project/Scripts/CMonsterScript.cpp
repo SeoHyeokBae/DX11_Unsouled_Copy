@@ -46,24 +46,6 @@ void CMonsterScript::begin()
 
 void CMonsterScript::tick()
 {
-
-
-	Vec3 vPos = Transform()->GetRelativePos();
-	Vec3 vRot = Transform()->GetRelativeRotation();
-
-	float limity = 5000.f;
-	float limitz = 1500.f;
-	if (0 <= GetOwner()->Transform()->GetRelativePos().y)
-		vPos.z = (1.f / limity) * 1500;
-	if (4 == GetOwner()->GetLayerIdx())
-	{
-		vPos.z = (vPos.y / limity) * 1500 + 50.f;
-	}
-	else
-		vPos.z = (vPos.y / limity) * 1500;
-
-	Transform()->SetRelativePos(vPos);
-	Transform()->SetRelativeRotation(vRot);
 }
 
 void CMonsterScript::SaveToFile(FILE* _File)

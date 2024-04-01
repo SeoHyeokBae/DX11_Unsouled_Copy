@@ -57,6 +57,12 @@
     <ClInclude Include="CAfterImageScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CZSortScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CChainSystemScript.h">
+      <Filter>Scripts\1. Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -94,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="CAfterImageScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CZSortScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CChainSystemScript.cpp">
+      <Filter>Scripts\1. Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

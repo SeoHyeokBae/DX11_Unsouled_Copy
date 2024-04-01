@@ -50,9 +50,6 @@ void CAfterImageScript::begin()
 		m_AfterImgObj->AddChild(m_vSprite[i].second);
 		GamePlayStatic::SpawnGameObject(m_vSprite[i].second, 11); // 추후 변경
 	}
-	
-
-
 }
 
 void CAfterImageScript::tick()
@@ -63,7 +60,7 @@ void CAfterImageScript::tick()
 	// 이미지 초기화 
 	if (GetOwner()->IsAfterImgAct())
 	{
-		Init();
+		AddFrm();
 	}
 
 	Update();
@@ -90,7 +87,7 @@ void CAfterImageScript::Update()
 }
 
 
-void CAfterImageScript::Init()
+void CAfterImageScript::AddFrm()
 {
 	for (size_t i = 0; i < m_vFrm.size(); i++)
 	{
@@ -111,7 +108,6 @@ void CAfterImageScript::Init()
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_3, vOffset); //offset
 		m_vSprite[i].first = true; // 정보입력완료
 	}
-
 }
 
 

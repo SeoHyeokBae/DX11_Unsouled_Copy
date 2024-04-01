@@ -2,21 +2,15 @@
 #include <Engine\CState.h>
 
 class CAnimator2D;
+class CChainSystemScript;
 
 class CAttackState :
     public CState
 {
 private:
-    CAnimator2D*     m_Anim;
-
-    int              m_Combo;
-    float            m_fTiming;
-    bool             m_bChain;
-    bool             m_bStart;
-
-public:
-    bool IsStart() { return m_bStart; }
-    bool IsChain() { return m_bChain; }
+    CAnimator2D*        m_Anim;
+    CChainSystemScript* m_ChainSystem;
+    int                 m_Combo;
 
 public:
     virtual void finaltick() override;

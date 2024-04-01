@@ -25,6 +25,8 @@
 #include <Scripts/CShadowScript.h>
 #include <Scripts/CColTileScript.h>
 #include <Scripts/CAfterImageScript.h>
+#include <Scripts/CZSortScript.h>
+#include <Scripts/CChainSystemScript.h>
 
 
 #include <Engine/CAssetMgr.h>
@@ -206,6 +208,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMovement);
 	pObj->AddComponent(new CStateMachine);
 	pObj->AddComponent(new CAfterImageScript);
+	pObj->AddComponent(new CZSortScript);
+	pObj->AddComponent(new CChainSystemScript);
 
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
@@ -250,6 +254,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CAnimator2D);
 	pObj->AddComponent(new CShadowScript);
 	pObj->AddComponent(new CMonsterScript);
+	pObj->AddComponent(new CZSortScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));

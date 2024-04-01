@@ -5,16 +5,12 @@
 #include <Engine/CKeyMgr.h>
 #include <Engine/CTimeMgr.h>
 
-// 애니메이션 끝나고 -> 
-// 채인 타이밍 / 리커버리 타임 설정
-// + Anim 종료후 시간 지정 0.? 초 단위
-// 
+#include <Scripts/CChainSystemScript.h>
+
 CAttackState::CAttackState()
 	: m_Anim(nullptr)
+	, m_ChainSystem(nullptr)
 	, m_Combo(0)
-	, m_fTiming(0.f)
-	, m_bChain(false)
-	, m_bStart(false)
 {
 }
 
@@ -29,29 +25,17 @@ void CAttackState::finaltick()
 	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
 
 	// 애니메이션 종료되면 체인시스템 시작
-	m_Anim->GetCurAnim()->IsFinish() ? m_bStart = true : m_bStart = false;
-	SetBlackboardData(L"Chain", &m_bStart);
-	
-	// 타이밍 시간 증가
-	if (m_bStart)
-	{
-		m_fTiming += DT;
-	}
-
-	// 체인 타이밍
-	if (m_fTiming >= 0.02f && m_fTiming <= 0.07f)
-		m_bChain = true;
+	m_Anim->GetCurAnim()->IsFinish() ? m_ChainSystem->SetStart(true) : m_ChainSystem->SetStart(false);
 
 	// 체인 시스템 시작 && 타이밍이 < 리커버리타임 && 공격버튼
-	if (m_bStart && RECOVERYTIME > m_fTiming && !KEY_NONE(KEY::LBTN))
+	if (!KEY_NONE(KEY::LBTN) && m_ChainSystem->IsStart() && m_ChainSystem->IsRecovery())
 	{
 		ChangeState(L"AttackState");
 	}
 
-	if (RECOVERYTIME <= m_fTiming && KEY_NONE(KEY::LBTN))
+	if (KEY_NONE(KEY::LBTN) && !m_ChainSystem->IsRecovery())
 	{
 		m_Combo = 0;
-		m_fTiming = 0.f;
 		ChangeState(L"StandState");
 	}
 
@@ -62,10 +46,11 @@ void CAttackState::finaltick()
 
 void CAttackState::Enter()
 {
+	m_ChainSystem = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CChainSystemScript>();
+
 	if (m_Combo > 3) m_Combo = 0;
 
 	m_Combo++;
-	m_fTiming = 0.f;
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 	Vec2 vForce = Vec2(0.f,0.f);
@@ -144,8 +129,8 @@ void CAttackState::Exit()
 	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
 	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 	
-	m_bStart = false;
-	SetBlackboardData(L"Chain", &m_bStart);
+
+	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }
 

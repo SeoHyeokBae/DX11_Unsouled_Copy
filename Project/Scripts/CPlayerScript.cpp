@@ -83,6 +83,7 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"Dash_UpRight", L"anim\\Dash_UpRight.anim");
 
 	// Shadow 에 애니메이션 등록
+	// 쉐도우 선 추가 -> 구조변경 필요
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
 
@@ -93,7 +94,6 @@ void CPlayerScript::begin()
 	if (StateMachine())
 	{
 		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
-		StateMachine()->AddBlackboardData(L"Chain", BB_DATA::INT,  &m_Chain);
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
@@ -111,8 +111,8 @@ void CPlayerScript::begin()
 
 void CPlayerScript::tick()
 {
-	Vec3 vPos = Transform()->GetRelativePos();
-	Vec3 vRot = Transform()->GetRelativeRotation();
+	//Vec3 vPos = Transform()->GetRelativePos();
+	//Vec3 vRot = Transform()->GetRelativeRotation();
 
 
 	// 잔상 효과 이미지 정보 저장
@@ -145,47 +145,8 @@ void CPlayerScript::tick()
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
 
-
-	// 채인발동시 깜빡임
-	m_Chain = *((int*)StateMachine()->GetBlackboardData(L"Chain"));
-	if (m_Chain)
-	{
-		m_fBlinkTime += DT;
-		if (m_fBlinkTime >= 0.03f) // interval
-		{
-			if (!m_bYellow)
-			{
-				m_bYellow = true;
-				GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 1);
-			}
-			else
-			{
-				m_bYellow = false;
-				GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 0);
-			}
-
-			m_fBlinkTime = 0.f;
-		}
-	}
-	else
-	{
-		m_bYellow = false;
-		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 0);
-	}
-
-	// y위치에 따른 z축 정렬
-	float limity = 5000.f;
-	float limitz = 1500.f;
-	if (0 <= vPos.y)
-		vPos.z = (1.f / limity) * 1500;
-
-	if (4 == GetOwner()->GetLayerIdx())
-		vPos.z = (vPos.y / limity) * 1500 + 50.f;
-	else
-		vPos.z = (vPos.y / limity) * 1500;
-
-	Transform()->SetRelativePos(vPos);
-	Transform()->SetRelativeRotation(vRot);
+	//Transform()->SetRelativePos(vPos);
+	//Transform()->SetRelativeRotation(vRot);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
@@ -200,8 +161,6 @@ void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCol
 		Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY();
 		Vec2 TileObjHalfSize = _OtherObj->Transform()->GetRelativeScale().XY() / 2 ;
 		Vec2 TileLT = _OtherObj->Transform()->GetRelativePos().XY() - TileObjHalfSize;
-
-
 	}
 }
 
@@ -211,13 +170,14 @@ void CPlayerScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, C
 
 void CPlayerScript::CreateAftImg()
 {
-	Vec3 vPos = Transform()->GetRelativePos();
-	m_AftTime += DT;
-	if (m_AftTime > 0.05f)
-	{
-		// 잔상 스크립트 없음
-		assert(GetOwner()->GetScript<CAfterImageScript>());
+	// 잔상 스크립트 없음
+	assert(GetOwner()->GetScript<CAfterImageScript>());
 
+	Vec3 vPos = Transform()->GetRelativePos();
+
+	m_AftTime += DT;
+	if (m_AftTime > 0.04f)
+	{
 		m_AftTime = 0.f;
 		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
 		if (idx >= 50)

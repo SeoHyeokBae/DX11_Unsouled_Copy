@@ -4,24 +4,28 @@
 #include "CAfterImageScript.h"
 #include "CBackgroundScript.h"
 #include "CCameraPlayScript.h"
+#include "CChainSystemScript.h"
 #include "CColTileScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
 #include "CPlayerScript.h"
 #include "CShadowScript.h"
 #include "CTypeTileScript.h"
+#include "CZSortScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAfterImageScript");
 	_vec.push_back(L"CBackgroundScript");
 	_vec.push_back(L"CCameraPlayScript");
+	_vec.push_back(L"CChainSystemScript");
 	_vec.push_back(L"CColTileScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CShadowScript");
 	_vec.push_back(L"CTypeTileScript");
+	_vec.push_back(L"CZSortScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -32,6 +36,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBackgroundScript;
 	if (L"CCameraPlayScript" == _strScriptName)
 		return new CCameraPlayScript;
+	if (L"CChainSystemScript" == _strScriptName)
+		return new CChainSystemScript;
 	if (L"CColTileScript" == _strScriptName)
 		return new CColTileScript;
 	if (L"CMissileScript" == _strScriptName)
@@ -44,6 +50,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CShadowScript;
 	if (L"CTypeTileScript" == _strScriptName)
 		return new CTypeTileScript;
+	if (L"CZSortScript" == _strScriptName)
+		return new CZSortScript;
 	return nullptr;
 }
 
@@ -59,6 +67,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAPLAYSCRIPT:
 		return new CCameraPlayScript;
+		break;
+	case (UINT)SCRIPT_TYPE::CHAINSYSTEMSCRIPT:
+		return new CChainSystemScript;
 		break;
 	case (UINT)SCRIPT_TYPE::COLTILESCRIPT:
 		return new CColTileScript;
@@ -78,6 +89,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::TYPETILESCRIPT:
 		return new CTypeTileScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ZSORTSCRIPT:
+		return new CZSortScript;
+		break;
 	}
 	return nullptr;
 }
@@ -96,6 +110,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CAMERAPLAYSCRIPT:
 		return L"CCameraPlayScript";
+		break;
+
+	case SCRIPT_TYPE::CHAINSYSTEMSCRIPT:
+		return L"CChainSystemScript";
 		break;
 
 	case SCRIPT_TYPE::COLTILESCRIPT:
@@ -120,6 +138,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TYPETILESCRIPT:
 		return L"CTypeTileScript";
+		break;
+
+	case SCRIPT_TYPE::ZSORTSCRIPT:
+		return L"CZSortScript";
 		break;
 
 	}

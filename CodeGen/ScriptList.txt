@@ -1,9 +1,11 @@
 CAfterImageScript
 CBackgroundScript
 CCameraPlayScript
+CChainSystemScript
 CColTileScript
 CMissileScript
 CMonsterScript
 CPlayerScript
 CShadowScript
 CTypeTileScript
+CZSortScript
