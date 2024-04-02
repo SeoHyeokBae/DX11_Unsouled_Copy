@@ -7,14 +7,17 @@
 
 #include <Engine/CMaterial.h>
 #include <Engine/CRenderComponent.h>
-
 #include <Engine/CMovement.h>
 #include <Engine/CStateMachine.h>
-//#include <Engine/CTileMap.h>
+
 #include "CAfterImageScript.h"
+#include "CPlayerHitBox.h"
+#include "CPlayerAttColScript.h"
 
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
+	, m_HitBox (nullptr)
+	, m_AttCol (nullptr)
 	, m_Speed(100.f)
 	, m_AftTime(0.0f)
 {
@@ -97,7 +100,36 @@ void CPlayerScript::begin()
 	// 쉐도우 선 추가 -> 구조변경 필요 여기서 스크립트 추가해도
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
-	// StateMachine 새팅
+	// HitBox Collider
+	m_HitBox = new CGameObject;
+	m_HitBox->SetName(L"HitBox");
+	m_HitBox->AddComponent(new CTransform);
+	m_HitBox->AddComponent(new CCollider2D);
+	m_HitBox->AddComponent(new CMeshRender);
+	m_HitBox->AddComponent(new CPlayerHitBox);
+	m_HitBox->Collider2D()->SetVisible(true);
+	m_HitBox->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
+	m_HitBox->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
+	GetOwner()->AddChild(m_HitBox);
+	GamePlayStatic::SpawnGameObject(m_HitBox, 2);
+
+	// Att Collider
+	m_AttCol = new CGameObject;
+	m_AttCol->SetName(L"AttCol");
+	m_AttCol->AddComponent(new CTransform);
+	m_AttCol->AddComponent(new CCollider2D);
+	m_AttCol->AddComponent(new CMeshRender);
+	m_AttCol->AddComponent(new CPlayerAttColScript);
+	m_AttCol->Transform()->SetRelativePos(Vec3(0.f, 10.f,0.f));
+	//m_AttCol->Collider2D()->SetVisible(true);
+	m_AttCol->Collider2D()->SetOffsetPos(Vec2(0.f, -12.f));
+	m_AttCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
+	GetOwner()->AddChild(m_AttCol);
+	GamePlayStatic::SpawnGameObject(m_AttCol, 2);
+
+
+
+	// StateMachine 세팅
 	if (StateMachine())
 	{
 		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
@@ -219,49 +251,7 @@ void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCol
 		Vec2 TileLT = _OtherObj->Transform()->GetRelativePos().XY() - TileObjHalfSize;
 	}
 
-	// Monster를 밀어냄
-	// 좌 우 위 아래
-	if (_OtherObj->GetName() == L"Zombie")
-	{
-		Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();
-		Vec2 vSize = _Collider->GetOffsetScale();
-		Vec2 vOtherPos = _OtherObj->Transform()->GetRelativePos().XY() + _OtherCollider->GetOffsetPos();
-		Vec2 vOtherSize = _OtherCollider->GetOffsetScale();
-
-		float len_x = fabs(vOtherPos.x - vPos.x);
-		float scale_x = fabs(vOtherSize.x / 2.0f + vSize.x / 2.0f);
-		float len_y = fabs(vOtherPos.y - vPos.y);
-		float scale_y = fabs(vOtherSize.y / 2.0f + vSize.y / 2.0f);
-
-		Vector3 playerPos = _OtherObj->Transform()->GetRelativePos();
-
-		if (len_x < scale_x && len_y < scale_y) // col 사각형 안에 들어올시
-		{
-			if (scale_x - len_x < scale_y - len_y)  // 좌우
-			{
-				if (vOtherPos.x > vPos.x)			// Right
-				{
-					playerPos.x += (scale_x - len_x) + 1.f;
-				}
-				else								// Left
-				{
-					playerPos.x -= (scale_x - len_x) + 1.f;
-				}
-			}
-			else									// 상하
-			{
-				if (vOtherPos.y > vPos.y)			// Up
-				{
-					playerPos.y += (scale_y - len_y) + 1.f;
-				}
-				else								// Down
-				{
-					playerPos.y -= (scale_y - len_y) + 1.f;
-				}
-			}
-		}
-		_OtherObj->Transform()->SetRelativePos(playerPos);
-	}
+	
 
 }
 

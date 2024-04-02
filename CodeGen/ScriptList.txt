@@ -6,6 +6,8 @@ CColTileScript
 CEffectScript
 CMissileScript
 CMonsterScript
+CPlayerAttCol
+CPlayerAttColScript
 CPlayerHitBox
 CPlayerScript
 CShadowScript

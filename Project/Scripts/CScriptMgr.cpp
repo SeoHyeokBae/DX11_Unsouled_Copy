@@ -9,6 +9,7 @@
 #include "CEffectScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
+#include "CPlayerAttColScript.h"
 #include "CPlayerHitBox.h"
 #include "CPlayerScript.h"
 #include "CShadowScript.h"
@@ -25,6 +26,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CEffectScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
+	_vec.push_back(L"CPlayerAttColScript");
 	_vec.push_back(L"CPlayerHitBox");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CShadowScript");
@@ -50,6 +52,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
 		return new CMonsterScript;
+	if (L"CPlayerAttColScript" == _strScriptName)
+		return new CPlayerAttColScript;
 	if (L"CPlayerHitBox" == _strScriptName)
 		return new CPlayerHitBox;
 	if (L"CPlayerScript" == _strScriptName)
@@ -90,6 +94,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MONSTERSCRIPT:
 		return new CMonsterScript;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERATTCOLSCRIPT:
+		return new CPlayerAttColScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERHITBOX:
 		return new CPlayerHitBox;
@@ -144,6 +151,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MONSTERSCRIPT:
 		return L"CMonsterScript";
+		break;
+
+	case SCRIPT_TYPE::PLAYERATTCOL:
+		return L"CPlayerAttCol";
 		break;
 
 	case SCRIPT_TYPE::PLAYERHITBOX:

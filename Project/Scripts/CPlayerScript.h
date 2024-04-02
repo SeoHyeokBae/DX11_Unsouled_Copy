@@ -1,10 +1,14 @@
 #pragma once
 #include <Engine/CScript.h>
 
+class CGameObject;
+
 class CPlayerScript :
     public CScript
 {
 private:
+    CGameObject*    m_HitBox;
+    CGameObject*    m_AttCol;
     wstring         m_CurState;
 
     bool            m_bAfterAct;

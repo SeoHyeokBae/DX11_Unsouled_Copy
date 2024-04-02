@@ -26,10 +26,18 @@ void CZSortScript::tick()
 	if (0 <= vPos.y)
 		vPos.z = (1.f / limity) * 1500;
 
-	if (4 == GetOwner()->GetLayerIdx())
-		vPos.z = (vPos.y / limity) * 1500 + 50.f;
+	if (5 == GetOwner()->GetLayerIdx()) // 그림자
+	{
+		vPos.z = (vPos.y / limity) * 1500.f + 2.f;
+	}
+	else if (3 == GetOwner()->GetLayerIdx()) // 몬스터
+	{
+		vPos.z = (vPos.y / limity) * 1500.f + 3.f;
+	}
 	else
-		vPos.z = (vPos.y / limity) * 1500;
+	{
+		vPos.z = (vPos.y / limity) * 1500.f;
+	}
 
 	Transform()->SetRelativePos(vPos);
 	Transform()->SetRelativeRotation(vRot);

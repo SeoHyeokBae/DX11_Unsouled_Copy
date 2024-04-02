@@ -111,7 +111,7 @@ void CAttackState::Enter()
 		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Right", false);
 		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Right", false);
 		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Right", false);
-		vVelocity.x = -250.f; vVelocity.y = 250.f;
+		vVelocity.x = 250.f; vVelocity.y = -250.f;
 
 		break;
 	}

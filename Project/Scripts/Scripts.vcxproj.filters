@@ -67,6 +67,9 @@
     <ClInclude Include="CPlayerHitBox.h">
       <Filter>Scripts\1. Player</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerAttColScript.h">
+      <Filter>Scripts\1. Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="CEffectScript.cpp" />
     <ClCompile Include="CPlayerHitBox.cpp">
+      <Filter>Scripts\1. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAttColScript.cpp">
       <Filter>Scripts\1. Player</Filter>
     </ClCompile>
   </ItemGroup>
