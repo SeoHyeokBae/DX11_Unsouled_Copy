@@ -3,14 +3,12 @@
 
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
-//#include <Engine/CGameObject.h>
 
 CAfterImageScript::CAfterImageScript()
 	: CScript(AFTERIMAGESCRIPT)
 	, m_AfterImgObj(nullptr)
 	, m_CurIdx(0)
 	, m_FadeSpeed(1.f)
-	, m_blinkCounter(0)
 {
 }
 
@@ -75,9 +73,9 @@ void CAfterImageScript::Update()
 	for (size_t i = 0; i < m_vFrm.size(); i++)
 	{
 		m_vFrm[i].fAlhpa -= m_FadeSpeed * DT;
-		//Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
 		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, 1.f);
 
+		// 시간에 따른 잔상 색상 변경
 		if (m_vFrm[i].fAlhpa <= 1.f)
 			vColor = Vec4(0.f, 0.7f, 0.7f, 1.f);
 		if (m_vFrm[i].fAlhpa <= 0.8f)

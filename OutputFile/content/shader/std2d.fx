@@ -174,7 +174,6 @@ float4 PS_Std2D_AftImg(VS_OUT _in) : SV_Target
         if (vUV.x < g_vec2_0.x || (g_vec2_0.x + g_vec2_2.x) < vUV.x
             || vUV.y < g_vec2_0.y || (g_vec2_0.y + g_vec2_2.y) < vUV.y)
         {
-            //vColor = float4(1.f, 1.f, 0.f, 1.f);
             discard;
         }
         else
@@ -182,21 +181,8 @@ float4 PS_Std2D_AftImg(VS_OUT _in) : SV_Target
             vColor = g_tex_1.Sample(g_sam_1, vUV);
             vColor *= g_vec4_0;
             //vColor.a *= g_vec4_0.a;
-            //vColor.a += 0.1f;
         }
-        
-        
-        // //vColor = g_tex_0.Sample(g_sam_1, _in.vUV + float2(g_time * 0.1, 0.f));
-        //vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
-        
-        ////saturate 0 ~ 1 을 넘지 않게 보정
-        //float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
-        
-        //if (fAlpha < 0.1f)
-        //{
-        //    // 픽셀 쉐이더를 중간에 폐기처리
-        //    discard; //clip(-1);            
-        //}
+
     }
 
     return vColor;
