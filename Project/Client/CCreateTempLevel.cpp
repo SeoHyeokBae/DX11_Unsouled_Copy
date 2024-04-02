@@ -41,6 +41,7 @@
 #include "CAbsorbState.h"
 #include "CAttackState.h"
 #include "CDashState.h"
+#include "CDashAttState.h"
 
 
 
@@ -81,6 +82,7 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"AbsorbState", new CAbsorbState);
 	pFSM->AddState(L"AttackState", new CAttackState);
 	pFSM->AddState(L"DashState", new CDashState);
+	pFSM->AddState(L"DashAttState", new CDashAttState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"PlayerFSM", pFSM.Get());
 }
 
@@ -191,9 +193,6 @@ void CCreateTempLevel::CreateTempLevel()
 	//pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex);
 
 	//pTempLevel->AddObject(pObj, L"Background", false);
-
-
-
 
 
 	// Player Object »ý¼º

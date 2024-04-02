@@ -9,9 +9,7 @@
 // 자유롭게 각도 조절 가능하게
 
 // 블렌드 스테이트, 도메인쉐이더 = Mtrl이  Effect Shader (Graphic Shader)보유
-// But Owner의 애니메이션을 복사할때 애니메이션 StdShader 로 그려지므로 
-// but StdShader 코드에서 생상 조절
-//  => 부모Script에서 Animator 복사등록 -> 얕은 복사인가 ?
+// 몬스터와 플레이어가 같은 mtrl 을 참조하는데 어떻게 다르게 그려지는가 ?
 
 CShadowScript::CShadowScript()
 	: CScript(SHADOWSCRIPT)

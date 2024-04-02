@@ -82,6 +82,15 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"Dash_Up", L"anim\\Dash_Up.anim");
 	Animator2D()->AddAnim(L"Dash_UpRight", L"anim\\Dash_UpRight.anim");
 
+	Animator2D()->AddAnim(L"DashAtt_Down", L"anim\\DashAtt_Down.anim");
+	Animator2D()->AddAnim(L"DashAtt_Up", L"anim\\DashAtt_Up.anim");
+	Animator2D()->AddAnim(L"DashAtt_Left", L"anim\\DashAtt_Left.anim");
+	Animator2D()->AddAnim(L"DashAtt_Right", L"anim\\DashAtt_Right.anim");
+	Animator2D()->AddAnim(L"DashAtt_DownLeft", L"anim\\DashAtt_DownLeft.anim");
+	Animator2D()->AddAnim(L"DashAtt_DownRight", L"anim\\DashAtt_DownRight.anim");
+	Animator2D()->AddAnim(L"DashAtt_UpLeft", L"anim\\DashAtt_UpLeft.anim");
+	Animator2D()->AddAnim(L"DashAtt_UpRight", L"anim\\DashAtt_UpRight.anim");
+
 	// Shadow 에 애니메이션 등록
 	// 쉐도우 선 추가 -> 구조변경 필요
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
@@ -130,7 +139,7 @@ void CPlayerScript::tick()
 		}
 	}
 
-	if (KEY_TAP(KEY::LBTN) && m_CurState != L"AttackState")
+	if (KEY_TAP(KEY::LBTN) && m_CurState != L"AttackState" && m_CurState != L"DashState" && m_CurState != L"DashaAttState")
 	{
 		StateMachine()->GetFSM()->ChangeState(L"AttackState");
 	}

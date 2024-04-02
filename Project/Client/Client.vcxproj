@@ -180,6 +180,7 @@
     <ClInclude Include="CAttackState.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CCreateTempLevel.h" />
+    <ClInclude Include="CDashAttState.h" />
     <ClInclude Include="CDashState.h" />
     <ClInclude Include="CEditorObjMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="CAttackState.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CCreateTempLevel.cpp" />
+    <ClCompile Include="CDashAttState.cpp" />
     <ClCompile Include="CDashState.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />

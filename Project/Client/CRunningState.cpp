@@ -27,6 +27,12 @@ void CRunningState::finaltick()
 			m_Dir = eDIR::UPRIGHT;
 			ChangeState(L"RunningState");
 		}
+
+		if (KEY_TAP(KEY::A))
+		{
+			m_Dir = eDIR::UPLEFT;
+			ChangeState(L"RunningState");
+		}
 	}
 	if (KEY_TAP(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
 	{

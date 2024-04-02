@@ -29,10 +29,16 @@ void CDashState::finaltick()
 		ChangeState(L"DashState");
 	}
 
-	if (KEY_NONE(KEY::RBTN) && !m_ChainSystem->IsRecovery())
+	if (KEY_TAP(KEY::LBTN) && !m_ChainSystem->IsStart())
+	{
+		ChangeState(L"DashAttState");
+	}
+
+	if ( KEY_NONE(KEY::RBTN)&& KEY_NONE(KEY::LBTN) && !m_ChainSystem->IsRecovery())
 	{
 		ChangeState(L"StandState");
 	}
+
 }
 
 void CDashState::Enter()
@@ -43,7 +49,6 @@ void CDashState::Enter()
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
 	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
-	Vec2 vForce = Vec2(0.f, 0.f);
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
 
