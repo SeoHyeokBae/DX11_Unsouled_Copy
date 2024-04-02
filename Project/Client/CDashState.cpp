@@ -83,6 +83,18 @@ void CDashState::Enter()
 		break;
 	}
 
+	// 대각선 거리 보정
+	if (vVelocity.x != 0 && vVelocity.y != 0)
+	{
+		if (vVelocity.Length() > 0.1f)
+		{
+			Vec2 newVelo = vVelocity;
+			newVelo /= vVelocity.Length();
+			vVelocity.x *= fabs(newVelo.x);
+			vVelocity.y *= fabs(newVelo.y);
+		}
+	}
+
 	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
 }
 

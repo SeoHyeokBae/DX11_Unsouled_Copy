@@ -17,8 +17,6 @@ CChainSystemScript::~CChainSystemScript()
 {
 }
 
-
-
 void CChainSystemScript::begin()
 {
 }
@@ -70,8 +68,6 @@ void CChainSystemScript::tick()
 		m_bYellow = false;
 		GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 0);
 	}
-
-
 
 }
 

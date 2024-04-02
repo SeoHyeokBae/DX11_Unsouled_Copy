@@ -19,7 +19,7 @@ CPlayerScript::CPlayerScript()
 	, m_Chain(0)
 	, m_fBlinkTime(0.f)
 	, m_bYellow(false)
-	, m_AftTime(0.f)
+	, m_AftTime(0.0f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }
@@ -97,6 +97,7 @@ void CPlayerScript::begin()
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
+			GetOwner()->SetDir(eDIR::DOWN);
 			StateMachine()->GetFSM()->SetState(L"StandState");
 			Animator2D()->Play(L"Stand_Down");
 		}
@@ -114,6 +115,9 @@ void CPlayerScript::tick()
 	//Vec3 vPos = Transform()->GetRelativePos();
 	//Vec3 vRot = Transform()->GetRelativeRotation();
 
+	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
+
+
 
 	// 잔상 효과 이미지 정보 저장
 	if (GetOwner()->IsAfterImgAct())
@@ -125,10 +129,6 @@ void CPlayerScript::tick()
 			GetOwner()->SetAfterImgAct(false);
 		}
 	}
-
-	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
-
-
 
 	if (KEY_TAP(KEY::LBTN) && m_CurState != L"AttackState")
 	{
@@ -175,8 +175,25 @@ void CPlayerScript::CreateAftImg()
 
 	Vec3 vPos = Transform()->GetRelativePos();
 
+	if (m_AftTime == 0.f)
+	{
+		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
+		if (idx % 3 < 3)
+		{
+			int animidx = Animator2D()->GetCurAnim()->GetCurFrmIdx();
+
+			tAnimFrm frm = Animator2D()->GetCurAnim()->GetCurFrmInfo(animidx);
+			Ptr<CTexture> tex = Animator2D()->GetCurAnim()->GetAtalsTex();
+
+			GetOwner()->GetScript<CAfterImageScript>()->CreateAfterImg(tex, vPos, frm);
+
+			idx++;
+			GetOwner()->GetScript<CAfterImageScript>()->SetCurIdx(idx);
+		}
+	}
+
 	m_AftTime += DT;
-	if (m_AftTime > 0.04f)
+	if (m_AftTime >= 0.04f)
 	{
 		m_AftTime = 0.f;
 		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
@@ -184,10 +201,7 @@ void CPlayerScript::CreateAftImg()
 			return;
 
 		int animidx = Animator2D()->GetCurAnim()->GetCurFrmIdx();
-		if (animidx == 0)
-		{
-			return;
-		}
+
 		tAnimFrm frm = Animator2D()->GetCurAnim()->GetCurFrmInfo(animidx);
 		Ptr<CTexture> tex = Animator2D()->GetCurAnim()->GetAtalsTex();
 

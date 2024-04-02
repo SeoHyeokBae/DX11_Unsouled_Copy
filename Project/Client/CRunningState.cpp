@@ -22,6 +22,11 @@ void CRunningState::finaltick()
 	if (KEY_PRESSED(KEY::W))
 	{
 		vPos.y += DT * Speed;
+		if (KEY_TAP(KEY::D))
+		{
+			m_Dir = eDIR::UPRIGHT;
+			ChangeState(L"RunningState");
+		}
 	}
 	if (KEY_TAP(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
 	{
@@ -40,6 +45,17 @@ void CRunningState::finaltick()
 	if (KEY_PRESSED(KEY::S))
 	{
 		vPos.y -= DT * Speed;
+
+		if (KEY_TAP(KEY::A))
+		{
+			m_Dir = eDIR::DOWNLEFT;
+			ChangeState(L"RunningState");
+		}
+		if (KEY_TAP(KEY::D))
+		{
+			m_Dir = eDIR::DOWNRIGHT;
+			ChangeState(L"RunningState");
+		}
 
 	}
 	if (KEY_TAP(KEY::S) && KEY_NONE(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
