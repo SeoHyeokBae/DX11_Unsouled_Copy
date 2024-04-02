@@ -3,12 +3,14 @@
 
 class CAnimator2D;
 class CChainSystemScript;
+class CMovement;
 
 class CDashState :
     public CState
 {
 private:
     CAnimator2D*         m_Anim;
+    CMovement*           m_MoveMent;
     CChainSystemScript*  m_ChainSystem;
 
 public:

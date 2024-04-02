@@ -196,8 +196,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCameraPlayScript.h" />
     <ClInclude Include="CChainSystemScript.h" />
     <ClInclude Include="CColTileScript.h" />
+    <ClInclude Include="CEffectScript.h" />
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
+    <ClInclude Include="CPlayerHitBox.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CShadowScript.h" />
@@ -212,8 +214,10 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCameraPlayScript.cpp" />
     <ClCompile Include="CChainSystemScript.cpp" />
     <ClCompile Include="CColTileScript.cpp" />
+    <ClCompile Include="CEffectScript.cpp" />
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
+    <ClCompile Include="CPlayerHitBox.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CShadowScript.cpp" />

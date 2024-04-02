@@ -82,7 +82,7 @@ void CEngine::Progress()
 
 void CEngine::DebugFunctionCheck()
 {
-	if (KEY_TAP(KEY::O))
+	if (KEY_TAP(KEY::_9))
 	{
 		CRenderMgr::GetInst()->IsDebugPosition() ? CRenderMgr::GetInst()->SetDebugPosition(false) : CRenderMgr::GetInst()->SetDebugPosition(true);
 	}

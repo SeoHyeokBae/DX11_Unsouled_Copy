@@ -63,6 +63,10 @@
     <ClInclude Include="CChainSystemScript.h">
       <Filter>Scripts\1. Player</Filter>
     </ClInclude>
+    <ClInclude Include="CEffectScript.h" />
+    <ClInclude Include="CPlayerHitBox.h">
+      <Filter>Scripts\1. Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -105,6 +109,10 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CChainSystemScript.cpp">
+      <Filter>Scripts\1. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectScript.cpp" />
+    <ClCompile Include="CPlayerHitBox.cpp">
       <Filter>Scripts\1. Player</Filter>
     </ClCompile>
   </ItemGroup>

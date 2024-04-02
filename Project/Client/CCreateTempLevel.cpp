@@ -27,6 +27,7 @@
 #include <Scripts/CAfterImageScript.h>
 #include <Scripts/CZSortScript.h>
 #include <Scripts/CChainSystemScript.h>
+#include <Scripts/CPlayerHitBox.h>
 
 
 #include <Engine/CAssetMgr.h>
@@ -212,6 +213,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CAfterImageScript);
 	pObj->AddComponent(new CZSortScript);
 	pObj->AddComponent(new CChainSystemScript);
+	pObj->AddComponent(new CPlayerHitBox);
 
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
@@ -219,7 +221,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
-	pObj->Collider2D()->SetOffsetScale(Vec2(25.f, 10.f));
+	pObj->Collider2D()->SetOffsetScale(Vec2(12.f, 3.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObj->Collider2D()->SetVisible(true);
 
@@ -247,7 +249,7 @@ void CCreateTempLevel::CreateTempLevel()
 
 	//Monster Object »ý¼º
 	pObj = new CGameObject;
-	pObj->SetName(L"Monster");
+	pObj->SetName(L"Zombie");
 
 	pObj->AddComponent(new CTransform);
 	pObj->AddComponent(new CMeshRender);
@@ -262,7 +264,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
 	pObj->Collider2D()->SetAbsolute(true);
-	pObj->Collider2D()->SetOffsetScale(Vec2(120.f, 120.f));
+	pObj->Collider2D()->SetOffsetScale(Vec2(20.f, 25.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObj->Collider2D()->SetVisible(true);
 

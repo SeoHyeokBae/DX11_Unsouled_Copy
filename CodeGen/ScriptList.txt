@@ -3,8 +3,10 @@ CBackgroundScript
 CCameraPlayScript
 CChainSystemScript
 CColTileScript
+CEffectScript
 CMissileScript
 CMonsterScript
+CPlayerHitBox
 CPlayerScript
 CShadowScript
 CTypeTileScript

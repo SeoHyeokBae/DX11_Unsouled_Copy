@@ -5,17 +5,11 @@ class CPlayerScript :
     public CScript
 {
 private:
-    Ptr<CPrefab>    m_Missile;
     wstring         m_CurState;
 
+    bool            m_bAfterAct;
     float           m_Speed;
-
     float           m_AftTime;
-    // Chain ½Ã ±ôºýÀÓ
-    int             m_Chain;
-    float           m_fBlinkTime;
-    bool            m_bYellow;
-
 public:
     void CreateAftImg();
 

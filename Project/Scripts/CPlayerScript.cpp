@@ -16,9 +16,6 @@
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	, m_Speed(100.f)
-	, m_Chain(0)
-	, m_fBlinkTime(0.f)
-	, m_bYellow(false)
 	, m_AftTime(0.0f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
@@ -97,12 +94,8 @@ void CPlayerScript::begin()
 	Animator2D()->AddAnim(L"Block_Right", L"anim\\Block_Right.anim");
 
 	// Shadow 에 애니메이션 등록
-	// 쉐도우 선 추가 -> 구조변경 필요
+	// 쉐도우 선 추가 -> 구조변경 필요 여기서 스크립트 추가해도
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
-
-
-	m_Missile = CAssetMgr::GetInst()->FindAsset<CPrefab>(L"MissilePrefab");
-	m_Missile = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\missile.pref", L"prefab\\missile.pref");
 
 	// StateMachine 새팅
 	if (StateMachine())
@@ -111,12 +104,12 @@ void CPlayerScript::begin()
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
-			GetOwner()->SetDir(eDIR::DOWN);
 			StateMachine()->GetFSM()->SetState(L"StandState");
+			GetOwner()->SetDir(eDIR::DOWN);
 			Animator2D()->Play(L"Stand_Down");
 		}
 	}
-
+	
 	
 
 	GetRenderComponent()->GetDynamicMaterial();
@@ -168,25 +161,6 @@ void CPlayerScript::tick()
 	//Transform()->SetRelativeRotation(vRot);
 }
 
-void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
-{
-
-}
-
-void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
-{
-	if (_OtherObj->TileMap())
-	{
-		Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY();
-		Vec2 TileObjHalfSize = _OtherObj->Transform()->GetRelativeScale().XY() / 2 ;
-		Vec2 TileLT = _OtherObj->Transform()->GetRelativePos().XY() - TileObjHalfSize;
-	}
-}
-
-void CPlayerScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
-{
-}
-
 void CPlayerScript::CreateAftImg()
 {
 	// 잔상 스크립트 없음
@@ -230,6 +204,72 @@ void CPlayerScript::CreateAftImg()
 		GetOwner()->GetScript<CAfterImageScript>()->SetCurIdx(idx);
 	}
 }
+
+void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
+{
+
+}
+
+void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
+{
+	if (_OtherObj->TileMap())
+	{
+		Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY();
+		Vec2 TileObjHalfSize = _OtherObj->Transform()->GetRelativeScale().XY() / 2 ;
+		Vec2 TileLT = _OtherObj->Transform()->GetRelativePos().XY() - TileObjHalfSize;
+	}
+
+	// Monster를 밀어냄
+	// 좌 우 위 아래
+	if (_OtherObj->GetName() == L"Zombie")
+	{
+		Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();
+		Vec2 vSize = _Collider->GetOffsetScale();
+		Vec2 vOtherPos = _OtherObj->Transform()->GetRelativePos().XY() + _OtherCollider->GetOffsetPos();
+		Vec2 vOtherSize = _OtherCollider->GetOffsetScale();
+
+		float len_x = fabs(vOtherPos.x - vPos.x);
+		float scale_x = fabs(vOtherSize.x / 2.0f + vSize.x / 2.0f);
+		float len_y = fabs(vOtherPos.y - vPos.y);
+		float scale_y = fabs(vOtherSize.y / 2.0f + vSize.y / 2.0f);
+
+		Vector3 playerPos = _OtherObj->Transform()->GetRelativePos();
+
+		if (len_x < scale_x && len_y < scale_y) // col 사각형 안에 들어올시
+		{
+			if (scale_x - len_x < scale_y - len_y)  // 좌우
+			{
+				if (vOtherPos.x > vPos.x)			// Right
+				{
+					playerPos.x += (scale_x - len_x) + 1.f;
+				}
+				else								// Left
+				{
+					playerPos.x -= (scale_x - len_x) + 1.f;
+				}
+			}
+			else									// 상하
+			{
+				if (vOtherPos.y > vPos.y)			// Up
+				{
+					playerPos.y += (scale_y - len_y) + 1.f;
+				}
+				else								// Down
+				{
+					playerPos.y -= (scale_y - len_y) + 1.f;
+				}
+			}
+		}
+		_OtherObj->Transform()->SetRelativePos(playerPos);
+	}
+
+}
+
+void CPlayerScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
+{
+}
+
+
 
 void CPlayerScript::SaveToFile(FILE* _File)
 {

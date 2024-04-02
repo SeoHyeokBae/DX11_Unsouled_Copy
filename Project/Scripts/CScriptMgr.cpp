@@ -6,8 +6,10 @@
 #include "CCameraPlayScript.h"
 #include "CChainSystemScript.h"
 #include "CColTileScript.h"
+#include "CEffectScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
+#include "CPlayerHitBox.h"
 #include "CPlayerScript.h"
 #include "CShadowScript.h"
 #include "CTypeTileScript.h"
@@ -20,8 +22,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCameraPlayScript");
 	_vec.push_back(L"CChainSystemScript");
 	_vec.push_back(L"CColTileScript");
+	_vec.push_back(L"CEffectScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
+	_vec.push_back(L"CPlayerHitBox");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CShadowScript");
 	_vec.push_back(L"CTypeTileScript");
@@ -40,10 +44,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CChainSystemScript;
 	if (L"CColTileScript" == _strScriptName)
 		return new CColTileScript;
+	if (L"CEffectScript" == _strScriptName)
+		return new CEffectScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
 		return new CMonsterScript;
+	if (L"CPlayerHitBox" == _strScriptName)
+		return new CPlayerHitBox;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CShadowScript" == _strScriptName)
@@ -74,11 +82,17 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::COLTILESCRIPT:
 		return new CColTileScript;
 		break;
+	case (UINT)SCRIPT_TYPE::EFFECTSCRIPT:
+		return new CEffectScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MONSTERSCRIPT:
 		return new CMonsterScript;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERHITBOX:
+		return new CPlayerHitBox;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -120,12 +134,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CColTileScript";
 		break;
 
+	case SCRIPT_TYPE::EFFECTSCRIPT:
+		return L"CEffectScript";
+		break;
+
 	case SCRIPT_TYPE::MISSILESCRIPT:
 		return L"CMissileScript";
 		break;
 
 	case SCRIPT_TYPE::MONSTERSCRIPT:
 		return L"CMonsterScript";
+		break;
+
+	case SCRIPT_TYPE::PLAYERHITBOX:
+		return L"CPlayerHitBox";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

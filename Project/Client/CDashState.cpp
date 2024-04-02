@@ -10,6 +10,7 @@
 CDashState::CDashState()
 	: m_Anim(nullptr)
 	, m_ChainSystem(nullptr)
+	, m_MoveMent(nullptr)
 
 {
 }
@@ -45,59 +46,59 @@ void CDashState::Enter()
 {
 	m_ChainSystem = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CChainSystemScript>();
 
-	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
+	m_MoveMent = GetFSM()->GetStateMachine()->Movement();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
+
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
 	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
 
+	//m_MoveMent->SetInitSpeed(550.f);
 	switch (m_Dir)
 	{
 	case eDIR::UP:
 		m_Anim->Play(L"Dash_Up", false);
-		vVelocity.y += 400.f;
+		vVelocity.y += 550.f;
 		break;
 	case eDIR::DOWN:
 		m_Anim->Play(L"Dash_Down", false);
-		vVelocity.y += -400.f;
+		vVelocity.y += -550.f;
 		break;
 	case eDIR::LEFT:
 		m_Anim->Play(L"Dash_Left", false);
-		vVelocity.x += -400.f;
+		vVelocity.x += -550.f;
 		break;
 	case eDIR::RIGHT:
 		m_Anim->Play(L"Dash_Right", false);
-		vVelocity.x += 400.f;
+		vVelocity.x += 550.f;
 		break;
 	case eDIR::UPLEFT:
 		m_Anim->Play(L"Dash_Up", false);
-		vVelocity.x += -400.f; vVelocity.y += 400.f;
+		vVelocity.x += -550.f; vVelocity.y += 550.f;
 		break;
 	case eDIR::UPRIGHT:
 		m_Anim->Play(L"Dash_UpRight", false);
-		vVelocity.x += 400.f; vVelocity.y += 400.f;
+		vVelocity.x += 550.f; vVelocity.y += 550.f;
 		break;
 	case eDIR::DOWNLEFT:
 		m_Anim->Play(L"Dash_Down", false);
-		vVelocity.x += -400.f; vVelocity.y += -400.f;
+		vVelocity.x += -550.f; vVelocity.y += -550.f;
 		break;
 	case eDIR::DOWNRIGHT:
 		m_Anim->Play(L"Dash_DownRight", false);
-		vVelocity.x += 400.f; vVelocity.y += -400.f;
+		vVelocity.x += 550.f; vVelocity.y += -550.f;
 		break;
 	}
 
 	// 대각선 거리 보정
 	if (vVelocity.x != 0 && vVelocity.y != 0)
 	{
-		if (vVelocity.Length() > 0.1f)
-		{
-			Vec2 newVelo = vVelocity;
-			newVelo /= vVelocity.Length();
-			vVelocity.x *= fabs(newVelo.x);
-			vVelocity.y *= fabs(newVelo.y);
-		}
+		Vec2 newVelo = vVelocity;
+		newVelo /= vVelocity.Length();
+		vVelocity.x *= fabs(newVelo.x);
+		vVelocity.y *= fabs(newVelo.y);
 	}
 
 	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
@@ -114,6 +115,8 @@ void CDashState::Exit()
 	else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;
 	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
 	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
+
+	//m_MoveMent->SetInitSpeed(400.f);
 
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);

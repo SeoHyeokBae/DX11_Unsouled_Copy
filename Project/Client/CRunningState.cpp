@@ -25,19 +25,19 @@ void CRunningState::finaltick()
 		if (KEY_TAP(KEY::D))
 		{
 			m_Dir = eDIR::UPRIGHT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_TAP(KEY::A))
 		{
 			m_Dir = eDIR::UPLEFT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 	}
 	if (KEY_TAP(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
 	{
 		m_Dir = eDIR::UP;
-		ChangeState(L"RunningState");
+		Exit(); Enter();
 	}
 	if (KEY_RELEASED(KEY::W))
 	{
@@ -55,19 +55,19 @@ void CRunningState::finaltick()
 		if (KEY_TAP(KEY::A))
 		{
 			m_Dir = eDIR::DOWNLEFT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 		if (KEY_TAP(KEY::D))
 		{
 			m_Dir = eDIR::DOWNRIGHT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 	}
 	if (KEY_TAP(KEY::S) && KEY_NONE(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
 	{
 		m_Dir = eDIR::DOWN;
-		ChangeState(L"RunningState");
+		Exit(); Enter();
 	}
 	if (KEY_RELEASED(KEY::S))
 	{
@@ -85,13 +85,13 @@ void CRunningState::finaltick()
 		if (KEY_TAP(KEY::W))
 		{
 			m_Dir = eDIR::UPLEFT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_TAP(KEY::S))
 		{
 			m_Dir = eDIR::DOWNLEFT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_TAP(KEY::D))
@@ -103,19 +103,19 @@ void CRunningState::finaltick()
 		if (KEY_RELEASED(KEY::D))
 		{
 			m_Dir = eDIR::LEFT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_RELEASED(KEY::W) || KEY_RELEASED(KEY::S))
 		{
 			m_Dir = eDIR::LEFT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 	}
 	if (KEY_TAP(KEY::A) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
 	{
 		m_Dir = eDIR::LEFT;
-		ChangeState(L"RunningState");
+		Exit(); Enter();
 	}
 	if (KEY_RELEASED(KEY::A))
 	{
@@ -133,13 +133,13 @@ void CRunningState::finaltick()
 		if (KEY_TAP(KEY::W))
 		{
 			m_Dir = eDIR::UPRIGHT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_TAP(KEY::S))
 		{
 			m_Dir = eDIR::DOWNRIGHT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_TAP(KEY::A))
@@ -152,19 +152,19 @@ void CRunningState::finaltick()
 		if (KEY_RELEASED(KEY::A))
 		{
 			m_Dir = eDIR::RIGHT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 
 		if (KEY_RELEASED(KEY::W) || KEY_RELEASED(KEY::S))
 		{
 			m_Dir = eDIR::RIGHT;
-			ChangeState(L"RunningState");
+			Exit(); Enter();
 		}
 	}
 	if (KEY_TAP(KEY::D) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
 	{
 		m_Dir = eDIR::RIGHT;
-		ChangeState(L"RunningState");
+		Exit(); Enter();
 	}
 	if (KEY_RELEASED(KEY::D))
 	{
