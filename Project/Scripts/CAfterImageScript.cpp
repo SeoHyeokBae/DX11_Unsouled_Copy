@@ -10,7 +10,7 @@ CAfterImageScript::CAfterImageScript()
 	, m_AfterImgObj(nullptr)
 	, m_CurIdx(0)
 	, m_FadeSpeed(1.f)
-
+	, m_blinkCounter(0)
 {
 }
 
@@ -25,7 +25,7 @@ void CAfterImageScript::begin()
 	m_AfterImgObj->SetName(L"AfterImage");
 	m_AfterImgObj->AddComponent(new CTransform);
 	Vec3 vPos = Transform()->GetRelativePos();
-	//m_AfterImgObj->Transform()->SetRelativePos(-vPos);
+
 	GetOwner()->AddChild(m_AfterImgObj);
 	GamePlayStatic::SpawnGameObject(m_AfterImgObj, 11); // 추후 변경
 	for (int i = 0; i < POOLCOUNT; i++)
@@ -75,7 +75,20 @@ void CAfterImageScript::Update()
 	for (size_t i = 0; i < m_vFrm.size(); i++)
 	{
 		m_vFrm[i].fAlhpa -= m_FadeSpeed * DT;
-		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
+		//Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, m_vFrm[i].fAlhpa);
+		Vec4 vColor = Vec4(0.0f, 0.0f, 0.0f, 1.f);
+
+		if (m_vFrm[i].fAlhpa <= 1.f)
+			vColor = Vec4(0.f, 0.7f, 0.7f, 1.f);
+		if (m_vFrm[i].fAlhpa <= 0.8f)
+			vColor = Vec4(0.4f, 0.4f, 0.7f, 0.8f);
+		if (m_vFrm[i].fAlhpa <= 0.7f)
+			vColor = Vec4(0.f, 0.7f, 0.7f, 0.8f);
+		if (m_vFrm[i].fAlhpa <= 0.6)
+			vColor = Vec4(0.4f, 0.4f, 0.7f, 0.6f);
+		if (m_vFrm[i].fAlhpa <= 0.3)
+			vColor = Vec4(0.f, 0.7f, 0.7f, 0.3f);
+
 		m_vSprite[i].second->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, vColor);
 	}
 

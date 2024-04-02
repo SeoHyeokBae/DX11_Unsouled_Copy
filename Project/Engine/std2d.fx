@@ -174,14 +174,13 @@ float4 PS_Std2D_AftImg(VS_OUT _in) : SV_Target
         if (vUV.x < g_vec2_0.x || (g_vec2_0.x + g_vec2_2.x) < vUV.x
             || vUV.y < g_vec2_0.y || (g_vec2_0.y + g_vec2_2.y) < vUV.y)
         {
-            //vColor = float4(1.f, 1.f, 0.f, 1.f);
             discard;
         }
         else
         {
             vColor = g_tex_1.Sample(g_sam_1, vUV);
-            vColor.a *= g_vec4_0.a;
-            //vColor.a += 0.1f;
+            vColor *= g_vec4_0;
+            //vColor.a *= g_vec4_0.a;
         }
         
         

@@ -23,6 +23,8 @@ private:
 	int											m_CurIdx;
 	float										m_FadeSpeed;
 
+	int											m_blinkCounter;
+
 public:
 	int GetCurIdx() { return m_CurIdx; }
 	void SetCurIdx(int _idx) { m_CurIdx = _idx; }
@@ -36,7 +38,7 @@ public:
 		info.Atlas = _tex;
 		info.AnimFrm = _img;
 		info.vPos = _pos;
-		info.fAlhpa = 0.8f;
+		info.fAlhpa = 1.f;
 
 		m_vFrm.push_back(info);
 	}
