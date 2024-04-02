@@ -298,6 +298,9 @@
     <ClInclude Include="CDashAttState.h">
       <Filter>04. State\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerBlockState.h">
+      <Filter>04. State\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -468,6 +471,9 @@
       <Filter>04. State\Player</Filter>
     </ClCompile>
     <ClCompile Include="CDashAttState.cpp">
+      <Filter>04. State\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerBlockState.cpp">
       <Filter>04. State\Player</Filter>
     </ClCompile>
   </ItemGroup>

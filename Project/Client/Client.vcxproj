@@ -192,6 +192,7 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="Content.h" />
+    <ClInclude Include="CPlayerBlockState.h" />
     <ClInclude Include="CRunningState.h" />
     <ClInclude Include="CStaminaOutState.h" />
     <ClInclude Include="CStandState.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="Content.cpp" />
+    <ClCompile Include="CPlayerBlockState.cpp" />
     <ClCompile Include="CRunningState.cpp" />
     <ClCompile Include="CStaminaOutState.cpp" />
     <ClCompile Include="CStandState.cpp" />

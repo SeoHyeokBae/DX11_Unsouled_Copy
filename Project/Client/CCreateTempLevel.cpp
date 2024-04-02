@@ -42,6 +42,7 @@
 #include "CAttackState.h"
 #include "CDashState.h"
 #include "CDashAttState.h"
+#include "CPlayerBlockState.h"
 
 
 
@@ -83,6 +84,7 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"AttackState", new CAttackState);
 	pFSM->AddState(L"DashState", new CDashState);
 	pFSM->AddState(L"DashAttState", new CDashAttState);
+	pFSM->AddState(L"BlockState", new CPlayerBlockState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"PlayerFSM", pFSM.Get());
 }
 
@@ -140,7 +142,8 @@ void CCreateTempLevel::CreateTempLevel()
 	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 
 	pCamObj->Camera()->SetCameraPriority(0);
-	pCamObj->Camera()->SetScale(0.3f);
+	//pCamObj->Camera()->SetScale(0.3f);
+	pCamObj->Camera()->SetScale(0.5f);
 
 	pCamObj->Camera()->LayerCheckAll();
 	pCamObj->Camera()->LayerCheck(31, false);

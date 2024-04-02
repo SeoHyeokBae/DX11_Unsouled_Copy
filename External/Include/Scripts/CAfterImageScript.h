@@ -23,8 +23,6 @@ private:
 	int											m_CurIdx;
 	float										m_FadeSpeed;
 
-	int											m_blinkCounter;
-
 public:
 	int GetCurIdx() { return m_CurIdx; }
 	void SetCurIdx(int _idx) { m_CurIdx = _idx; }

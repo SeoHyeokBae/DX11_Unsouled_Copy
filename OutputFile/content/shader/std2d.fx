@@ -180,9 +180,7 @@ float4 PS_Std2D_AftImg(VS_OUT _in) : SV_Target
         {
             vColor = g_tex_1.Sample(g_sam_1, vUV);
             vColor *= g_vec4_0;
-            //vColor.a *= g_vec4_0.a;
         }
-
     }
 
     return vColor;
