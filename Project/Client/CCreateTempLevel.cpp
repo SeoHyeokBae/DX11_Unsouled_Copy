@@ -28,6 +28,7 @@
 #include <Scripts/CZSortScript.h>
 #include <Scripts/CChainSystemScript.h>
 #include <Scripts/CPlayerHitBox.h>
+#include <Scripts/CEffectScript.h>
 
 
 #include <Engine/CAssetMgr.h>
@@ -213,6 +214,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CAfterImageScript);
 	pObj->AddComponent(new CZSortScript);
 	pObj->AddComponent(new CChainSystemScript);
+	pObj->AddComponent(new CEffectScript);
 
 	//pObj->Animator2D()->Create(L"IDLE_LEFT", pAltasTex, Vec2(0.f, 130.f), Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 10);
 
@@ -222,19 +224,19 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(12.f, 3.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetVisible(true);
 
 	pObj->Movement()->SetMass(1.f);
-	pObj->Movement()->SetInitSpeed(200.f);
-	pObj->Movement()->SetMaxSpeed(600.f);
+	pObj->Movement()->SetInitSpeed(125.f);
+	pObj->Movement()->SetMaxSpeed(125.f);
 	pObj->Movement()->SetFrictionScale(1000.f);
 
 	pObj->Movement()->SetGround(true);
 
-	pObj->AddComponent(new CLight2D);
-	pObj->Light2D()->SetLightType(LIGHT_TYPE::POINT);
-	pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
-	pObj->Light2D()->SetRadius(200.f);
+	//pObj->AddComponent(new CLight2D);
+	//pObj->Light2D()->SetLightType(LIGHT_TYPE::POINT);
+	//pObj->Light2D()->SetLightColor(Vec3(1.f, 1.f, 1.f));
+	//pObj->Light2D()->SetRadius(200.f);
 	//pObj->Light2D()->SetAngle(60.f);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
@@ -255,6 +257,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CCollider2D);
 	pObj->AddComponent(new CStateMachine);
 	pObj->AddComponent(new CAnimator2D);
+	pObj->AddComponent(new CMovement);
 	pObj->AddComponent(new CShadowScript);
 	pObj->AddComponent(new CMonsterScript);
 	pObj->AddComponent(new CZSortScript);
@@ -262,10 +265,15 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 
+	pObj->Movement()->SetMass(1.f);
+	pObj->Movement()->SetInitSpeed(50.f);
+	pObj->Movement()->SetMaxSpeed(450.f);
+	pObj->Movement()->SetFrictionScale(1000.f);
+
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(15.f, 35.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(2.f, 18.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetVisible(true);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	CAssetMgr::GetInst()->Load<CMaterial>(L"Zombie", L"material\\Zombie.mtrl");

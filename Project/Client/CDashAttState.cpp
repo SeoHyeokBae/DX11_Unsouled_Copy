@@ -23,9 +23,9 @@ void CDashAttState::finaltick()
 	m_Anim->GetCurAnim()->IsFinish() ? m_ChainSystem->SetStart(true) : m_ChainSystem->SetStart(false);
 
 	//// 체인 시스템 시작 && 타이밍이 < 리커버리타임 && 대쉬버튼
-	//if (!KEY_NONE(KEY::RBTN) && m_ChainSystem->IsStart() && m_ChainSystem->IsRecovery())
+	//if (KEY_TAP(KEY::LBTN) && m_ChainSystem->IsStart() && m_ChainSystem->IsRecovery())
 	//{
-	//	ChangeState(L"DashState");
+	//	ChangeState(L"AttackState");
 	//}
 
 	if (KEY_NONE(KEY::RBTN)&& KEY_NONE(KEY::LBTN) && !m_ChainSystem->IsRecovery())
@@ -42,6 +42,7 @@ void CDashAttState::Enter()
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
+	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
 
 	switch (m_Dir)
 	{
@@ -70,6 +71,17 @@ void CDashAttState::Enter()
 		m_Anim->Play(L"DashAtt_DownRight", false);
 		break;
 	}
+
+	// 대각선 거리 보정
+	if (vVelocity.x != 0 && vVelocity.y != 0)
+	{
+		Vec2 newVelo = vVelocity;
+		newVelo /= vVelocity.Length();
+		vVelocity.x *= fabs(newVelo.x);
+		vVelocity.y *= fabs(newVelo.y);
+	}
+
+	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
 }
 
 void CDashAttState::Exit()

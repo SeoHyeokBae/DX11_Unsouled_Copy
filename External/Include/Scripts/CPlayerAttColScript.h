@@ -11,6 +11,7 @@ private:
     CCollider2D*    m_Collider;
     wstring         m_sCurState;
     float           m_fDuration;
+    Vec2            m_vOriginScale;
 
 public:
     void ColliderOn() { m_Collider->SetVisible(true); };

@@ -6,6 +6,7 @@
 #include <Engine/CTimeMgr.h>
 
 #include <Scripts/CChainSystemScript.h>
+#include <Scripts/CEffectScript.h>
 
 CDashState::CDashState()
 	: m_Anim(nullptr)
@@ -28,6 +29,13 @@ void CDashState::finaltick()
 	if (!KEY_NONE(KEY::RBTN) && m_ChainSystem->IsStart() && m_ChainSystem->IsRecovery())
 	{
 		ChangeState(L"DashState");
+		CEffectScript* effect = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CEffectScript>();
+		effect->GetEffect()->Animator2D()->Play(L"ChainEffect", false);
+	}
+
+	if (KEY_TAP(KEY::LBTN) && m_ChainSystem->IsStart())
+	{
+		ChangeState(L"AttackState");
 	}
 
 	if (KEY_TAP(KEY::LBTN) && !m_ChainSystem->IsStart())
@@ -55,7 +63,7 @@ void CDashState::Enter()
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
 
-	//m_MoveMent->SetInitSpeed(550.f);
+	m_MoveMent->SetMaxSpeed(550.f);
 	switch (m_Dir)
 	{
 	case eDIR::UP:
@@ -116,7 +124,7 @@ void CDashState::Exit()
 	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
 	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 
-	//m_MoveMent->SetInitSpeed(400.f);
+	m_MoveMent->SetMaxSpeed(125.f);
 
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);

@@ -13,6 +13,7 @@
 #include "CAfterImageScript.h"
 #include "CPlayerHitBox.h"
 #include "CPlayerAttColScript.h"
+#include "CChainSystemScript.h"
 
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
@@ -107,7 +108,7 @@ void CPlayerScript::begin()
 	m_HitBox->AddComponent(new CCollider2D);
 	m_HitBox->AddComponent(new CMeshRender);
 	m_HitBox->AddComponent(new CPlayerHitBox);
-	m_HitBox->Collider2D()->SetVisible(true);
+	//m_HitBox->Collider2D()->SetVisible(true);
 	m_HitBox->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
 	m_HitBox->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_HitBox);
@@ -133,6 +134,7 @@ void CPlayerScript::begin()
 	if (StateMachine())
 	{
 		StateMachine()->AddBlackboardData(L"Speed", BB_DATA::FLOAT, &m_Speed);
+		StateMachine()->AddBlackboardData(L"Combo", BB_DATA::INT, &m_Speed);
 
 		if (nullptr != StateMachine()->GetFSM())
 		{
@@ -177,9 +179,9 @@ void CPlayerScript::tick()
 	if (KEY_TAP(KEY::LSHIFT) && m_CurState != L"BlockState")
 	{
 		StateMachine()->GetFSM()->ChangeState(L"BlockState");
-	}
-
-	if (KEY_TAP(KEY::RBTN) && m_CurState != L"DashState")
+	} 
+	//|| (m_CurState != L"AttackState" && GetOwner()->GetScript<CChainSystemScript>()->IsChain()
+	if ((KEY_TAP(KEY::RBTN) && m_CurState != L"DashState"))
 	{
 		StateMachine()->GetFSM()->ChangeState(L"DashState");
 	}

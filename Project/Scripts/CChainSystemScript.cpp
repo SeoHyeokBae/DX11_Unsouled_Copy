@@ -29,8 +29,9 @@ void CChainSystemScript::tick()
 	}
 
 	// 체인 타이밍
-	if (m_fTiming >= 0.02f && m_fTiming <= 0.07f)
+	if (m_fTiming >= 0.015f && m_fTiming <= 0.07f)
 		m_bChain = true;
+
 
 	if (RECOVERYTIME > m_fTiming)
 	{
@@ -43,7 +44,6 @@ void CChainSystemScript::tick()
 	}
 
 	// 채인발동시 깜빡임
-	//m_bChain = *((int*)StateMachine()->GetBlackboardData(L"Chain"));
 	if (m_bChain)
 	{
 		m_fBlinkTime += DT;

@@ -24,6 +24,8 @@ void CMovement::finaltick()
 {
 	m_Accel = m_Force / m_Mass;
 
+
+
 	// 정지에 가까운 상태일 경우
 	if (m_Velocity.Length() < 0.1f)
 	{
@@ -48,6 +50,46 @@ void CMovement::finaltick()
 	{
 		m_Velocity.y = (m_Velocity.y / abs(m_Velocity.y)) * m_MaxSpeed;
 	}
+
+	if (m_Force.IsZero() && (m_Velocity.x != 0.f || m_Velocity.y != 0.f))
+	{
+		// X 좌표에 대한 마찰력 계산
+		if (m_Velocity.x != 0.f)
+		{
+			float xFriction = -m_Velocity.x;
+			xFriction /= abs(xFriction);
+			xFriction *= m_FrictionScale;
+
+			float xFrictionAccel = (xFriction / m_Mass) * DT;
+			if (abs(m_Velocity.x) < abs(xFrictionAccel))
+			{
+				m_Velocity.x = 0.f;
+			}
+			else
+			{
+				m_Velocity.x += xFrictionAccel;
+			}
+		}
+
+		// Y 좌표에 대한 마찰력 계산
+		if (m_Velocity.y != 0.f)
+		{
+			float yFriction = -m_Velocity.y;
+			yFriction /= abs(yFriction);
+			yFriction *= m_FrictionScale;
+
+			float yFrictionAccel = (yFriction / m_Mass) * DT;
+			if (abs(m_Velocity.y) < abs(yFrictionAccel))
+			{
+				m_Velocity.y = 0.f;
+			}
+			else
+			{
+				m_Velocity.y += yFrictionAccel;
+			}
+		}
+	}
+
 
 	// 물체에 적용되고있는 힘이 없으면 마찰력을 적용시킨다.
 	//if (m_Force.IsZero() && m_Velocity.x != 0.f && m_Ground)
@@ -84,42 +126,7 @@ void CMovement::finaltick()
 	//		m_Velocity.y += fFrictionAccel;
 	//	}
 	//}
-	//if ((m_Force.x == 0 || m_Force.y == 0) && (m_Velocity.x != 0.f || m_Velocity.y != 0.f) && m_Ground)
-	if (((m_Force.x == 0 && m_Velocity.x != 0.f) || (m_Force.y == 0 && m_Velocity.y != 0.f)) && m_Ground)
-	{
-		Vec2 fFriction = -m_Velocity;
-		if (fFriction.x == 0)
-		{
-			fFriction /= Vec2(1.f, abs(fFriction.y));
-		}
-		else if (fFriction.y == 0)
-		{
-			fFriction /= Vec2(abs(fFriction.x), 1.f);
-		}
-		else
-			fFriction /= Vec2(abs(fFriction.x), abs(fFriction.y));
 
-		fFriction *= m_FrictionScale;
-
-		Vec2 fFrictionAccel = (fFriction / m_Mass) * DT;
-		if (abs(m_Velocity.x) < abs(fFrictionAccel.x))
-		{
-			m_Velocity = Vec2(0.f, m_Velocity.y);
-		}
-		else
-		{
-			m_Velocity.x += fFrictionAccel.x;
-		}
-
-		if (abs(m_Velocity.y) < abs(fFrictionAccel.y))
-		{
-			m_Velocity = Vec2(m_Velocity.x, 0.f);
-		}
-		else
-		{
-			m_Velocity.y += fFrictionAccel.y;
-		}
-	}
 
 	Vec3 vObjPos = Transform()->GetRelativePos();
 	vObjPos = Vec3(vObjPos.x + m_Velocity.x * DT, vObjPos.y + m_Velocity.y * DT, vObjPos.z);

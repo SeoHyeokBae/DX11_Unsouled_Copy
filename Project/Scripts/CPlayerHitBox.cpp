@@ -23,10 +23,16 @@ void CPlayerHitBox::tick()
 
 void CPlayerHitBox::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+
 }
 
 void CPlayerHitBox::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+
+	Vec2 vVelocity = GetOwner()->GetParent()->Movement()->GetVelocity();
+	vVelocity -= (vVelocity * 0.1f);
+	GetOwner()->GetParent()->Movement()->SetVelocity(vVelocity);
+
 	// Monster¸¦ ¹Ð¾î³¿
 	// ÁÂ ¿ì À§ ¾Æ·¡
 	if (_OtherObj->GetName() == L"Zombie")

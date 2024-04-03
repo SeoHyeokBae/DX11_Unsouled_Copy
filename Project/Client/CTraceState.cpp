@@ -5,7 +5,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CStateMachine.h>
 #include <Engine/CTransform.h>
-
+#include <Engine/CMovement.h>
 #include <Engine/CTimeMgr.h>
 
 CTraceState::CTraceState()
@@ -27,8 +27,11 @@ void CTraceState::finaltick()
 	Vec3 vDir = pTarget->Transform()->GetWorldPos() - pSelf->Transform()->GetWorldPos();
 	vDir.Normalize();
 
-	Vec3 vPos = pSelf->Transform()->GetWorldPos() + vDir * DT * Speed;
-	pSelf->Transform()->SetRelativePos(vPos);
+	//Vec3 vPos = pSelf->Transform()->GetWorldPos() + vDir * DT * Speed;
+	//Vec3 vPos = vDir * DT * Speed;
+	//pSelf->Transform()->SetRelativePos(vPos);
+	Vec3 vPos = vDir * Speed;
+	//pSelf->Movement()->SetVelocity(vPos.XY());
 }
 
 void CTraceState::Enter()

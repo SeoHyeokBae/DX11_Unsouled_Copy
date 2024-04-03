@@ -111,7 +111,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
 // EffectShader
 float4 PS_Std2D_Effect(VS_OUT _in) : SV_Target
 {
-    float4 vColor = float4(1.f, 0.f, 1.f, 1.f);
+    float4 vColor = float4(1.f, 0.f, 1.f, 0.f);
     
     if (g_UseAnim2D)
     {
@@ -122,7 +122,6 @@ float4 PS_Std2D_Effect(VS_OUT _in) : SV_Target
         if (vUV.x < g_vLeftTop.x || (g_vLeftTop.x + g_vSliceSize.x) < vUV.x
             || vUV.y < g_vLeftTop.y || (g_vLeftTop.y + g_vSliceSize.y) < vUV.y)
         {
-            //vColor = float4(1.f, 1.f, 0.f, 1.f);
             discard;
         }
         else
@@ -144,9 +143,11 @@ float4 PS_Std2D_Effect(VS_OUT _in) : SV_Target
             discard; //clip(-1);            
         }
     }
+    else if (g_int_0 == 1)
+        vColor *= float4(0.f, 0.f, 0.f, 0.0f);
 
     if (g_int_0 == 10) // ±×¸²ÀÚ
-        vColor *= float4(0.f, 0.f, 0.f, 0.6f);
+         vColor *= float4(0.f, 0.f, 0.f, 0.6f);
     
     tLightColor LightColor = (tLightColor) 0.f;
     

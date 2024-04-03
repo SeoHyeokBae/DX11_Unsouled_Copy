@@ -13,6 +13,9 @@ private:
     int                 m_Combo;
 
 public:
+    int GetCombo() { return m_Combo; }
+
+public:
     virtual void finaltick() override;
     virtual void Enter() override;
     virtual void Exit() override;
