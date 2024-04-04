@@ -7,7 +7,7 @@
 #include <Engine/CTileMap.h>
 #include <Engine/CMeshRender.h>
 #include <Engine/CTaskMgr.h>
-
+#include <Engine/CRenderMgr.h>
 
 #include <Scripts/CColTileScript.h>
 #include <Scripts/CTypeTileScript.h>
@@ -54,6 +54,12 @@ void TileMapEditorUI::render_update()
 	static int IsNotCollider = 11; // col일시 12 Create시 영향
 	
 	m_bCollider ? IsNotCollider = 12 : IsNotCollider = 11;
+
+	//ImGui::Begin("test");
+	//Ptr<CTexture> pTex = CRenderMgr::GetInst()->GetGUITex();
+	//ID3D11ShaderResourceView* pSRV = pTex->GetSRV().Get();
+	//ImGui::Image(pSRV, ImGui::GetContentRegionAvail());
+	//ImGui::End();
 
 	if (ImGui::Button("Save"))
 	{

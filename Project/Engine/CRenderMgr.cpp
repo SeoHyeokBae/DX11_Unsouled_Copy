@@ -51,6 +51,9 @@ void CRenderMgr::tick()
 
 	render_debug();
 
+	// 디버그 포함 최종 렌더링 GUI 타켓에 복사
+	CopyRenderTargetToUITarget();
+
 	// Light2D clear
 	Clear();
 
@@ -134,6 +137,8 @@ void CRenderMgr::render_debug()
 			++iter;
 		}
 	}
+
+
 }
 
 void CRenderMgr::UpdateData()

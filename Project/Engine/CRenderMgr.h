@@ -18,6 +18,7 @@ private:
     CCamera*                m_EditorCam;
 
     Ptr<CTexture>           m_PostProcessTex;
+    Ptr<CTexture>           m_GUITex;
 
     CStructuredBuffer*      m_Light2DBuffer;
     vector<CLight2D*>       m_vecLight2D;
@@ -44,7 +45,9 @@ public:
     void RegisterLight2D(CLight2D* _Light2D) { m_vecLight2D.push_back(_Light2D); }
 
     void CopyRenderTargetToPostProcessTarget(); // 렌더타켓을 후처리용으로 텍스처 복사
+    void CopyRenderTargetToUITarget();          // UI용
     Ptr<CTexture> GetPostProcessTex() { return m_PostProcessTex; }
+    Ptr<CTexture> GetGUITex() { return m_GUITex; }
 
     void RegisterEditorCamera(CCamera* _Cam) { m_EditorCam = _Cam; }
     void ClearCamera() { m_vecCam.clear(); }

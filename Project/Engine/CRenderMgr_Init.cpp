@@ -26,6 +26,13 @@ void CRenderMgr::init()
 														 , DXGI_FORMAT_R8G8B8A8_UNORM
 														 , D3D11_BIND_SHADER_RESOURCE);
 
+	// GUI
+	m_GUITex = CAssetMgr::GetInst()->CreateTexture(L"GUITex"
+												  , (UINT)vRenderResolution.x
+												  , (UINT)vRenderResolution.y
+												  , DXGI_FORMAT_R8G8B8A8_UNORM
+												  , D3D11_BIND_SHADER_RESOURCE);
+
 	// Noise Texture Load
 	m_vecNoiseTex.push_back(CAssetMgr::GetInst()->Load<CTexture>(L"texture\\noise\\noise_01.png", L"texture\\noise\\noise_01.png"));
 	m_vecNoiseTex.push_back(CAssetMgr::GetInst()->Load<CTexture>(L"texture\\noise\\noise_02.png", L"texture\\noise\\noise_02.png"));
@@ -41,4 +48,11 @@ void CRenderMgr::CopyRenderTargetToPostProcessTarget()
 {
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+}
+
+//GUI
+void CRenderMgr::CopyRenderTargetToUITarget()
+{
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	CONTEXT->CopyResource(m_GUITex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
 }
