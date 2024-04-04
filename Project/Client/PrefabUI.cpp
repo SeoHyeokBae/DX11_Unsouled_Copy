@@ -33,24 +33,53 @@ void PrefabUI::render_update()
 	ImGui::InputText("##ObjName", (char*)strName.c_str(), strName.length(), ImGuiInputTextFlags_ReadOnly);
 
 
-	//for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-	//{
-	//	if (nullptr != m_ViewObj->GetComponent(COMPONENT_TYPE::))
-	//	{
-	//		m_arrComUI[i]->SetTargetObject(_Object);
-	//	}
-	//}
-
-	//// 해당 오브젝트가 보유하고 있는 Script 에 맞추어서 ScriptUI 를 활성화 시킨다.
-
-	if (ImGui::TreeNode("Scripts"))
+	if (ImGui::TreeNode("Component"))
 	{
-		vector<wstring> vecScriptName;
-		CScriptMgr::GetScriptInfo(vecScriptName);
-
-		for (size_t i = 0; i < vecScriptName.size(); ++i)
+		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 		{
-			string strName = ToString(vecScriptName[i]);
+			int type = i;
+			switch (type)
+			{
+			case (UINT)COMPONENT_TYPE::TRANSFORM:
+				if (nullptr != m_ViewObj->Transform()) ImGui::Text("Transform");
+				break;
+			case (UINT)COMPONENT_TYPE::COLLIDER2D:
+				if (nullptr != m_ViewObj->Collider2D()) ImGui::Text("Collider2D");
+				break;
+			case (UINT)COMPONENT_TYPE::MOVEMENT:
+				if (nullptr != m_ViewObj->Movement()) ImGui::Text("Movement");
+				break;
+			case (UINT)COMPONENT_TYPE::ANIMATOR2D:
+				if (nullptr != m_ViewObj->Animator2D()) ImGui::Text("Anmiator2D");
+				break;
+			case (UINT)COMPONENT_TYPE::LIGHT2D:
+				if (nullptr != m_ViewObj->Light2D()) ImGui::Text("Light2D");
+				break;
+			case (UINT)COMPONENT_TYPE::CAMERA:
+				if (nullptr != m_ViewObj->Camera()) ImGui::Text("Camera");
+				break;
+			case (UINT)COMPONENT_TYPE::STATEMACHINE:
+				if (nullptr != m_ViewObj->StateMachine()) ImGui::Text("StateMachine");
+				break;
+			case (UINT)COMPONENT_TYPE::MESHRENDER:
+				if (nullptr != m_ViewObj->MeshRender()) ImGui::Text("MeshRender");
+				break;
+			case (UINT)COMPONENT_TYPE::TILEMAP:
+				if (nullptr != m_ViewObj->TileMap()) ImGui::Text("TileMap");
+				break;
+			case (UINT)COMPONENT_TYPE::END:
+				break;
+			}
+		}
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Script"))
+	{
+		vector<CScript*> scripts = m_ViewObj->GetScripts();
+		for (size_t i = 0; i < scripts.size(); ++i)
+		{
+			string strName = ToString(CScriptMgr::GetScriptName(scripts[i]));
 			ImGui::Text((char*)strName.c_str());
 		}
 
