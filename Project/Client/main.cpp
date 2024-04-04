@@ -51,8 +51,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     // 메모리 누수 확인
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(1289);
-
+    //_CrtSetBreakAlloc(2498708);
+    //_crtBreakAlloc = 457936;
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:

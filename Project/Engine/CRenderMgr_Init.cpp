@@ -51,8 +51,8 @@ void CRenderMgr::CopyRenderTargetToPostProcessTarget()
 }
 
 //GUI
-void CRenderMgr::CopyRenderTargetToUITarget()
-{
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-	CONTEXT->CopyResource(m_GUITex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
-}
+//void CRenderMgr::CopyRenderTargetToUITarget()
+//{
+//	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+//	CONTEXT->CopyResource(m_GUITex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+//}

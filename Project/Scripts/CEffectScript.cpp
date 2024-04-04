@@ -37,8 +37,6 @@ void CEffectScript::begin()
 
 	GetOwner()->AddChild(m_EffectObj);
 	GamePlayStatic::SpawnGameObject(m_EffectObj, 0);
-
-	m_ScrMgr = new CScriptMgr;
 }
 
 void CEffectScript::tick()
