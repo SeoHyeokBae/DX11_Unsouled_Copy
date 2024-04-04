@@ -28,7 +28,7 @@ void PrefabUI::render_update()
 
 	m_ViewObj = pPrefab->GetProtoGameObj();
 	string strName = ToString(m_ViewObj->GetName());
-	ImGui::Text("Object");
+	ImGui::Text("Name");
 	ImGui::SameLine();
 	ImGui::InputText("##ObjName", (char*)strName.c_str(), strName.length(), ImGuiInputTextFlags_ReadOnly);
 
@@ -88,10 +88,12 @@ void PrefabUI::render_update()
 
 	if (ImGui::Button("Add Level"))
 	{
-		// ToDo
-		
-		
+		CGameObject* pNewObj = pPrefab->Instantiate();
+		GamePlayStatic::SpawnGameObject(pNewObj, 0);
 	}
+
+	ImGui::SameLine();
+	ImGui::Text(" LayerIdx Default");
 
 
 
