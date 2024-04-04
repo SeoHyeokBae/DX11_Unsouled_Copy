@@ -18,6 +18,8 @@ public:
     void SetGameObject(CGameObject* _Object);
     CGameObject* Instantiate();
 
+    CGameObject* GetProtoGameObj() { return m_ProtoObj; }
+
     CLONE_DISABLE(CPrefab);
 
 public:

@@ -155,9 +155,6 @@ void Content::ReloadContent()
 			}
 		}
 	}
-
-
-
 	ResetContent();
 }
 
