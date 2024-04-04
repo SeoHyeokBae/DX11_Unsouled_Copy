@@ -19,6 +19,7 @@ CGameObject::CGameObject()
 	, m_Parent(nullptr)
 	, m_iLayerIdx(-1) // 어떠한 레벨(레이어) 소속되어 있지 않다
 	, m_bDead(false)
+	, m_bShadow(false)
 	, m_bAfterAct(false)
 	, m_Dir(eDIR::NONE)
 {
@@ -31,6 +32,7 @@ CGameObject::CGameObject(const CGameObject& _OriginObject)
 	, m_Parent(nullptr)
 	, m_iLayerIdx(-1)
 	, m_bDead(false)
+	, m_bShadow(false)
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{

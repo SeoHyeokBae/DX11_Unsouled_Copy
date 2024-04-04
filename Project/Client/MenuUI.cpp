@@ -11,6 +11,7 @@
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
+#include <Engine/CPrefab.h>
 
 #include <Scripts/CScriptMgr.h>
 #include <Engine/CScript.h>
@@ -303,9 +304,84 @@ void MenuUI::GameObject()
 
 			ImGui::EndMenu();
 		}
+
+        ImGui::Separator();
+        if (ImGui::BeginMenu("Prefab", ""))
+        {
+            if (ImGui::MenuItem("Save Prefab", ""))
+            {
+                Inspector* inspector = (Inspector*)CImGuiMgr::GetInst()->FindUI("##Inspector");
+                // 오브젝트 선택되지 않음
+                assert(inspector->GetTargetObject());
+
+                wchar_t szSelect[256] = {};
+
+                OPENFILENAME ofn = {};
+
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = nullptr;
+                ofn.lpstrFile = szSelect;
+                ofn.lpstrFile[0] = '\0';
+                ofn.nMaxFile = sizeof(szSelect);
+                ofn.lpstrFilter = L"ALL\0*.*\0prefab\0*.pref";
+                ofn.nFilterIndex = 1;
+                ofn.lpstrFileTitle = NULL;
+                ofn.nMaxFileTitle = 0;
+
+                // 탐색창 초기 위치 지정
+                wstring strInitPath = CPathMgr::GetContentPath();
+                strInitPath += L"prefab\\";
+                ofn.lpstrInitialDir = strInitPath.c_str();
+
+                ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+                if (GetSaveFileName(&ofn))
+                {
+                    CGameObject* clone = inspector->GetTargetObject()->Clone();
+                    Ptr<CPrefab> pPrefab = new CPrefab(clone, false);
+                    pPrefab->Save(CPathMgr::GetRelativePath(szSelect));
+                }
+
+            }
+            if (ImGui::MenuItem("Load Prefab", ""))
+            {
+                wchar_t szSelect[256] = {};
+
+                OPENFILENAME ofn = {};
+
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = nullptr;
+                ofn.lpstrFile = szSelect;
+                ofn.lpstrFile[0] = '\0';
+                ofn.nMaxFile = sizeof(szSelect);
+                ofn.lpstrFilter = L"ALL\0*.*\0prefab\0*.pref";
+                ofn.nFilterIndex = 1;
+                ofn.lpstrFileTitle = NULL;
+                ofn.nMaxFileTitle = 0;
+
+                // 탐색창 초기 위치 지정
+                wstring strInitPath = CPathMgr::GetContentPath();
+                strInitPath += L"prefab\\";
+                ofn.lpstrInitialDir = strInitPath.c_str();
+
+                ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+                if (GetOpenFileName(&ofn))
+                {
+                    //Ptr<CPrefab> pPrefab = CAssetMgr::GetInst()->Load<CPrefab>(CPathMgr::GetRelativePath(szSelect), CPathMgr::GetRelativePath(szSelect));
+                    // 인스턴스 게임 오브젝트로 생성
+                    // 현재 level에 추가
+                    // Inspector 의 타겟정보를 nullptr 로 되돌리기
+                    Inspector* pInspector = (Inspector*)CImGuiMgr::GetInst()->FindUI("##Inspector");
+                    pInspector->SetTargetObject(nullptr);
+                }
+            }
+
+            ImGui::EndMenu();
+        }
+
 		ImGui::EndMenu();
 	}
-
 }
 
 
