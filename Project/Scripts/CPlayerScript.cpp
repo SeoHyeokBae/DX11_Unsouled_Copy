@@ -108,7 +108,7 @@ void CPlayerScript::begin()
 	m_HitBox->AddComponent(new CCollider2D);
 	m_HitBox->AddComponent(new CMeshRender);
 	m_HitBox->AddComponent(new CPlayerHitBox);
-	//m_HitBox->Collider2D()->SetVisible(true);
+	m_HitBox->Collider2D()->SetVisible(true);
 	m_HitBox->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
 	m_HitBox->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_HitBox);
@@ -122,7 +122,7 @@ void CPlayerScript::begin()
 	m_AttCol->AddComponent(new CMeshRender);
 	m_AttCol->AddComponent(new CPlayerAttColScript);
 	m_AttCol->Transform()->SetRelativePos(Vec3(0.f, 10.f,0.f));
-	//m_AttCol->Collider2D()->SetVisible(true);
+	m_AttCol->Collider2D()->SetVisible(true);
 	m_AttCol->Collider2D()->SetOffsetPos(Vec2(0.f, -12.f));
 	m_AttCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_AttCol);
@@ -153,12 +153,7 @@ void CPlayerScript::begin()
 
 void CPlayerScript::tick()
 {
-	//Vec3 vPos = Transform()->GetRelativePos();
-	//Vec3 vRot = Transform()->GetRelativeRotation();
-
 	m_CurState = StateMachine()->GetFSM()->GetCurStateName();
-
-
 
 	// 잔상 효과 이미지 정보 저장
 	if (GetOwner()->IsAfterImgAct())
@@ -190,9 +185,6 @@ void CPlayerScript::tick()
 	{
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
-
-	//Transform()->SetRelativePos(vPos);
-	//Transform()->SetRelativeRotation(vRot);
 }
 
 void CPlayerScript::CreateAftImg()

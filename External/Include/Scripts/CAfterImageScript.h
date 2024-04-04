@@ -1,7 +1,5 @@
 #pragma once
 #include <Engine\CScript.h>
-//#include <Engine/CAnim.h>
-//#include <Engine\CTexture.h>
 
 #define POOLCOUNT 50
 

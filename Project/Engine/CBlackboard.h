@@ -28,9 +28,6 @@ public:
     void SetBlackBoardData(const wstring& _strKey,  void* _Data);
     void* GetBlackboardData(const wstring& _strKey);
 
-
-
-
     CLONE(CBlackboard);
 public:
     CBlackboard();
