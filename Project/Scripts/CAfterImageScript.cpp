@@ -26,23 +26,42 @@ void CAfterImageScript::begin()
 
 	GetOwner()->AddChild(m_AfterImgObj);
 	GamePlayStatic::SpawnGameObject(m_AfterImgObj, 11); // 추후 변경
-	for (int i = 0; i < POOLCOUNT; i++)
-	{
-		wchar_t number[128] = {};
-		wchar_t mtrl[256] = {};
+	//for (int i = 0; i < POOLCOUNT; i++)
+	//{
+	//	wchar_t number[128] = {};
+	//	wchar_t mtrl[256] = {};
 
-		swprintf_s(number, L"AfterImageChild_%d", i);
-		swprintf_s(mtrl, L"material\\AfterImage\\AfterImage%d.mtrl", i);
+	//	swprintf_s(number, L"AfterImageChild_%d", i);
+	//	swprintf_s(mtrl, L"material\\AfterImage\\AfterImage%d.mtrl", i);
+	//	CGameObject* sprite = new CGameObject;
+	//	sprite->SetName(number);
+	//	
+	//	sprite->AddComponent(new CTransform);
+	//	sprite->AddComponent(new CMeshRender);
+	//	sprite->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//	CAssetMgr::GetInst()->Load<CMaterial>(number, mtrl);
+	//	sprite->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(number));
+
+	//	sprite->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+	//	m_vSprite.push_back(make_pair(false, sprite));
+	//	m_AfterImgObj->AddChild(m_vSprite[i].second);
+	//	GamePlayStatic::SpawnGameObject(m_vSprite[i].second, 11); // 추후 변경
+	//}
+
+		for (int i = 0; i < POOLCOUNT; i++)
+	{
+
 		CGameObject* sprite = new CGameObject;
-		sprite->SetName(number);
-		
 		sprite->AddComponent(new CTransform);
 		sprite->AddComponent(new CMeshRender);
 		sprite->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-		CAssetMgr::GetInst()->Load<CMaterial>(number, mtrl);
-		sprite->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(number));
+		CAssetMgr::GetInst()->Load<CMaterial>(L"AfterImage0", L"material\\AfterImage\\AfterImage0.mtrl");
+		sprite->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"AfterImage0"));
 
 		sprite->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+		sprite->GetRenderComponent()->GetDynamicMaterial();
 
 		m_vSprite.push_back(make_pair(false, sprite));
 		m_AfterImgObj->AddChild(m_vSprite[i].second);
