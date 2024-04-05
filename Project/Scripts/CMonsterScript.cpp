@@ -15,12 +15,16 @@ CMonsterScript::~CMonsterScript()
 {
 }
 
+
 void CMonsterScript::begin()
 {
 	Animator2D()->AddAnim(L"Zombie_Stand_Left", L"anim\\Zombie_Stand_Left.anim");
 	Animator2D()->AddAnim(L"Zombie_Stand_Right", L"anim\\Zombie_Stand_Right.anim");
 	Animator2D()->AddAnim(L"Zombie_Running_Left", L"anim\\Zombie_Running_Left.anim");
 	Animator2D()->AddAnim(L"Zombie_Running_Right", L"anim\\Zombie_Running_Right.anim");
+
+	GetRenderComponent()->GetDynamicMaterial();
+
 
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
@@ -71,3 +75,6 @@ void CMonsterScript::LoadFromFile(FILE* _File)
 {
 }
 
+void CMonsterScript::init()
+{
+}

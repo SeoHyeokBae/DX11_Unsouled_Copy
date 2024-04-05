@@ -70,6 +70,7 @@
     <ClInclude Include="CPlayerAttColScript.h">
       <Filter>Scripts\1. Player</Filter>
     </ClInclude>
+    <ClInclude Include="CNormalObjScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -121,5 +122,6 @@
     <ClCompile Include="CPlayerAttColScript.cpp">
       <Filter>Scripts\1. Player</Filter>
     </ClCompile>
+    <ClCompile Include="CNormalObjScript.cpp" />
   </ItemGroup>
 </Project>

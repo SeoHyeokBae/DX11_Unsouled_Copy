@@ -29,6 +29,7 @@
 #include <Scripts/CChainSystemScript.h>
 #include <Scripts/CPlayerHitBox.h>
 #include <Scripts/CEffectScript.h>
+#include <Scripts/CNormalObjScript.h>
 
 
 #include <Engine/CAssetMgr.h>
@@ -66,8 +67,6 @@ void CCreateTempLevel::Init()
 
 	//Ptr<CPrefab> pMissilePrefab = new CPrefab(pObj,false);
 	//CAssetMgr::GetInst()->AddAsset<CPrefab>(L"MissilePrefab", pMissilePrefab.Get());
-
-
 	//pMissilePrefab->Save(L"prefab\\missile.pref");
 	
 	// 임시 FSM 객체 에셋 하나 생성하기
@@ -92,20 +91,6 @@ void CCreateTempLevel::Init()
 
 void CCreateTempLevel::CreateTempLevel()
 {
-
-	//Ptr<CMaterial> pBackgroudMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMtrl");
-	//Ptr<CMaterial> pStd2DMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl");
-
-	//pBackgroudMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"BackgroundTex", L"texture\\Background.png"));
-	//pStd2DMtrl->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Fighter.bmp"));
-
-	//CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\temp.lv");
-	//CLevelMgr::GetInst()->ChangeLevel(pLevel, LEVEL_STATE::STOP);
-	//return;
-	
-	Ptr<CTexture> pAltasTex = nullptr;
-	pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
-
 	// 초기 레벨 구성하기
 	CLevel* pTempLevel = new CLevel;
 	pTempLevel->GetLayer(0)->SetName(L"Default");
@@ -114,7 +99,6 @@ void CCreateTempLevel::CreateTempLevel()
 	pTempLevel->GetLayer(3)->SetName(L"Monster");
 	pTempLevel->GetLayer(4)->SetName(L"Light");
 	pTempLevel->GetLayer(5)->SetName(L"Shadow");
-
 	pTempLevel->GetLayer(11)->SetName(L"Tile_Property");
 	pTempLevel->GetLayer(12)->SetName(L"Tile_Collider");
 	pTempLevel->GetLayer(10)->SetName(L"Background");
@@ -280,6 +264,33 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Zombie"));
 
 	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"NormalMonsterFSM"));
+
+	pTempLevel->AddObject(pObj, L"Monster", false);
+
+
+
+	//Altar Object 생성
+	pObj = new CGameObject;
+	pObj->SetName(L"Jail_Stone");
+
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
+	pObj->AddComponent(new CCollider2D);
+	pObj->AddComponent(new CMovement);
+	pObj->AddComponent(new CShadowScript);
+	pObj->AddComponent(new CNormalObjScript);
+	pObj->AddComponent(new CZSortScript);
+
+	pObj->Transform()->SetRelativePos(Vec3(-100.f, 50.f, 0.f));
+	pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
+
+	pObj->Collider2D()->SetAbsolute(true);
+	pObj->Collider2D()->SetOffsetScale(Vec2(92.f, 46.f));
+	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, -6.f));
+	pObj->Collider2D()->SetVisible(true);
+
+	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
 
 	pTempLevel->AddObject(pObj, L"Monster", false);
 

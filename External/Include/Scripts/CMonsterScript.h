@@ -9,6 +9,9 @@ private:
     float       m_Speed;
 
 public:
+    void init();
+
+public:
     virtual void begin() override;
     virtual void tick() override;
     

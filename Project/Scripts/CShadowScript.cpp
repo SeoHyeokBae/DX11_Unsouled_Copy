@@ -52,7 +52,8 @@ void CShadowScript::begin()
 void CShadowScript::tick()
 {
 	// Owner에서 애니메이션 보유x
-	assert(m_ShadowObj->Animator2D());
+	//Ptr<CTexture> tex = m_ShadowObj->MeshRender()->GetMaterial()->GetTexParam(TEX_PARAM::TEX_0);
+	//assert(m_ShadowObj->Animator2D() || nullptr != m_ShadowObj->MeshRender()->GetMaterial()->GetTexParam(TEX_PARAM::TEX_0));
 
 }
 

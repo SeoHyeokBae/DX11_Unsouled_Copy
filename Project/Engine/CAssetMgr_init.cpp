@@ -190,6 +190,8 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
+	pShader->AddTexParam(TEX_PARAM::TEX_0, "Output Texture 1");
+
 	AddAsset(L"EffectShader", pShader.Get());
 
 	// =================================
