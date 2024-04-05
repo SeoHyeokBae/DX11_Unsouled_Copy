@@ -208,7 +208,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(12.f, 3.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetVisible(true);
 
 	pObj->Movement()->SetMass(1.f);
 	pObj->Movement()->SetInitSpeed(125.f);
@@ -257,7 +257,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(15.f, 35.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(2.f, 18.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetVisible(true);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	CAssetMgr::GetInst()->Load<CMaterial>(L"Zombie", L"material\\Zombie.mtrl");
@@ -287,7 +287,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->Collider2D()->SetAbsolute(true);
 	pObj->Collider2D()->SetOffsetScale(Vec2(92.f, 46.f));
 	pObj->Collider2D()->SetOffsetPos(Vec2(0.f, -6.f));
-	pObj->Collider2D()->SetVisible(true);
+	//pObj->Collider2D()->SetVisible(true);
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));

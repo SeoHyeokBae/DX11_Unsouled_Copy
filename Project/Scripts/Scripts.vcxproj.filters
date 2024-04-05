@@ -16,6 +16,9 @@
     <Filter Include="Scripts\1. Player">
       <UniqueIdentifier>{8765640d-2538-45bb-86ed-1c0865e96c5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\4.Common">
+      <UniqueIdentifier>{bd7836ed-86fe-4372-bdd8-581c017f9327}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Scripts\3. TileType">
       <UniqueIdentifier>{712cb27e-a8d9-4452-8d0e-4cbecd428f7a}</UniqueIdentifier>
     </Filter>
@@ -27,20 +30,11 @@
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="CBackgroundScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CMissileScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CShadowScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CCameraPlayScript.h">
-      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Scripts\1. Player</Filter>
@@ -54,23 +48,36 @@
     <ClInclude Include="CTypeTileScript.h">
       <Filter>Scripts\3. TileType</Filter>
     </ClInclude>
-    <ClInclude Include="CAfterImageScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CZSortScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CChainSystemScript.h">
       <Filter>Scripts\1. Player</Filter>
     </ClInclude>
-    <ClInclude Include="CEffectScript.h" />
     <ClInclude Include="CPlayerHitBox.h">
       <Filter>Scripts\1. Player</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerAttColScript.h">
       <Filter>Scripts\1. Player</Filter>
     </ClInclude>
-    <ClInclude Include="CNormalObjScript.h" />
+    <ClInclude Include="CAfterImageScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackgroundScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraPlayScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CShadowScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CZSortScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormalObjScript.h">
+      <Filter>Scripts\4.Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -79,20 +86,11 @@
     <ClCompile Include="Scripts.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="CBackgroundScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CMissileScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CShadowScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CCameraPlayScript.cpp">
-      <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Scripts\1. Player</Filter>
@@ -106,22 +104,35 @@
     <ClCompile Include="CTypeTileScript.cpp">
       <Filter>Scripts\3. TileType</Filter>
     </ClCompile>
-    <ClCompile Include="CAfterImageScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CZSortScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CChainSystemScript.cpp">
       <Filter>Scripts\1. Player</Filter>
     </ClCompile>
-    <ClCompile Include="CEffectScript.cpp" />
     <ClCompile Include="CPlayerHitBox.cpp">
       <Filter>Scripts\1. Player</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerAttColScript.cpp">
       <Filter>Scripts\1. Player</Filter>
     </ClCompile>
-    <ClCompile Include="CNormalObjScript.cpp" />
+    <ClCompile Include="CAfterImageScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackgroundScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraPlayScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CShadowScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CZSortScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CNormalObjScript.cpp">
+      <Filter>Scripts\4.Common</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
