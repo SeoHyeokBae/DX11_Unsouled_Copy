@@ -30,6 +30,8 @@
 #include <Scripts/CPlayerHitBox.h>
 #include <Scripts/CEffectScript.h>
 #include <Scripts/CNormalObjScript.h>
+#include <Scripts/CZombieScript.h>
+#include <Scripts/CBossNiugScript.h>
 
 
 #include <Engine/CAssetMgr.h>
@@ -38,6 +40,8 @@
 
 #include "CIdleState.h"
 #include "CTraceState.h"
+
+
 #include "CStaminaOutState.h"
 #include "CRunningState.h"
 #include "CStandState.h"
@@ -48,35 +52,28 @@
 #include "CPlayerBlockState.h"
 
 
+#include "CNiug_RunningState.h"
+
+
 
 void CCreateTempLevel::Init()
 {
-	// Missile Prefab 积己
-	//CGameObject* pObj = nullptr;
-
-	//pObj = new CGameObject;
-	//pObj->SetName(L"Missile");
-	//pObj->AddComponent(new CTransform);
-	//pObj->AddComponent(new CMeshRender);
-	//pObj->AddComponent(new CMissileScript);
-
-	//pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
-
-	//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	//pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-
-	//Ptr<CPrefab> pMissilePrefab = new CPrefab(pObj,false);
-	//CAssetMgr::GetInst()->AddAsset<CPrefab>(L"MissilePrefab", pMissilePrefab.Get());
-	//pMissilePrefab->Save(L"prefab\\missile.pref");
-	
 	// 烙矫 FSM 按眉 俊悸 窍唱 积己窍扁
+	// Zombie
 	Ptr<CFSM>	pFSM = new CFSM(true);
-
 	pFSM->AddState(L"IdleState", new CIdleState);
 	pFSM->AddState(L"TraceState", new CTraceState);
-
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"NormalMonsterFSM", pFSM.Get());
-	
+
+
+	// Boss Niug
+	pFSM = new CFSM(true);
+	pFSM->AddState(L"IdleState", new CIdleState);
+	pFSM->AddState(L"TraceState", new CTraceState);
+	pFSM->AddState(L"RunningState", new CNiug_RunningState);
+	CAssetMgr::GetInst()->AddAsset<CFSM>(L"Boss_NiugFSM", pFSM.Get());
+
+	// Player
 	pFSM = new CFSM(true);
 	pFSM->AddState(L"StaminaOutState", new CStaminaOutState);
 	pFSM->AddState(L"RunningState", new CRunningState);
@@ -235,7 +232,6 @@ void CCreateTempLevel::CreateTempLevel()
 	//Monster Object 积己
 	pObj = new CGameObject;
 	pObj->SetName(L"Zombie");
-
 	pObj->AddComponent(new CTransform);
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CCollider2D);
@@ -244,6 +240,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMovement);
 	pObj->AddComponent(new CShadowScript);
 	pObj->AddComponent(new CMonsterScript);
+	pObj->AddComponent(new CZombieScript);
 	pObj->AddComponent(new CZSortScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
@@ -267,7 +264,41 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pTempLevel->AddObject(pObj, L"Monster", false);
 
+	// Boss Monster 积己
+	pObj = new CGameObject;
+	pObj->SetName(L"Boss_Niug");
 
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CMeshRender);
+	pObj->AddComponent(new CCollider2D);
+	pObj->AddComponent(new CStateMachine);
+	pObj->AddComponent(new CAnimator2D);
+	pObj->AddComponent(new CMovement);
+	pObj->AddComponent(new CShadowScript);
+	pObj->AddComponent(new CMonsterScript);
+	pObj->AddComponent(new CBossNiugScript);
+	pObj->AddComponent(new CZSortScript);
+
+	pObj->Transform()->SetRelativePos(Vec3(-100.f, 300.f, 0.f));
+	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+	pObj->Movement()->SetMass(1.f);
+	pObj->Movement()->SetInitSpeed(100.f);
+	pObj->Movement()->SetMaxSpeed(450.f);
+	pObj->Movement()->SetFrictionScale(1000.f);
+
+	pObj->Collider2D()->SetAbsolute(true);
+	pObj->Collider2D()->SetOffsetScale(Vec2(15.f, 35.f));
+	pObj->Collider2D()->SetOffsetPos(Vec2(2.f, 18.f));
+	pObj->Collider2D()->SetVisible(true);
+
+	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	CAssetMgr::GetInst()->Load<CMaterial>(L"Boss_Niug", L"material\\Zombie.mtrl");
+	pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Boss_Niug"));
+
+	pObj->StateMachine()->SetFSM(CAssetMgr::GetInst()->FindAsset<CFSM>(L"Boss_NiugFSM"));
+
+	pTempLevel->AddObject(pObj, L"Monster", false);
 
 	//Altar Object 积己
 	pObj = new CGameObject;

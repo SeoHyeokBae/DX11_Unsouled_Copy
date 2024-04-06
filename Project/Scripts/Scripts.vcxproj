@@ -193,6 +193,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="CAfterImageScript.h" />
     <ClInclude Include="CBackgroundScript.h" />
+    <ClInclude Include="CBossNiugScript.h" />
     <ClInclude Include="CCameraPlayScript.h" />
     <ClInclude Include="CChainSystemScript.h" />
     <ClInclude Include="CColTileScript.h" />
@@ -206,6 +207,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CShadowScript.h" />
     <ClInclude Include="CTypeTileScript.h" />
+    <ClInclude Include="CZombieScript.h" />
     <ClInclude Include="CZSortScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -213,6 +215,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="CAfterImageScript.cpp" />
     <ClCompile Include="CBackgroundScript.cpp" />
+    <ClCompile Include="CBossNiugScript.cpp" />
     <ClCompile Include="CCameraPlayScript.cpp" />
     <ClCompile Include="CChainSystemScript.cpp" />
     <ClCompile Include="CColTileScript.cpp" />
@@ -226,6 +229,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CShadowScript.cpp" />
     <ClCompile Include="CTypeTileScript.cpp" />
+    <ClCompile Include="CZombieScript.cpp" />
     <ClCompile Include="CZSortScript.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

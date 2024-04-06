@@ -113,12 +113,6 @@
     <Filter Include="04. State">
       <UniqueIdentifier>{e5ce4202-7d7d-4720-b039-71776f091f7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. State\IdleState">
-      <UniqueIdentifier>{66626d36-1bab-4c77-a9cf-d18bd7e9ff23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. State\TraceState">
-      <UniqueIdentifier>{c2a5e4e9-3340-44be-9808-d777b60bd7ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. UI\3. Inspector\AssetUI\FSMUI">
       <UniqueIdentifier>{eb233184-c5a5-4a90-bb15-01b52e4b9f23}</UniqueIdentifier>
     </Filter>
@@ -127,6 +121,24 @@
     </Filter>
     <Filter Include="04. State\Player">
       <UniqueIdentifier>{639b1a4c-e695-4d0c-9583-c29c2a8fb0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Monster">
+      <UniqueIdentifier>{26806de7-b760-418f-a7f4-15ab8291ab88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Monster\01. Zombie">
+      <UniqueIdentifier>{8f3b01c4-eff7-4b92-bdf0-3d237b5a319d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Monster\00. Common">
+      <UniqueIdentifier>{6983e222-2c8b-47f0-89a2-ed097d64720e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Monster\00. Common\IdleState">
+      <UniqueIdentifier>{66626d36-1bab-4c77-a9cf-d18bd7e9ff23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Monster\00. Common\TraceState">
+      <UniqueIdentifier>{c2a5e4e9-3340-44be-9808-d777b60bd7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. State\Monster\05. Boss_Niug">
+      <UniqueIdentifier>{38ea2ee1-aaa0-46e8-817c-0642766bed46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -266,10 +278,7 @@
       <Filter>02. UI\3. Inspector\AssetUI\FSMUI</Filter>
     </ClInclude>
     <ClInclude Include="CTraceState.h">
-      <Filter>04. State\TraceState</Filter>
-    </ClInclude>
-    <ClInclude Include="CIdleState.h">
-      <Filter>04. State\IdleState</Filter>
+      <Filter>04. State\Monster\00. Common\TraceState</Filter>
     </ClInclude>
     <ClInclude Include="ScriptUI.h">
       <Filter>02. UI\3. Inspector\ComponentUI\Script</Filter>
@@ -300,6 +309,12 @@
     </ClInclude>
     <ClInclude Include="CPlayerBlockState.h">
       <Filter>04. State\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CNiug_RunningState.h">
+      <Filter>04. State\Monster\05. Boss_Niug</Filter>
+    </ClInclude>
+    <ClInclude Include="CIdleState.h">
+      <Filter>04. State\Monster\00. Common\IdleState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -441,10 +456,7 @@
       <Filter>02. UI\3. Inspector\AssetUI\FSMUI</Filter>
     </ClCompile>
     <ClCompile Include="CTraceState.cpp">
-      <Filter>04. State\TraceState</Filter>
-    </ClCompile>
-    <ClCompile Include="CIdleState.cpp">
-      <Filter>04. State\IdleState</Filter>
+      <Filter>04. State\Monster\00. Common\TraceState</Filter>
     </ClCompile>
     <ClCompile Include="ScriptUI.cpp">
       <Filter>02. UI\3. Inspector\ComponentUI\Script</Filter>
@@ -475,6 +487,12 @@
     </ClCompile>
     <ClCompile Include="CPlayerBlockState.cpp">
       <Filter>04. State\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CNiug_RunningState.cpp">
+      <Filter>04. State\Monster\05. Boss_Niug</Filter>
+    </ClCompile>
+    <ClCompile Include="CIdleState.cpp">
+      <Filter>04. State\Monster\00. Common\IdleState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

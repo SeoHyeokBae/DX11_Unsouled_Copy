@@ -79,11 +79,17 @@ void CRenderMgr::render_editor()
 
 void CRenderMgr::render_debug()
 {
-	if (m_vecCam.empty())
-		return;
-
-	g_Transform.matView = m_vecCam[0]->GetViewMat();
-	g_Transform.matProj = m_vecCam[0]->GetProjMat();
+	//if (m_vecCam.empty())
+	//	return;
+	//g_Transform.matProj = m_vecCam[0]->GetProjMat();
+	//g_Transform.matView = m_vecCam[0]->GetViewMat();
+	
+	// Stop 상태일때 메모리 사용 계속 증가하는거 방지
+	if (!m_vecCam.empty())
+	{
+		g_Transform.matProj = m_vecCam[0]->GetProjMat();
+		g_Transform.matView = m_vecCam[0]->GetViewMat();
+	}
 
 	list<tDebugShapeInfo>::iterator iter = m_DbgShapeInfo.begin();
 	for (; iter != m_DbgShapeInfo.end();)

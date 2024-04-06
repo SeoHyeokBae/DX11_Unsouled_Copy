@@ -1,5 +1,6 @@
 CAfterImageScript
 CBackgroundScript
+CBossNiugScript
 CCameraPlayScript
 CChainSystemScript
 CColTileScript
@@ -7,10 +8,10 @@ CEffectScript
 CMissileScript
 CMonsterScript
 CNormalObjScript
-CPlayerAttCol
 CPlayerAttColScript
 CPlayerHitBox
 CPlayerScript
 CShadowScript
 CTypeTileScript
+CZombieScript
 CZSortScript

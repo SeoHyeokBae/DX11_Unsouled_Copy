@@ -38,31 +38,32 @@ void CIdleState::Enter()
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
 
+	// 나중에 몬스터 애니메이션 이름 통일
 	switch (m_Dir)
 	{
 	case eDIR::UP:
-		anim->Play(L"Zombie_Stand_Right", true);
+		anim->Play(L"Stand_Right", true);
 		break;
 	case eDIR::DOWN:
-		anim->Play(L"Zombie_Stand_Left", true);
+		anim->Play(L"Stand_Left", true);
 		break;
 	case eDIR::LEFT:
-		anim->Play(L"Zombie_Stand_Left", true);
+		anim->Play(L"Stand_Left", true);
 		break;
 	case eDIR::RIGHT:
-		anim->Play(L"Zombie_Stand_Right", true);
+		anim->Play(L"Stand_Right", true);
 		break;
 	case eDIR::UPLEFT:
-		anim->Play(L"Zombie_Stand_Left", true);
+		anim->Play(L"Stand_Left", true);
 		break;
 	case eDIR::UPRIGHT:
-		anim->Play(L"Zombie_Stand_Right", true);
+		anim->Play(L"Stand_Right", true);
 		break;
 	case eDIR::DOWNLEFT:
-		anim->Play(L"Zombie_Stand_Left", true);
+		anim->Play(L"Stand_Left", true);
 		break;
 	case eDIR::DOWNRIGHT:
-		anim->Play(L"Zombie_Stand_Right", true);
+		anim->Play(L"Stand_Right", true);
 		break;
 	}
 }

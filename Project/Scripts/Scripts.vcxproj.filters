@@ -10,17 +10,26 @@
     <Filter Include="ScriptMgr">
       <UniqueIdentifier>{534ca7b9-36a9-435d-8b56-61f960e227f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\2. Monster">
+    <Filter Include="Scripts\01. Player">
+      <UniqueIdentifier>{4018f472-d6d5-47be-bb41-0a7f8f4c6430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\02. Monster">
       <UniqueIdentifier>{5c1a8de1-74ff-4998-9d49-2125ee187431}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\1. Player">
-      <UniqueIdentifier>{8765640d-2538-45bb-86ed-1c0865e96c5c}</UniqueIdentifier>
+    <Filter Include="Scripts\02. Monster\Boss_Niug">
+      <UniqueIdentifier>{6ba4cd40-bac0-4b73-aef7-2fe843b2cb5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\4.Common">
-      <UniqueIdentifier>{bd7836ed-86fe-4372-bdd8-581c017f9327}</UniqueIdentifier>
+    <Filter Include="Scripts\02. Monster\Zombie">
+      <UniqueIdentifier>{bbc6c558-970d-49d3-8ea1-80a94e5ae218}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\3. TileType">
+    <Filter Include="Scripts\04. TileType">
       <UniqueIdentifier>{712cb27e-a8d9-4452-8d0e-4cbecd428f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\03. NormalObj">
+      <UniqueIdentifier>{6a103d49-3cb5-4b6f-af89-4cd2fce4e7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\00. Common">
+      <UniqueIdentifier>{bd7836ed-86fe-4372-bdd8-581c017f9327}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,47 +45,53 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Scripts\1. Player</Filter>
-    </ClInclude>
     <ClInclude Include="CMonsterScript.h">
-      <Filter>Scripts\2. Monster</Filter>
+      <Filter>Scripts\02. Monster</Filter>
     </ClInclude>
     <ClInclude Include="CColTileScript.h">
-      <Filter>Scripts\3. TileType</Filter>
+      <Filter>Scripts\04. TileType</Filter>
     </ClInclude>
     <ClInclude Include="CTypeTileScript.h">
-      <Filter>Scripts\3. TileType</Filter>
-    </ClInclude>
-    <ClInclude Include="CChainSystemScript.h">
-      <Filter>Scripts\1. Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerHitBox.h">
-      <Filter>Scripts\1. Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerAttColScript.h">
-      <Filter>Scripts\1. Player</Filter>
+      <Filter>Scripts\04. TileType</Filter>
     </ClInclude>
     <ClInclude Include="CAfterImageScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClInclude>
     <ClInclude Include="CBackgroundScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClInclude>
     <ClInclude Include="CCameraPlayScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClInclude>
     <ClInclude Include="CShadowScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClInclude>
     <ClInclude Include="CZSortScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClInclude>
     <ClInclude Include="CEffectScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossNiugScript.h">
+      <Filter>Scripts\02. Monster\Boss_Niug</Filter>
+    </ClInclude>
+    <ClInclude Include="CChainSystemScript.h">
+      <Filter>Scripts\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerAttColScript.h">
+      <Filter>Scripts\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerHitBox.h">
+      <Filter>Scripts\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Scripts\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CZombieScript.h">
+      <Filter>Scripts\02. Monster\Zombie</Filter>
     </ClInclude>
     <ClInclude Include="CNormalObjScript.h">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\03. NormalObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,47 +107,53 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Scripts\1. Player</Filter>
-    </ClCompile>
     <ClCompile Include="CMonsterScript.cpp">
-      <Filter>Scripts\2. Monster</Filter>
+      <Filter>Scripts\02. Monster</Filter>
     </ClCompile>
     <ClCompile Include="CColTileScript.cpp">
-      <Filter>Scripts\3. TileType</Filter>
+      <Filter>Scripts\04. TileType</Filter>
     </ClCompile>
     <ClCompile Include="CTypeTileScript.cpp">
-      <Filter>Scripts\3. TileType</Filter>
-    </ClCompile>
-    <ClCompile Include="CChainSystemScript.cpp">
-      <Filter>Scripts\1. Player</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerHitBox.cpp">
-      <Filter>Scripts\1. Player</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerAttColScript.cpp">
-      <Filter>Scripts\1. Player</Filter>
+      <Filter>Scripts\04. TileType</Filter>
     </ClCompile>
     <ClCompile Include="CAfterImageScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClCompile>
     <ClCompile Include="CBackgroundScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClCompile>
     <ClCompile Include="CCameraPlayScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClCompile>
     <ClCompile Include="CShadowScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClCompile>
     <ClCompile Include="CZSortScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
     </ClCompile>
     <ClCompile Include="CEffectScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\00. Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossNiugScript.cpp">
+      <Filter>Scripts\02. Monster\Boss_Niug</Filter>
+    </ClCompile>
+    <ClCompile Include="CChainSystemScript.cpp">
+      <Filter>Scripts\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAttColScript.cpp">
+      <Filter>Scripts\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerHitBox.cpp">
+      <Filter>Scripts\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Scripts\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CZombieScript.cpp">
+      <Filter>Scripts\02. Monster\Zombie</Filter>
     </ClCompile>
     <ClCompile Include="CNormalObjScript.cpp">
-      <Filter>Scripts\4.Common</Filter>
+      <Filter>Scripts\03. NormalObj</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@ private:
     CGameObject*    m_AttCol;
     wstring         m_CurState;
 
-    bool            m_bAfterAct;
     float           m_Speed;
     float           m_AftTime;
 public:

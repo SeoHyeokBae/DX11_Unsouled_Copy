@@ -3,6 +3,7 @@
 
 #include "CAfterImageScript.h"
 #include "CBackgroundScript.h"
+#include "CBossNiugScript.h"
 #include "CCameraPlayScript.h"
 #include "CChainSystemScript.h"
 #include "CColTileScript.h"
@@ -15,12 +16,14 @@
 #include "CPlayerScript.h"
 #include "CShadowScript.h"
 #include "CTypeTileScript.h"
+#include "CZombieScript.h"
 #include "CZSortScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAfterImageScript");
 	_vec.push_back(L"CBackgroundScript");
+	_vec.push_back(L"CBossNiugScript");
 	_vec.push_back(L"CCameraPlayScript");
 	_vec.push_back(L"CChainSystemScript");
 	_vec.push_back(L"CColTileScript");
@@ -33,6 +36,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CShadowScript");
 	_vec.push_back(L"CTypeTileScript");
+	_vec.push_back(L"CZombieScript");
 	_vec.push_back(L"CZSortScript");
 }
 
@@ -42,6 +46,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAfterImageScript;
 	if (L"CBackgroundScript" == _strScriptName)
 		return new CBackgroundScript;
+	if (L"CBossNiugScript" == _strScriptName)
+		return new CBossNiugScript;
 	if (L"CCameraPlayScript" == _strScriptName)
 		return new CCameraPlayScript;
 	if (L"CChainSystemScript" == _strScriptName)
@@ -66,6 +72,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CShadowScript;
 	if (L"CTypeTileScript" == _strScriptName)
 		return new CTypeTileScript;
+	if (L"CZombieScript" == _strScriptName)
+		return new CZombieScript;
 	if (L"CZSortScript" == _strScriptName)
 		return new CZSortScript;
 	return nullptr;
@@ -80,6 +88,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return new CBackgroundScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOSSNIUGSCRIPT:
+		return new CBossNiugScript;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAPLAYSCRIPT:
 		return new CCameraPlayScript;
@@ -117,6 +128,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::TYPETILESCRIPT:
 		return new CTypeTileScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ZOMBIESCRIPT:
+		return new CZombieScript;
+		break;
 	case (UINT)SCRIPT_TYPE::ZSORTSCRIPT:
 		return new CZSortScript;
 		break;
@@ -134,6 +148,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return L"CBackgroundScript";
+		break;
+
+	case SCRIPT_TYPE::BOSSNIUGSCRIPT:
+		return L"CBossNiugScript";
 		break;
 
 	case SCRIPT_TYPE::CAMERAPLAYSCRIPT:
@@ -164,10 +182,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CNormalObjScript";
 		break;
 
-	case SCRIPT_TYPE::PLAYERATTCOL:
-		return L"CPlayerAttCol";
-		break;
-
 	case SCRIPT_TYPE::PLAYERATTCOLSCRIPT:
 		return L"CPlayerAttColScript";
 		break;
@@ -186,6 +200,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TYPETILESCRIPT:
 		return L"CTypeTileScript";
+		break;
+
+	case SCRIPT_TYPE::ZOMBIESCRIPT:
+		return L"CZombieScript";
 		break;
 
 	case SCRIPT_TYPE::ZSORTSCRIPT:

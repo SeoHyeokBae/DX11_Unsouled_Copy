@@ -2,7 +2,7 @@
 #include "CPlayerAttColScript.h"
 
 CPlayerAttColScript::CPlayerAttColScript()
-	: CScript (PLAYERATTCOL)
+	: CScript (PLAYERATTCOLSCRIPT)
 	, m_Owner(nullptr)
 	, m_Collider(nullptr)
 	, m_fDuration(0.f)

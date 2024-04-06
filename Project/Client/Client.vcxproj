@@ -188,6 +188,7 @@
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="CLevelSaveLoad.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CNiug_RunningState.h" />
     <ClInclude Include="Collider2DUI.h" />
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="CLevelSaveLoad.cpp" />
+    <ClCompile Include="CNiug_RunningState.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />

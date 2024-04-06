@@ -1,11 +1,8 @@
 #include "pch.h"
 #include "CTraceState.h"
 
-
+#include <Engine/components.h>
 #include <Engine/CGameObject.h>
-#include <Engine/CStateMachine.h>
-#include <Engine/CTransform.h>
-#include <Engine/CMovement.h>
 #include <Engine/CTimeMgr.h>
 
 CTraceState::CTraceState()
@@ -36,6 +33,36 @@ void CTraceState::finaltick()
 
 void CTraceState::Enter()
 {
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
+	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
+
+	switch (m_Dir)
+	{
+	case eDIR::UP:
+		anim->Play(L"Running_Right", true);
+		break;
+	case eDIR::DOWN:
+		anim->Play(L"Running_Left", true);
+		break;
+	case eDIR::LEFT:
+		anim->Play(L"Running_Left", true);
+		break;
+	case eDIR::RIGHT:
+		anim->Play(L"Running_Right", true);
+		break;
+	case eDIR::UPLEFT:
+		anim->Play(L"Running_Left", true);
+		break;
+	case eDIR::UPRIGHT:
+		anim->Play(L"Running_Right", true);
+		break;
+	case eDIR::DOWNLEFT:
+		anim->Play(L"Running_Left", true);
+		break;
+	case eDIR::DOWNRIGHT:
+		anim->Play(L"Running_Right", true);
+		break;
+	}
 }
 
 void CTraceState::Exit()
