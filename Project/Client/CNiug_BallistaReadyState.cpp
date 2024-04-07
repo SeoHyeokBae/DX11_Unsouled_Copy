@@ -36,11 +36,11 @@ void CNiug_BallistaReadyState::Enter()
 
 	if (eDIR::RIGHT == dir)
 	{
-		anim->Play(L"Niug_BllistaReady_Right");
+		anim->Play(L"Niug_BallistaReady_Right");
 	}
 	else
 	{
-		anim->Play(L"Niug_BllistaReady_Left");
+		anim->Play(L"Niug_BallistaReady_Left");
 	}
 }
 

@@ -34,11 +34,11 @@ void CNiug_BallistaSoulderState::Enter()
 	Vec3 vPos = vDir * 750.f;
 	if (eDIR::RIGHT == dir)
 	{
-		anim->Play(L"Niug_BllistaSoulder_Right",false);
+		anim->Play(L"Niug_BallistaSoulder_Right",false);
 	}
 	else
 	{
-		anim->Play(L"Niug_BllistaSoulder_Left",false);
+		anim->Play(L"Niug_BallistaSoulder_Left",false);
 	}
 	pSelf->Movement()->SetVelocity(Vec2(vPos.x, vPos.y));
 

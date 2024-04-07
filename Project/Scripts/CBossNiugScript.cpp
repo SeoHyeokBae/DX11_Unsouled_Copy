@@ -33,10 +33,10 @@ void CBossNiugScript::init()
 	Animator2D()->AddAnim(L"Niug_RageOfIsno_Left", L"anim\\Niug_RageOfIsno_Left.anim");
 	Animator2D()->AddAnim(L"Niug_RageOfIsno_Right", L"anim\\Niug_RageOfIsno_Right.anim");
 
-	Animator2D()->AddAnim(L"Niug_BllistaReady_Left", L"anim\\Niug_BllistaReady_Left.anim");
-	Animator2D()->AddAnim(L"Niug_BllistaReady_Right", L"anim\\Niug_BllistaReady_Right.anim");
-	Animator2D()->AddAnim(L"Niug_BllistaSoulder_Left", L"anim\\Niug_BllistaSoulder_Left.anim");
-	Animator2D()->AddAnim(L"Niug_BllistaSoulder_Right", L"anim\\Niug_BllistaSoulder_Right.anim");
+	Animator2D()->AddAnim(L"Niug_BallistaReady_Left", L"anim\\Niug_BallistaReady_Left.anim");
+	Animator2D()->AddAnim(L"Niug_BallistaReady_Right", L"anim\\Niug_BallistaReady_Right.anim");
+	Animator2D()->AddAnim(L"Niug_BallistaSoulder_Left", L"anim\\Niug_BallistaSoulder_Left.anim");
+	Animator2D()->AddAnim(L"Niug_BallistaSoulder_Right", L"anim\\Niug_BallistaSoulder_Right.anim");
 	
 	// hit collider ÇÁ¸®Æé ¼¼ÆÃ
 	m_pHitCollider = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\Niug_HitCollider.pref", L"prefab\\Niug_HitCollider.pref");
