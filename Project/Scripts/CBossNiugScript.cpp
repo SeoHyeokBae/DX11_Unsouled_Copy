@@ -33,12 +33,13 @@ void CBossNiugScript::init()
 	Animator2D()->AddAnim(L"Niug_RageOfIsno_Left", L"anim\\Niug_RageOfIsno_Left.anim");
 	Animator2D()->AddAnim(L"Niug_RageOfIsno_Right", L"anim\\Niug_RageOfIsno_Right.anim");
 	
-	// hit collider ÇÁ¸®Æé
+	// hit collider ÇÁ¸®Æé ¼¼ÆÃ
 	m_pHitCollider = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\Niug_HitCollider.pref", L"prefab\\Niug_HitCollider.pref");
 	CGameObject* obj = m_pHitCollider->GetProtoGameObj();
 	obj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 	obj->Collider2D()->SetOffsetScale(Vec2(30.f, 50.f));
 	obj->Collider2D()->SetVisible(true);
+	obj->MeshRender()->GetRenderComponent()->GetDynamicMaterial();
 	obj->GetScript<CHitColliderScript>()->SetSelf(GetOwner());
 	//obj->GetScript<CHitColliderScript>()->SetDuration(2.5f);
 

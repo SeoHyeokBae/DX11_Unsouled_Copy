@@ -25,16 +25,17 @@ void CNiug_RunningState::finaltick()
 	Vec3 vDir = pTarget->Transform()->GetWorldPos() - pSelf->Transform()->GetWorldPos();
 	float fDis = vDir.Length();
 
-	if (300.f < fDis)
+	if (250.f < fDis)
 	{
 		ChangeState(L"RageOfIsnoState");
 		return;
 	}
 
-	if (65.f >= fDis && GetFSM()->GetCurStateName() == L"RunningState")
+	if (65.f >= fDis )
 	{
 		// 공격패턴 여러개 등록
 		ChangeState(L"BasicAttState");
+		return;
 	}
 
 	else // 추적

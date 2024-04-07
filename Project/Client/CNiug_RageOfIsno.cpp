@@ -23,8 +23,11 @@ void CNiug_RageOfIsno::finaltick()
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
 	CGameObject* pTarget = ((CGameObject*)GetBlackboardData(L"TargetObject"));
 	CGameObject* pSelf = GetFSM()->GetStateMachine()->GetOwner();
-	bool attacking = pSelf->GetScript<CBossNiugScript>()->IsAttacking();
 
+	Vec3 vDir = pTarget->Transform()->GetWorldPos() - pSelf->Transform()->GetWorldPos();
+	float fDis = vDir.Length();
+
+	bool attacking = pSelf->GetScript<CBossNiugScript>()->IsAttacking();
 	if (m_bOn && anim->GetCurAnim()->GetCurFrmIdx() == 7 )
 	{
 		// Hit Collider »ý¼º
@@ -32,6 +35,10 @@ void CNiug_RageOfIsno::finaltick()
 		pSelf->GetScript<CBossNiugScript>()->OnAttacking();
 	}
 
+	if (anim->GetCurAnim()->IsFinish())
+	{
+		ChangeState(L"RunningState");
+	}
 }
 
 void CNiug_RageOfIsno::Enter()
