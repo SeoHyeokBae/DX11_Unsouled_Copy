@@ -99,6 +99,9 @@
     <ClInclude Include="CPlayerTopBodyScript.h">
       <Filter>Scripts\01. Player</Filter>
     </ClInclude>
+    <ClInclude Include="CHitColliderScript.h">
+      <Filter>Scripts\02. Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerTopBodyScript.cpp">
       <Filter>Scripts\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitColliderScript.cpp">
+      <Filter>Scripts\02. Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

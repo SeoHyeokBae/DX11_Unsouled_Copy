@@ -31,7 +31,7 @@ void CPlayerTopBodyScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherOb
 
 	// Monster¸¦ ¹Ð¾î³¿
 	// ÁÂ ¿ì À§ ¾Æ·¡
-	if (_OtherObj->GetName() == L"Zombie")
+	if (_OtherObj->GetName() == L"Zombie" || _OtherObj->GetName() == L"Boss_Niug")
 	{
 		Vec2 vPos = GetOwner()->GetParent()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();
 		Vec2 vSize = _Collider->GetOffsetScale();

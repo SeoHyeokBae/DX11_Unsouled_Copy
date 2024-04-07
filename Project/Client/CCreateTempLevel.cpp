@@ -33,6 +33,8 @@
 #include <Scripts/CZombieScript.h>
 #include <Scripts/CBossNiugScript.h>
 
+#include <Scripts/CHitColliderScript.h>
+
 
 #include <Engine/CAssetMgr.h>
 #include <Engine/CPrefab.h>
@@ -50,15 +52,31 @@
 #include "CDashState.h"
 #include "CDashAttState.h"
 #include "CPlayerBlockState.h"
-#include "CNiug_BasicAttState.h"
 
 
 #include "CNiug_RunningState.h"
+#include "CNiug_BasicAttState.h"
+#include "CNiug_BallistaSoulderState.h"
+#include "CNiug_RageOfIsno.h"
 
 
 
 void CCreateTempLevel::Init()
 {
+	//CGameObject* pObj2 = nullptr;
+
+	//pObj2 = new CGameObject;
+	//pObj2->SetName(L"Niug_HitCollider");
+	//pObj2->AddComponent(new CTransform);
+	//pObj2->AddComponent(new CCollider2D);
+	//pObj2->AddComponent(new CHitColliderScript);
+	//pObj2->GetScript<CHitColliderScript>()->SetDuration(0.5f);
+	//Ptr<CPrefab> pPrefab = new CPrefab(pObj, false);
+	////CAssetMgr::GetInst()->AddAsset<CPrefab>(L"Niug_HitCollider", pPrefab.Get());
+	//pPrefab->Save(L"prefab\\Niug_HitCollider2.pref");
+	
+
+
 	// 임시 FSM 객체 에셋 하나 생성하기
 	// Zombie
 	Ptr<CFSM>	pFSM = new CFSM(true);
@@ -66,13 +84,12 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"TraceState", new CTraceState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"NormalMonsterFSM", pFSM.Get());
 
-
 	// Boss Niug
 	pFSM = new CFSM(true);
-	pFSM->AddState(L"IdleState", new CIdleState);
-	pFSM->AddState(L"TraceState", new CTraceState);
 	pFSM->AddState(L"RunningState", new CNiug_RunningState);
 	pFSM->AddState(L"BasicAttState", new CNiug_BasicAttState);
+	pFSM->AddState(L"RageOfIsnoState", new CNiug_RageOfIsno);
+	pFSM->AddState(L"BallistaSoulderState", new CNiug_BallistaSoulderState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"Boss_NiugFSM", pFSM.Get());
 
 	// Player
@@ -98,9 +115,14 @@ void CCreateTempLevel::CreateTempLevel()
 	pTempLevel->GetLayer(3)->SetName(L"Monster");
 	pTempLevel->GetLayer(4)->SetName(L"Light");
 	pTempLevel->GetLayer(5)->SetName(L"Shadow");
+
 	pTempLevel->GetLayer(11)->SetName(L"Tile_Property");
 	pTempLevel->GetLayer(12)->SetName(L"Tile_Collider");
 	pTempLevel->GetLayer(10)->SetName(L"Background");
+
+	pTempLevel->GetLayer(20)->SetName(L"PlayerHitCollider");
+	pTempLevel->GetLayer(21)->SetName(L"MonsterHitCollider");
+	pTempLevel->GetLayer(22)->SetName(L"MonsterLockOn");
 	pTempLevel->GetLayer(31)->SetName(L"UI");
 
 
@@ -334,6 +356,9 @@ void CCreateTempLevel::CreateTempLevel()
 	CCollisionMgr::GetInst()->LayerCheck(2,11);
 	CCollisionMgr::GetInst()->LayerCheck(2,12);
 	CCollisionMgr::GetInst()->LayerCheck(3,12);
+	CCollisionMgr::GetInst()->LayerCheck(3,20);
+	CCollisionMgr::GetInst()->LayerCheck(2,21);
+	CCollisionMgr::GetInst()->LayerCheck(2,22);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
 

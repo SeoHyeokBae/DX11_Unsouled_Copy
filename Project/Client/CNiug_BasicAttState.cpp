@@ -26,7 +26,6 @@ void CNiug_BasicAttState::finaltick()
 
 void CNiug_BasicAttState::Enter()
 {
-	if (m_Combo > 3) m_Combo = 0;
 
 	eDIR dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	CAnimator2D* anim = GetFSM()->GetStateMachine()->Animator2D();
@@ -37,6 +36,7 @@ void CNiug_BasicAttState::Enter()
 	vDir.Normalize();
 
 	m_Combo++;
+	if (m_Combo > 3) m_Combo = 1;
 
 	Vec3 vPos = vDir * 250.f;
 	if (eDIR::RIGHT == dir)

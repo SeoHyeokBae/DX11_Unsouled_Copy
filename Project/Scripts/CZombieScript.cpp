@@ -44,6 +44,8 @@ void CZombieScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj,
 
 void CZombieScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+	int a = 0;
+
 }
 
 void CZombieScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

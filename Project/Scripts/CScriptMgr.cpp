@@ -9,6 +9,7 @@
 #include "CChainSystemScript.h"
 #include "CColTileScript.h"
 #include "CEffectScript.h"
+#include "CHitColliderScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
 #include "CNormalObjScript.h"
@@ -31,6 +32,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CChainSystemScript");
 	_vec.push_back(L"CColTileScript");
 	_vec.push_back(L"CEffectScript");
+	_vec.push_back(L"CHitColliderScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CNormalObjScript");
@@ -62,6 +64,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CColTileScript;
 	if (L"CEffectScript" == _strScriptName)
 		return new CEffectScript;
+	if (L"CHitColliderScript" == _strScriptName)
+		return new CHitColliderScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
@@ -114,6 +118,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::EFFECTSCRIPT:
 		return new CEffectScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HITCOLLIDERSCRIPT:
+		return new CHitColliderScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
@@ -186,6 +193,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::EFFECTSCRIPT:
 		return L"CEffectScript";
+		break;
+
+	case SCRIPT_TYPE::HITCOLLIDERSCRIPT:
+		return L"CHitColliderScript";
 		break;
 
 	case SCRIPT_TYPE::MISSILESCRIPT:

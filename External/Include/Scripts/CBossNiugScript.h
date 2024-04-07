@@ -10,12 +10,16 @@ private:
     float           m_DetectRange;
     float           m_Speed;
     CGameObject*    m_AttCol;
-
-    bool            m_bHit;
+    Ptr<CPrefab>    m_pHitCollider;
+    bool            m_bAttacking;
 
 public:
     void init();
     void OnHit();
+
+    bool IsAttacking() { return m_bAttacking;}
+    void OnAttacking() { m_bAttacking = true; }
+    void OffAttacking() { m_bAttacking = false; }
 
     CGameObject* GetAttCol() { return m_AttCol; }
 

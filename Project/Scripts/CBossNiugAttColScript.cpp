@@ -3,6 +3,8 @@
 
 #include "CBossNiugScript.h"
 
+// Basic Att Lock ON
+
 CBossNiugAttColScript::CBossNiugAttColScript()
 	:CScript(BOSSNIUGATTCOLSCRIPT)
 	, m_bOn(false)
@@ -49,7 +51,6 @@ void CBossNiugAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherO
 	if (m_bOn && _OtherObj->GetName() == L"Player_HitBox")
 	{
 		m_bOn = false;
-		pOwner->GetScript<CBossNiugScript>()->OnHit();
 	}
 }
 

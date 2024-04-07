@@ -4,10 +4,13 @@
 #include "CBossNiugAttColScript.h"
 #include "../Client/CNiug_BasicAttState.h"
 
+#include "CHitColliderScript.h"
+
 CBossNiugScript::CBossNiugScript()
 	: CScript(BOSSNIUGSCRIPT)
 	, m_AttCol(nullptr)
-	, m_bHit(false)
+	, m_bAttacking(false)
+	, m_pHitCollider(nullptr)
 {
 }
 
@@ -27,6 +30,18 @@ void CBossNiugScript::init()
 	Animator2D()->AddAnim(L"Niug_BasicAtt03_Left", L"anim\\Niug_BasicAtt03_Left.anim");
 	Animator2D()->AddAnim(L"Niug_BasicAtt03_Right", L"anim\\Niug_BasicAtt03_Right.anim");
 
+	Animator2D()->AddAnim(L"Niug_RageOfIsno_Left", L"anim\\Niug_RageOfIsno_Left.anim");
+	Animator2D()->AddAnim(L"Niug_RageOfIsno_Right", L"anim\\Niug_RageOfIsno_Right.anim");
+	
+	// hit collider ÇÁ¸®Æé
+	m_pHitCollider = CAssetMgr::GetInst()->Load<CPrefab>(L"prefab\\Niug_HitCollider.pref", L"prefab\\Niug_HitCollider.pref");
+	CGameObject* obj = m_pHitCollider->GetProtoGameObj();
+	obj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
+	obj->Collider2D()->SetOffsetScale(Vec2(30.f, 50.f));
+	obj->Collider2D()->SetVisible(true);
+	obj->GetScript<CHitColliderScript>()->SetSelf(GetOwner());
+	//obj->GetScript<CHitColliderScript>()->SetDuration(2.5f);
+
 	// Att Collider
 	m_AttCol = new CGameObject;
 	m_AttCol->SetName(L"AttCol");
@@ -39,7 +54,7 @@ void CBossNiugScript::init()
 	m_AttCol->Collider2D()->SetOffsetPos(Vec2(25.f, 0.f));
 	m_AttCol->Collider2D()->SetOffsetScale(Vec2(50.f, 30.f));
 	GetOwner()->AddChild(m_AttCol);
-	GamePlayStatic::SpawnGameObject(m_AttCol, 3);
+	GamePlayStatic::SpawnGameObject(m_AttCol, 22);
 }
 
 void CBossNiugScript::begin()
@@ -61,11 +76,18 @@ void CBossNiugScript::begin()
 
 void CBossNiugScript::tick()
 {
+	CGameObject* pTarget = (CGameObject*)StateMachine()->GetBlackboardData(L"TargetObject");
+	if (m_bAttacking)
+	{
+		m_bAttacking = false;
+		Instantiate(m_pHitCollider, pTarget->Transform()->GetRelativePos(), 21);
+	}
+
+
 }
 
 void CBossNiugScript::OnHit()
 {
-	m_bHit = false;
 	//CNiug_BasicAttState* state = (CNiug_BasicAttState*)StateMachine()->GetFSM()->FindState(L"BasicAttState");
 	//state->AddComboCount();
 }
@@ -73,10 +95,12 @@ void CBossNiugScript::OnHit()
 
 void CBossNiugScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+	
 }
 
 void CBossNiugScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+	
 }
 
 void CBossNiugScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

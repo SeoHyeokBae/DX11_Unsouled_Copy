@@ -6,6 +6,7 @@ CCameraPlayScript
 CChainSystemScript
 CColTileScript
 CEffectScript
+CHitColliderScript
 CMissileScript
 CMonsterScript
 CNormalObjScript

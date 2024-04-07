@@ -14,6 +14,7 @@
 #include "CPlayerHitBox.h"
 #include "CPlayerAttColScript.h"
 #include "CChainSystemScript.h"
+#include "CPlayerTopBodyScript.h"
 
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
@@ -121,7 +122,7 @@ void CPlayerScript::begin()
 	m_TopBodyCol->AddComponent(new CTransform);
 	m_TopBodyCol->AddComponent(new CCollider2D);
 	m_TopBodyCol->AddComponent(new CMeshRender);
-	m_TopBodyCol->AddComponent(new CPlayerHitBox);
+	m_TopBodyCol->AddComponent(new CPlayerTopBodyScript);
 	m_TopBodyCol->Collider2D()->SetVisible(true);
 	m_TopBodyCol->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
 	m_TopBodyCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
