@@ -93,6 +93,12 @@
     <ClInclude Include="CNormalObjScript.h">
       <Filter>Scripts\03. NormalObj</Filter>
     </ClInclude>
+    <ClInclude Include="CBossNiugAttColScript.h">
+      <Filter>Scripts\02. Monster\Boss_Niug</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerTopBodyScript.h">
+      <Filter>Scripts\01. Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -154,6 +160,12 @@
     </ClCompile>
     <ClCompile Include="CNormalObjScript.cpp">
       <Filter>Scripts\03. NormalObj</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossNiugAttColScript.cpp">
+      <Filter>Scripts\02. Monster\Boss_Niug</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerTopBodyScript.cpp">
+      <Filter>Scripts\01. Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

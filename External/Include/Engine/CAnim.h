@@ -47,6 +47,7 @@ public:
     void Create(const wstring& _strKey, CAnimator2D* _Animator, Ptr<CTexture> _Atlas, const vector<tAnimFrm> _FrmInfo, int _FrmCount);
 
     int GetCurFrmIdx() { return m_CurFrmIdx; }
+    void SetCurFrmIdx(int _idx) { m_CurFrmIdx = _idx; }
     tAnimFrm GetCurFrmInfo(int _idx) { return m_vecFrm[_idx]; }
     vector<tAnimFrm>& GetAnimFrm() { return m_vecFrm; }
     Ptr<CTexture> GetAtalsTex() { return m_AtlasTex; }

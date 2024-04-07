@@ -3,6 +3,7 @@
 
 #include "CAfterImageScript.h"
 #include "CBackgroundScript.h"
+#include "CBossNiugAttColScript.h"
 #include "CBossNiugScript.h"
 #include "CCameraPlayScript.h"
 #include "CChainSystemScript.h"
@@ -14,6 +15,7 @@
 #include "CPlayerAttColScript.h"
 #include "CPlayerHitBox.h"
 #include "CPlayerScript.h"
+#include "CPlayerTopBodyScript.h"
 #include "CShadowScript.h"
 #include "CTypeTileScript.h"
 #include "CZombieScript.h"
@@ -23,6 +25,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAfterImageScript");
 	_vec.push_back(L"CBackgroundScript");
+	_vec.push_back(L"CBossNiugAttColScript");
 	_vec.push_back(L"CBossNiugScript");
 	_vec.push_back(L"CCameraPlayScript");
 	_vec.push_back(L"CChainSystemScript");
@@ -34,6 +37,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerAttColScript");
 	_vec.push_back(L"CPlayerHitBox");
 	_vec.push_back(L"CPlayerScript");
+	_vec.push_back(L"CPlayerTopBodyScript");
 	_vec.push_back(L"CShadowScript");
 	_vec.push_back(L"CTypeTileScript");
 	_vec.push_back(L"CZombieScript");
@@ -46,6 +50,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAfterImageScript;
 	if (L"CBackgroundScript" == _strScriptName)
 		return new CBackgroundScript;
+	if (L"CBossNiugAttColScript" == _strScriptName)
+		return new CBossNiugAttColScript;
 	if (L"CBossNiugScript" == _strScriptName)
 		return new CBossNiugScript;
 	if (L"CCameraPlayScript" == _strScriptName)
@@ -68,6 +74,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerHitBox;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
+	if (L"CPlayerTopBodyScript" == _strScriptName)
+		return new CPlayerTopBodyScript;
 	if (L"CShadowScript" == _strScriptName)
 		return new CShadowScript;
 	if (L"CTypeTileScript" == _strScriptName)
@@ -88,6 +96,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return new CBackgroundScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOSSNIUGATTCOLSCRIPT:
+		return new CBossNiugAttColScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BOSSNIUGSCRIPT:
 		return new CBossNiugScript;
@@ -122,6 +133,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
 		break;
+	case (UINT)SCRIPT_TYPE::PLAYERTOPBODYSCRIPT:
+		return new CPlayerTopBodyScript;
+		break;
 	case (UINT)SCRIPT_TYPE::SHADOWSCRIPT:
 		return new CShadowScript;
 		break;
@@ -148,6 +162,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return L"CBackgroundScript";
+		break;
+
+	case SCRIPT_TYPE::BOSSNIUGATTCOLSCRIPT:
+		return L"CBossNiugAttColScript";
 		break;
 
 	case SCRIPT_TYPE::BOSSNIUGSCRIPT:
@@ -192,6 +210,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
 		return L"CPlayerScript";
+		break;
+
+	case SCRIPT_TYPE::PLAYERTOPBODYSCRIPT:
+		return L"CPlayerTopBodyScript";
 		break;
 
 	case SCRIPT_TYPE::SHADOWSCRIPT:

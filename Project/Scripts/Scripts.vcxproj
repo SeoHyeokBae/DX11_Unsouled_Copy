@@ -193,6 +193,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="CAfterImageScript.h" />
     <ClInclude Include="CBackgroundScript.h" />
+    <ClInclude Include="CBossNiugAttColScript.h" />
     <ClInclude Include="CBossNiugScript.h" />
     <ClInclude Include="CCameraPlayScript.h" />
     <ClInclude Include="CChainSystemScript.h" />
@@ -204,6 +205,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlayerAttColScript.h" />
     <ClInclude Include="CPlayerHitBox.h" />
     <ClInclude Include="CPlayerScript.h" />
+    <ClInclude Include="CPlayerTopBodyScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CShadowScript.h" />
     <ClInclude Include="CTypeTileScript.h" />
@@ -215,6 +217,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="CAfterImageScript.cpp" />
     <ClCompile Include="CBackgroundScript.cpp" />
+    <ClCompile Include="CBossNiugAttColScript.cpp" />
     <ClCompile Include="CBossNiugScript.cpp" />
     <ClCompile Include="CCameraPlayScript.cpp" />
     <ClCompile Include="CChainSystemScript.cpp" />
@@ -226,6 +229,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlayerAttColScript.cpp" />
     <ClCompile Include="CPlayerHitBox.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPlayerTopBodyScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CShadowScript.cpp" />
     <ClCompile Include="CTypeTileScript.cpp" />

@@ -32,7 +32,7 @@ void CMonsterScript::begin()
 	}
 	else if (GetOwner()->GetName() == L"Boss_Niug")
 	{
-		m_Speed = 150.f;
+		m_Speed = 75.f;
 		m_DetectRange = 400.f;
 	}
 

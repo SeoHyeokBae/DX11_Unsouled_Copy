@@ -292,9 +292,6 @@
     <ClInclude Include="CStaminaOutState.h">
       <Filter>04. State\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CStandState.h">
-      <Filter>04. State\Player</Filter>
-    </ClInclude>
     <ClInclude Include="CAbsorbState.h">
       <Filter>04. State\Player</Filter>
     </ClInclude>
@@ -315,6 +312,12 @@
     </ClInclude>
     <ClInclude Include="CIdleState.h">
       <Filter>04. State\Monster\00. Common\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="CStandState.h">
+      <Filter>04. State\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CNiug_BasicAttState.h">
+      <Filter>04. State\Monster\05. Boss_Niug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +473,6 @@
     <ClCompile Include="CStaminaOutState.cpp">
       <Filter>04. State\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CStandState.cpp">
-      <Filter>04. State\Player</Filter>
-    </ClCompile>
     <ClCompile Include="CAbsorbState.cpp">
       <Filter>04. State\Player</Filter>
     </ClCompile>
@@ -493,6 +493,12 @@
     </ClCompile>
     <ClCompile Include="CIdleState.cpp">
       <Filter>04. State\Monster\00. Common\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="CStandState.cpp">
+      <Filter>04. State\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CNiug_BasicAttState.cpp">
+      <Filter>04. State\Monster\05. Boss_Niug</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -50,6 +50,7 @@
 #include "CDashState.h"
 #include "CDashAttState.h"
 #include "CPlayerBlockState.h"
+#include "CNiug_BasicAttState.h"
 
 
 #include "CNiug_RunningState.h"
@@ -71,6 +72,7 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"IdleState", new CIdleState);
 	pFSM->AddState(L"TraceState", new CTraceState);
 	pFSM->AddState(L"RunningState", new CNiug_RunningState);
+	pFSM->AddState(L"BasicAttState", new CNiug_BasicAttState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"Boss_NiugFSM", pFSM.Get());
 
 	// Player
@@ -280,11 +282,11 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CZSortScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(-100.f, 300.f, 0.f));
-	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+	pObj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 
 	pObj->Movement()->SetMass(1.f);
 	pObj->Movement()->SetInitSpeed(100.f);
-	pObj->Movement()->SetMaxSpeed(450.f);
+	pObj->Movement()->SetMaxSpeed(1000.f);
 	pObj->Movement()->SetFrictionScale(1000.f);
 
 	pObj->Collider2D()->SetAbsolute(true);

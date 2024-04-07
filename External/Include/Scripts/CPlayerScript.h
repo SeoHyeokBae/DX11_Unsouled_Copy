@@ -8,6 +8,7 @@ class CPlayerScript :
 {
 private:
     CGameObject*    m_HitBox;
+    CGameObject*    m_TopBodyCol;
     CGameObject*    m_AttCol;
     wstring         m_CurState;
 

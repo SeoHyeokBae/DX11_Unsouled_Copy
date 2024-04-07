@@ -23,6 +23,7 @@ public:
     void SetRelativeRotation(Vec3 _Rotation) { m_vRealtiveRotation = _Rotation; }
 
     void SetWorldMat(const Matrix _matWorld) { m_matWorld = _matWorld; }
+    void SetWorldDir(DIR_TYPE _type, Vec3 _new) {m_arrWorldDir[(UINT)_type] = _new; }
 
     Vec3 GetRelativePos() { return m_vRelativePos; }
     Vec3 GetRelativeScale() { return m_vRelativeScale; }

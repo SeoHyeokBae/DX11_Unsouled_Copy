@@ -3,6 +3,10 @@
 class CNiug_RunningState :
     public CState
 {
+private:
+    int     m_FrmCount;
+    eDIR    m_PrvDir;
+
 public:
     virtual void finaltick() override;
     virtual void Enter() override;

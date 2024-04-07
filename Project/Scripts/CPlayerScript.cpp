@@ -18,6 +18,7 @@
 CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	, m_HitBox (nullptr)
+	, m_TopBodyCol(nullptr)
 	, m_AttCol (nullptr)
 	, m_Speed(100.f)
 	, m_AftTime(0.0f)
@@ -103,7 +104,7 @@ void CPlayerScript::begin()
 
 	// HitBox Collider
 	m_HitBox = new CGameObject;
-	m_HitBox->SetName(L"HitBox");
+	m_HitBox->SetName(L"Player_HitBox");
 	m_HitBox->AddComponent(new CTransform);
 	m_HitBox->AddComponent(new CCollider2D);
 	m_HitBox->AddComponent(new CMeshRender);
@@ -114,6 +115,19 @@ void CPlayerScript::begin()
 	GetOwner()->AddChild(m_HitBox);
 	GamePlayStatic::SpawnGameObject(m_HitBox, 2);
 
+	// Top Body Collider
+	m_TopBodyCol = new CGameObject;
+	m_TopBodyCol->SetName(L"Player_TopBody");
+	m_TopBodyCol->AddComponent(new CTransform);
+	m_TopBodyCol->AddComponent(new CCollider2D);
+	m_TopBodyCol->AddComponent(new CMeshRender);
+	m_TopBodyCol->AddComponent(new CPlayerHitBox);
+	m_TopBodyCol->Collider2D()->SetVisible(true);
+	m_TopBodyCol->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
+	m_TopBodyCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
+	GetOwner()->AddChild(m_TopBodyCol);
+	GamePlayStatic::SpawnGameObject(m_TopBodyCol, 2);
+
 	// Att Collider
 	m_AttCol = new CGameObject;
 	m_AttCol->SetName(L"AttCol");
@@ -122,7 +136,7 @@ void CPlayerScript::begin()
 	m_AttCol->AddComponent(new CMeshRender);
 	m_AttCol->AddComponent(new CPlayerAttColScript);
 	m_AttCol->Transform()->SetRelativePos(Vec3(0.f, 10.f,0.f));
-	m_AttCol->Collider2D()->SetVisible(true);
+	//m_AttCol->Collider2D()->SetVisible(true);
 	m_AttCol->Collider2D()->SetOffsetPos(Vec2(0.f, -12.f));
 	m_AttCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_AttCol);

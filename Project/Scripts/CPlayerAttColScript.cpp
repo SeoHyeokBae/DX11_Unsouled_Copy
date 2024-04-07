@@ -56,15 +56,15 @@ void CPlayerAttColScript::tick()
 	if (m_sCurState == L"DashAttState") 
 		m_Collider->SetOffsetScale(Vec2(40.f,15.f));
 
-	//if (m_sCurState == L"AttackState" || m_sCurState == L"DashAttState")
-	//{
-	//	ColliderOn();
-	//}
-	//else if (m_fDuration > 0.5f)
-	//{
-	//	m_fDuration = 0.f;
-	//	ColliderOff();
-	//}
+	if (m_sCurState == L"AttackState" || m_sCurState == L"DashAttState")
+	{
+		ColliderOn();
+	}
+	else if (m_fDuration > 0.5f)
+	{
+		m_fDuration = 0.f;
+		ColliderOff();
+	}
 }
 
 

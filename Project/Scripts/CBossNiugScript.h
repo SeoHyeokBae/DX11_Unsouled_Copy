@@ -1,14 +1,23 @@
 #pragma once
 #include <Engine\CScript.h>
+
+class CGameObject;
+
 class CBossNiugScript :
     public CScript
 {
 private:
-    float       m_DetectRange;
-    float       m_Speed;
+    float           m_DetectRange;
+    float           m_Speed;
+    CGameObject*    m_AttCol;
+
+    bool            m_bHit;
 
 public:
     void init();
+    void OnHit();
+
+    CGameObject* GetAttCol() { return m_AttCol; }
 
 public:
     virtual void begin() override;
