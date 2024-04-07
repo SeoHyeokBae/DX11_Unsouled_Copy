@@ -188,6 +188,7 @@
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="CLevelSaveLoad.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CNiug_BallistaReadyState.h" />
     <ClInclude Include="CNiug_BallistaSoulderState.h" />
     <ClInclude Include="CNiug_BasicAttState.h" />
     <ClInclude Include="CNiug_RageOfIsno.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="CLevelSaveLoad.cpp" />
+    <ClCompile Include="CNiug_BallistaReadyState.cpp" />
     <ClCompile Include="CNiug_BallistaSoulderState.cpp" />
     <ClCompile Include="CNiug_BasicAttState.cpp" />
     <ClCompile Include="CNiug_RageOfIsno.cpp" />

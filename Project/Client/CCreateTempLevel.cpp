@@ -57,6 +57,7 @@
 #include "CNiug_RunningState.h"
 #include "CNiug_BasicAttState.h"
 #include "CNiug_BallistaSoulderState.h"
+#include "CNiug_BallistaReadyState.h"
 #include "CNiug_RageOfIsno.h"
 
 
@@ -89,6 +90,7 @@ void CCreateTempLevel::Init()
 	pFSM->AddState(L"RunningState", new CNiug_RunningState);
 	pFSM->AddState(L"BasicAttState", new CNiug_BasicAttState);
 	pFSM->AddState(L"RageOfIsnoState", new CNiug_RageOfIsno);
+	pFSM->AddState(L"BallistaReadyState", new CNiug_BallistaReadyState);
 	pFSM->AddState(L"BallistaSoulderState", new CNiug_BallistaSoulderState);
 	CAssetMgr::GetInst()->AddAsset<CFSM>(L"Boss_NiugFSM", pFSM.Get());
 
@@ -302,6 +304,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMonsterScript);
 	pObj->AddComponent(new CBossNiugScript);
 	pObj->AddComponent(new CZSortScript);
+	pObj->AddComponent(new CAfterImageScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(-100.f, 300.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));

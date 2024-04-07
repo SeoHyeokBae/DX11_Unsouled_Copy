@@ -4,6 +4,7 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 
+#include <Scripts/CAfterImageScript.h>
 
 #include "../Client/CIdleState.h"
 #include "../Client/CTraceState.h"
@@ -12,6 +13,7 @@ CMonsterScript::CMonsterScript()
 	: CScript(MONSTERSCRIPT)
 	, m_DetectRange(200.f)
 	, m_Speed(100.f)
+	, m_AftTime(0.f)
 {
 
 }
@@ -49,7 +51,62 @@ void CMonsterScript::begin()
 
 void CMonsterScript::tick()
 {
+	// 잔상 효과 이미지 정보 저장
+	if (GetOwner()->IsAfterImgAct())
+	{
+		CreateAftImg();
+
+		if (Animator2D()->GetCurAnim()->IsFinish())
+		{
+			GetOwner()->SetAfterImgAct(false);
+		}
+	}
 }
+
+void CMonsterScript::CreateAftImg()
+{
+	// 잔상 스크립트 없음
+	assert(GetOwner()->GetScript<CAfterImageScript>());
+
+	Vec3 vPos = Transform()->GetRelativePos();
+
+	if (m_AftTime == 0.f)
+	{
+		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
+		if (idx % 3 < 3)
+		{
+			int animidx = Animator2D()->GetCurAnim()->GetCurFrmIdx();
+
+			tAnimFrm frm = Animator2D()->GetCurAnim()->GetCurFrmInfo(animidx);
+			Ptr<CTexture> tex = Animator2D()->GetCurAnim()->GetAtalsTex();
+
+			GetOwner()->GetScript<CAfterImageScript>()->CreateAfterImg(tex, vPos, frm);
+
+			idx++;
+			GetOwner()->GetScript<CAfterImageScript>()->SetCurIdx(idx);
+		}
+	}
+
+	m_AftTime += DT;
+	if (m_AftTime >= 0.06f)
+	{
+		m_AftTime = 0.f;
+		int idx = GetOwner()->GetScript<CAfterImageScript>()->GetCurIdx();
+		if (idx >= 50)
+			return;
+
+		int animidx = Animator2D()->GetCurAnim()->GetCurFrmIdx();
+
+		tAnimFrm frm = Animator2D()->GetCurAnim()->GetCurFrmInfo(animidx);
+		Ptr<CTexture> tex = Animator2D()->GetCurAnim()->GetAtalsTex();
+
+		GetOwner()->GetScript<CAfterImageScript>()->CreateAfterImg(tex, vPos, frm);
+
+		idx++;
+		GetOwner()->GetScript<CAfterImageScript>()->SetCurIdx(idx);
+	}
+}
+
 
 void CMonsterScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
@@ -77,3 +134,4 @@ void CMonsterScript::LoadFromFile(FILE* _File)
 void CMonsterScript::init()
 {
 }
+

@@ -5,8 +5,6 @@ class CNiug_BallistaSoulderState :
 {
 private:
     int     m_FrmCount;
-    int     m_Combo;
-    eDIR    m_PrvDir;
 
 public:
 

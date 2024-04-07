@@ -7,9 +7,11 @@ class CMonsterScript :
 private:
     float       m_DetectRange;
     float       m_Speed;
-
+    float       m_AftTime;
 public:
     void init();
+
+    void CreateAftImg();
 
 public:
     virtual void begin() override;

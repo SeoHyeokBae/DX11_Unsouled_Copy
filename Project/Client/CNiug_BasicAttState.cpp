@@ -66,7 +66,7 @@ void CNiug_BasicAttState::Enter()
 	pSelf->Movement()->SetVelocity(Vec2(vPos.x, vPos.y));
 
 	
-	pSelf->GetScript<CBossNiugScript>()->GetAttCol()->GetScript<CBossNiugAttColScript>()->On();
+	pSelf->GetScript<CBossNiugScript>()->GetAttCol()->GetScript<CBossNiugAttColScript>()->On(); // ??
 }
 
 void CNiug_BasicAttState::Exit()

@@ -27,7 +27,8 @@ void CNiug_RunningState::finaltick()
 
 	if (250.f < fDis)
 	{
-		ChangeState(L"RageOfIsnoState");
+		//ChangeState(L"RageOfIsnoState");
+		ChangeState(L"BallistaReadyState");
 		return;
 	}
 
@@ -93,6 +94,9 @@ void CNiug_RunningState::Enter()
 
 void CNiug_RunningState::Exit()
 {
+	if (GetFSM()->GetCurStateName() != L"RunningState")
+		m_FrmCount = 0;
+
 	m_PrvDir = eDIR::NONE;
 }
 

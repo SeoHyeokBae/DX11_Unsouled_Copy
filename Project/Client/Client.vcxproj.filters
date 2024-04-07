@@ -325,6 +325,9 @@
     <ClInclude Include="CNiug_RageOfIsno.h">
       <Filter>04. State\Monster\05. Boss_Niug</Filter>
     </ClInclude>
+    <ClInclude Include="CNiug_BallistaReadyState.h">
+      <Filter>04. State\Monster\05. Boss_Niug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -510,6 +513,9 @@
       <Filter>04. State\Monster\05. Boss_Niug</Filter>
     </ClCompile>
     <ClCompile Include="CNiug_RageOfIsno.cpp">
+      <Filter>04. State\Monster\05. Boss_Niug</Filter>
+    </ClCompile>
+    <ClCompile Include="CNiug_BallistaReadyState.cpp">
       <Filter>04. State\Monster\05. Boss_Niug</Filter>
     </ClCompile>
   </ItemGroup>
