@@ -4,9 +4,7 @@ class CNiug_BasicAttState :
     public CState
 {
 private:
-    int     m_FrmCount;
     int     m_Combo;
-    eDIR    m_PrvDir;
 
 public:
     void AddComboCount()

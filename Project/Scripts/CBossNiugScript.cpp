@@ -89,7 +89,6 @@ void CBossNiugScript::tick()
 		Instantiate(m_pHitCollider, pTarget->Transform()->GetRelativePos(), 21);
 	}
 
-
 }
 
 void CBossNiugScript::OnHit()

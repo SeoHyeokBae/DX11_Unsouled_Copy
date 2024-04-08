@@ -9,6 +9,8 @@
 #include <Engine/CRenderComponent.h>
 #include <Engine/CMovement.h>
 #include <Engine/CStateMachine.h>
+#include <Engine/CPrefab.h>
+#include <Engine/CAssetMgr.h>
 
 #include "CAfterImageScript.h"
 #include "CPlayerHitBox.h"
@@ -20,7 +22,7 @@ CPlayerScript::CPlayerScript()
 	: CScript(PLAYERSCRIPT)
 	, m_HitBox (nullptr)
 	, m_TopBodyCol(nullptr)
-	, m_AttCol (nullptr)
+	, m_AttCol(nullptr)
 	, m_Speed(100.f)
 	, m_AftTime(0.0f)
 {
@@ -103,6 +105,20 @@ void CPlayerScript::begin()
 	// 쉐도우 선 추가 -> 구조변경 필요 여기서 스크립트 추가해도
 	GetOwner()->GetShadow()->AddComponent(new CAnimator2D(*GetOwner()->Animator2D()));
 
+	// Attack Collider
+	m_AttCol = new CGameObject;
+	m_AttCol->SetName(L"Player_AttCol");
+	m_AttCol->AddComponent(new CTransform);
+	m_AttCol->AddComponent(new CCollider2D);
+	m_AttCol->AddComponent(new CMeshRender);
+	m_AttCol->AddComponent(new CPlayerAttColScript);
+	m_AttCol->Transform()->SetRelativePos(Vec3(0.f, 20.f,0.f));
+	m_AttCol->Collider2D()->SetVisible(true);
+	m_AttCol->Collider2D()->SetOffsetScale(Vec2(20.f, 15.f));
+	m_AttCol->Collider2D()->SetOffsetPos(Vec2(10.f, 0.f));
+	GetOwner()->AddChild(m_AttCol);
+	GamePlayStatic::SpawnGameObject(m_AttCol, 20);
+
 	// HitBox Collider
 	m_HitBox = new CGameObject;
 	m_HitBox->SetName(L"Player_HitBox");
@@ -128,22 +144,6 @@ void CPlayerScript::begin()
 	m_TopBodyCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_TopBodyCol);
 	GamePlayStatic::SpawnGameObject(m_TopBodyCol, 2);
-
-	// Att Collider
-	m_AttCol = new CGameObject;
-	m_AttCol->SetName(L"AttCol");
-	m_AttCol->AddComponent(new CTransform);
-	m_AttCol->AddComponent(new CCollider2D);
-	m_AttCol->AddComponent(new CMeshRender);
-	m_AttCol->AddComponent(new CPlayerAttColScript);
-	m_AttCol->Transform()->SetRelativePos(Vec3(0.f, 10.f,0.f));
-	//m_AttCol->Collider2D()->SetVisible(true);
-	m_AttCol->Collider2D()->SetOffsetPos(Vec2(0.f, -12.f));
-	m_AttCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
-	GetOwner()->AddChild(m_AttCol);
-	GamePlayStatic::SpawnGameObject(m_AttCol, 2);
-
-
 
 	// StateMachine 세팅
 	if (StateMachine())
@@ -200,6 +200,8 @@ void CPlayerScript::tick()
 	{
 		StateMachine()->GetFSM()->ChangeState(L"AbsorbState");
 	}
+
+
 }
 
 void CPlayerScript::CreateAftImg()
@@ -259,8 +261,6 @@ void CPlayerScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCol
 		Vec2 TileObjHalfSize = _OtherObj->Transform()->GetRelativeScale().XY() / 2 ;
 		Vec2 TileLT = _OtherObj->Transform()->GetRelativePos().XY() - TileObjHalfSize;
 	}
-
-	
 
 }
 

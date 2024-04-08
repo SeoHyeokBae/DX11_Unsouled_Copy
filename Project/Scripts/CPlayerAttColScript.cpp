@@ -3,9 +3,10 @@
 
 CPlayerAttColScript::CPlayerAttColScript()
 	: CScript (PLAYERATTCOLSCRIPT)
-	, m_Owner(nullptr)
+	, m_pOwner(nullptr)
 	, m_Collider(nullptr)
 	, m_fDuration(0.f)
+	, m_Dir(eDIR::NONE)
 {
 }
 
@@ -14,7 +15,7 @@ CPlayerAttColScript::~CPlayerAttColScript()
 }
 void CPlayerAttColScript::begin()
 {
-	m_Owner = GetOwner()->GetParent();
+	m_pOwner = GetOwner()->GetParent();
 	m_Collider = GetOwner()->Collider2D();
 	m_vOriginScale = m_Collider->GetOffsetScale();
 }
@@ -22,48 +23,52 @@ void CPlayerAttColScript::begin()
 void CPlayerAttColScript::tick()
 {
 	m_fDuration += DT;
-	m_sCurState = m_Owner->StateMachine()->GetFSM()->GetCurStateName();
-	eDIR dir = m_Owner->GetDir();
+	m_sCurState = m_pOwner->StateMachine()->GetFSM()->GetCurStateName();
 
-	switch (dir)
+	Vec3 vDir = Vec3(1.f, 0.f, 0.f);
+	m_Dir = m_pOwner->GetDir();
+	switch (m_Dir)
 	{
 	case eDIR::UP:
-		m_Collider->SetOffsetPos(Vec2(0.f, 18.f));
+		vDir = Vec3(0.f, 1.f, 0.f);
 		break;
 	case eDIR::DOWN:
-		m_Collider->SetOffsetPos(Vec2(0.f, -18.f));
+		vDir = Vec3(0.f, -1.f, 0.f);
 		break;
 	case eDIR::LEFT:
-		m_Collider->SetOffsetPos(Vec2(-18.f, 0.f));
+		vDir = Vec3(-1.f, 0.f, 0.f);
 		break;
 	case eDIR::RIGHT:
-		m_Collider->SetOffsetPos(Vec2(18.f, 0.f));
+		vDir = Vec3(1.f, 0.f, 0.f);
 		break;
 	case eDIR::UPLEFT:
-		m_Collider->SetOffsetPos(Vec2(-15.f, 15.f));
+		vDir = Vec3(-1.f, 1.f, 0.f);
 		break;
 	case eDIR::UPRIGHT:
-		m_Collider->SetOffsetPos(Vec2(15.f, 15.f));
+		vDir = Vec3(1.f, 1.f, 0.f);
 		break;
 	case eDIR::DOWNLEFT:
-		m_Collider->SetOffsetPos(Vec2(-15.f, -15.f));
+		vDir = Vec3(-1.f, -1.f, 0.f);
 		break;
 	case eDIR::DOWNRIGHT:
-		m_Collider->SetOffsetPos(Vec2(15.f, -15.f));
+		vDir = Vec3(1.f, -1.f, 0.f);
 		break;
 	}
+
+	vDir.Normalize();
+	
+	float angle = acos(vDir.Dot(Vec3(1.0f, 0.f, 0.f)) / vDir.Length());
 
 	if (m_sCurState == L"DashAttState") 
 		m_Collider->SetOffsetScale(Vec2(40.f,15.f));
 
-	if (m_sCurState == L"AttackState" || m_sCurState == L"DashAttState")
+	if (0.f < vDir.y)
 	{
-		ColliderOn();
+		Transform()->SetRelativeRotation(Vec3(0, 0, angle));
 	}
-	else if (m_fDuration > 0.5f)
+	else
 	{
-		m_fDuration = 0.f;
-		ColliderOff();
+		Transform()->SetRelativeRotation(Vec3(0, 0, -angle));
 	}
 }
 
@@ -75,11 +80,11 @@ void CPlayerAttColScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _Oth
 void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
 
-	m_sCurState = m_Owner->StateMachine()->GetFSM()->GetCurStateName();
-	eDIR dir = m_Owner->GetDir();
+	m_sCurState = m_pOwner->StateMachine()->GetFSM()->GetCurStateName();
+	eDIR dir = m_pOwner->GetDir();
 	if (m_sCurState == L"AttackState")
 	{
-		int combo = *((int*)m_Owner->StateMachine()->GetBlackboardData(L"Combo"));
+		int combo = *((int*)m_pOwner->StateMachine()->GetBlackboardData(L"Combo"));
 			
 		if (_OtherObj->GetName() == L"Zombie")
 		{

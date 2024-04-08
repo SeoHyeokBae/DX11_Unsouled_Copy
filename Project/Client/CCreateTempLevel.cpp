@@ -32,6 +32,7 @@
 #include <Scripts/CNormalObjScript.h>
 #include <Scripts/CZombieScript.h>
 #include <Scripts/CBossNiugScript.h>
+#include <Scripts/CPlayerAttackScript.h>
 
 #include <Scripts/CHitColliderScript.h>
 
@@ -219,6 +220,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMovement);
 	pObj->AddComponent(new CStateMachine);
 	pObj->AddComponent(new CAfterImageScript);
+	pObj->AddComponent(new CPlayerAttackScript);
 	pObj->AddComponent(new CZSortScript);
 	pObj->AddComponent(new CChainSystemScript);
 	pObj->AddComponent(new CEffectScript);

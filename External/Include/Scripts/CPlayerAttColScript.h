@@ -7,7 +7,8 @@ class CPlayerAttColScript :
     public CScript
 {
 private:
-    CGameObject*    m_Owner;
+    CGameObject*    m_pOwner;
+    eDIR            m_Dir;
     CCollider2D*    m_Collider;
     wstring         m_sCurState;
     float           m_fDuration;

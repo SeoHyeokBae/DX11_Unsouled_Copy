@@ -60,7 +60,14 @@ void CAfterImageScript::begin()
 		CAssetMgr::GetInst()->Load<CMaterial>(L"AfterImage0", L"material\\AfterImage\\AfterImage0.mtrl");
 		sprite->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"AfterImage0"));
 
-		sprite->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+		if (GetOwner()->GetName() == L"Boss_Niug")
+		{
+			sprite->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
+		}
+		else
+		{
+			sprite->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+		}
 
 		sprite->GetRenderComponent()->GetDynamicMaterial();
 

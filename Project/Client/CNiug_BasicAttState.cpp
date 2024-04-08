@@ -35,6 +35,8 @@ void CNiug_BasicAttState::Enter()
 	Vec3 vDir = pTarget->Transform()->GetWorldPos() - pSelf->Transform()->GetWorldPos();
 	vDir.Normalize();
 
+	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
+
 	m_Combo++;
 	if (m_Combo > 3) m_Combo = 1;
 
@@ -65,13 +67,12 @@ void CNiug_BasicAttState::Enter()
 	}
 	pSelf->Movement()->SetVelocity(Vec2(vPos.x, vPos.y));
 
-	
 	pSelf->GetScript<CBossNiugScript>()->GetAttCol()->GetScript<CBossNiugAttColScript>()->On(); // ??
 }
 
 void CNiug_BasicAttState::Exit()
 {
-	
+	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(false);
 }
 
 

@@ -8,9 +8,10 @@ class CPlayerScript :
 {
 private:
     CGameObject*    m_HitBox;
-    CGameObject*    m_TopBodyCol;
     CGameObject*    m_AttCol;
+    CGameObject*    m_TopBodyCol;
     wstring         m_CurState;
+
 
     float           m_Speed;
     float           m_AftTime;

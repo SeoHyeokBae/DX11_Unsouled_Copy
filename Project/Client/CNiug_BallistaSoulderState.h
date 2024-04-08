@@ -3,11 +3,6 @@
 class CNiug_BallistaSoulderState :
     public CState
 {
-private:
-    int     m_FrmCount;
-
-public:
-
 
 public:
     virtual void finaltick() override;
