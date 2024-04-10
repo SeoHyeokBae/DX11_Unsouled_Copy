@@ -6,6 +6,7 @@
 #include <Engine/CTimeMgr.h>
 
 #include <Scripts/CChainSystemScript.h>
+#include <Scripts/CPlayerScript.h>
 
 CAttackState::CAttackState()
 	: m_Anim(nullptr)
@@ -62,8 +63,8 @@ void CAttackState::Enter()
 	GetFSM()->GetStateMachine()->Movement()->SetMaxSpeed(550.f);
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
-
-	switch (m_Dir)
+	
+		switch (m_Dir)
 	{
 	case eDIR::UP:
 		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Up", false);
@@ -120,6 +121,8 @@ void CAttackState::Enter()
 	}
 	GetFSM()->GetStateMachine()->SetBlackboardData(L"Combo", &m_Combo);
 	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
+
+	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnHit();
 }
 
 void CAttackState::Exit()

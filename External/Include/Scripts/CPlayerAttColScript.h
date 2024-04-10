@@ -14,12 +14,7 @@ private:
     float           m_fDuration;
     Vec2            m_vOriginScale;
 
-    bool            m_Hit;
-
 public:
-    bool IsHit() { return m_Hit; }
-    void OnHit() { m_Hit = true; }
-    void OffHit() { m_Hit = false; }
 
     void ColliderOn() { m_Collider->SetVisible(true); };
     void ColliderOff() { m_Collider->SetVisible(false); m_fDuration = 0.f; };

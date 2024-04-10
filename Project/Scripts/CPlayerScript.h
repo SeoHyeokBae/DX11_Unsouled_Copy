@@ -14,7 +14,15 @@ private:
     float           m_Speed;
     float           m_AftTime;
     float           m_fHitTime;
+
+    bool           m_bHit;
 public:
+    bool IsHit() { return m_bHit; }
+    void OnHit() { m_bHit = true; }
+    void OffHit() { m_bHit = false; }
+
+    CGameObject* GetAttCol() { return m_AttCol; }
+
     void CreateAftImg();
     void Damaged();
 

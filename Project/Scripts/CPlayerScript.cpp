@@ -26,6 +26,7 @@ CPlayerScript::CPlayerScript()
 	, m_Speed(100.f)
 	, m_AftTime(0.0f)
 	, m_fHitTime(0.f)
+	, m_bHit(false)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }

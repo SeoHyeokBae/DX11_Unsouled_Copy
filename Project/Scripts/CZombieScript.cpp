@@ -32,10 +32,9 @@ void CZombieScript::begin()
 		Animator2D()->Play(L"Stand_Right");
 	}
 }
-
 void CZombieScript::tick()
 {
-	int a = 0;
+	
 }
 
 void CZombieScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
@@ -44,7 +43,6 @@ void CZombieScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj,
 
 void CZombieScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
-	int a = 0;
 
 }
 

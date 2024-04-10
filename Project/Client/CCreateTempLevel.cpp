@@ -364,6 +364,7 @@ void CCreateTempLevel::CreateTempLevel()
 	CCollisionMgr::GetInst()->LayerCheck(2,12);
 	CCollisionMgr::GetInst()->LayerCheck(3,12);
 	CCollisionMgr::GetInst()->LayerCheck(3,22);
+	CCollisionMgr::GetInst()->LayerCheck(3,20);
 	CCollisionMgr::GetInst()->LayerCheck(21,25);
 	CCollisionMgr::GetInst()->LayerCheck(2,26);
 

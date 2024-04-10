@@ -81,8 +81,6 @@ void CBossNiugScript::begin()
 		GetOwner()->SetDir(eDIR::RIGHT);
 	}
 }
-static int  a = 0;
-
 void CBossNiugScript::tick()
 {
 	CGameObject* pTarget = (CGameObject*)StateMachine()->GetBlackboardData(L"TargetObject");
@@ -98,7 +96,6 @@ void CBossNiugScript::Hit()
 {
 	//CNiug_BasicAttState* state = (CNiug_BasicAttState*)StateMachine()->GetFSM()->FindState(L"BasicAttState");
 	//state->AddComboCount();
-	a++;
 }
 
 

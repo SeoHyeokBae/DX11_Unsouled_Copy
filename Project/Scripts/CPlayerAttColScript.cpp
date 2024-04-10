@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "CPlayerAttColScript.h"
 
+#include <Scripts/CPlayerScript.h>
+
 CPlayerAttColScript::CPlayerAttColScript()
 	: CScript (PLAYERATTCOLSCRIPT)
 	, m_pOwner(nullptr)
 	, m_Collider(nullptr)
 	, m_fDuration(0.f)
 	, m_Dir(eDIR::NONE)
-	, m_Hit(false)
 {
 }
 
@@ -79,15 +80,11 @@ void CPlayerAttColScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _Oth
 
 void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+	if (!GetOwner()->GetParent()->GetScript<CPlayerScript>()->IsHit()) return;
+	GetOwner()->GetParent()->GetScript<CPlayerScript>()->OffHit();
 
 	m_sCurState = m_pOwner->StateMachine()->GetFSM()->GetCurStateName();
 	eDIR dir = m_pOwner->GetDir();
-
-	if (m_Hit)
-	{
-		m_Hit = false;
-		
-	}
 
 
 	if (m_sCurState == L"AttackState")
@@ -101,51 +98,51 @@ void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj
 			{
 			case eDIR::UP:
 				if(combo == 3)
-					vVelocity += Vec2(0.f, 30.f);
+					vVelocity = Vec2(0.f, 500.f);
 				else 
-					vVelocity = Vec2(0.f, 10.f);
+					vVelocity = Vec2(0.f, 300.f);
 				break;
 			case eDIR::DOWN:
 				if (combo == 3)
-					vVelocity += Vec2(0.f, -30.f);
+					vVelocity = Vec2(0.f, -500.f);
 				else
-					vVelocity = (Vec2(0.f, -10.f));
+					vVelocity = (Vec2(0.f, -300.f));
 				break;
 			case eDIR::LEFT:
 				if (combo == 3)
-					vVelocity += (Vec2(-30.f, 0.f));
+					vVelocity = (Vec2(-500.f, 0.f));
 				else
-					vVelocity = (Vec2(-10.f, 0.f));
+					vVelocity = (Vec2(-300.f, 0.f));
 				break;
 			case eDIR::RIGHT:
 				if (combo == 3)
-					vVelocity += (Vec2(30.f, 0.f));
+					vVelocity = (Vec2(500.f, 0.f));
 				else
-					vVelocity = (Vec2(10.f, 0.f));
+					vVelocity = (Vec2(300.f, 0.f));
 				break;
 			case eDIR::UPLEFT:
 				if (combo == 3)
-					vVelocity += (Vec2(-30.f, 30.f));
+					vVelocity = (Vec2(-500.f, 500.f));
 				else
-					vVelocity = (Vec2(-10.f, 10.f));
+					vVelocity = (Vec2(-300.f, 300.f));
 				break;
 			case eDIR::UPRIGHT:
 				if (combo == 3)
-					vVelocity = (Vec2(30.f, 30.f));
+					vVelocity = (Vec2(500.f, 500.f));
 				else
-					vVelocity = (Vec2(10.f, 10.f));
+					vVelocity = (Vec2(250.f, 250.f));
 				break;
 			case eDIR::DOWNLEFT:
 				if (combo == 3)
-					vVelocity = (Vec2(-30.f, -30.f));
+					vVelocity = (Vec2(-500.f, -500.f));
 				else
-					vVelocity += (Vec2(-10.f, -10.f));
+					vVelocity = (Vec2(-250.f , -250.f));
 				break;
 			case eDIR::DOWNRIGHT:
 				if (combo == 3)
-					vVelocity += (Vec2(30.f, -30.f));
+					vVelocity = (Vec2(500.f, -500.f));
 				else
-					vVelocity = (Vec2(10.f, -10.f));
+					vVelocity = (Vec2(250.f, -250.f));
 				break;
 			}
 			_OtherObj->Movement()->SetVelocity(vVelocity);

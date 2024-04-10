@@ -45,7 +45,7 @@ void CHitColliderScript::Dead()
 
 void CHitColliderScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
-	if (m_Owner->GetName() == L"Boss_Niug" && !_OtherObj->GetParent()->GetScript<CPlayerScript>()->IsDamaged())
+	if (m_Owner->GetName() == L"Boss_Niug")
 	{
 		_OtherObj->GetParent()->GetScript<CPlayerScript>()->Damaged();
 		m_Owner->GetScript<CBossNiugScript>()->Hit();
