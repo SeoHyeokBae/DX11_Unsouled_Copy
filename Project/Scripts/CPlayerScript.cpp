@@ -25,6 +25,7 @@ CPlayerScript::CPlayerScript()
 	, m_AttCol(nullptr)
 	, m_Speed(100.f)
 	, m_AftTime(0.0f)
+	, m_fHitTime(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Player Speed", &m_Speed);
 }
@@ -130,7 +131,7 @@ void CPlayerScript::begin()
 	m_HitBox->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
 	m_HitBox->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_HitBox);
-	GamePlayStatic::SpawnGameObject(m_HitBox, 2);
+	GamePlayStatic::SpawnGameObject(m_HitBox, 21);
 
 	// Top Body Collider
 	m_TopBodyCol = new CGameObject;
@@ -143,7 +144,7 @@ void CPlayerScript::begin()
 	m_TopBodyCol->Collider2D()->SetOffsetPos(Vec2(0.f, 20.f));
 	m_TopBodyCol->Collider2D()->SetOffsetScale(Vec2(13.f, 15.f));
 	GetOwner()->AddChild(m_TopBodyCol);
-	GamePlayStatic::SpawnGameObject(m_TopBodyCol, 2);
+	GamePlayStatic::SpawnGameObject(m_TopBodyCol, 22);
 
 	// StateMachine 세팅
 	if (StateMachine())
@@ -246,6 +247,12 @@ void CPlayerScript::CreateAftImg()
 		idx++;
 		GetOwner()->GetScript<CAfterImageScript>()->SetCurIdx(idx);
 	}
+}
+
+void CPlayerScript::Damaged()
+{
+	// ToDo
+	// 체력ㄷ감소 
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

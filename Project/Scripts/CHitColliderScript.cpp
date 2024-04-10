@@ -2,6 +2,8 @@
 #include "CHitColliderScript.h"
 
 #include <Engine/CTaskMgr.h>
+#include <Scripts/CBossNiugScript.h>
+#include <Scripts/CPlayerScript.h>
 
 CHitColliderScript::CHitColliderScript()
 	: CScript(HITCOLLIDERSCRIPT)
@@ -43,7 +45,11 @@ void CHitColliderScript::Dead()
 
 void CHitColliderScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
-
+	if (m_Owner->GetName() == L"Boss_Niug" && !_OtherObj->GetParent()->GetScript<CPlayerScript>()->IsDamaged())
+	{
+		_OtherObj->GetParent()->GetScript<CPlayerScript>()->Damaged();
+		m_Owner->GetScript<CBossNiugScript>()->Hit();
+	}
 }
 
 void CHitColliderScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

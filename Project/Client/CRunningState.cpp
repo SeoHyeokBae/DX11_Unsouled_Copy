@@ -28,9 +28,21 @@ void CRunningState::finaltick()
 			Exit(); Enter();
 		}
 
+		if (KEY_RELEASED(KEY::D))
+		{
+			m_Dir = eDIR::UP;
+			Exit(); Enter();
+		}
+
 		if (KEY_TAP(KEY::A))
 		{
 			m_Dir = eDIR::UPLEFT;
+			Exit(); Enter();
+		}
+
+		if (KEY_RELEASED(KEY::A))
+		{
+			m_Dir = eDIR::UP;
 			Exit(); Enter();
 		}
 	}
@@ -52,17 +64,29 @@ void CRunningState::finaltick()
 	{
 		vPos.y -= DT * Speed;
 
-		if (KEY_TAP(KEY::A))
-		{
-			m_Dir = eDIR::DOWNLEFT;
-			Exit(); Enter();
-		}
 		if (KEY_TAP(KEY::D))
 		{
 			m_Dir = eDIR::DOWNRIGHT;
 			Exit(); Enter();
 		}
 
+		if (KEY_RELEASED(KEY::D))
+		{
+			m_Dir = eDIR::DOWN;
+			Exit(); Enter();
+		}
+
+		if (KEY_TAP(KEY::A))
+		{
+			m_Dir = eDIR::DOWNLEFT;
+			Exit(); Enter();
+		}
+
+		if (KEY_RELEASED(KEY::A))
+		{
+			m_Dir = eDIR::DOWN;
+			Exit(); Enter();
+		}
 	}
 	if (KEY_TAP(KEY::S) && KEY_NONE(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
 	{

@@ -7,6 +7,7 @@ CPlayerAttColScript::CPlayerAttColScript()
 	, m_Collider(nullptr)
 	, m_fDuration(0.f)
 	, m_Dir(eDIR::NONE)
+	, m_Hit(false)
 {
 }
 
@@ -56,7 +57,6 @@ void CPlayerAttColScript::tick()
 	}
 
 	vDir.Normalize();
-	
 	float angle = acos(vDir.Dot(Vec3(1.0f, 0.f, 0.f)) / vDir.Length());
 
 	if (m_sCurState == L"DashAttState") 
@@ -82,6 +82,14 @@ void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj
 
 	m_sCurState = m_pOwner->StateMachine()->GetFSM()->GetCurStateName();
 	eDIR dir = m_pOwner->GetDir();
+
+	if (m_Hit)
+	{
+		m_Hit = false;
+		
+	}
+
+
 	if (m_sCurState == L"AttackState")
 	{
 		int combo = *((int*)m_pOwner->StateMachine()->GetBlackboardData(L"Combo"));

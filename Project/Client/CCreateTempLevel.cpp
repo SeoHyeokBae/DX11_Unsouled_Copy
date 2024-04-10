@@ -124,8 +124,10 @@ void CCreateTempLevel::CreateTempLevel()
 	pTempLevel->GetLayer(10)->SetName(L"Background");
 
 	pTempLevel->GetLayer(20)->SetName(L"PlayerHitCollider");
-	pTempLevel->GetLayer(21)->SetName(L"MonsterHitCollider");
-	pTempLevel->GetLayer(22)->SetName(L"MonsterLockOn");
+	pTempLevel->GetLayer(21)->SetName(L"PlayerHitBoxCollider");
+	pTempLevel->GetLayer(22)->SetName(L"PlayerBodyCollider");
+	pTempLevel->GetLayer(25)->SetName(L"MonsterHitCollider");
+	pTempLevel->GetLayer(26)->SetName(L"MonsterLockOn");
 	pTempLevel->GetLayer(31)->SetName(L"UI");
 
 
@@ -361,9 +363,9 @@ void CCreateTempLevel::CreateTempLevel()
 	CCollisionMgr::GetInst()->LayerCheck(2,11);
 	CCollisionMgr::GetInst()->LayerCheck(2,12);
 	CCollisionMgr::GetInst()->LayerCheck(3,12);
-	CCollisionMgr::GetInst()->LayerCheck(3,20);
-	CCollisionMgr::GetInst()->LayerCheck(2,21);
-	CCollisionMgr::GetInst()->LayerCheck(2,22);
+	CCollisionMgr::GetInst()->LayerCheck(3,22);
+	CCollisionMgr::GetInst()->LayerCheck(21,25);
+	CCollisionMgr::GetInst()->LayerCheck(2,26);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTempLevel, LEVEL_STATE::STOP);
 

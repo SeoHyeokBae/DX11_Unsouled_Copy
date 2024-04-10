@@ -11,12 +11,12 @@ private:
     CGameObject*    m_AttCol;
     CGameObject*    m_TopBodyCol;
     wstring         m_CurState;
-
-
     float           m_Speed;
     float           m_AftTime;
+    float           m_fHitTime;
 public:
     void CreateAftImg();
+    void Damaged();
 
 public:
     virtual void tick() override;

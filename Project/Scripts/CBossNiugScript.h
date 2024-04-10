@@ -11,15 +11,20 @@ private:
     float           m_Speed;
     CGameObject*    m_AttCol;
     Ptr<CPrefab>    m_pHitCollider;
-    bool            m_bAttacking;
+    bool            m_bAttacking;   // HitCollider »ý¼º
+    bool            m_bHit;
 
 public:
     void init();
-    void OnHit();
+    void Hit();
 
     bool IsAttacking() { return m_bAttacking;}
     void OnAttacking() { m_bAttacking = true; }
     void OffAttacking() { m_bAttacking = false; }
+
+    bool IsHit() { return m_bHit; }
+    void OnHit() { m_bHit = true; }
+    void OffHit() { m_bHit = false; }
 
     CGameObject* GetAttCol() { return m_AttCol; }
 

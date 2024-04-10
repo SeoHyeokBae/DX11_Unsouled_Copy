@@ -9,8 +9,9 @@
 CBossNiugScript::CBossNiugScript()
 	: CScript(BOSSNIUGSCRIPT)
 	, m_AttCol(nullptr)
-	, m_bAttacking(false)
 	, m_pHitCollider(nullptr)
+	, m_bAttacking(false)
+	, m_bHit(false)
 {
 }
 
@@ -44,6 +45,7 @@ void CBossNiugScript::init()
 	obj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 	obj->Collider2D()->SetOffsetScale(Vec2(30.f, 50.f));
 	obj->Collider2D()->SetVisible(true);
+	obj->Collider2D()->SetAbsolute(true);
 	obj->MeshRender()->GetRenderComponent()->GetDynamicMaterial();
 	obj->GetScript<CHitColliderScript>()->SetSelf(GetOwner());
 	//obj->GetScript<CHitColliderScript>()->SetDuration(2.5f);
@@ -60,7 +62,7 @@ void CBossNiugScript::init()
 	m_AttCol->Collider2D()->SetOffsetPos(Vec2(25.f, 0.f));
 	m_AttCol->Collider2D()->SetOffsetScale(Vec2(50.f, 30.f));
 	GetOwner()->AddChild(m_AttCol);
-	GamePlayStatic::SpawnGameObject(m_AttCol, 22);
+	GamePlayStatic::SpawnGameObject(m_AttCol, 26);
 }
 
 void CBossNiugScript::begin()
@@ -79,6 +81,7 @@ void CBossNiugScript::begin()
 		GetOwner()->SetDir(eDIR::RIGHT);
 	}
 }
+static int  a = 0;
 
 void CBossNiugScript::tick()
 {
@@ -86,15 +89,16 @@ void CBossNiugScript::tick()
 	if (m_bAttacking)
 	{
 		m_bAttacking = false;
-		Instantiate(m_pHitCollider, pTarget->Transform()->GetRelativePos(), 21);
+		Instantiate(m_pHitCollider, pTarget->Transform()->GetRelativePos(), 25);
 	}
 
 }
 
-void CBossNiugScript::OnHit()
+void CBossNiugScript::Hit()
 {
 	//CNiug_BasicAttState* state = (CNiug_BasicAttState*)StateMachine()->GetFSM()->FindState(L"BasicAttState");
 	//state->AddComboCount();
+	a++;
 }
 
 

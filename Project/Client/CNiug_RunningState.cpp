@@ -27,8 +27,8 @@ void CNiug_RunningState::finaltick()
 
 	if (250.f < fDis)
 	{
-		//ChangeState(L"RageOfIsnoState");
-		ChangeState(L"BallistaReadyState");
+		ChangeState(L"RageOfIsnoState");
+		//ChangeState(L"BallistaReadyState");
 		return;
 	}
 
