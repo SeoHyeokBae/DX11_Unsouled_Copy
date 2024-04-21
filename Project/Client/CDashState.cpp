@@ -124,8 +124,8 @@ void CDashState::Exit()
 	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
 	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 
-	m_MoveMent->SetMaxSpeed(125.f);
-
+	//m_MoveMent->SetMaxSpeed(125.f);
+	
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
 }

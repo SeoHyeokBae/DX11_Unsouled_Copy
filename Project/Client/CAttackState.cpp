@@ -102,7 +102,6 @@ void CAttackState::Enter()
 		if (2 == m_Combo) m_Anim->Play(L"BAttack02_Up", false);
 		if (3 == m_Combo) m_Anim->Play(L"BAttack03_Up", false);
 		vVelocity.x += 250.f; vVelocity.y += 250.f;
-
 		break;
 	case eDIR::DOWNLEFT:
 		if (1 == m_Combo) m_Anim->Play(L"BAttack01_Down", false);

@@ -278,7 +278,7 @@ void CCreateTempLevel::CreateTempLevel()
 
 	pObj->Movement()->SetMass(1.f);
 	pObj->Movement()->SetInitSpeed(50.f);
-	pObj->Movement()->SetMaxSpeed(450.f);
+	pObj->Movement()->SetMaxSpeed(1000.f);
 	pObj->Movement()->SetFrictionScale(1000.f);
 
 	pObj->Collider2D()->SetAbsolute(true);

@@ -6,6 +6,7 @@
 #include <Engine/CTimeMgr.h>
 
 #include <Scripts/CChainSystemScript.h>
+#include <Scripts/CPlayerScript.h>
 
 CDashAttState::CDashAttState()
 	: m_Anim(nullptr)
@@ -82,6 +83,8 @@ void CDashAttState::Enter()
 	}
 
 	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
+
+	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnHit();
 }
 
 void CDashAttState::Exit()

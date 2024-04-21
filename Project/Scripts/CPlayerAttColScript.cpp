@@ -154,31 +154,32 @@ void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj
 		if (_OtherObj->GetName() == L"Zombie")
 		{
 			Vec2 vVelocity = _OtherObj->Movement()->GetVelocity();
+			vVelocity += GetOwner()->GetParent()->Movement()->GetVelocity();
 			switch (dir)
 			{
 			case eDIR::UP:
-				vVelocity += Vec2(0.f, 45.f);
+				vVelocity += Vec2(0.f, 250.f);
 				break;
 			case eDIR::DOWN:
-				vVelocity += Vec2(0.f, -45.f);
+				vVelocity += Vec2(0.f, -250.f);
 				break;
 			case eDIR::LEFT:
-				vVelocity += (Vec2(-45.f, 0.f));
+				vVelocity += (Vec2(-250.f, 0.f));
 				break;
 			case eDIR::RIGHT:
-				vVelocity += (Vec2(45.f, 0.f));
+				vVelocity += (Vec2(250.f, 0.f));
 				break;
 			case eDIR::UPLEFT:
-				vVelocity += (Vec2(-45.f, 45.f));
+				vVelocity += (Vec2(-250.f, 250.f));
 				break;
 			case eDIR::UPRIGHT:
-				vVelocity = (Vec2(45.f, 45.f));
+				vVelocity += (Vec2(250.f, 250.f));
 				break;
 			case eDIR::DOWNLEFT:
-				vVelocity = (Vec2(-45.f, -45.f));
+				vVelocity += (Vec2(-250.f, -250.f));
 				break;
 			case eDIR::DOWNRIGHT:
-				vVelocity += (Vec2(45.f, -45.f));
+				vVelocity += (Vec2(250.f, -250.f));
 				break;
 			}
 			_OtherObj->Movement()->SetVelocity(vVelocity);
