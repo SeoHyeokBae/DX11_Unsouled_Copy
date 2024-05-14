@@ -12,7 +12,16 @@
 #include <Scripts/CScriptMgr.h>
 #include <Engine/CScript.h>
 
-// 레벨 -> 레이어 -> 게임오브젝트(Parents) -> 자식오브젝트?
+// Level 실행시 prefab 생성 및 실행  script(Component) -> begin 
+// prefab으로 오브젝트 컴포넌트, 스크립트 구성되어있음
+// play로 begin 들어가게됨 stop상태에서 begin으로 에셋 초기화 해줘야함
+// level 관리 script 생성 필요 (singleton이면 베스트) 
+// 위 스크립트로 오브젝트->script->Begin() 한번씩 실행
+
+// Issue
+// 프리펩은 레이어 저장을 안해줌
+// 오브젝트 스크립트 또는 state 추가시 prefab 다시 저장->Fsm 구현이 우선 ?
+
 void CLevelSaveLoad::SaveLevel(CLevel* _Level, const wstring& _strLevelPath)
 {
 	assert(_Level);
