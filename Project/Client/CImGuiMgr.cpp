@@ -103,7 +103,7 @@ void CImGuiMgr::tick()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    
+    // ±âÁî¸ðbeginframe
     //if (m_Open)
     //    dockspace();
     

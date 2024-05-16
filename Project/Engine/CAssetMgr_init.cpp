@@ -232,18 +232,17 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	AddAsset(L"TileMapShader", pShader.Get());
 
 	// ====================
-	// 
+	// EffectRenderShader
 	// ====================
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_Effect");
 
-	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_WRITE);		// 깊이 테스트는 진행, 깊이는 기록 X
-	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+	pShader->SetDSType(DS_TYPE::LESS);		// 깊이 테스트는 진행, 깊이는 기록 X
+	pShader->SetBSType(BS_TYPE::DEFAULT);
 
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 
 	AddAsset(L"EffectRenderShader", pShader.Get());
 
@@ -329,7 +328,7 @@ void CAssetMgr::CreateDefaultMaterial()
 	//test
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"EffectRenderShader"));
-	AddAsset<CMaterial>(L"effectmtrl", pMtrl);
+	AddAsset<CMaterial>(L"Effectmtrl", pMtrl);
 
 	// TestMtrl
 	//pMtrl = new CMaterial(true);

@@ -3,12 +3,19 @@
 
 #include <Engine/CTimeMgr.h>
 
+#define CHAIN_START 0.015f
+#define CHAIN_OVER 0.07f
+#define BLINK_INTERVAL 0.03f
+
+// 체인 타이밍 안에 스킬 사용시 이펙트
+
 CChainSystemScript::CChainSystemScript()
 	: CScript(CHAINSYSTEMSCRIPT)
 	, m_bStart(false)
 	, m_bYellow(false)
 	, m_bChain(false)
 	, m_bRecovery(false)
+	, m_bEffect(false)
     , m_fBlinkTime(0.f)
 	, m_fTiming(0.f)
 {
@@ -29,7 +36,7 @@ void CChainSystemScript::tick()
 	}
 
 	// 체인 타이밍
-	if (m_fTiming >= 0.015f && m_fTiming <= 0.07f)
+	if (m_fTiming >= CHAIN_START && m_fTiming <= CHAIN_OVER)
 		m_bChain = true;
 
 
@@ -47,7 +54,7 @@ void CChainSystemScript::tick()
 	if (m_bChain)
 	{
 		m_fBlinkTime += DT;
-		if (m_fBlinkTime >= 0.03f) // interval
+		if (m_fBlinkTime >= BLINK_INTERVAL)
 		{
 			if (!m_bYellow)
 			{
@@ -76,6 +83,7 @@ void CChainSystemScript::Clear()
 	m_bStart = false;
 	m_bChain = false;
 	m_bRecovery = false;
+	m_bEffect = false;
 	m_fBlinkTime = 0.f;
 	m_fTiming = 0.f;
 }

@@ -9,6 +9,7 @@ private:
 	bool            m_bChain;		// 체인 발동
 	bool			m_bRecovery;
 	bool            m_bYellow;
+	bool			m_bEffect;		// 이펙트
 	
 	float           m_fBlinkTime;
 	float			m_fTiming;
@@ -20,7 +21,8 @@ public:
 	
 	void SetStart(bool _start) { m_bStart = _start;}
 	void SetChain(bool _chain) { m_bChain = _chain; }
-	
+	void EffectOn() { m_bEffect = true; }
+
 	void Clear();
 public:
 	virtual void begin() override;

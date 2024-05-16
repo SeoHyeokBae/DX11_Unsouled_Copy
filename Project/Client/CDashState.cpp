@@ -29,8 +29,8 @@ void CDashState::finaltick()
 	if (!KEY_NONE(KEY::RBTN) && m_ChainSystem->IsStart() && m_ChainSystem->IsRecovery())
 	{
 		ChangeState(L"DashState");
-		CEffectScript* effect = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CEffectScript>();
-		effect->GetEffect()->Animator2D()->Play(L"ChainEffect", false);
+		CEffectScript* pEffect = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CEffectScript>();
+		pEffect->OnEffect(eEffectStatus::CHAIN_EFFECT);
 	}
 
 	if (KEY_TAP(KEY::LBTN) && m_ChainSystem->IsStart())

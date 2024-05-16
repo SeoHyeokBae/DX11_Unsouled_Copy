@@ -4,6 +4,7 @@
 class CAnimator2D;
 class CChainSystemScript;
 class CMovement;
+class CEffectScript;
 
 class CDashState :
     public CState

@@ -65,17 +65,21 @@
 
 void CCreateTempLevel::Init()
 {
+	// 프리펩 저장 하드코딩
 	//CGameObject* pObj2 = nullptr;
 
 	//pObj2 = new CGameObject;
-	//pObj2->SetName(L"Niug_HitCollider");
+	//pObj2->SetName(L"Effect");
 	//pObj2->AddComponent(new CTransform);
-	//pObj2->AddComponent(new CCollider2D);
-	//pObj2->AddComponent(new CHitColliderScript);
-	//pObj2->GetScript<CHitColliderScript>()->SetDuration(0.5f);
-	//Ptr<CPrefab> pPrefab = new CPrefab(pObj, false);
+	//pObj2->AddComponent(new CMeshRender);
+	//pObj2->AddComponent(new CAnimator2D);
+	//pObj2->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pObj2->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Effectmtrl"));
+	//pObj2->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+	//pObj2->Transform()->SetRelativePos(Vec3(0.f, 5.f, 0.f));
+	//Ptr<CPrefab> pPrefab = new CPrefab(pObj2, false);
 	////CAssetMgr::GetInst()->AddAsset<CPrefab>(L"Niug_HitCollider", pPrefab.Get());
-	//pPrefab->Save(L"prefab\\Niug_HitCollider2.pref");
+	//pPrefab->Save(L"prefab\\NormalEffect.pref");
 	
 
 

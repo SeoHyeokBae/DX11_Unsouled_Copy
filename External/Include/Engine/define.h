@@ -28,6 +28,7 @@
 #define CLONE_DISABLE(TYPE) TYPE* Clone() {return nullptr; assert(nullptr);}\
 							TYPE(const TYPE& _OriginBuffer) = delete;
 
+
 enum class DIR_TYPE
 {
 	RIGHT,
