@@ -2,6 +2,8 @@
 #include "CEffectScript.h"
 
 #include "Engine/CAssetMgr.h"
+#include "Engine/CLevelMgr.h"
+#include "Engine/CLevel.h"
 
 
 
@@ -16,6 +18,7 @@ CEffectScript::CEffectScript()
 CEffectScript::~CEffectScript()
 {
 }
+
 
 void CEffectScript::begin()
 {
@@ -44,12 +47,13 @@ void CEffectScript::tick()
 		CGameObject* effObj = iter->second;
 		if (effObj->Animator2D()->GetCurAnim()->IsFinish())
 		{
-			effObj->Animator2D()->SetCurAnim(nullptr);
-			effObj->Destroy();
+			Dead(effObj);
+			
 			m_iStatus &= ~(1 << i);
 			m_RegisterObj.erase(1 << i);
 		}
 	}
+
 
 }
 
@@ -77,6 +81,15 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		break;
 	}
 }
+
+void CEffectScript::Dead(CGameObject* _obj)
+{
+	int LayerIdx = _obj->DisconnectWithParent();
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	pCurLevel->AddObject(_obj, LayerIdx, false);
+	_obj->Destroy();
+}
+
 
 void CEffectScript::SaveToFile(FILE* _File)
 {

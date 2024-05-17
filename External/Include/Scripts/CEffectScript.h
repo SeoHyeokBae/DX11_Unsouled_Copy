@@ -33,6 +33,9 @@ public:
     void OffEffect() { m_iStatus &= 0; };
 
 public:
+    void Dead(CGameObject* _obj);
+
+public:
     virtual void begin() override;
     virtual void tick() override;
 
