@@ -24,6 +24,11 @@ void CAttackState::finaltick()
 	float Speed = 20.f;
 	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
 
+	if (2 == m_Anim->GetCurAnim()->GetCurFrmIdx())
+	{
+		GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnHit();
+	}
+
 	// 애니메이션 종료되면 체인시스템 시작
 	m_Anim->GetCurAnim()->IsFinish() ? m_ChainSystem->SetStart(true) : m_ChainSystem->SetStart(false);
 
@@ -120,8 +125,6 @@ void CAttackState::Enter()
 	}
 	GetFSM()->GetStateMachine()->SetBlackboardData(L"Combo", &m_Combo);
 	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
-
-	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnHit();
 }
 
 void CAttackState::Exit()

@@ -117,6 +117,8 @@ void CMonsterScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCo
 {	
 	//Vec2 vVelocity = _OtherObj->GetParent()->Movement()->GetVelocity();
 	//_OtherObj->GetParent()->Movement()->SetVelocity(Vec2(vVelocity.x -vVelocity.x * 0.8, 0.f));
+	
+
 }
 
 void CMonsterScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

@@ -1,8 +1,13 @@
 #include "pch.h"
 #include "CZombieScript.h"
 
+#include "CPlayerScript.h"
+#include "CEffectScript.h"
+
 CZombieScript::CZombieScript()
 	:CScript(ZOMBIESCRIPT)
+	, m_Hp(30)
+	, m_bDamaged(false)
 {
 }
 
@@ -32,9 +37,19 @@ void CZombieScript::begin()
 		Animator2D()->Play(L"Stand_Right");
 	}
 }
+
 void CZombieScript::tick()
 {
 	
+}
+
+void CZombieScript::Damaged()
+{
+	// ToDo
+	m_bDamaged = true;
+	CEffectScript* effect = GetOwner()->GetScript<CEffectScript>();
+	effect->OnEffect(eEffectStatus::SWORD_SPARK);
+
 }
 
 void CZombieScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
@@ -43,7 +58,19 @@ void CZombieScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj,
 
 void CZombieScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
+	if (_OtherObj->GetName() == L"Player_AttCol")
+	{
+		if (_OtherObj->GetParent()->GetScript<CPlayerScript>()->IsHit())
+		{
+			Vec2 vColPos = GetOwner()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();
+			Vec2 vOtherColPos = _OtherObj->GetParent()->Transform()->GetRelativePos().XY() + _OtherCollider->GetOffsetPos();
+			
+			float vLength = (vColPos - vOtherColPos).Length();
 
+			//GetOwner()->GetScript<CEffectScript>()->SetCalculatedPos();
+			Damaged();
+		}
+	}
 }
 
 void CZombieScript::EndOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

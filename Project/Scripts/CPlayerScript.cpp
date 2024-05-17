@@ -120,7 +120,7 @@ void CPlayerScript::begin()
 	m_AttCol->Collider2D()->SetOffsetPos(Vec2(10.f, 0.f));
 	GetOwner()->AddChild(m_AttCol);
 	GamePlayStatic::SpawnGameObject(m_AttCol, 20);
-
+	
 	// HitBox Collider
 	m_HitBox = new CGameObject;
 	m_HitBox->SetName(L"Player_HitBox");

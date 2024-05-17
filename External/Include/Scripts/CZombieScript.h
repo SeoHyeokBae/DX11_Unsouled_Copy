@@ -1,14 +1,25 @@
 #pragma once
 #include <Engine\CScript.h>
+
+
+
 class CZombieScript :
     public CScript
 {
+
 private:
+    UINT        m_Hp;
+
     float       m_DetectRange;
     float       m_Speed;
 
+    bool        m_bDamaged;
+
 public:
     void init();
+
+public:
+    void Damaged();
 
 public:
     virtual void begin() override;

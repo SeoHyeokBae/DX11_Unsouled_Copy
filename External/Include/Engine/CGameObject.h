@@ -85,6 +85,8 @@ public:
     int DisconnectWithParent();
     int DisconnectWithLayer();
 
+
+public:
     void AddChild(CGameObject* _Child);
 
     bool IsDead() { return m_bDead; }

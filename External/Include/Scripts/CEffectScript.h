@@ -26,14 +26,17 @@ private:
 
     UINT                    m_iStatus;
 
+    Vec2                    m_vCalculatedPos;
+
     map<int, CGameObject*>  m_RegisterObj;
 
 public:
     void OnEffect(eEffectStatus _status);
     void OffEffect() { m_iStatus &= 0; };
 
-public:
-    void Dead(CGameObject* _obj);
+    void SetCalculatedPos(Vec2 _pos) { m_vCalculatedPos = _pos; }
+
+    void Dead(CGameObject* _obj, int _effNum);
 
 public:
     virtual void begin() override;

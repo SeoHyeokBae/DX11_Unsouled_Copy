@@ -5,13 +5,12 @@
 #include "Engine/CLevelMgr.h"
 #include "Engine/CLevel.h"
 
-
-
 CEffectScript::CEffectScript()
 	: CScript(EFFECTSCRIPT)
 	, m_EffectPrefab(nullptr)
 	, m_ScrMgr(nullptr)
 	, m_iStatus(0)
+	, m_vCalculatedPos(Vec2(0.f,0.f))
 {
 }
 
@@ -28,9 +27,14 @@ void CEffectScript::begin()
 
 	assert(m_EffectPrefab->GetProtoGameObj()->Animator2D()); // Animator 컴포넌트가 없음
 
-	m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"HitCircle", L"anim\\HitCircle.anim");
-	m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"SwordSpark", L"anim\\SwordSpark.anim");
-	m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"ChainEffect", L"anim\\ChainEffect.anim");
+	// 몬스터오브젝트도 같은 에셋사용 이미 anim이 있을 수 있음
+	if (0 == m_EffectPrefab->GetProtoGameObj()->Animator2D()->GetAnimCount())
+	{
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"HitCircle", L"anim\\HitCircle.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"SwordSpark", L"anim\\SwordSpark.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"ChainEffect", L"anim\\ChainEffect.anim");
+	}
+
 }
 
 void CEffectScript::tick()
@@ -43,22 +47,28 @@ void CEffectScript::tick()
 			continue;
 
 		map<int, CGameObject*>::iterator iter = m_RegisterObj.find(1 << i);
-		 
 		CGameObject* effObj = iter->second;
+		
 		if (effObj->Animator2D()->GetCurAnim()->IsFinish())
 		{
-			effObj->Destroy();
-			m_iStatus &= ~(1 << i);
-			m_RegisterObj.erase(1 << i);
+			Dead(effObj, i);
 		}
+
 	}
 }
 
 void CEffectScript::OnEffect(eEffectStatus _status)
 {
+	// 이미 이펙트 활성화 되어 있는경우
+	if (m_iStatus & (1 << (UINT)_status))
+	{
+		// 기존 이펙트를 delete 하고 새로운 오브젝트로 교체
+		map<int, CGameObject*>::iterator iter = m_RegisterObj.find(1 << (UINT)_status);
+		CGameObject* effObj = iter->second;
+		Dead(effObj, (UINT)_status);
+	}
+
 	CGameObject* pNewEffectObj = m_EffectPrefab->Instantiate();
-	
-	GetOwner()->AddChild(pNewEffectObj);
 	GamePlayStatic::SpawnGameObject(pNewEffectObj, 0);
 
 	switch (_status)
@@ -67,6 +77,7 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_RegisterObj.insert(make_pair(CHAIN, pNewEffectObj));
 		m_iStatus |= CHAIN;
 		pNewEffectObj->SetName(L"CHAIN_EFF");
+		pNewEffectObj->Transform()->SetRelativePos(GetOwner()->Transform()->GetRelativePos());
 		pNewEffectObj->Animator2D()->Play(L"ChainEffect",false);
 		break;
 
@@ -74,9 +85,18 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_RegisterObj.insert(make_pair(SPARK, pNewEffectObj));
 		m_iStatus |= SPARK;
 		pNewEffectObj->SetName(L"SPARK_EFF");
+		//  hit시 PlayerAttCollider와  MonsterCollider의 교집합 중간점pos
+
 		pNewEffectObj->Animator2D()->Play(L"SwordSpark", false);
 		break;
 	}
+}
+
+void CEffectScript::Dead(CGameObject* _obj, int _effNum)
+{
+	_obj->Destroy();
+	m_iStatus &= ~(1 << _effNum);
+	m_RegisterObj.erase(1 << _effNum);
 }
 
 void CEffectScript::SaveToFile(FILE* _File)

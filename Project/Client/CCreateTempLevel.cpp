@@ -276,7 +276,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMonsterScript);
 	pObj->AddComponent(new CZombieScript);
 	pObj->AddComponent(new CZSortScript);
-	//pObj->AddComponent(new CEffectScript);
+	pObj->AddComponent(new CEffectScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
