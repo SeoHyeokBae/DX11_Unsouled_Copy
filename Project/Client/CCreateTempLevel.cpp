@@ -76,7 +76,7 @@ void CCreateTempLevel::Init()
 	//pObj2->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	//pObj2->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Effectmtrl"));
 	//pObj2->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
-	//pObj2->Transform()->SetRelativePos(Vec3(0.f, 5.f, 0.f));
+	//pObj2->Transform()->SetRelativePos(Vec3(0.f, 10.f, 0.f));
 	//Ptr<CPrefab> pPrefab = new CPrefab(pObj2, false);
 	////CAssetMgr::GetInst()->AddAsset<CPrefab>(L"Niug_HitCollider", pPrefab.Get());
 	//pPrefab->Save(L"prefab\\NormalEffect.pref");
@@ -276,6 +276,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CMonsterScript);
 	pObj->AddComponent(new CZombieScript);
 	pObj->AddComponent(new CZSortScript);
+	//pObj->AddComponent(new CEffectScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(0.f, 300.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
@@ -313,6 +314,7 @@ void CCreateTempLevel::CreateTempLevel()
 	pObj->AddComponent(new CBossNiugScript);
 	pObj->AddComponent(new CZSortScript);
 	pObj->AddComponent(new CAfterImageScript);
+	//pObj->AddComponent(new CEffectScript);
 
 	pObj->Transform()->SetRelativePos(Vec3(-100.f, 300.f, 0.f));
 	pObj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));

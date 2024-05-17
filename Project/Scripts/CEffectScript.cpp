@@ -47,14 +47,11 @@ void CEffectScript::tick()
 		CGameObject* effObj = iter->second;
 		if (effObj->Animator2D()->GetCurAnim()->IsFinish())
 		{
-			Dead(effObj);
-			
+			effObj->Destroy();
 			m_iStatus &= ~(1 << i);
 			m_RegisterObj.erase(1 << i);
 		}
 	}
-
-
 }
 
 void CEffectScript::OnEffect(eEffectStatus _status)
@@ -81,15 +78,6 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		break;
 	}
 }
-
-void CEffectScript::Dead(CGameObject* _obj)
-{
-	int LayerIdx = _obj->DisconnectWithParent();
-	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	pCurLevel->AddObject(_obj, LayerIdx, false);
-	_obj->Destroy();
-}
-
 
 void CEffectScript::SaveToFile(FILE* _File)
 {

@@ -119,9 +119,24 @@ void CGameObject::finaltick()
 	CLayer* pCurLayer = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(m_iLayerIdx);
 	pCurLayer->RegisterGameObject(this);
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	//for (size_t i = 0; i < m_vecChild.size(); ++i)
+	//{
+	//	m_vecChild[i]->finaltick();
+	//}
+	vector<CGameObject*>::iterator iter = m_vecChild.begin();
+	for (; iter != m_vecChild.end();)
 	{
-		m_vecChild[i]->finaltick();
+		(*iter)->finaltick();
+
+		if ((*iter)->m_bDead)
+		{
+			CGC::GetInst()->Add(*iter);
+			iter = m_vecChild.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
 	}
 }
 
