@@ -39,9 +39,8 @@ void CEffectScript::begin()
 
 void CEffectScript::tick()
 {
-	
 	// 애니메이션 종료 체크
-	for (UINT i = 0; i < STATUS_MAX; i++)
+	for (UINT i = 1; i < (UINT)eEffectStatus::NONE * 2; i *= 2)
 	{
 		if (!(m_iStatus & (1 << i)))
 			continue;
@@ -62,6 +61,7 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 	// 이미 이펙트 활성화 되어 있는경우
 	if (m_iStatus & (1 << (UINT)_status))
 	{
+		return;
 		// 기존 이펙트를 delete 하고 새로운 오브젝트로 교체
 		map<int, CGameObject*>::iterator iter = m_RegisterObj.find(1 << (UINT)_status);
 		CGameObject* effObj = iter->second;
@@ -87,6 +87,15 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		pNewEffectObj->SetName(L"SPARK_EFF");
 		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y,0.f));
 		pNewEffectObj->Animator2D()->Play(L"SwordSpark", false);
+		OnEffect(eEffectStatus::HIT_CIRCLE);
+		break;
+
+	case eEffectStatus::HIT_CIRCLE:
+		m_RegisterObj.insert(make_pair(HITCIRCLE, pNewEffectObj));
+		m_iStatus |= HITCIRCLE;
+		pNewEffectObj->SetName(L"HITCIRCLE_EFF");
+		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
+		pNewEffectObj->Animator2D()->Play(L"HitCircle", false);
 		break;
 	}
 }

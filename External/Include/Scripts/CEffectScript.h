@@ -2,9 +2,10 @@
 #include <Engine\CScript.h>
 
 // EFFECT STATUS
-#define STATUS_MAX		2
+#define EFFECTMAX        3
 #define CHAIN  	        0x001
 #define SPARK		    0x002
+#define HITCIRCLE       0x004
 
 class CGameObject;
 class CScriptMgr;
@@ -14,6 +15,7 @@ enum class eEffectStatus
 {
     CHAIN_EFFECT,
     SWORD_SPARK,
+    HIT_CIRCLE,
     NONE,
 };
 
@@ -25,7 +27,7 @@ private:
     CScriptMgr*             m_ScrMgr;
 
     UINT                    m_iStatus;
-
+    
     Vec2                    m_vCalculatedPos;
 
     map<int, CGameObject*>  m_RegisterObj;

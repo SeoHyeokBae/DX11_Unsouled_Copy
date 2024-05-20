@@ -28,11 +28,6 @@
 #define CLONE_DISABLE(TYPE) TYPE* Clone() {return nullptr; assert(nullptr);}\
 							TYPE(const TYPE& _OriginBuffer) = delete;
 
-// EFFECT STATUS
-#define STATUS_MAX		2
-#define CHAIN_EFFECT	0x001
-#define SWORD_SPARK		0x002
-
 enum class DIR_TYPE
 {
 	RIGHT,
