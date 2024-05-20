@@ -85,8 +85,7 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_RegisterObj.insert(make_pair(SPARK, pNewEffectObj));
 		m_iStatus |= SPARK;
 		pNewEffectObj->SetName(L"SPARK_EFF");
-		//  hit시 PlayerAttCollider와  MonsterCollider의 교집합 중간점pos
-
+		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y,0.f));
 		pNewEffectObj->Animator2D()->Play(L"SwordSpark", false);
 		break;
 	}

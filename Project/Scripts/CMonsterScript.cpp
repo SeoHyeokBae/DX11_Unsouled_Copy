@@ -4,6 +4,11 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 
+#include "CPlayerScript.h"
+#include "CEffectScript.h"
+#include "CZombieScript.h"
+#include "CBossNiugScript.h"
+
 #include <Scripts/CAfterImageScript.h>
 
 #include "../Client/CIdleState.h"
@@ -115,8 +120,68 @@ void CMonsterScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj
 
 void CMonsterScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {	
-	//Vec2 vVelocity = _OtherObj->GetParent()->Movement()->GetVelocity();
-	//_OtherObj->GetParent()->Movement()->SetVelocity(Vec2(vVelocity.x -vVelocity.x * 0.8, 0.f));
+
+	if (_OtherObj->GetName() == L"Player_AttCol")
+	{
+		if (_OtherObj->GetParent()->GetScript<CPlayerScript>()->IsHit())
+		{
+			// ㅂ보스제외 좀비만 테스트 임시
+			if (GetOwner()->GetScript<CBossNiugScript>())
+				return;
+
+			// Player -> Player_AttCol 로 변경
+			Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();	// 몬스터 위치
+			Vec2 vSize = _Collider->GetOffsetScale();	// col 사이즈
+			Vec2 vOtherPos = _OtherObj->GetParent()->Transform()->GetRelativePos().XY() + _OtherCollider->GetOffsetPos(); // Player_Attcol Pos
+			Vec2 vOtherSize = _OtherCollider->GetOffsetScale();	// Player_AttCol size
+			Vec2 vPosLength = vSize / 2.f;
+			Vec2 vOtherLength = vOtherSize / 2.f;
+
+			Vector2 vEffectPos = Vec2(0.f, 0.f);
+			
+			// 몬스터로 향하는 방향 벡터
+			Vec2 vdir = vPos - vOtherPos;
+			vdir.Normalize(); 
+			
+			if (vdir.x < 0) // attcol 우측
+			{
+				//vEffectPos.x = vOtherPos.x - vOtherSize.x;
+				vEffectPos.x = vOtherPos.x - vOtherLength.x + (vPos.x - (vOtherPos.x - vOtherLength.x)) / 2.f;
+			}
+			else if (vdir.x >= 0) //attcol 좌측
+			{
+				//vEffectPos.x = vOtherPos.x + vOtherSize.x;
+				vEffectPos.x = vOtherPos.x + vOtherLength.x - (vOtherPos.x + vOtherLength.x - vPos.x) / 2.f;
+			}
+
+			if (vdir.y < 0) // attcol 위
+			{
+				//vEffectPos.y = vOtherPos.y - vOtherSize.y;
+				vEffectPos.y  = vOtherPos.y - vOtherLength.y + (vPos.y - (vOtherPos.y - vOtherLength.y)) / 2.f;
+			}
+			else if (vdir.y >= 0) //attcol 아래
+			{
+				//vEffectPos.y = vOtherPos.y + vOtherSize.y;
+				vEffectPos.y = vOtherPos.y + vOtherLength.y - (vOtherPos.y + vOtherLength.y - vPos.y) / 2.f;
+			}
+
+
+			GetOwner()->GetScript<CEffectScript>()->SetCalculatedPos(vEffectPos);
+
+			// 좀비일때
+			if (GetOwner()->GetScript<CZombieScript>()) 
+			{
+				GetOwner()->GetScript<CZombieScript>()->Damaged();
+			}
+
+			// 보스일때
+			else if (GetOwner()->GetScript<CBossNiugScript>())
+			{
+				//To Do
+			}
+			
+		}
+	}
 	
 
 }
