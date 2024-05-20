@@ -116,7 +116,7 @@ void CPlayerScript::begin()
 	m_AttCol->AddComponent(new CPlayerAttColScript);
 	m_AttCol->Transform()->SetRelativePos(Vec3(0.f, 20.f,0.f));
 	m_AttCol->Collider2D()->SetVisible(true);
-	m_AttCol->Collider2D()->SetOffsetScale(Vec2(20.f, 15.f));
+	m_AttCol->Collider2D()->SetOffsetScale(Vec2(35.f, 15.f));
 	m_AttCol->Collider2D()->SetOffsetPos(Vec2(10.f, 0.f));
 	GetOwner()->AddChild(m_AttCol);
 	GamePlayStatic::SpawnGameObject(m_AttCol, 20);

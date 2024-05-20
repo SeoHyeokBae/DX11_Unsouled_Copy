@@ -129,49 +129,31 @@ void CMonsterScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCo
 			if (GetOwner()->GetScript<CBossNiugScript>())
 				return;
 
-			// Player -> Player_AttCol 로 변경
-			Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();	// 몬스터 위치
-			Vec2 vSize = _Collider->GetOffsetScale();	// col 사이즈
+			Vec2 vPos = GetOwner()->Transform()->GetRelativePos().XY() + _Collider->GetOffsetPos();	// 몬스터 collider 위치
 			Vec2 vOtherPos = _OtherObj->GetParent()->Transform()->GetRelativePos().XY() + _OtherCollider->GetOffsetPos(); // Player_Attcol Pos
-			Vec2 vOtherSize = _OtherCollider->GetOffsetScale();	// Player_AttCol size
-			Vec2 vPosLength = vSize / 2.f;
-			Vec2 vOtherLength = vOtherSize / 2.f;
 
 			Vector2 vEffectPos = Vec2(0.f, 0.f);
-			
-			// 몬스터로 향하는 방향 벡터
-			// 몬스터별로 적용
-			// 위치 좀더 몬스터쪽으로 조정 필요
-			// 이펙트 출력 layer 우선순위 조정필요
+			Vector3 vEffectRot = Vec3(0.f, 0.f,0.f);
+		
+			vEffectPos = vPos; // 몬스터OBJ 위치
 
-			Vec2 vdir = vPos - vOtherPos;
-			vdir.Normalize(); 
-			
-			// 검끝 기준
-			if (vdir.x < 0) // attcol 우측
-			{
-				//vEffectPos.x = vOtherPos.x - vOtherLength.x + (vPos.x - (vOtherPos.x - vOtherLength.x)) / 2.f;
-				vEffectPos.x = vOtherPos.x - vOtherSize.x;
-			}
-			else if (vdir.x >= 0) //attcol 좌측
-			{
-				//vEffectPos.x = vOtherPos.x + vOtherLength.x - (vOtherPos.x + vOtherLength.x - vPos.x) / 2.f;
-				vEffectPos.x = vOtherPos.x + vOtherSize.x;
-			}
+			vPos = GetOwner()->Transform()->GetRelativePos().XY();
+			Vec2 vDir = vOtherPos - vPos; // 타켓으로부터 방향벡터
+			vDir.Normalize();
 
-			if (vdir.y < 0) // attcol 위
+			// EffectRot y축은 항상 vOtherPos을 가리킴
+			float angle = acos(vDir.Dot(Vec2(0.0f, 1.f)) / vDir.Length());
+			if (0.f < vDir.x)
 			{
-				//vEffectPos.y  = vOtherPos.y - vOtherLength.y + (vPos.y - (vOtherPos.y - vOtherLength.y)) / 2.f;
-				vEffectPos.y = vOtherPos.y - vOtherSize.y;
+				vEffectRot = Vec3(0.f, 0.f, -angle);
 			}
-			else if (vdir.y >= 0) //attcol 아래
+			else
 			{
-				//vEffectPos.y = vOtherPos.y + vOtherLength.y - (vOtherPos.y + vOtherLength.y - vPos.y) / 2.f;
-				vEffectPos.y = vOtherPos.y + vOtherSize.y;
+				vEffectRot = Vec3(0.f, 0.f, angle);
 			}
-
 
 			GetOwner()->GetScript<CEffectScript>()->SetCalculatedPos(vEffectPos);
+			GetOwner()->GetScript<CEffectScript>()->SetCalculatedRot(vEffectRot);
 
 			// 좀비일때
 			if (GetOwner()->GetScript<CZombieScript>()) 

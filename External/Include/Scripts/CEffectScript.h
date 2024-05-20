@@ -29,6 +29,7 @@ private:
     UINT                    m_iStatus;
     
     Vec2                    m_vCalculatedPos;
+    Vec3                    m_vCalculatedRot;
 
     map<int, CGameObject*>  m_RegisterObj;
 
@@ -37,6 +38,7 @@ public:
     void OffEffect() { m_iStatus &= 0; };
 
     void SetCalculatedPos(Vec2 _pos) { m_vCalculatedPos = _pos; }
+    void SetCalculatedRot(Vec3 _rot) { m_vCalculatedRot = _rot; }
 
     void Dead(CGameObject* _obj, int _effNum);
 

@@ -22,6 +22,7 @@ public:
     void OffHit() { m_bHit = false; }
 
     CGameObject* GetAttCol() { return m_AttCol; }
+    CGameObject* GetBodyCol() { return m_TopBodyCol; }
 
     void CreateAftImg();
     void Damaged();

@@ -11,6 +11,7 @@ CEffectScript::CEffectScript()
 	, m_ScrMgr(nullptr)
 	, m_iStatus(0)
 	, m_vCalculatedPos(Vec2(0.f,0.f))
+	, m_vCalculatedRot(Vec3(1.f,1.f,1.f))
 {
 }
 
@@ -86,6 +87,7 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_iStatus |= SPARK;
 		pNewEffectObj->SetName(L"SPARK_EFF");
 		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y,0.f));
+		pNewEffectObj->Transform()->SetRelativeRotation(m_vCalculatedRot);
 		pNewEffectObj->Animator2D()->Play(L"SwordSpark", false);
 		OnEffect(eEffectStatus::HIT_CIRCLE);
 		break;
