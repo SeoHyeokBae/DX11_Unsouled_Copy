@@ -45,10 +45,9 @@ void CZombieScript::tick()
 
 void CZombieScript::Damaged()
 {
-	// ToDo
 	m_bDamaged = true;
 	CEffectScript* effect = GetOwner()->GetScript<CEffectScript>();
-	effect->OnEffect(eEffectStatus::SWORD_SPARK);
+	effect->OnEffect(eEffectStatus::SWORD_SPARK_EFFECT);
 	effect->OnRed();
 }
 

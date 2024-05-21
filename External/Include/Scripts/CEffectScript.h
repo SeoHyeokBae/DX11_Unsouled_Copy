@@ -2,10 +2,11 @@
 #include <Engine\CScript.h>
 
 // EFFECT STATUS
-#define EFFECTMAX        3
+#define EFFECTMAX       4
 #define CHAIN  	        0x001
-#define SPARK		    0x002
+#define SWORDSPARK	    0x002
 #define HITCIRCLE       0x004
+#define BLOOD           0x008
 
 class CGameObject;
 class CScriptMgr;
@@ -14,8 +15,9 @@ class CPrefab;
 enum class eEffectStatus
 {
     CHAIN_EFFECT,
-    SWORD_SPARK,
-    HIT_CIRCLE,
+    SWORD_SPARK_EFFECT,
+    HITCIRCLE_EFFECT,
+    BLOOD_EFFECT,
     NONE,
 };
 

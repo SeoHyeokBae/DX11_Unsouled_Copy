@@ -22,6 +22,7 @@ void CPlayerAttColScript::begin()
 	m_pOwner = GetOwner()->GetParent();
 	m_Collider = GetOwner()->Collider2D();
 	m_vPrvScale = m_Collider->GetOffsetScale();
+	m_vPrvPos = m_Collider->GetOffsetPos();
 }
 
 void CPlayerAttColScript::tick()

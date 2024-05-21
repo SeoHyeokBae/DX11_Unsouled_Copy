@@ -61,12 +61,11 @@ void CAttackState::Enter()
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
 
-	if (3 == m_Combo)
+	if (3 == m_Combo && !((UINT)m_Dir > 3 && (UINT)m_Dir < 8))
 	{
 		m_AttCol = GetFSM()->GetStateMachine()->GetOwner()->GetChildObj(L"Player_AttCol")->GetScript<CPlayerAttColScript>();;
 		m_AttCol->SetScale(45.f);
 	}
-	
 
 	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
 	else if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::W)) m_Dir = eDIR::UPRIGHT;

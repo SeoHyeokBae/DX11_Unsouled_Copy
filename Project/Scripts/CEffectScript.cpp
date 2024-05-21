@@ -38,6 +38,18 @@ void CEffectScript::begin()
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"HitCircle", L"anim\\HitCircle.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"SwordSpark", L"anim\\SwordSpark.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"ChainEffect", L"anim\\ChainEffect.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownLeft", L"anim\\BloodDownLeft.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownRight", L"anim\\BloodDownRight.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeft1", L"anim\\BloodLeft1.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeft2", L"anim\\BloodLeft2.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeftDown", L"anim\\BloodLeftDown.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeftUp", L"anim\\BloodLeftUp.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodUpLeft", L"anim\\BloodUpLeft.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodUpRight", L"anim\\BloodUpRight.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight", L"anim\\BloodRight.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight2", L"anim\\BloodRight2.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRightDown", L"anim\\BloodRightDown.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRightUp", L"anim\\BloodRightUp.anim");
 	}
 
 }
@@ -100,22 +112,33 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		pNewEffectObj->Animator2D()->Play(L"ChainEffect",false);
 		break;
 
-	case eEffectStatus::SWORD_SPARK:
-		m_RegisterObj.insert(make_pair(SPARK, pNewEffectObj));
-		m_iStatus |= SPARK;
+	case eEffectStatus::SWORD_SPARK_EFFECT:
+		m_RegisterObj.insert(make_pair(SWORDSPARK, pNewEffectObj));
+		m_iStatus |= SWORDSPARK;
 		pNewEffectObj->SetName(L"SPARK_EFF");
 		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y,0.f));
 		pNewEffectObj->Transform()->SetRelativeRotation(m_vCalculatedRot);
 		pNewEffectObj->Animator2D()->Play(L"SwordSpark", false);
-		OnEffect(eEffectStatus::HIT_CIRCLE);
+		OnEffect(eEffectStatus::HITCIRCLE_EFFECT);
+		OnEffect(eEffectStatus::BLOOD_EFFECT);
 		break;
 
-	case eEffectStatus::HIT_CIRCLE:
+	case eEffectStatus::HITCIRCLE_EFFECT:
 		m_RegisterObj.insert(make_pair(HITCIRCLE, pNewEffectObj));
 		m_iStatus |= HITCIRCLE;
 		pNewEffectObj->SetName(L"HITCIRCLE_EFF");
 		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
 		pNewEffectObj->Animator2D()->Play(L"HitCircle", false);
+		break;
+
+	case eEffectStatus::BLOOD_EFFECT:
+		m_RegisterObj.insert(make_pair(BLOOD, pNewEffectObj));
+		m_iStatus |= BLOOD;
+		pNewEffectObj->SetName(L"BLOOD_EFF");
+		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
+
+		// 경우에따라 다름
+		pNewEffectObj->Animator2D()->Play(L"BloodRightUp", false);
 		break;
 	}
 }
