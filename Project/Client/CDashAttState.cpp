@@ -41,7 +41,7 @@ void CDashAttState::Enter()
 {
 	m_ChainSystem = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CChainSystemScript>();
 	m_AttCol = GetFSM()->GetStateMachine()->GetOwner()->GetChildObj(L"Player_AttCol")->GetScript<CPlayerAttColScript>();
-	m_AttCol->SetScale(60.f);
+	m_AttCol->SetScale(50.f);
 
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir(); 
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
@@ -88,7 +88,7 @@ void CDashAttState::Enter()
 
 	GetFSM()->GetStateMachine()->Movement()->SetVelocity(vVelocity);
 
-	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnHit();
+	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnCanHit();
 }
 
 void CDashAttState::Exit()
@@ -106,6 +106,7 @@ void CDashAttState::Exit()
 	m_AttCol->ReturnScale();
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
+	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OffCanHit();
 	
 }
 

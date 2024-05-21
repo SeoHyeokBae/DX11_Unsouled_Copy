@@ -28,7 +28,7 @@ void CAttackState::finaltick()
 
 	if (2 == m_Anim->GetCurAnim()->GetCurFrmIdx())
 	{
-		GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnHit();
+		GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OnCanHit();
 	}
 
 	// 애니메이션 종료되면 체인시스템 시작
@@ -152,6 +152,7 @@ void CAttackState::Exit()
 		m_AttCol= nullptr;
 	}
 	
+	GetFSM()->GetStateMachine()->GetOwner()->GetScript<CPlayerScript>()->OffCanHit();
 	GetFSM()->GetStateMachine()->Movement()->SetMaxSpeed(125.f);
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);

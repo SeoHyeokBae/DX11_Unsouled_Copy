@@ -123,7 +123,7 @@ void CMonsterScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCo
 
 	if (_OtherObj->GetName() == L"Player_AttCol")
 	{
-		if (_OtherObj->GetParent()->GetScript<CPlayerScript>()->IsHit())
+		if (_OtherObj->GetParent()->GetScript<CPlayerScript>()->IsCanHit())
 		{
 			// ㅂ보스제외 좀비만 테스트 임시
 			if (GetOwner()->GetScript<CBossNiugScript>())

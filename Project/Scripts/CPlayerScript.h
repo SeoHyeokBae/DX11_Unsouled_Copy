@@ -15,11 +15,11 @@ private:
     float           m_AftTime;
     float           m_fHitTime;
 
-    bool           m_bHit;
+    bool           m_bCanHit;
 public:
-    bool IsHit() { return m_bHit; }
-    void OnHit() { m_bHit = true; }
-    void OffHit() { m_bHit = false; }
+    bool IsCanHit() { return m_bCanHit; }
+    void OnCanHit() { m_bCanHit = true; }
+    void OffCanHit() { m_bCanHit = false; }
 
     CGameObject* GetAttCol() { return m_AttCol; }
     CGameObject* GetBodyCol() { return m_TopBodyCol; }

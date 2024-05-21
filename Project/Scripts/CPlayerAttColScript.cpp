@@ -97,8 +97,8 @@ void CPlayerAttColScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _Oth
 
 void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)
 {
-	if (!GetOwner()->GetParent()->GetScript<CPlayerScript>()->IsHit()) return;
-	GetOwner()->GetParent()->GetScript<CPlayerScript>()->OffHit();
+	if (!GetOwner()->GetParent()->GetScript<CPlayerScript>()->IsCanHit()) return;
+	GetOwner()->GetParent()->GetScript<CPlayerScript>()->OffCanHit();
 
 	m_sCurState = m_pOwner->StateMachine()->GetFSM()->GetCurStateName();
 	eDIR dir = m_pOwner->GetDir();
