@@ -19,7 +19,7 @@ enum class eEffectStatus
     NONE,
 };
 
-class CEffectScript :
+class CEffectScript : 
     public CScript
 {
 private:

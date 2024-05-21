@@ -41,7 +41,7 @@ void CEffectScript::begin()
 void CEffectScript::tick()
 {
 	// 애니메이션 종료 체크
-	for (UINT i = 1; i < (UINT)eEffectStatus::NONE * 2; i *= 2)
+	for (UINT i = 0; i < (UINT)eEffectStatus::NONE; ++i)
 	{
 		if (!(m_iStatus & (1 << i)))
 			continue;
@@ -62,8 +62,8 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 	// 이미 이펙트 활성화 되어 있는경우
 	if (m_iStatus & (1 << (UINT)_status))
 	{
-		return;
-		// 기존 이펙트를 delete 하고 새로운 오브젝트로 교체
+		//return; // 비용이 적으나 발동위치 문제
+		// 기존 이펙트를 delete 하고 새로운 오브젝트로 교체 // 이펙트 타이밍 좋으나 비용소모가 클것같음
 		map<int, CGameObject*>::iterator iter = m_RegisterObj.find(1 << (UINT)_status);
 		CGameObject* effObj = iter->second;
 		Dead(effObj, (UINT)_status);
