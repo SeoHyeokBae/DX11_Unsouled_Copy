@@ -14,7 +14,7 @@
 CRenderMgr::CRenderMgr()
 	: m_Light2DBuffer(nullptr)
 	, m_pDebugObj(nullptr)
-	, m_DebugPosition(true)
+	, m_DebugPosition(false)
 	, m_EditorCam(nullptr)
 	, m_RenderFunc(nullptr)
 {

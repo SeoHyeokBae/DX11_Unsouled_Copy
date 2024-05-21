@@ -105,6 +105,11 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         vColor.rg = 1.f;
     }
     
+    if (2 == g_int_3)
+    {
+        vColor.rgb = float3(0.7f,0.f,0.f);
+    }
+    
     return vColor;
 }
 

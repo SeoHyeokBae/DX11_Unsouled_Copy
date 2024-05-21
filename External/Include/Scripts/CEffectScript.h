@@ -33,9 +33,13 @@ private:
 
     map<int, CGameObject*>  m_RegisterObj;
 
+    bool                    m_bRed;
+    float                   m_bRedTime;
+
 public:
     void OnEffect(eEffectStatus _status);
     void OffEffect() { m_iStatus &= 0; };
+    void OnRed() { m_bRed = true; }
 
     void SetCalculatedPos(Vec2 _pos) { m_vCalculatedPos = _pos; }
     void SetCalculatedRot(Vec3 _rot) { m_vCalculatedRot = _rot; }

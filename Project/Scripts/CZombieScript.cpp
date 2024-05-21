@@ -49,7 +49,7 @@ void CZombieScript::Damaged()
 	m_bDamaged = true;
 	CEffectScript* effect = GetOwner()->GetScript<CEffectScript>();
 	effect->OnEffect(eEffectStatus::SWORD_SPARK);
-
+	effect->OnRed();
 }
 
 void CZombieScript::BeginOverlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCollider2D* _OtherCollider)

@@ -26,7 +26,7 @@ private:
     list<tDebugShapeInfo>   m_DbgShapeInfo;
     CGameObject*            m_pDebugObj;
 
-    bool                    m_DebugPosition;
+    bool                    m_DebugPosition;    // 디버그 십자선
 
     // NoiseTexture
     vector<Ptr<CTexture>>   m_vecNoiseTex;
@@ -45,7 +45,7 @@ public:
     void RegisterLight2D(CLight2D* _Light2D) { m_vecLight2D.push_back(_Light2D); }
 
     void CopyRenderTargetToPostProcessTarget(); // 렌더타켓을 후처리용으로 텍스처 복사
-    void CopyRenderTargetToUITarget();          // UI용
+    //void CopyRenderTargetToUITarget();          // UI용
     Ptr<CTexture> GetPostProcessTex() { return m_PostProcessTex; }
     Ptr<CTexture> GetGUITex() { return m_GUITex; }
 

@@ -5,6 +5,8 @@
 #include "Engine/CLevelMgr.h"
 #include "Engine/CLevel.h"
 
+#define RED_TIME 0.03f
+
 CEffectScript::CEffectScript()
 	: CScript(EFFECTSCRIPT)
 	, m_EffectPrefab(nullptr)
@@ -12,6 +14,8 @@ CEffectScript::CEffectScript()
 	, m_iStatus(0)
 	, m_vCalculatedPos(Vec2(0.f,0.f))
 	, m_vCalculatedRot(Vec3(1.f,1.f,1.f))
+	, m_bRed(false)
+	, m_bRedTime(0.f)
 {
 }
 
@@ -53,7 +57,21 @@ void CEffectScript::tick()
 		{
 			Dead(effObj, i);
 		}
+	}
 
+	// 피격시 붉은색
+	if (m_bRed)
+	{
+		if (0.f == m_bRedTime)
+			GetOwner()->GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 2);
+
+		m_bRedTime += DT;
+		if (m_bRedTime >= RED_TIME)
+		{
+			m_bRedTime = 0.f;
+			m_bRed = false;
+			GetOwner()->GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 0);
+		}
 	}
 }
 
