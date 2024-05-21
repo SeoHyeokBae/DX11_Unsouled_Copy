@@ -7,10 +7,12 @@
 
 #include <Scripts/CChainSystemScript.h>
 #include <Scripts/CPlayerScript.h>
+#include <Scripts/CPlayerAttColScript.h>
 
 CAttackState::CAttackState()
 	: m_Anim(nullptr)
 	, m_ChainSystem(nullptr)
+	, m_AttCol(nullptr)
 	, m_Combo(0)
 {
 }
@@ -58,6 +60,12 @@ void CAttackState::Enter()
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 	Vec2 vVelocity = GetFSM()->GetStateMachine()->Movement()->GetVelocity();
+
+	if (3 == m_Combo)
+	{
+		m_AttCol = GetFSM()->GetStateMachine()->GetOwner()->GetChildObj(L"Player_AttCol")->GetScript<CPlayerAttColScript>();;
+		m_AttCol->SetScale(45.f);
+	}
 	
 
 	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::A)) m_Dir = eDIR::UPLEFT;
@@ -139,6 +147,12 @@ void CAttackState::Exit()
 	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
 	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 
+	if (m_AttCol)
+	{
+		m_AttCol->ReturnScale();
+		m_AttCol= nullptr;
+	}
+	
 	GetFSM()->GetStateMachine()->Movement()->SetMaxSpeed(125.f);
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);

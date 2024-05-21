@@ -3,14 +3,16 @@
 
 class CAnimator2D;
 class CChainSystemScript;
+class CPlayerAttColScript;
 
 class CAttackState :
     public CState
 {
 private:
-    CAnimator2D*        m_Anim;
-    CChainSystemScript* m_ChainSystem;
-    int                 m_Combo;
+    CAnimator2D*             m_Anim;
+    CChainSystemScript*      m_ChainSystem;
+    CPlayerAttColScript*     m_AttCol;
+    int                      m_Combo;
 
 public:
     int GetCombo() { return m_Combo; }

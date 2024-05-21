@@ -7,10 +7,12 @@
 
 #include <Scripts/CChainSystemScript.h>
 #include <Scripts/CPlayerScript.h>
+#include <Scripts/CPlayerAttColScript.h>
 
 CDashAttState::CDashAttState()
 	: m_Anim(nullptr)
 	, m_ChainSystem(nullptr)
+	, m_AttCol(nullptr)
 {
 }
 
@@ -38,8 +40,10 @@ void CDashAttState::finaltick()
 void CDashAttState::Enter()
 {
 	m_ChainSystem = GetFSM()->GetStateMachine()->GetOwner()->GetScript<CChainSystemScript>();
+	m_AttCol = GetFSM()->GetStateMachine()->GetOwner()->GetChildObj(L"Player_AttCol")->GetScript<CPlayerAttColScript>();
+	m_AttCol->SetScale(60.f);
 
-	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
+	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir(); 
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	GetFSM()->GetStateMachine()->GetOwner()->SetAfterImgAct(true);
@@ -99,8 +103,10 @@ void CDashAttState::Exit()
 	else if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::S)) m_Dir = eDIR::DOWNLEFT;
 	else if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::D)) m_Dir = eDIR::DOWNRIGHT;
 
+	m_AttCol->ReturnScale();
 	m_ChainSystem->Clear();
 	GetFSM()->GetStateMachine()->GetOwner()->SetDir(m_Dir);
+	
 }
 
 

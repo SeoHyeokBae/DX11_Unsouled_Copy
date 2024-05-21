@@ -12,12 +12,16 @@ private:
     CCollider2D*    m_Collider;
     wstring         m_sCurState;
     float           m_fDuration;
-    Vec2            m_vOriginScale;
+    Vec2            m_vPrvScale;
+    Vec2            m_vPrvPos;
 
 public:
 
     void ColliderOn() { m_Collider->SetVisible(true); };
     void ColliderOff() { m_Collider->SetVisible(false); m_fDuration = 0.f; };
+
+    void SetScale(int _width, int _height = 15.f);
+    void ReturnScale();
 
 public:
     virtual void begin() override;

@@ -68,6 +68,17 @@ public:
         return nullptr;
     }
 
+    CGameObject* GetChildObj(const wstring& _strName)
+    {
+        for (size_t i = 0; i < m_vecChild.size(); i++)
+        {
+            if (m_vecChild[i]->GetName() == _strName)
+                return m_vecChild[i];
+        }
+
+        return nullptr;
+    }
+
     const vector<CScript*>& GetScripts() { return m_vecScript; }
     CRenderComponent* GetRenderComopnent() { return m_RenderCom; }
 
