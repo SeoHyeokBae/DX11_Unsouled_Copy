@@ -33,6 +33,7 @@
 #include <Scripts/CZombieScript.h>
 #include <Scripts/CBossNiugScript.h>
 #include <Scripts/CPlayerAttackScript.h>
+#include <Scripts/CBloodScript.h>
 
 #include <Scripts/CHitColliderScript.h>
 
@@ -69,17 +70,19 @@ void CCreateTempLevel::Init()
 	//CGameObject* pObj2 = nullptr;
 
 	//pObj2 = new CGameObject;
-	//pObj2->SetName(L"Effect");
+	//pObj2->SetName(L"Blood");
 	//pObj2->AddComponent(new CTransform);
 	//pObj2->AddComponent(new CMeshRender);
 	//pObj2->AddComponent(new CAnimator2D);
+	//pObj2->AddComponent(new CMovement);
+	//pObj2->AddComponent(new CBloodScript);
 	//pObj2->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	//pObj2->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Effectmtrl"));
 	//pObj2->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
 	//pObj2->Transform()->SetRelativePos(Vec3(0.f, 10.f, 0.f));
 	//Ptr<CPrefab> pPrefab = new CPrefab(pObj2, false);
 	////CAssetMgr::GetInst()->AddAsset<CPrefab>(L"Niug_HitCollider", pPrefab.Get());
-	//pPrefab->Save(L"prefab\\NormalEffect.pref");
+	//pPrefab->Save(L"prefab\\Blood.pref");
 	
 
 

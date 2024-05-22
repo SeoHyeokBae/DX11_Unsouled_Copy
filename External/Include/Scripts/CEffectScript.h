@@ -26,6 +26,7 @@ class CEffectScript :
 {
 private:
     Ptr<CPrefab>            m_EffectPrefab;
+    Ptr<CPrefab>            m_BloodPrefab;
     CScriptMgr*             m_ScrMgr;
 
     UINT                    m_iStatus;
@@ -45,6 +46,9 @@ public:
 
     void SetCalculatedPos(Vec2 _pos) { m_vCalculatedPos = _pos; }
     void SetCalculatedRot(Vec3 _rot) { m_vCalculatedRot = _rot; }
+
+
+    void CreateBlood();
 
     void Dead(CGameObject* _obj, int _effNum);
 

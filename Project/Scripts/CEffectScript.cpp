@@ -5,11 +5,16 @@
 #include "Engine/CLevelMgr.h"
 #include "Engine/CLevel.h"
 
-#define RED_TIME 0.03f
+#include "CBloodScript.h"
+
+#define RED_TIME 0.1f
+
+
 
 CEffectScript::CEffectScript()
 	: CScript(EFFECTSCRIPT)
 	, m_EffectPrefab(nullptr)
+	, m_BloodPrefab(nullptr)
 	, m_ScrMgr(nullptr)
 	, m_iStatus(0)
 	, m_vCalculatedPos(Vec2(0.f,0.f))
@@ -29,6 +34,7 @@ void CEffectScript::begin()
 	// 생성시킬 이펙트 오브젝트 프리팹
 	// 이펙트 발생시 오브젝트 복제본 생성
 	m_EffectPrefab = CAssetMgr::GetInst()->Load<CPrefab>(L"NormalEffect", L"prefab\\NormalEffect.pref");
+	m_BloodPrefab = CAssetMgr::GetInst()->Load<CPrefab>(L"Blood", L"prefab\\Blood.pref");
 
 	assert(m_EffectPrefab->GetProtoGameObj()->Animator2D()); // Animator 컴포넌트가 없음
 
@@ -38,6 +44,8 @@ void CEffectScript::begin()
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"HitCircle", L"anim\\HitCircle.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"SwordSpark", L"anim\\SwordSpark.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"ChainEffect", L"anim\\ChainEffect.anim");
+
+		// Blood Effect
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownLeft", L"anim\\BloodDownLeft.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownRight", L"anim\\BloodDownRight.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeft1", L"anim\\BloodLeft1.anim");
@@ -50,6 +58,12 @@ void CEffectScript::begin()
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight2", L"anim\\BloodRight2.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRightDown", L"anim\\BloodRightDown.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRightUp", L"anim\\BloodRightUp.anim");
+	}
+
+	if (0 == m_BloodPrefab->GetProtoGameObj()->Animator2D()->GetAnimCount())
+	{
+		m_BloodPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodSmall", L"anim\\BloodSmall.anim");
+		m_BloodPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodNormal", L"anim\\BloodNormal.anim");
 	}
 
 }
@@ -75,7 +89,10 @@ void CEffectScript::tick()
 	if (m_bRed)
 	{
 		if (0.f == m_bRedTime)
+		{
 			GetOwner()->GetRenderComponent()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, 2);
+			CreateBlood();
+		}
 
 		m_bRedTime += DT;
 		if (m_bRedTime >= RED_TIME)
@@ -133,13 +150,26 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 
 	case eEffectStatus::BLOOD_EFFECT:
 		m_RegisterObj.insert(make_pair(BLOOD, pNewEffectObj));
-		m_iStatus |= BLOOD;
+		m_iStatus |= BLOOD; 
 		pNewEffectObj->SetName(L"BLOOD_EFF");
 		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
 
 		// 경우에따라 다름
 		pNewEffectObj->Animator2D()->Play(L"BloodRightUp", false);
 		break;
+	}
+}
+
+void CEffectScript::CreateBlood()
+{
+	for (int i = 0; i < 6; ++i)
+	{
+		CGameObject* pBlood = m_BloodPrefab->Instantiate();
+		//pBlood->SetName(L"Blood");
+		GamePlayStatic::SpawnGameObject(pBlood, 5);
+		pBlood->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
+		pBlood->Animator2D()->Play(L"BloodNormal", true);
+
 	}
 }
 

@@ -3,6 +3,7 @@
 
 #include "CAfterImageScript.h"
 #include "CBackgroundScript.h"
+#include "CBloodScript.h"
 #include "CBossNiugAttColScript.h"
 #include "CBossNiugScript.h"
 #include "CCameraPlayScript.h"
@@ -27,6 +28,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAfterImageScript");
 	_vec.push_back(L"CBackgroundScript");
+	_vec.push_back(L"CBloodScript");
 	_vec.push_back(L"CBossNiugAttColScript");
 	_vec.push_back(L"CBossNiugScript");
 	_vec.push_back(L"CCameraPlayScript");
@@ -54,6 +56,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAfterImageScript;
 	if (L"CBackgroundScript" == _strScriptName)
 		return new CBackgroundScript;
+	if (L"CBloodScript" == _strScriptName)
+		return new CBloodScript;
 	if (L"CBossNiugAttColScript" == _strScriptName)
 		return new CBossNiugAttColScript;
 	if (L"CBossNiugScript" == _strScriptName)
@@ -104,6 +108,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return new CBackgroundScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BLOODSCRIPT:
+		return new CBloodScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BOSSNIUGATTCOLSCRIPT:
 		return new CBossNiugAttColScript;
@@ -176,6 +183,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return L"CBackgroundScript";
+		break;
+
+	case SCRIPT_TYPE::BLOODSCRIPT:
+		return L"CBloodScript";
 		break;
 
 	case SCRIPT_TYPE::BOSSNIUGATTCOLSCRIPT:

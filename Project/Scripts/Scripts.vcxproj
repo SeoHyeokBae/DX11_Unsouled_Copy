@@ -193,6 +193,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="CAfterImageScript.h" />
     <ClInclude Include="CBackgroundScript.h" />
+    <ClInclude Include="CBloodScript.h" />
     <ClInclude Include="CBossNiugAttColScript.h" />
     <ClInclude Include="CBossNiugScript.h" />
     <ClInclude Include="CCameraPlayScript.h" />
@@ -219,6 +220,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="CAfterImageScript.cpp" />
     <ClCompile Include="CBackgroundScript.cpp" />
+    <ClCompile Include="CBloodScript.cpp" />
     <ClCompile Include="CBossNiugAttColScript.cpp" />
     <ClCompile Include="CBossNiugScript.cpp" />
     <ClCompile Include="CCameraPlayScript.cpp" />

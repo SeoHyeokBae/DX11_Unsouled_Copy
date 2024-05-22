@@ -115,51 +115,51 @@ void CPlayerAttColScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj
 			{
 			case eDIR::UP:
 				if(combo == 3)
-					vVelocity = Vec2(0.f, 500.f);
-				else 
 					vVelocity = Vec2(0.f, 300.f);
+				else 
+					vVelocity = Vec2(0.f, 200.f);
 				break;
 			case eDIR::DOWN:
 				if (combo == 3)
-					vVelocity = Vec2(0.f, -500.f);
+					vVelocity = Vec2(0.f, -300.f);
 				else
-					vVelocity = (Vec2(0.f, -300.f));
+					vVelocity = (Vec2(0.f, -200.f));
 				break;
 			case eDIR::LEFT:
 				if (combo == 3)
-					vVelocity = (Vec2(-500.f, 0.f));
-				else
 					vVelocity = (Vec2(-300.f, 0.f));
+				else
+					vVelocity = (Vec2(-200.f, 0.f));
 				break;
 			case eDIR::RIGHT:
 				if (combo == 3)
-					vVelocity = (Vec2(500.f, 0.f));
-				else
 					vVelocity = (Vec2(300.f, 0.f));
+				else
+					vVelocity = (Vec2(200.f, 0.f));
 				break;
 			case eDIR::UPLEFT:
 				if (combo == 3)
-					vVelocity = (Vec2(-500.f, 500.f));
-				else
 					vVelocity = (Vec2(-300.f, 300.f));
+				else
+					vVelocity = (Vec2(-200.f, 200.f));
 				break;
 			case eDIR::UPRIGHT:
 				if (combo == 3)
-					vVelocity = (Vec2(500.f, 500.f));
+					vVelocity = (Vec2(300.f, 300.f));
 				else
-					vVelocity = (Vec2(250.f, 250.f));
+					vVelocity = (Vec2(200.f, 200.f));
 				break;
 			case eDIR::DOWNLEFT:
 				if (combo == 3)
-					vVelocity = (Vec2(-500.f, -500.f));
+					vVelocity = (Vec2(-300.f, -300.f));
 				else
-					vVelocity = (Vec2(-250.f , -250.f));
+					vVelocity = (Vec2(-200.f, -200.f));
 				break;
 			case eDIR::DOWNRIGHT:
 				if (combo == 3)
-					vVelocity = (Vec2(500.f, -500.f));
+					vVelocity = (Vec2(300.f, -300.f));
 				else
-					vVelocity = (Vec2(250.f, -250.f));
+					vVelocity = (Vec2(200.f, -200.f));
 				break;
 			}
 			_OtherObj->Movement()->SetVelocity(vVelocity);

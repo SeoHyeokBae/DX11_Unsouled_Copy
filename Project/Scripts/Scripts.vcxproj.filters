@@ -105,6 +105,9 @@
     <ClInclude Include="CPlayerAttackScript.h">
       <Filter>Scripts\01. Player</Filter>
     </ClInclude>
+    <ClInclude Include="CBloodScript.h">
+      <Filter>Scripts\00. Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerAttackScript.cpp">
       <Filter>Scripts\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CBloodScript.cpp">
+      <Filter>Scripts\00. Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
