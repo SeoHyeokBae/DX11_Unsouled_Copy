@@ -17,6 +17,8 @@ private:
 	bool bGround;
 
 public:
+	void Gravity();
+
 	void Dead();
 
 public:

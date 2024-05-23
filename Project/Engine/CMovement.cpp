@@ -153,3 +153,26 @@ void CMovement::LoadFromFile(FILE* _File)
 	fread(&m_FrictionScale, sizeof(float), 1, _File);
 	fread(&m_Ground, sizeof(bool), 1, _File);
 }
+
+// 물체 초기속도 다시생각
+// 위 마찰력은 최대정지 마찰력 고려x 힘이없을때 마찰력적용 힘적용시 마찰력x
+// 
+//최대정지마찰력을 고려한 수식 
+//if (!(_mVelocity == Vector2::Zero))
+//{
+//	// 속도에 반대 방향으로 마찰력 적용
+//	Vector2 frictionDir = -_mVelocity;
+//	friction = frictionDir.normalize() * _mFriction * _mMass * TimeMgr::DeltaTime();
+//
+//	// 마찰력으로 의한 속도 감소량이 현재 속도보다 큰 경우
+//	if (_mVelocity.length() < friction.length())
+//	{
+//		// 멈춤
+//		_mVelocity = Vector2(0.f, 0.f);
+//	}
+//	else
+//	{
+//		// 마찰력으로 속도 차감
+//		_mVelocity += friction;
+//	}
+//}
