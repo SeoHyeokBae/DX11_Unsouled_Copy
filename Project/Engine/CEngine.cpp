@@ -34,6 +34,8 @@ CEngine::~CEngine()
 
 int CEngine::init(HWND _hWnd, Vec2 _vResolution)
 {
+	srand(GetTickCount64());
+
 	m_hMainWnd = _hWnd;
 	m_vResolution = _vResolution;
 

@@ -24,8 +24,6 @@ void CMovement::finaltick()
 {
 	m_Accel = m_Force / m_Mass;
 
-
-
 	// 정지에 가까운 상태일 경우
 	if (m_Velocity.Length() < 0.1f)
 	{
@@ -51,7 +49,7 @@ void CMovement::finaltick()
 		m_Velocity.y = (m_Velocity.y / abs(m_Velocity.y)) * m_MaxSpeed;
 	}
 
-	if (m_Force.IsZero() && (m_Velocity.x != 0.f || m_Velocity.y != 0.f))
+	if (m_Force.IsZero() && m_Ground && (m_Velocity.x != 0.f || m_Velocity.y != 0.f))
 	{
 		// X 좌표에 대한 마찰력 계산
 		if (m_Velocity.x != 0.f)
@@ -89,43 +87,6 @@ void CMovement::finaltick()
 			}
 		}
 	}
-
-
-	// 물체에 적용되고있는 힘이 없으면 마찰력을 적용시킨다.
-	//if (m_Force.IsZero() && m_Velocity.x != 0.f && m_Ground)
-	//{
-	//	float fFriction = -m_Velocity.x;
-	//	fFriction /= abs(fFriction);
-
-	//	fFriction *= m_FrictionScale;
-
-	//	float fFrictionAccel = (fFriction / m_Mass) * DT;
-	//	if (abs(m_Velocity.x) < abs(fFrictionAccel))
-	//	{
-	//		m_Velocity = Vec2(0.f, m_Velocity.y);
-	//	}
-	//	else
-	//	{
-	//		m_Velocity.x += fFrictionAccel;
-	//	}
-	//}
-	//if (m_Force.IsZero() && m_Velocity.y != 0.f && m_Ground)
-	//{
-	//	float fFriction = -m_Velocity.y;
-	//	fFriction /= abs(fFriction);
-
-	//	fFriction *= m_FrictionScale;
-
-	//	float fFrictionAccel = (fFriction / m_Mass) * DT;
-	//	if (abs(m_Velocity.y) < abs(fFrictionAccel))
-	//	{
-	//		m_Velocity = Vec2(m_Velocity.x,0.f);
-	//	}
-	//	else
-	//	{
-	//		m_Velocity.y += fFrictionAccel;
-	//	}
-	//}
 
 
 	Vec3 vObjPos = Transform()->GetRelativePos();
@@ -176,3 +137,41 @@ void CMovement::LoadFromFile(FILE* _File)
 //		_mVelocity += friction;
 //	}
 //}
+
+
+
+	// 물체에 적용되고있는 힘이 없으면 마찰력을 적용시킨다.
+	//if (m_Force.IsZero() && m_Velocity.x != 0.f && m_Ground)
+	//{
+	//	float fFriction = -m_Velocity.x;
+	//	fFriction /= abs(fFriction);
+
+	//	fFriction *= m_FrictionScale;
+
+	//	float fFrictionAccel = (fFriction / m_Mass) * DT;
+	//	if (abs(m_Velocity.x) < abs(fFrictionAccel))
+	//	{
+	//		m_Velocity = Vec2(0.f, m_Velocity.y);
+	//	}
+	//	else
+	//	{
+	//		m_Velocity.x += fFrictionAccel;
+	//	}
+	//}
+	//if (m_Force.IsZero() && m_Velocity.y != 0.f && m_Ground)
+	//{
+	//	float fFriction = -m_Velocity.y;
+	//	fFriction /= abs(fFriction);
+
+	//	fFriction *= m_FrictionScale;
+
+	//	float fFrictionAccel = (fFriction / m_Mass) * DT;
+	//	if (abs(m_Velocity.y) < abs(fFrictionAccel))
+	//	{
+	//		m_Velocity = Vec2(m_Velocity.x,0.f);
+	//	}
+	//	else
+	//	{
+	//		m_Velocity.y += fFrictionAccel;
+	//	}
+	//}

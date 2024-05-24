@@ -14,10 +14,12 @@ private:
 	Vec2 vRandDir;
 
 	float fLife;
+	float fMaxLife;
+	float fFlight;
 	bool bGround;
 
 public:
-	void Gravity();
+	void Update_Gravity();
 
 	void Dead();
 

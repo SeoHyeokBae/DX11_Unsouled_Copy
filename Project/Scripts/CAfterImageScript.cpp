@@ -49,7 +49,7 @@ void CAfterImageScript::begin()
 	//	GamePlayStatic::SpawnGameObject(m_vSprite[i].second, 11); // 추후 변경
 	//}
 
-	// 독적재질로 mtrl 파일 하나로 관리가능
+	// 동적재질로 mtrl 파일 하나로 관리가능
 		for (int i = 0; i < POOLCOUNT; i++)
 	{
 

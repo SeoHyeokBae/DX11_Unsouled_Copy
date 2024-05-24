@@ -65,7 +65,6 @@ void CEffectScript::begin()
 		m_BloodPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodSmall", L"anim\\BloodSmall.anim");
 		m_BloodPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodNormal", L"anim\\BloodNormal.anim");
 	}
-
 }
 
 void CEffectScript::tick()
@@ -164,8 +163,11 @@ void CEffectScript::CreateBlood()
 {
 	for (int i = 0; i < 6; ++i)
 	{
+		
+		wchar_t number[64] = {};
+		swprintf_s(number, L"blood%d", i);
 		CGameObject* pBlood = m_BloodPrefab->Instantiate();
-		//pBlood->SetName(L"Blood");
+		pBlood->SetName(number);
 		GamePlayStatic::SpawnGameObject(pBlood, 5);
 		pBlood->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
 		pBlood->Animator2D()->Play(L"BloodNormal", true);
