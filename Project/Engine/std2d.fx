@@ -60,22 +60,48 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     }
     else if(g_btex_0)
     {
+        if (g_float_0)
+        {
+            vColor = float4(1.f, 0.f, 1.f, 1.f);
+            float2 vLeftTop = g_vec2_0;
         
-        //vColor = g_tex_0.Sample(g_sam_1, _in.vUV + float2(g_time * 0.1, 0.f));
-        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+            if (_in.vUV.x >= vLeftTop.x && _in.vUV.x <= (vLeftTop.x + g_vec2_1.x)
+            && _in.vUV.y >= vLeftTop.y && _in.vUV.y <= (vLeftTop.y + g_vec2_1.y))
+            {
+                vColor = g_anim2d_tex.Sample(g_sam_1, _in.vUV);
+            }
+        }
+        else
+        {
+                    //vColor = g_tex_0.Sample(g_sam_1, _in.vUV + float2(g_time * 0.1, 0.f));
+            vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
         
         //saturate 0 ~ 1 을 넘지 않게 보정
-        float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
+            float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
         
-        if (fAlpha < 0.1f)
-        {
+            if (fAlpha < 0.1f)
+            {
             // 픽셀 쉐이더를 중간에 폐기처리
-            discard; //clip(-1);            
+                discard; //clip(-1);            
+            }
+        }
+
+    }
+    // blood Mark Rand
+    else if (g_btex_1)
+    {
+        vColor = float4(1.f, 0.f, 1.f, 1.f);
+       float2 vLeftTop = g_vec2_0;
+        
+        if (_in.vUV.x >= vLeftTop.x && _in.vUV.x <= (vLeftTop.x + g_vec2_1.x)
+            && _in.vUV.y >= vLeftTop.y && _in.vUV.y <= (vLeftTop.y + g_vec2_1.y))
+        {
+            vColor = g_anim2d_tex.Sample(g_sam_1, _in.vUV);
         }
     }
     
-    if (g_int_0 == 10) // 그림자
-        vColor *= float4(0.f, 0.f, 0.f, 0.6f);
+        if (g_int_0 == 10) // 그림자
+            vColor *= float4(0.f, 0.f, 0.f, 0.6f);
     
      // 광원 처리
     // 광원의 타입별 처리

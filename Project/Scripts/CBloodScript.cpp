@@ -7,8 +7,6 @@ CBloodScript::CBloodScript()
 	, fLife(0.f)
 	, bGround(false)
 	, vRandDir(Vec2(0.f, 0.f))
-	, fMaxLife(0.f)
-	, fFlight(0.f)
 {
 }
 
@@ -36,13 +34,7 @@ void CBloodScript::begin()
 
 void CBloodScript::tick()
 {
-	// 모든 blood lifetime은 동일
-	// 생성후 일정시간 뒤에 위로 쏘아줌 소아주는 크기 랜덤
-	// 떨어지는 힘 동시 적용
-	// 낙하지점 랜덤 (y축 떨어지는 일정속력 도달시 그 지점)
-	// 랜덤 텍스처 전달
 	// z우선순위 영향받음
-	
 	m_Movement->AddForce(vRandDir * 25.f);
 
 	if (!m_Movement->IsGround())
@@ -52,26 +44,34 @@ void CBloodScript::tick()
 	
 	// 바닥 MARK일때 일정 시간뒤 삭제
 	// fadeout으로
-	if (bGround)
+	if (m_Movement->IsGround())
 	{
 		fLife += DT;
 
-		GetOwner()->Animator2D()->SetCurAnim(nullptr);
 		// bloodmark 텍스쳐전달
 		// dt만큼 a값조절 fadeout
+		GetOwner()->Animator2D()->SetCurAnim(nullptr);
+		GetOwner()->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"BloodMark", L"texture\\BloodMark.png"));
+		float fidx = rand() % 14;
+		float width = CAssetMgr::GetInst()->FindAsset<CTexture>(L"BloodMark")->GetWidth();
+		float height = CAssetMgr::GetInst()->FindAsset<CTexture>(L"BloodMark")->GetHeight();
+		Vec2 vSize = Vec2(32.f /( float)width, 32.f / (float)height);
+		Vec2 vLT = Vec2((vSize.x * fidx, 0.f));
+		float fAlpha = 1.f;
 
-		if (DT > 3.f)
-		{
-			Dead();
-		}
+		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, vLT); //UV
+		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, vSize); //Size
+		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, fAlpha); //알파
+
+		//if (fLife > 4.f)
+		//{
+		//	Dead();
+		//}
 	}
 }
 
 void CBloodScript::Update_Gravity()
 {
-	// 일정 시간뒤 바닥상태
-	fFlight += DT;
-	
 	if (-125.f > m_Movement->GetVelocity().y)
 	{
 		m_Movement->SetGround(true);

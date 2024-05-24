@@ -163,7 +163,6 @@ void CEffectScript::CreateBlood()
 {
 	for (int i = 0; i < 6; ++i)
 	{
-		
 		wchar_t number[64] = {};
 		swprintf_s(number, L"blood%d", i);
 		CGameObject* pBlood = m_BloodPrefab->Instantiate();
