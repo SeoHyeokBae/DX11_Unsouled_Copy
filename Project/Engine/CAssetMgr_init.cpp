@@ -212,9 +212,29 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, "Vec2 Param 2");
 	pShader->AddScalarParam(SCALAR_PARAM::VEC2_2, "Vec2 Param 3");
 	pShader->AddScalarParam(SCALAR_PARAM::VEC2_3, "Vec2 Param 4");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Vec4 Parame 1");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Vec4 Param 1");
 
 	AddAsset(L"AfterImageShader", pShader.Get());
+
+	// =================================
+	// BloodMarkShader
+	// =================================
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_BloodMark");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	pShader->AddTexParam(TEX_PARAM::TEX_1, "Output Texture 1");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_0, "Vec2 Param 1");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, "Vec2 Param 2");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Float Param 1");
+
+	AddAsset(L"BloodMarkShader", pShader.Get());
 	
 	// =============
 	// TileMapShader
@@ -351,10 +371,10 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(L"BackgroundMtrl", pMtrl);
 
-	// BackgroundMtrl 임시
+	// BloodMarkShader 임시
 	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
-	AddAsset<CMaterial>(L"another", pMtrl);
+	pMtrl->SetShader(FindAsset<CGraphicsShader>(L"BloodMarkShader"));
+	AddAsset<CMaterial>(L"BloodMarkMtrl", pMtrl);
 
 	// TileMapMtrl
 	pMtrl = new CMaterial(true);

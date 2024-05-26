@@ -60,44 +60,24 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     }
     else if(g_btex_0)
     {
-        if (g_float_0)
-        {
-            vColor = float4(1.f, 0.f, 1.f, 1.f);
-            float2 vLeftTop = g_vec2_0;
-        
-            if (_in.vUV.x >= vLeftTop.x && _in.vUV.x <= (vLeftTop.x + g_vec2_1.x)
-            && _in.vUV.y >= vLeftTop.y && _in.vUV.y <= (vLeftTop.y + g_vec2_1.y))
-            {
-                vColor = g_anim2d_tex.Sample(g_sam_1, _in.vUV);
-            }
-        }
-        else
-        {
-                    //vColor = g_tex_0.Sample(g_sam_1, _in.vUV + float2(g_time * 0.1, 0.f));
-            vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+
+        //vColor = g_tex_0.Sample(g_sam_1, _in.vUV + float2(g_time * 0.1, 0.f));
+        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
         
         //saturate 0 ~ 1 을 넘지 않게 보정
-            float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
+        float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
         
-            if (fAlpha < 0.1f)
-            {
+        if (fAlpha < 0.1f)
+        {
             // 픽셀 쉐이더를 중간에 폐기처리
-                discard; //clip(-1);            
-            }
+            discard; //clip(-1);            
         }
 
     }
     // blood Mark Rand
     else if (g_btex_1)
     {
-        vColor = float4(1.f, 0.f, 1.f, 1.f);
-       float2 vLeftTop = g_vec2_0;
-        
-        if (_in.vUV.x >= vLeftTop.x && _in.vUV.x <= (vLeftTop.x + g_vec2_1.x)
-            && _in.vUV.y >= vLeftTop.y && _in.vUV.y <= (vLeftTop.y + g_vec2_1.y))
-        {
-            vColor = g_anim2d_tex.Sample(g_sam_1, _in.vUV);
-        }
+
     }
     
         if (g_int_0 == 10) // 그림자
@@ -223,6 +203,57 @@ float4 PS_Std2D_AftImg(VS_OUT _in) : SV_Target
         }
     }
 
+    return vColor;
+}
+
+// BloodMark
+float4 PS_Std2D_BloodMark(VS_OUT _in) : SV_Target
+{
+    float4 vColor = float4(1.f, 0.f, 1.f, 0.f);
+    
+    if (g_UseAnim2D)
+    {
+        float2 vBackgroundLeftTop = g_vLeftTop + (g_vSliceSize / 2.f) - (g_vBackground / 2.f);
+        vBackgroundLeftTop -= g_vOffset;
+        float2 vUV = vBackgroundLeftTop + (g_vBackground * _in.vUV);
+        
+        if (vUV.x < g_vLeftTop.x || (g_vLeftTop.x + g_vSliceSize.x) < vUV.x
+            || vUV.y < g_vLeftTop.y || (g_vLeftTop.y + g_vSliceSize.y) < vUV.y)
+        {
+            //vColor = float4(1.f, 1.f, 0.f, 1.f);
+            discard;
+        }
+        else
+        {
+            vColor = g_anim2d_tex.Sample(g_sam_1, vUV);
+        }
+        
+    }
+    else if (g_btex_1)
+    {
+        vColor = g_tex_1.Sample(g_sam_1, _in.vUV);
+        
+        float2 vBackgroundLeftTop = g_vec2_0 + (g_vec2_2 / 2.f) - (g_vec2_1 / 2.f);
+        float2 vUV = vBackgroundLeftTop + (g_vec2_1 * _in.vUV);
+        
+        if (vUV.x < g_vec2_0.x || (g_vec2_0.x + g_vec2_2.x) < vUV.x
+            || vUV.y < g_vec2_0.y || (g_vec2_0.y + g_vec2_2.y) < vUV.y)
+        {
+            discard;
+        }
+        else
+        {
+            vColor = g_tex_1.Sample(g_sam_1, vUV);
+            //vColor *= g_vec4_0;
+        }
+        
+        if (g_float_0)
+            vColor.a *= g_float_0;
+
+    }
+
+
+        
     return vColor;
 }
 

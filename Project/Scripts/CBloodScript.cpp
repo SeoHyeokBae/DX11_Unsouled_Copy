@@ -4,9 +4,11 @@
 CBloodScript::CBloodScript()
 	: CScript(BLOODSCRIPT)
 	, m_Movement(nullptr)
-	, fLife(0.f)
-	, bGround(false)
-	, vRandDir(Vec2(0.f, 0.f))
+	, m_fLife(0.f)
+	, m_fAlpha(1.f)
+	, m_fidx(0.f)
+	, m_bGround(false)
+	, m_vRandDir(Vec2(0.f, 0.f))
 {
 }
 
@@ -16,16 +18,16 @@ CBloodScript::~CBloodScript()
 
 void CBloodScript::begin()
 {
-	//fMaxLife = 2.f + (rand() % 10) * 0.15;
+	m_fidx = rand() % 14;
 	float angle = rand() % 720;
 	Vec3 vangle = Vec3(angle, angle, 0.f);
 	vangle.ToRadian();
-	vRandDir = Vec2(cos(vangle.x), sin(vangle.y));
-	vRandDir.Normalize();
+	m_vRandDir = Vec2(cos(vangle.x), sin(vangle.y));
+	m_vRandDir.Normalize();
 
 	m_Movement = GetOwner()->Movement();
 	m_Movement->SetMass(1.f);
-	m_Movement->SetVelocity(Vec2(vRandDir.x * 25.f, abs(vRandDir.y * 130.f)));
+	m_Movement->SetVelocity(Vec2(m_vRandDir.x * 25.f, abs(m_vRandDir.y * 130.f)));
 	m_Movement->SetMaxSpeed(300.f);
 	m_Movement->SetFrictionScale(100.f);
 	m_Movement->SetGround(false);
@@ -35,38 +37,42 @@ void CBloodScript::begin()
 void CBloodScript::tick()
 {
 	// z우선순위 영향받음
-	m_Movement->AddForce(vRandDir * 25.f);
+	m_Movement->AddForce(m_vRandDir * 25.f);
 
 	if (!m_Movement->IsGround())
 	{
 		Update_Gravity();
 	}
 	
-	// 바닥 MARK일때 일정 시간뒤 삭제
-	// fadeout으로
 	if (m_Movement->IsGround())
 	{
-		fLife += DT;
+		m_fLife += DT;
 
-		// bloodmark 텍스쳐전달
-		// dt만큼 a값조절 fadeout
 		GetOwner()->Animator2D()->SetCurAnim(nullptr);
-		GetOwner()->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"BloodMark", L"texture\\BloodMark.png"));
-		float fidx = rand() % 14;
-		float width = CAssetMgr::GetInst()->FindAsset<CTexture>(L"BloodMark")->GetWidth();
-		float height = CAssetMgr::GetInst()->FindAsset<CTexture>(L"BloodMark")->GetHeight();
+		GetOwner()->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, CAssetMgr::GetInst()->Load<CTexture>(L"BloodMark", L"texture\\BloodMark.png"));
+		GetOwner()->GetRenderComponent()->GetDynamicMaterial();
+
+		const float width = CAssetMgr::GetInst()->FindAsset<CTexture>(L"BloodMark")->GetWidth();
+		const float height = CAssetMgr::GetInst()->FindAsset<CTexture>(L"BloodMark")->GetHeight();
 		Vec2 vSize = Vec2(32.f /( float)width, 32.f / (float)height);
-		Vec2 vLT = Vec2((vSize.x * fidx, 0.f));
-		float fAlpha = 1.f;
+		Vec2 vLT = Vec2(vSize.x * m_fidx, 0.f);
+		Vec2 vBg = Vec2(200.f/(float)width, 200.f /(float)height);
 
 		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, vLT); //UV
-		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, vSize); //Size
-		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, fAlpha); //알파
+		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, vBg); //Bg
+		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, vSize); //Size
+		GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_fAlpha); //알파
 
-		//if (fLife > 4.f)
-		//{
-		//	Dead();
-		//}
+		if (m_fLife > 3.f)
+		{
+			m_fAlpha -= 0.9f * DT;
+			GetOwner()->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_fAlpha); //알파
+		}
+
+		if (0.f >= m_fAlpha)
+		{
+			Dead();
+		}
 	}
 }
 

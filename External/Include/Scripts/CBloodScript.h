@@ -11,10 +11,12 @@ class CBloodScript :
 private:
 	CMovement* m_Movement;
 
-	Vec2 vRandDir;
+	Vec2 m_vRandDir;
 
-	float fLife;
-	bool bGround;
+	float m_fLife;
+	float m_fAlpha;
+	float m_fidx;
+	bool m_bGround;
 
 public:
 	void Update_Gravity();
