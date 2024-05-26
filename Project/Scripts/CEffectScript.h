@@ -21,6 +21,17 @@ enum class eEffectStatus
     NONE,
 };
 
+enum class eBloodDir
+{
+    RIGHTDOWN,
+    RIGHTUP,
+    RIGHT,
+    LEFTDOWN = 10,
+    LEFTUP,
+    LEFT,
+    NONE,
+};
+
 class CEffectScript : 
     public CScript
 {
@@ -28,7 +39,7 @@ private:
     Ptr<CPrefab>            m_EffectPrefab;
     Ptr<CPrefab>            m_BloodPrefab;
     CScriptMgr*             m_ScrMgr;
-
+    eBloodDir               m_eDir;
     UINT                    m_iStatus;
     
     Vec2                    m_vCalculatedPos;
@@ -47,7 +58,9 @@ public:
     void SetCalculatedPos(Vec2 _pos) { m_vCalculatedPos = _pos; }
     void SetCalculatedRot(Vec3 _rot) { m_vCalculatedRot = _rot; }
 
+    void SetBloodDir(eBloodDir _dir) { m_eDir = _dir; }
 
+    void RandPlayBloodEff(CGameObject* _BloodObj);
     void CreateBlood();
 
     void Dead(CGameObject* _obj, int _effNum);

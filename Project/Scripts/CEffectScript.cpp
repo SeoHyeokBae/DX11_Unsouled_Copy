@@ -21,6 +21,7 @@ CEffectScript::CEffectScript()
 	, m_vCalculatedRot(Vec3(1.f,1.f,1.f))
 	, m_bRed(false)
 	, m_bRedTime(0.f)
+	, m_eDir(eBloodDir::NONE)
 {
 }
 
@@ -47,16 +48,17 @@ void CEffectScript::begin()
 
 		// Blood Effect
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownLeft", L"anim\\BloodDownLeft.anim");
-		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownRight", L"anim\\BloodDownRight.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeftDown", L"anim\\BloodLeftDown.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeft1", L"anim\\BloodLeft1.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeft2", L"anim\\BloodLeft2.anim");
-		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeftDown", L"anim\\BloodLeftDown.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodLeftUp", L"anim\\BloodLeftUp.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodUpLeft", L"anim\\BloodUpLeft.anim");
-		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodUpRight", L"anim\\BloodUpRight.anim");
-		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight", L"anim\\BloodRight.anim");
-		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight2", L"anim\\BloodRight2.anim");
+
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRightDown", L"anim\\BloodRightDown.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodDownRight", L"anim\\BloodDownRight.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight1", L"anim\\BloodRight.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRight2", L"anim\\BloodRight2.anim");
+		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodUpRight", L"anim\\BloodUpRight.anim");
 		m_EffectPrefab->GetProtoGameObj()->Animator2D()->AddAnim(L"BloodRightUp", L"anim\\BloodRightUp.anim");
 	}
 
@@ -132,7 +134,7 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_RegisterObj.insert(make_pair(SWORDSPARK, pNewEffectObj));
 		m_iStatus |= SWORDSPARK;
 		pNewEffectObj->SetName(L"SPARK_EFF");
-		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y,0.f));
+		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y,-1.f));
 		pNewEffectObj->Transform()->SetRelativeRotation(m_vCalculatedRot);
 		pNewEffectObj->Animator2D()->Play(L"SwordSpark", false);
 		OnEffect(eEffectStatus::HITCIRCLE_EFFECT);
@@ -143,7 +145,7 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_RegisterObj.insert(make_pair(HITCIRCLE, pNewEffectObj));
 		m_iStatus |= HITCIRCLE;
 		pNewEffectObj->SetName(L"HITCIRCLE_EFF");
-		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
+		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, -1.f));
 		pNewEffectObj->Animator2D()->Play(L"HitCircle", false);
 		break;
 
@@ -151,10 +153,69 @@ void CEffectScript::OnEffect(eEffectStatus _status)
 		m_RegisterObj.insert(make_pair(BLOOD, pNewEffectObj));
 		m_iStatus |= BLOOD; 
 		pNewEffectObj->SetName(L"BLOOD_EFF");
-		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, 0.f));
+		pNewEffectObj->Transform()->SetRelativePos(Vec3(m_vCalculatedPos.x, m_vCalculatedPos.y, -1.f));
 
-		// 경우에따라 다름
-		pNewEffectObj->Animator2D()->Play(L"BloodRightUp", false);
+		RandPlayBloodEff(pNewEffectObj);
+		//pNewEffectObj->Animator2D()->Play(L"BloodRightUp", false);
+		break;
+	}
+}
+
+void CEffectScript::RandPlayBloodEff(CGameObject* _BloodObj)
+{
+	int randNum = rand() % 4;
+	switch (m_eDir)
+	{
+	case eBloodDir::RIGHTDOWN:
+		break;
+	case eBloodDir::RIGHTUP:
+		randNum += 2;
+		break;
+	case eBloodDir::LEFTDOWN:
+		randNum += 10;
+		break;
+	case eBloodDir::LEFTUP:
+		randNum += 12;
+		break;
+	}
+
+	switch (randNum)
+	{
+	case 0 :
+		_BloodObj->Animator2D()->Play(L"BloodLeftDown", false);
+		break;
+	case 1:
+		_BloodObj->Animator2D()->Play(L"BloodDownLeft", false);
+		break;
+	case 2:
+		_BloodObj->Animator2D()->Play(L"BloodLeft1", false);
+		break;
+	case 3:
+		_BloodObj->Animator2D()->Play(L"BloodLeft2", false);
+		break;
+	case 4:
+		_BloodObj->Animator2D()->Play(L"BloodLeftUp", false);
+		break;
+	case 5:
+		_BloodObj->Animator2D()->Play(L"BloodUpLeft", false);
+		break;
+	case 10:
+		_BloodObj->Animator2D()->Play(L"BloodRightDown", false);
+		break;
+	case 11:
+		_BloodObj->Animator2D()->Play(L"BloodDownRight", false);
+		break;
+	case 12:
+		_BloodObj->Animator2D()->Play(L"BloodRight1", false);
+		break;
+	case 13:
+		_BloodObj->Animator2D()->Play(L"BloodRight2", false);
+		break;
+	case 14:
+		_BloodObj->Animator2D()->Play(L"BloodRightUp", false);
+		break;
+	case 15:
+		_BloodObj->Animator2D()->Play(L"BloodUpRight", false);
 		break;
 	}
 }

@@ -145,13 +145,20 @@ void CMonsterScript::Overlap(CCollider2D* _Collider, CGameObject* _OtherObj, CCo
 			float angle = acos(vDir.Dot(Vec2(0.0f, 1.f)) / vDir.Length());
 			if (0.f < vDir.x)
 			{
-				vEffectRot = Vec3(0.f, 0.f, -angle);
+				vEffectRot = Vec3(0.f, 0.f, -angle); // ¿Þ
+				if (vOtherPos.y < vPos.y)
+					GetOwner()->GetScript<CEffectScript>()->SetBloodDir(eBloodDir::LEFTDOWN);
+				else
+					GetOwner()->GetScript<CEffectScript>()->SetBloodDir(eBloodDir::LEFTUP);
 			}
 			else
 			{
-				vEffectRot = Vec3(0.f, 0.f, angle);
+				vEffectRot = Vec3(0.f, 0.f, angle);	 // ¿À
+				if (vOtherPos.y < vPos.y)
+					GetOwner()->GetScript<CEffectScript>()->SetBloodDir(eBloodDir::RIGHTDOWN);
+				else
+					GetOwner()->GetScript<CEffectScript>()->SetBloodDir(eBloodDir::RIGHTUP);
 			}
-
 			GetOwner()->GetScript<CEffectScript>()->SetCalculatedPos(vEffectPos);
 			GetOwner()->GetScript<CEffectScript>()->SetCalculatedRot(vEffectRot);
 
