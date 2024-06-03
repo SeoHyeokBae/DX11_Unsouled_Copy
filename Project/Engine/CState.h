@@ -12,6 +12,7 @@ private:
 
 protected:
     eDIR            m_Dir;
+    eDIR            m_PrvDir;
 
 public:
     virtual void finaltick() = 0;

@@ -18,198 +18,78 @@ void CRunningState::finaltick()
 {
 	float Speed = *((float*)GetBlackboardData(L"Speed"));
 	Vec3 vPos = GetFSM()->GetStateMachine()->Transform()->GetRelativePos();
+	Vec3 vCalPos = Vec3(0.f,0.f,0.f);
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		vPos.y += DT * Speed;
-		if (KEY_TAP(KEY::D))
-		{
-			m_Dir = eDIR::UPRIGHT;
-			Exit(); Enter();
-		}
-
-		if (KEY_RELEASED(KEY::D))
-		{
-			m_Dir = eDIR::UP;
-			Exit(); Enter();
-		}
-
-		if (KEY_TAP(KEY::A))
-		{
-			m_Dir = eDIR::UPLEFT;
-			Exit(); Enter();
-		}
-
-		if (KEY_RELEASED(KEY::A))
-		{
-			m_Dir = eDIR::UP;
-			Exit(); Enter();
-		}
+		vCalPos.y += DT * Speed;
 	}
-	if (KEY_TAP(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
-	{
-		m_Dir = eDIR::UP;
-		Exit(); Enter();
-	}
-	if (KEY_RELEASED(KEY::W))
-	{
-		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
-		{
-			m_Anim->Play(L"Stand_Up");
-			m_Dir = eDIR::UP;
-		}
-	}
-
-	if (KEY_PRESSED(KEY::S))
-	{
-		vPos.y -= DT * Speed;
-
-		if (KEY_TAP(KEY::D))
-		{
-			m_Dir = eDIR::DOWNRIGHT;
-			Exit(); Enter();
-		}
-
-		if (KEY_RELEASED(KEY::D))
-		{
-			m_Dir = eDIR::DOWN;
-			Exit(); Enter();
-		}
-
-		if (KEY_TAP(KEY::A))
-		{
-			m_Dir = eDIR::DOWNLEFT;
-			Exit(); Enter();
-		}
-
-		if (KEY_RELEASED(KEY::A))
-		{
-			m_Dir = eDIR::DOWN;
-			Exit(); Enter();
-		}
-	}
-	if (KEY_TAP(KEY::S) && KEY_NONE(KEY::W) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
-	{
-		m_Dir = eDIR::DOWN;
-		Exit(); Enter();
-	}
-	if (KEY_RELEASED(KEY::S))
-	{
-		if (KEY_NONE(KEY::D) && KEY_NONE(KEY::A))
-		{
-			m_Anim->Play(L"Stand_Down");
-			m_Dir = eDIR::DOWN;
-
-		}
-	}
-
 	if (KEY_PRESSED(KEY::A))
 	{
-		vPos.x -= DT * Speed;
-		if (KEY_TAP(KEY::W))
-		{
-			m_Dir = eDIR::UPLEFT;
-			Exit(); Enter();
-		}
-
-		if (KEY_TAP(KEY::S))
-		{
-			m_Dir = eDIR::DOWNLEFT;
-			Exit(); Enter();
-		}
-
-		if (KEY_TAP(KEY::D))
-		{
-			m_Dir = eDIR::LEFT;
-			m_Anim->Play(L"Stand_Left");
-		}
-
-		if (KEY_RELEASED(KEY::D))
-		{
-			m_Dir = eDIR::LEFT;
-			Exit(); Enter();
-		}
-
-		if (KEY_RELEASED(KEY::W) || KEY_RELEASED(KEY::S))
-		{
-			m_Dir = eDIR::LEFT;
-			Exit(); Enter();
-		}
+		vCalPos.x -= DT * Speed;
 	}
-	if (KEY_TAP(KEY::A) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D))
+	if (KEY_PRESSED(KEY::S))
 	{
-		m_Dir = eDIR::LEFT;
-		Exit(); Enter();
+		vCalPos.y-= DT * Speed;
 	}
-	if (KEY_RELEASED(KEY::A))
-	{
-		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S))
-		{
-			m_Anim->Play(L"Stand_Left");
-			m_Dir = eDIR::LEFT;
-		}
-	}
-
 	if (KEY_PRESSED(KEY::D))
 	{
-		vPos.x += DT * Speed;
-
-		if (KEY_TAP(KEY::W))
-		{
-			m_Dir = eDIR::UPRIGHT;
-			Exit(); Enter();
-		}
-
-		if (KEY_TAP(KEY::S))
-		{
-			m_Dir = eDIR::DOWNRIGHT;
-			Exit(); Enter();
-		}
-
-		if (KEY_TAP(KEY::A))
-		{
-			m_Anim->Play(L"Stand_Right");
-			m_Dir = eDIR::RIGHT;
-
-		}
-
-		if (KEY_RELEASED(KEY::A))
-		{
-			m_Dir = eDIR::RIGHT;
-			Exit(); Enter();
-		}
-
-		if (KEY_RELEASED(KEY::W) || KEY_RELEASED(KEY::S))
-		{
-			m_Dir = eDIR::RIGHT;
-			Exit(); Enter();
-		}
+		vCalPos.x += DT * Speed;
 	}
-	if (KEY_TAP(KEY::D) && KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
+
+	if (vCalPos.x > 0 && vCalPos.y >0)
+	{
+		m_Dir = eDIR::UPRIGHT;
+	}
+	else if (vCalPos.x == 0 && vCalPos.y > 0)
+	{
+		m_Dir = eDIR::UP;
+	}
+	else if (vCalPos.x < 0 && vCalPos.y > 0)
+	{
+		m_Dir = eDIR::UPLEFT;
+	}
+	else if (vCalPos.x < 0 && vCalPos.y == 0)
+	{
+		m_Dir = eDIR::LEFT;
+	}
+	else if (vCalPos.x < 0 && vCalPos.y < 0)
+	{
+		m_Dir = eDIR::DOWNLEFT;
+	}
+	else if (vCalPos.x == 0 && vCalPos.y < 0)
+	{
+		m_Dir = eDIR::DOWN;
+	}
+	else if (vCalPos.x > 0 && vCalPos.y < 0)
+	{
+		m_Dir = eDIR::DOWNRIGHT;
+	}
+	else if (vCalPos.x > 0 && vCalPos.y == 0)
 	{
 		m_Dir = eDIR::RIGHT;
+	}
+	
+
+	vPos += vCalPos;
+	GetFSM()->GetStateMachine()->Transform()->SetRelativePos(vPos);
+	
+	if (m_PrvDir != m_Dir)
+	{
 		Exit(); Enter();
 	}
-	if (KEY_RELEASED(KEY::D))
-	{
-		if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A))
-		{
-			m_Anim->Play(L"Stand_Right");
-			m_Dir = eDIR::RIGHT;
-		}
-	}
 
-	if (KEY_NONE(KEY::W) && KEY_NONE(KEY::S) && KEY_NONE(KEY::A) && KEY_NONE(KEY::D))
+	if (KEY_NONE(KEY::W)&& KEY_NONE(KEY::A)&& KEY_NONE(KEY::S)&& KEY_NONE(KEY::D))
 	{
 		ChangeState(L"StandState");
 	}
-
-	GetFSM()->GetStateMachine()->Transform()->SetRelativePos(vPos);
+	
 }
 
 void CRunningState::Enter()
 {
 	m_Dir = GetFSM()->GetStateMachine()->GetOwner()->GetDir();
+	m_PrvDir = m_Dir;
 	m_Anim = GetFSM()->GetStateMachine()->Animator2D();
 
 	switch (m_Dir)

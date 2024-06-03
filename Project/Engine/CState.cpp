@@ -7,6 +7,7 @@
 CState::CState()
 	: m_FSM(nullptr)
 	, m_Dir(eDIR::NONE)
+	, m_PrvDir(eDIR::NONE)
 {
 }
 
